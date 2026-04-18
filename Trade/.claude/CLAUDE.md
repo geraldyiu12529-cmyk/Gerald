@@ -40,7 +40,7 @@ FX: EURUSD, USDJPY.
 - Fail-loud on missing data — state what's missing and which score leg it blocks.
 
 ## Excel — sole structured store
-- `master-data-log.xlsx`: 9 sheets (SignalLedger, PerformanceStats, RegimeHistory, DailyVariables, NearMissLedger, AuditAdditionLog, DataQuality, VariableRegistry, MethodologyNotes).
+- `master-data-log.xlsx`: 10 sheets (SignalLedger, PerformanceStats, RegimeHistory, DailyVariables, AuditAdditionLog, DataQuality, VariableRegistry, MethodologyNotes, CatalystLog, README).
 - Read `Excel-Sync-Protocol.md` before any xlsx write. Use openpyxl.
 - Append-only for SignalLedger rows. Never delete or overwrite existing signal data.
 
