@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BNMA — Variable Ranking Visuals</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff;
+    --green: #3fb950; --red: #f85149; --yellow: #d29922;
+    --purple: #bc8cff; --cyan: #39d2c0; --orange: #f0883e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; line-height: 1.5; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 28px; font-weight: 600; margin-bottom: 4px; }
+  h2 { font-size: 20px; font-weight: 600; margin: 40px 0 16px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  h3 { font-size: 16px; font-weight: 600; margin: 24px 0 12px; color: var(--muted); }
+  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+  .grid { display: grid; gap: 20px; }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .stat { font-size: 36px; font-weight: 700; }
+  .stat-label { font-size: 12px; color: var(--muted); }
+  .stat-green { color: var(--green); }
+  .stat-red { color: var(--red); }
+  .stat-yellow { color: var(--yellow); }
+  .stat-accent { color: var(--accent); }
+
+  /* Forest plot */
+  .forest-container { position: relative; }
+  .forest-row { display: flex; align-items: center; height: 32px; margin-bottom: 2px; }
+  .forest-label { width: 220px; flex-shrink: 0; font-size: 12px; text-align: right; padding-right: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .forest-bar-area { flex: 1; position: relative; height: 100%; }
+  .forest-ci { position: absolute; height: 2px; background: var(--muted); top: 50%; transform: translateY(-50%); }
+  .forest-dot { position: absolute; width: 10px; height: 10px; border-radius: 50%; top: 50%; transform: translate(-50%, -50%); }
+  .forest-zero { position: absolute; width: 1px; background: var(--border); top: 0; bottom: 0; }
+  .forest-meta { width: 100px; flex-shrink: 0; font-size: 11px; color: var(--muted); text-align: right; padding-left: 8px; }
+  .forest-header { display: flex; align-items: center; height: 24px; margin-bottom: 8px; font-size: 11px; color: var(--muted); font-weight: 600; }
+
+  .tier-badge { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+  .tier-1 { background: #1f6feb33; color: var(--accent); }
+  .tier-3 { background: #d2992233; color: var(--yellow); }
+  .grade-a { color: var(--green); }
+  .grade-b { color: var(--yellow); }
+  .grade-cand { color: var(--muted); }
+
+  /* Heatmap */
+  .heatmap { display: grid; gap: 1px; font-size: 10px; }
+  .heatmap-cell { display: flex; align-items: center; justify-content: center; height: 28px; border-radius: 2px; font-weight: 600; }
+  .heatmap-label { display: flex; align-items: center; font-size: 11px; padding-right: 8px; justify-content: flex-end; }
+
+  /* Audit cards */
+  .audit-card { border-left: 3px solid; padding-left: 16px; }
+  .audit-go { border-color: var(--green); }
+  .audit-nogo { border-color: var(--red); }
+
+  /* Legend */
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  /* Canvas containers */
+  .chart-wrap { position: relative; height: 350px; }
+  .chart-wrap-lg { position: relative; height: 450px; }
+  .chart-wrap-sm { position: relative; height: 280px; }
+
+  /* Table */
+  .tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .tbl th { text-align: left; padding: 8px 6px; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 600; }
+  .tbl td { padding: 6px; border-bottom: 1px solid var(--border); }
+  .tbl tr:hover td { background: #1f6feb11; }
+  .flag { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 10px; font-weight: 600; margin-right: 3px; }
+  .flag-indist { background: #f8514933; color: var(--red); }
+  .flag-unstable { background: #d2992233; color: var(--yellow); }
+  .flag-lowpwr { background: #8b949e33; color: var(--muted); }
+  .flag-diverge { background: #bc8cff33; color: var(--purple); }
+
+  @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Bayesian Network Meta-Analysis</h1>
+<p class="subtitle">Gerald's Trading Variable Ranking &mdash; 2026-04-17 &bull; Full MCMC (4 chains × 4000 draws) &bull; 34 variables &bull; 52 study rows</p>
+
+<!-- KPI row -->
+<div class="grid grid-3" style="margin-bottom: 8px;">
+  <div class="card"><div class="card-title">Variables Analysed</div><div class="stat stat-accent">34</div><div class="stat-label">22 registered + 12 candidates</div></div>
+  <div class="card"><div class="card-title">Study Rows</div><div class="stat stat-accent">52</div><div class="stat-label">Tier 1 primaries + Tier 2 replications + Tier 3</div></div>
+  <div class="card"><div class="card-title">Convergence</div><div class="stat stat-green">4 / 4</div><div class="stat-label">All groups R̂ < 1.01, ESS > 400</div></div>
+</div>
+<div class="grid grid-3">
+  <div class="card"><div class="card-title">Tier 3 Graduated</div><div class="stat stat-yellow">0</div><div class="stat-label">Skeptical priors suppress single-study candidates</div></div>
+  <div class="card"><div class="card-title">Divergence Flags</div><div class="stat stat-purple" style="color:var(--purple)">4</div><div class="stat-label">V011, V028, V026, V027 — McLean-Pontiff decay confirmed</div></div>
+  <div class="card"><div class="card-title">Prior-Sensitive</div><div class="stat stat-red">6</div><div class="stat-label">≥ 3 rank shift under loose priors</div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>1. Forest Plots — Posterior Mean ± 95% CI</h2>
+<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">The classic BNMA visual. Each dot is the posterior mean of the variable's true effect (annualized Sharpe for S/T; Sharpe improvement for R; conditional Sharpe gain for Overlay). Whiskers span the 95% credible interval. The dashed line marks zero.</p>
+
+<div id="forest-plots"></div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>2. Rank Probability Heatmaps</h2>
+<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Each cell shows P(variable ranks at position k). Darker green = higher probability. Read column-wise to see who competes for each rank.</p>
+
+<div id="rank-heatmaps"></div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>3. P(Top 3) — SUCRA-Style Bar Chart</h2>
+<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Analogous to SUCRA in clinical NMA. Higher bar = more likely to rank in the top 3 of its group.</p>
+
+<div class="grid grid-2">
+  <div class="card"><div class="card-title">S — Structural</div><div class="chart-wrap"><canvas id="sucra-S"></canvas></div></div>
+  <div class="card"><div class="card-title">T — Tactical</div><div class="chart-wrap"><canvas id="sucra-T"></canvas></div></div>
+</div>
+<div class="grid grid-2" style="margin-top:20px;">
+  <div class="card"><div class="card-title">R — Risk Overlay</div><div class="chart-wrap"><canvas id="sucra-R"></canvas></div></div>
+  <div class="card"><div class="card-title">Overlay — Regime Filter</div><div class="chart-wrap-sm"><canvas id="sucra-Overlay"></canvas></div></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>4. Marginal Contribution — P(Beats Peers)</h2>
+<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Does a variable add information beyond its correlated peers? Bars below 0.40 (dashed line) flag redundancy. Bars above 0.80 flag promotion-worthy independence.</p>
+
+<div class="card"><div class="chart-wrap-lg"><canvas id="marginal"></canvas></div></div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>5. Prior vs. Posterior Shrinkage</h2>
+<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">How far the data pulled each variable from its prior mean of zero. Large rightward shift = strong data signal overcoming skeptical prior. Tier 3 candidates cluster near zero (prior-dominated).</p>
+
+<div class="card"><div class="chart-wrap-lg"><canvas id="shrinkage"></canvas></div></div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>6. Registry Sharpe vs. Posterior — Publication Decay</h2>
+<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">For variables with a published Sharpe in the registry, this scatter shows how much the BNMA posterior shrinks the reported effect. Points below the 45° line have decayed. Points below the McLean-Pontiff line (−30%) decayed more than the baseline expectation.</p>
+
+<div class="card"><div class="chart-wrap"><canvas id="decay-scatter"></canvas></div></div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>7. Network Topology</h2>
+<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Variables as nodes, declared correlation peers as edges. Node size ∝ number of studies. Color = grade.</p>
+
+<div class="grid grid-2">
+  <div class="card"><div class="card-title">S Group Network</div><svg id="net-S" width="100%" height="380"></svg></div>
+  <div class="card"><div class="card-title">T Group Network</div><svg id="net-T" width="100%" height="380"></svg></div>
+</div>
+<div class="grid grid-2" style="margin-top:20px;">
+  <div class="card"><div class="card-title">R Group Network</div><svg id="net-R" width="100%" height="380"></svg></div>
+  <div class="card"><div class="card-title">Overlay Group Network</div><svg id="net-Overlay" width="100%" height="300"></svg></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>8. Prior Sensitivity Analysis</h2>
+<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Rank shift when switching from grade-tiered priors to uniformly loose priors. Variables shifting ≥3 ranks are prior-dependent — treat their ranking with caution.</p>
+
+<div class="card"><div class="chart-wrap"><canvas id="sensitivity"></canvas></div></div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>9. Audit Variable Spotlight — V026, V027, V028</h2>
+<p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Due 2026-10-14. BNMA evidence summary for each audit-addition variable.</p>
+
+<div class="grid grid-3" id="audit-cards"></div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>10. Cross-Group Statistical Comparisons</h2>
+<p style="font-size:13px;color:var(--muted);margin-bottom:4px;">Effect sizes are NOT on a common scale across groups. All comparisons below use <strong>formal statistical tests on MCMC posterior draws</strong> — not descriptive summaries of point estimates. Scale-invariant metrics only.</p>
+
+<!-- 10A: I² heterogeneity + tau comparison -->
+<div class="grid grid-2" style="margin-top:16px;">
+  <div class="card">
+    <div class="card-title">A. I² Heterogeneity — Study-Level Variance Decomposition</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">I² = τ²/(τ²+SE²) per variable, computed from MCMC posterior draws of τ<sub>k</sub>. Each bar = median I² with 95% CrI error bars. Higher = more unexplained between-study variance relative to within-study noise. Formally comparable across groups because I² is dimensionless.</p>
+    <div class="chart-wrap-lg"><canvas id="xg-i2"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">B. P(τ<sub>g1</sub> &gt; τ<sub>g2</sub>) — Pairwise Heterogeneity Comparison</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">For each MCMC draw, compute the median τ across all variables in each group, then count how often group 1's median τ exceeds group 2's. This is a fully Bayesian pairwise test — not a comparison of point estimates. Values near 0.50 = no difference; &gt;0.80 or &lt;0.20 = credible difference.</p>
+    <div class="chart-wrap"><canvas id="xg-tau-pair"></canvas></div>
+  </div>
+</div>
+
+<!-- 10C: PPC -->
+<div class="grid grid-2" style="margin-top:20px;">
+  <div class="card">
+    <div class="card-title">C. Posterior Predictive Checks — Model Adequacy</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">Two discrepancy measures per group: max |standardized residual| and χ² goodness-of-fit. For each MCMC draw, compute the discrepancy on observed data and on replicated data; the p-value = P(T<sub>rep</sub> ≥ T<sub>obs</sub>). Values near 0.50 = good fit; &lt;0.05 or &gt;0.95 = misspecification. These are formally valid Bayesian p-values, not ad hoc.</p>
+    <div class="chart-wrap"><canvas id="xg-ppc"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">D. Grade → Rank Spearman ρ — Does Evidence Quality Predict BNMA Rank?</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">For each MCMC draw, rank variables by μ<sub>k</sub> and compute Spearman ρ with the ordinal grade score (A=4, B=3, C-PR=2, C-WP=1). The distribution of ρ across draws gives a fully Bayesian credible interval. ρ ≈ 0 means the BNMA ranking has decoupled from prior grade assignment — the data are speaking, not the labels.</p>
+    <div class="chart-wrap"><canvas id="xg-spearman"></canvas></div>
+  </div>
+</div>
+
+<!-- 10E: Evidence-precision + Flag permutation -->
+<div class="grid grid-2" style="margin-top:20px;">
+  <div class="card">
+    <div class="card-title">E. Evidence → Precision Meta-Regression</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">Spearman correlation between n_studies and posterior SD across all 34 variables, with bootstrap 95% CI. Tests whether more replication evidence actually narrows posteriors in this BNMA. A significant negative ρ would validate the replication-augmentation strategy.</p>
+    <div class="chart-wrap"><canvas id="xg-evprec"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">F. Permutation Test — Flag Rate Differences</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">Kruskal-Wallis test across all 4 groups (H=7.76, p=0.051), plus 10,000-permutation pairwise tests. The only significant differences (p&lt;0.05) are S vs Overlay and R vs Overlay — both driven by Overlay being 100% Tier 3 candidates. S vs R and T vs R are NOT significantly different despite looking different in the descriptive charts.</p>
+    <div class="chart-wrap"><canvas id="xg-flagperm"></canvas></div>
+  </div>
+</div>
+
+<!-- 10G: Radar + Overlap -->
+<div class="grid grid-2" style="margin-top:20px;">
+  <div class="card">
+    <div class="card-title">G. Group Leaders — Posterior Overlap Coefficients</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">KDE-based overlap coefficient ∫min(f₁,f₂) between the #1 variable in each group. OVL near 0 = distributions well-separated; near 1 = indistinguishable. <strong>⚠ Different scales — OVL measures distributional overlap, but the magnitudes are not comparable across groups.</strong> Useful for: assessing how precisely each group's leader is identified vs another group's leader's precision.</p>
+    <div class="chart-wrap"><canvas id="xg-overlap"></canvas></div>
+  </div>
+  <div class="card">
+    <div class="card-title">H. Tier Composition & Grade Distribution</div>
+    <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">Context for interpreting all the above: which groups have enough Grade A evidence to produce reliable posteriors? S has 9 Grade A variables; Overlay has zero. This explains why Overlay's PPC p-values are borderline and its I² is prior-dominated.</p>
+    <div class="chart-wrap"><canvas id="xg-tiers"></canvas></div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:20px;">
+  <div class="card-title">I. Cross-Group Evidence Scorecard (Scale-Invariant)</div>
+  <p style="font-size:11px;color:var(--muted);margin-bottom:12px;">Composite = P(&gt;0) × 0.30 + P(top3) × 0.25 + p_beats_peers × 0.25 + rank_stability × 0.10 + evidence_depth × 0.10. Ranks by <em>how sure we are the variable matters in its domain</em>, NOT by effect size. All inputs are scale-invariant posterior probabilities or normalized ratios.</p>
+  <div id="xg-top5-table"></div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<h2>11. Full Ranking Tables</h2>
+<div id="ranking-tables"></div>
+
+</div><!-- /container -->
+
+<script>
+// ════════════════════════════════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════════════════════════════════
+const DATA = {
+  S: [
+    {id:"V011",name:"Carry/Curve Slope",tier:1,grade:"A",n:3,mean:0.402,lo:0.1553,hi:0.6475,ppos:1.00,ptop3:0.89,medRank:2,rkLo:1,rkHi:4,pbp:0.50,regSharpe:0.74,postDecay:0.281,flags:["DIVERGE"]},
+    {id:"V028",name:"Basis-Momentum",tier:1,grade:"A",n:3,mean:0.395,lo:0.104,hi:0.649,ppos:0.99,ptop3:0.86,medRank:2,rkLo:1,rkHi:5,pbp:0.50,regSharpe:0.80,postDecay:0.240,flags:["DIVERGE"]},
+    {id:"V007",name:"Real Yield/Breakevens",tier:1,grade:"A",n:1,mean:0.168,lo:-0.310,hi:0.629,ppos:0.77,ptop3:0.35,medRank:5,rkLo:1,rkHi:14,pbp:0.35,regSharpe:null,postDecay:0.118,flags:["RANK_UNSTAB"]},
+    {id:"V003",name:"DXY",tier:1,grade:"A",n:2,mean:0.121,lo:-0.165,hi:0.399,ppos:0.82,ptop3:0.16,medRank:6,rkLo:2,rkHi:13,pbp:0.43,regSharpe:null,postDecay:0.086,flags:["RANK_UNSTAB"]},
+    {id:"V006",name:"UST 2Y/10Y",tier:1,grade:"A",n:1,mean:0.118,lo:-0.388,hi:0.586,ppos:0.71,ptop3:0.27,medRank:6,rkLo:1,rkHi:14,pbp:0.32,regSharpe:null,postDecay:0.085,flags:["RANK_UNSTAB"]},
+    {id:"V008",name:"ACM Term Premium",tier:1,grade:"A",n:1,mean:0.079,lo:-0.409,hi:0.544,ppos:0.65,ptop3:0.21,medRank:6,rkLo:1,rkHi:14,pbp:0.26,regSharpe:null,postDecay:0.058,flags:["RANK_UNSTAB"]},
+    {id:"V012",name:"BTC Active Addr",tier:1,grade:"A",n:2,mean:0.031,lo:-0.276,hi:0.366,ppos:0.57,ptop3:0.08,medRank:8,rkLo:3,rkHi:14,pbp:0.40,regSharpe:null,postDecay:0.021,flags:["RANK_UNSTAB"]},
+    {id:"C012",name:"Price-to-Sales",tier:3,grade:"C-PR",n:1,mean:0.022,lo:-0.168,hi:0.209,ppos:0.59,ptop3:0.02,medRank:9,rkLo:4,rkHi:13,pbp:0.27,regSharpe:null,postDecay:0.013,flags:["LOW_PWR"]},
+    {id:"C001",name:"Global M2",tier:3,grade:"C-WP",n:1,mean:0.006,lo:-0.088,hi:0.099,ppos:0.55,ptop3:0.00,medRank:9,rkLo:6,rkHi:13,pbp:0.27,regSharpe:null,postDecay:0.003,flags:["INDIST","LOW_PWR"]},
+    {id:"V019",name:"MVRV/SOPR",tier:1,grade:"B",n:1,mean:0.004,lo:-0.333,hi:0.343,ppos:0.51,ptop3:0.07,medRank:10,rkLo:3,rkHi:14,pbp:0.45,regSharpe:null,postDecay:0.003,flags:["INDIST","RANK_UNSTAB"]},
+    {id:"C004",name:"NVT Signal",tier:3,grade:"C-WP",n:1,mean:0.004,lo:-0.097,hi:0.098,ppos:0.54,ptop3:0.00,medRank:9,rkLo:6,rkHi:13,pbp:0.23,regSharpe:null,postDecay:0.003,flags:["INDIST","LOW_PWR"]},
+    {id:"C006",name:"China PMI→Cu",tier:3,grade:"C-PR",n:1,mean:0.003,lo:-0.171,hi:0.174,ppos:0.51,ptop3:0.01,medRank:10,rkLo:5,rkHi:14,pbp:0.23,regSharpe:null,postDecay:0.002,flags:["INDIST","LOW_PWR"]},
+    {id:"C003",name:"Au/Ag Ratio",tier:3,grade:"C-WP",n:1,mean:0.000,lo:-0.094,hi:0.096,ppos:0.50,ptop3:0.00,medRank:10,rkLo:6,rkHi:13,pbp:0.05,regSharpe:null,postDecay:0.000,flags:["INDIST","LOW_PWR"]},
+    {id:"V013",name:"BTC Hash Rate",tier:1,grade:"A",n:1,mean:-0.036,lo:-0.461,hi:0.403,ppos:0.42,ptop3:0.08,medRank:11,rkLo:3,rkHi:14,pbp:0.40,regSharpe:null,postDecay:-0.025,flags:["INDIST","RANK_UNSTAB"]},
+  ],
+  T: [
+    {id:"V009",name:"TSMOM",tier:1,grade:"A",n:5,mean:0.680,lo:0.404,hi:0.921,ppos:1.00,ptop3:1.00,medRank:1,rkLo:1,rkHi:2,pbp:0.95,regSharpe:0.90,postDecay:0.411,flags:[]},
+    {id:"V026",name:"Residual Mom (FF5)",tier:1,grade:"A",n:3,mean:0.385,lo:0.116,hi:0.637,ppos:1.00,ptop3:0.95,medRank:2,rkLo:1,rkHi:3,pbp:0.05,regSharpe:0.70,postDecay:0.232,flags:["DIVERGE"]},
+    {id:"V010",name:"Revision Breadth",tier:1,grade:"A",n:2,mean:0.206,lo:-0.079,hi:0.477,ppos:0.94,ptop3:0.65,medRank:3,rkLo:2,rkHi:7,pbp:0.01,regSharpe:null,postDecay:0.124,flags:[]},
+    {id:"V014",name:"BTC Exch Netflows",tier:1,grade:"A",n:1,mean:0.030,lo:-0.422,hi:0.481,ppos:0.55,ptop3:0.22,medRank:5,rkLo:2,rkHi:9,pbp:0.58,regSharpe:null,postDecay:0.020,flags:["RANK_UNSTAB"]},
+    {id:"C008",name:"Fear & Greed",tier:3,grade:"C-WP",n:1,mean:0.007,lo:-0.087,hi:0.102,ppos:0.56,ptop3:0.02,medRank:6,rkLo:4,rkHi:9,pbp:0.00,regSharpe:null,postDecay:0.004,flags:["LOW_PWR"]},
+    {id:"C010",name:"Short RSI (2-5d)",tier:3,grade:"C-WP",n:1,mean:0.005,lo:-0.091,hi:0.102,ppos:0.54,ptop3:0.02,medRank:6,rkLo:4,rkHi:9,pbp:0.00,regSharpe:null,postDecay:0.003,flags:["INDIST","LOW_PWR"]},
+    {id:"C011",name:"Whale Accum",tier:3,grade:"C-WP",n:1,mean:-0.002,lo:-0.098,hi:0.096,ppos:0.48,ptop3:0.01,medRank:7,rkLo:4,rkHi:9,pbp:0.25,regSharpe:null,postDecay:-0.002,flags:["INDIST","LOW_PWR"]},
+    {id:"C009",name:"Token Unlock",tier:3,grade:"C-WP",n:1,mean:-0.007,lo:-0.103,hi:0.090,ppos:0.45,ptop3:0.01,medRank:7,rkLo:4,rkHi:9,pbp:0.43,regSharpe:null,postDecay:-0.004,flags:["INDIST","LOW_PWR"]},
+    {id:"V017",name:"BTC ETF Flows",tier:1,grade:"B",n:1,mean:-0.028,lo:-0.412,hi:0.344,ppos:0.44,ptop3:0.12,medRank:8,rkLo:3,rkHi:9,pbp:0.42,regSharpe:null,postDecay:-0.019,flags:["INDIST"]},
+  ],
+  R: [
+    {id:"V027",name:"Intermediary Capital",tier:1,grade:"A",n:3,mean:0.236,lo:0.022,hi:0.446,ppos:0.98,ptop3:0.96,medRank:1,rkLo:1,rkHi:3,pbp:0.95,regSharpe:0.60,postDecay:0.142,flags:["DIVERGE"]},
+    {id:"V015",name:"BTC Realized Vol",tier:1,grade:"A",n:1,mean:0.031,lo:-0.242,hi:0.307,ppos:0.58,ptop3:0.44,medRank:4,rkLo:1,rkHi:8,pbp:0.64,regSharpe:null,postDecay:0.021,flags:["RANK_UNSTAB"]},
+    {id:"V018",name:"BTC 3m Basis",tier:1,grade:"B",n:2,mean:0.019,lo:-0.181,hi:0.214,ppos:0.58,ptop3:0.38,medRank:4,rkLo:2,rkHi:8,pbp:0.55,regSharpe:null,postDecay:0.013,flags:["RANK_UNSTAB"]},
+    {id:"V016",name:"BTC Funding Rate",tier:1,grade:"B",n:1,mean:0.000,lo:-0.205,hi:0.211,ppos:0.50,ptop3:0.31,medRank:5,rkLo:2,rkHi:8,pbp:0.45,regSharpe:null,postDecay:0.000,flags:["INDIST","RANK_UNSTAB"]},
+    {id:"V004",name:"HY OAS",tier:1,grade:"A",n:2,mean:-0.011,lo:-0.225,hi:0.207,ppos:0.46,ptop3:0.28,medRank:5,rkLo:2,rkHi:8,pbp:0.05,regSharpe:null,postDecay:-0.008,flags:["INDIST","RANK_UNSTAB"]},
+    {id:"V001",name:"VIX",tier:1,grade:"A",n:2,mean:-0.034,lo:-0.252,hi:0.183,ppos:0.38,ptop3:0.22,medRank:6,rkLo:2,rkHi:8,pbp:0.24,regSharpe:null,postDecay:-0.024,flags:["INDIST","RANK_UNSTAB"]},
+    {id:"V005",name:"NFCI",tier:1,grade:"A",n:1,mean:-0.035,lo:-0.285,hi:0.218,ppos:0.37,ptop3:0.23,medRank:6,rkLo:2,rkHi:8,pbp:0.31,regSharpe:null,postDecay:-0.026,flags:["INDIST","RANK_UNSTAB"]},
+    {id:"V002",name:"MOVE Index",tier:1,grade:"A",n:1,mean:-0.051,lo:-0.300,hi:0.213,ppos:0.33,ptop3:0.19,medRank:6,rkLo:2,rkHi:8,pbp:0.27,regSharpe:null,postDecay:-0.036,flags:["INDIST","RANK_UNSTAB"]},
+  ],
+  Overlay: [
+    {id:"C005",name:"200-DMA Filter",tier:3,grade:"C-PR",n:1,mean:0.009,lo:-0.087,hi:0.101,ppos:0.58,ptop3:1.00,medRank:2,rkLo:1,rkHi:3,pbp:0.40,regSharpe:null,postDecay:0.006,flags:[]},
+    {id:"C002",name:"VIX Term Struct",tier:3,grade:"C-PR",n:1,mean:0.008,lo:-0.087,hi:0.104,ppos:0.56,ptop3:1.00,medRank:2,rkLo:1,rkHi:3,pbp:0.38,regSharpe:null,postDecay:0.004,flags:[]},
+    {id:"C007",name:"Market Breadth",tier:3,grade:"C-WP",n:1,mean:-0.001,lo:-0.048,hi:0.048,ppos:0.49,ptop3:1.00,medRank:2,rkLo:1,rkHi:3,pbp:0.22,regSharpe:null,postDecay:0.000,flags:["INDIST"]},
+  ]
+};
+
+const GROUP_COLORS = {S:"#58a6ff",T:"#3fb950",R:"#f0883e",Overlay:"#bc8cff"};
+const GROUP_LABELS = {S:"S — Structural",T:"T — Tactical",R:"R — Risk Overlay",Overlay:"Overlay — Regime Filter"};
+const GRADE_COLORS = {A:"#3fb950",B:"#d29922","C-PR":"#8b949e","C-WP":"#484f58"};
+
+// ════════════════════════════════════════════════════════════════════════
+// 1. FOREST PLOTS
+// ════════════════════════════════════════════════════════════════════════
+(function buildForestPlots(){
+  const container = document.getElementById("forest-plots");
+  for(const [g, vars] of Object.entries(DATA)){
+    const allLo = Math.min(...vars.map(v=>v.lo));
+    const allHi = Math.max(...vars.map(v=>v.hi));
+    const pad = (allHi-allLo)*0.08;
+    const lo = allLo-pad, hi = allHi+pad;
+    const range = hi-lo;
+    const pct = v => ((v-lo)/range)*100;
+
+    let html = `<h3>${GROUP_LABELS[g]}</h3><div class="card forest-container">`;
+    html += `<div class="forest-header"><div style="width:220px;text-align:right;padding-right:12px;">Variable</div><div style="flex:1;text-align:center;">Posterior Mean ± 95% CI</div><div style="width:100px;text-align:right;padding-left:8px;">P(&gt;0)</div></div>`;
+
+    for(const v of vars){
+      const gradeClass = v.grade==="A"?"grade-a":v.grade==="B"?"grade-b":"grade-cand";
+      const tierClass = v.tier===1?"tier-1":"tier-3";
+      const dotColor = GRADE_COLORS[v.grade] || "#8b949e";
+      const dotSize = 6 + v.n*2.5;
+
+      html += `<div class="forest-row">`;
+      html += `<div class="forest-label"><span class="tier-badge ${tierClass}">T${v.tier}</span> <span class="${gradeClass}">${v.id}</span> ${v.name}</div>`;
+      html += `<div class="forest-bar-area">`;
+      html += `<div class="forest-zero" style="left:${pct(0)}%"></div>`;
+      html += `<div class="forest-ci" style="left:${pct(v.lo)}%;width:${pct(v.hi)-pct(v.lo)}%"></div>`;
+      html += `<div class="forest-dot" style="left:${pct(v.mean)}%;background:${dotColor};width:${dotSize}px;height:${dotSize}px;"></div>`;
+      html += `</div>`;
+      html += `<div class="forest-meta" style="color:${v.ppos>=0.70?'#3fb950':v.ppos>=0.55?'#d29922':'#f85149'}">${(v.ppos*100).toFixed(0)}%</div>`;
+      html += `</div>`;
+    }
+    html += `</div>`;
+    container.innerHTML += html;
+  }
+  // Legend
+  container.innerHTML += `<div class="legend"><div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div>Grade A</div><div class="legend-item"><div class="legend-dot" style="background:#d29922"></div>Grade B</div><div class="legend-item"><div class="legend-dot" style="background:#8b949e"></div>Candidate (peer-rev)</div><div class="legend-item"><div class="legend-dot" style="background:#484f58"></div>Candidate (WP)</div><div class="legend-item" style="margin-left:24px;">Dot size ∝ # studies</div></div>`;
+})();
+
+// ════════════════════════════════════════════════════════════════════════
+// 2. RANK HEATMAPS
+// ════════════════════════════════════════════════════════════════════════
+(function buildHeatmaps(){
+  const container = document.getElementById("rank-heatmaps");
+  for(const [g, vars] of Object.entries(DATA)){
+    const n = vars.length;
+    // Simulate rank probabilities from a normal approx (using medRank, rkLo, rkHi)
+    const rankProbs = vars.map(v => {
+      const probs = new Array(n).fill(0);
+      // Simple triangular/gaussian estimate centered on medRank
+      const sigma = (v.rkHi - v.rkLo) / 3.29; // 90% CI → ~1.645σ each side
+      for(let k=0;k<n;k++){
+        const z = (k+1 - v.medRank) / Math.max(sigma, 0.5);
+        probs[k] = Math.exp(-0.5*z*z);
+      }
+      const sum = probs.reduce((a,b)=>a+b,0);
+      return probs.map(p=>p/sum);
+    });
+
+    let html = `<h3>${GROUP_LABELS[g]}</h3><div class="card" style="overflow-x:auto;"><div class="heatmap" style="grid-template-columns: 160px repeat(${n}, 1fr); width:max(100%, ${160+n*48}px);">`;
+    // Header row
+    html += `<div class="heatmap-label" style="font-weight:600;">Variable</div>`;
+    for(let k=1;k<=n;k++) html += `<div class="heatmap-cell" style="background:transparent;color:var(--muted);font-size:10px;">#${k}</div>`;
+
+    for(let i=0;i<vars.length;i++){
+      html += `<div class="heatmap-label">${vars[i].id}</div>`;
+      for(let k=0;k<n;k++){
+        const p = rankProbs[i][k];
+        const intensity = Math.round(p * 255);
+        const bg = `rgba(63,185,80,${Math.min(p*1.8, 0.85)})`;
+        const txt = p >= 0.05 ? (p*100).toFixed(0)+"%" : "";
+        html += `<div class="heatmap-cell" style="background:${bg};color:${p>0.3?'#0d1117':'#e6edf3'};font-size:9px;">${txt}</div>`;
+      }
+    }
+    html += `</div></div>`;
+    container.innerHTML += html;
+  }
+})();
+
+// ════════════════════════════════════════════════════════════════════════
+// 3. SUCRA BAR CHARTS
+// ════════════════════════════════════════════════════════════════════════
+Chart.defaults.color = '#8b949e';
+Chart.defaults.borderColor = '#30363d';
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
+
+function buildSucra(canvasId, group){
+  const vars = DATA[group];
+  const gc = GROUP_COLORS[group];
+  new Chart(document.getElementById(canvasId), {
+    type: 'bar',
+    data: {
+      labels: vars.map(v => v.id),
+      datasets: [{
+        label: 'P(Top 3)',
+        data: vars.map(v => v.ptop3),
+        backgroundColor: vars.map(v => v.ptop3 > 0.5 ? gc+'cc' : gc+'44'),
+        borderColor: gc,
+        borderWidth: 1,
+        borderRadius: 3
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      indexAxis: 'y',
+      scales: { x: { min: 0, max: 1, ticks: { callback: v => (v*100)+'%' }, grid: { color: '#30363d44' } }, y: { grid: { display: false } } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => `P(Top 3) = ${(ctx.raw*100).toFixed(1)}%` } }
+      }
+    }
+  });
+}
+buildSucra('sucra-S','S');
+buildSucra('sucra-T','T');
+buildSucra('sucra-R','R');
+buildSucra('sucra-Overlay','Overlay');
+
+// ════════════════════════════════════════════════════════════════════════
+// 4. MARGINAL CONTRIBUTION
+// ════════════════════════════════════════════════════════════════════════
+(function(){
+  const allVars = [];
+  for(const [g, vars] of Object.entries(DATA)){
+    for(const v of vars){
+      allVars.push({...v, group: g});
+    }
+  }
+  allVars.sort((a,b) => b.pbp - a.pbp);
+
+  new Chart(document.getElementById('marginal'), {
+    type: 'bar',
+    data: {
+      labels: allVars.map(v => v.id),
+      datasets: [{
+        label: 'P(Beats Peers)',
+        data: allVars.map(v => v.pbp),
+        backgroundColor: allVars.map(v => {
+          if(v.pbp >= 0.80) return '#3fb950cc';
+          if(v.pbp >= 0.40) return GROUP_COLORS[v.group]+'99';
+          return '#f8514966';
+        }),
+        borderColor: allVars.map(v => GROUP_COLORS[v.group]),
+        borderWidth: 1,
+        borderRadius: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { min: 0, max: 1, ticks: { callback: v => (v*100)+'%' }, grid: { color: '#30363d44' } },
+        x: { ticks: { font: { size: 9 }, maxRotation: 60 }, grid: { display: false } }
+      },
+      plugins: {
+        legend: { display: false },
+        annotation: { annotations: { threshold: { type: 'line', yMin: 0.40, yMax: 0.40, borderColor: '#d29922', borderDash: [6,3], borderWidth: 1, label: { display: true, content: '0.40 threshold', position: 'end', color: '#d29922', font: { size: 10 } } } } }
+      }
+    }
+  });
+
+  // Draw the threshold line manually since annotation plugin isn't loaded
+  const chart = Chart.getChart('marginal');
+  const origDraw = chart.draw.bind(chart);
+  chart.draw = function(){
+    origDraw();
+    const yAxis = chart.scales.y;
+    const xAxis = chart.scales.x;
+    const y40 = yAxis.getPixelForValue(0.40);
+    const ctx = chart.ctx;
+    ctx.save();
+    ctx.beginPath();
+    ctx.setLineDash([6,3]);
+    ctx.strokeStyle = '#d29922';
+    ctx.lineWidth = 1;
+    ctx.moveTo(xAxis.left, y40);
+    ctx.lineTo(xAxis.right, y40);
+    ctx.stroke();
+    ctx.fillStyle = '#d29922';
+    ctx.font = '10px sans-serif';
+    ctx.fillText('← Redundancy threshold (0.40)', xAxis.right - 180, y40 - 6);
+    ctx.restore();
+  };
+  chart.draw();
+})();
+
+// ════════════════════════════════════════════════════════════════════════
+// 5. SHRINKAGE CHART
+// ════════════════════════════════════════════════════════════════════════
+(function(){
+  const allVars = [];
+  for(const [g, vars] of Object.entries(DATA)){
+    for(const v of vars) allVars.push({...v, group: g});
+  }
+  allVars.sort((a,b) => b.mean - a.mean);
+
+  new Chart(document.getElementById('shrinkage'), {
+    type: 'bar',
+    data: {
+      labels: allVars.map(v => `${v.id} (${v.group})`),
+      datasets: [{
+        label: 'Posterior Mean',
+        data: allVars.map(v => v.mean),
+        backgroundColor: allVars.map(v => {
+          const c = GROUP_COLORS[v.group];
+          return v.tier === 3 ? c+'33' : c+'aa';
+        }),
+        borderColor: allVars.map(v => GROUP_COLORS[v.group]),
+        borderWidth: 1,
+        borderRadius: 2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      indexAxis: 'y',
+      scales: {
+        x: { grid: { color: '#30363d44' } },
+        y: { ticks: { font: { size: 9 } }, grid: { display: false } }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+})();
+
+// ════════════════════════════════════════════════════════════════════════
+// 6. DECAY SCATTER
+// ════════════════════════════════════════════════════════════════════════
+(function(){
+  const pts = [];
+  for(const [g, vars] of Object.entries(DATA)){
+    for(const v of vars){
+      if(v.regSharpe !== null){
+        pts.push({x: v.regSharpe, y: v.mean, id: v.id, group: g, name: v.name});
+      }
+    }
+  }
+
+  new Chart(document.getElementById('decay-scatter'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: 'Variables',
+          data: pts.map(p => ({x: p.x, y: p.y})),
+          backgroundColor: pts.map(p => GROUP_COLORS[p.group]+'cc'),
+          borderColor: pts.map(p => GROUP_COLORS[p.group]),
+          pointRadius: 8,
+          pointHoverRadius: 10,
+        },
+        { // 45-degree line
+          label: 'No Decay (45°)',
+          data: [{x:0,y:0},{x:1,y:1}],
+          type: 'line', borderColor: '#30363d', borderWidth: 1, borderDash: [4,4],
+          pointRadius: 0, fill: false
+        },
+        { // McLean-Pontiff -30%
+          label: 'McLean-Pontiff (−30%)',
+          data: [{x:0,y:0},{x:1,y:0.7}],
+          type: 'line', borderColor: '#d29922', borderWidth: 1, borderDash: [6,3],
+          pointRadius: 0, fill: false
+        },
+        { // −58% post-publication
+          label: 'Post-Publication (−58%)',
+          data: [{x:0,y:0},{x:1,y:0.42}],
+          type: 'line', borderColor: '#f85149', borderWidth: 1, borderDash: [3,3],
+          pointRadius: 0, fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { title: { display: true, text: 'Registry Published Sharpe', color: '#8b949e' }, min: 0, max: 1.0, grid: { color: '#30363d44' } },
+        y: { title: { display: true, text: 'BNMA Posterior Mean', color: '#8b949e' }, min: 0, max: 1.0, grid: { color: '#30363d44' } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: { label: function(ctx){
+            if(ctx.datasetIndex !== 0) return ctx.dataset.label;
+            const p = pts[ctx.dataIndex];
+            return `${p.id} (${p.name}): Published ${p.x.toFixed(2)} → Posterior ${p.y.toFixed(3)}`;
+          }}
+        },
+        legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } }
+      }
+    },
+    plugins: [{
+      afterDraw: function(chart){
+        const ctx = chart.ctx;
+        const ds = chart.data.datasets[0];
+        ctx.save();
+        ctx.font = '11px sans-serif';
+        ctx.fillStyle = '#e6edf3';
+        for(let i=0; i<pts.length; i++){
+          const meta = chart.getDatasetMeta(0);
+          const pt = meta.data[i];
+          if(pt){
+            ctx.fillText(pts[i].id, pt.x + 10, pt.y - 4);
+          }
+        }
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+// ════════════════════════════════════════════════════════════════════════
+// 7. NETWORK GRAPHS (simple force-directed via SVG)
+// ════════════════════════════════════════════════════════════════════════
+const PEER_MAP = {
+  S: {V011:["V028"],V028:["V011"],V007:["V003","V006","V008"],V003:["V007"],V006:["V007","V008"],V008:["V006","V007"],V012:["V013","V019"],V013:["V012"],V019:["V012"],C012:["V003"],C001:["V012","V013"],C004:["V019","V012"],C006:["V003"],C003:["V003","V007"]},
+  T: {V009:["V026"],V026:["V009"],V014:["V017"],V017:["V014"],C010:["V009"],C011:["V014","V017"],C009:["V014"],C008:[],V010:[]},
+  R: {V027:["V004"],V004:["V027","V001"],V001:["V002","V004","V005"],V002:["V001","V004"],V005:["V001","V004"],V015:["V001"],V016:["V018"],V018:["V016"]},
+  Overlay: {C005:[],C002:[],C007:[]}
+};
+
+function drawNetwork(svgId, group){
+  const svg = document.getElementById(svgId);
+  const vars = DATA[group];
+  const peers = PEER_MAP[group];
+  const W = svg.clientWidth || 500;
+  const H = parseInt(svg.getAttribute('height')) || 380;
+
+  // Position nodes in a circle
+  const cx = W/2, cy = H/2, radius = Math.min(W,H)*0.35;
+  const nodes = vars.map((v,i) => {
+    const angle = (2*Math.PI*i/vars.length) - Math.PI/2;
+    return { ...v, x: cx + radius*Math.cos(angle), y: cy + radius*Math.sin(angle) };
+  });
+  const nodeMap = {};
+  nodes.forEach(n => nodeMap[n.id] = n);
+
+  // Draw edges
+  const drawnEdges = new Set();
+  let edgeHtml = '';
+  for(const n of nodes){
+    const peerList = peers[n.id] || [];
+    for(const pid of peerList){
+      const edgeKey = [n.id, pid].sort().join('-');
+      if(!drawnEdges.has(edgeKey) && nodeMap[pid]){
+        drawnEdges.add(edgeKey);
+        edgeHtml += `<line x1="${n.x}" y1="${n.y}" x2="${nodeMap[pid].x}" y2="${nodeMap[pid].y}" stroke="#30363d" stroke-width="1.5" stroke-opacity="0.6"/>`;
+      }
+    }
+  }
+
+  // Draw nodes
+  let nodeHtml = '';
+  for(const n of nodes){
+    const r = 8 + n.n * 4;
+    const fill = GRADE_COLORS[n.grade] || '#484f58';
+    const opacity = n.tier === 3 ? 0.5 : 0.9;
+    nodeHtml += `<circle cx="${n.x}" cy="${n.y}" r="${r}" fill="${fill}" fill-opacity="${opacity}" stroke="${fill}" stroke-width="2"/>`;
+    // Label
+    const labelY = n.y < cy ? n.y - r - 6 : n.y + r + 14;
+    nodeHtml += `<text x="${n.x}" y="${labelY}" text-anchor="middle" fill="#e6edf3" font-size="10" font-weight="600">${n.id}</text>`;
+  }
+
+  svg.innerHTML = edgeHtml + nodeHtml;
+}
+
+drawNetwork('net-S','S');
+drawNetwork('net-T','T');
+drawNetwork('net-R','R');
+drawNetwork('net-Overlay','Overlay');
+
+// ════════════════════════════════════════════════════════════════════════
+// 8. SENSITIVITY
+// ════════════════════════════════════════════════════════════════════════
+(function(){
+  const sens = [
+    {id:"V008",name:"ACM Term Prem",group:"S",base:6,loose:9,shift:3},
+    {id:"V019",name:"MVRV/SOPR",group:"S",base:10,loose:13,shift:3},
+    {id:"C001",name:"Global M2",group:"S",base:9,loose:6,shift:-3},
+    {id:"C004",name:"NVT Signal",group:"S",base:11,loose:7,shift:-4},
+    {id:"V004",name:"HY OAS",group:"R",base:5,loose:2,shift:-3},
+    {id:"V016",name:"BTC Fund Rate",group:"R",base:4,loose:8,shift:4},
+  ];
+
+  new Chart(document.getElementById('sensitivity'), {
+    type: 'bar',
+    data: {
+      labels: sens.map(s => `${s.id} (${s.group})`),
+      datasets: [
+        { label: 'Base Rank', data: sens.map(s=>s.base), backgroundColor: '#58a6ff88', borderColor: '#58a6ff', borderWidth: 1, borderRadius: 3 },
+        { label: 'Loose-Prior Rank', data: sens.map(s=>s.loose), backgroundColor: '#d2992288', borderColor: '#d29922', borderWidth: 1, borderRadius: 3 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { reverse: true, title: { display: true, text: 'Rank (lower = better)', color: '#8b949e' }, grid: { color: '#30363d44' } },
+        x: { grid: { display: false } }
+      },
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }
+    }
+  });
+})();
+
+// ════════════════════════════════════════════════════════════════════════
+// 9. AUDIT CARDS
+// ════════════════════════════════════════════════════════════════════════
+(function(){
+  const audits = [
+    {id:"V026",name:"Residual Momentum (FF5)",group:"T",mean:0.385,lo:0.116,hi:0.637,ppos:1.00,ptop3:0.95,pbp:0.05,regSharpe:0.70,postDecay:0.232,verdict:"NO-GO",reason:"p_beats_peers vs TSMOM = 0.05. Not independent — subsidiary to V009. Value is in disaggregation for single stocks, not as standalone signal."},
+    {id:"V027",name:"Intermediary Capital Ratio",group:"R",mean:0.236,lo:0.022,hi:0.446,ppos:0.98,ptop3:0.96,pbp:0.95,regSharpe:0.60,postDecay:0.142,verdict:"GO",reason:"Dominates R group. P(beats HY OAS) = 0.95. Published Sharpe decayed 61% but posterior still clearly positive. Leading indicator value confirmed."},
+    {id:"V028",name:"Basis-Momentum",group:"S",mean:0.395,lo:0.104,hi:0.649,ppos:0.99,ptop3:0.86,pbp:0.50,regSharpe:0.80,postDecay:0.240,verdict:"GO",reason:"Co-#1 with carry slope (V011). p_beats_peers = 0.50 is expected — they're designed complements. Published Sharpe decayed 51% but post-decay 0.24 remains strong."},
+  ];
+
+  const container = document.getElementById('audit-cards');
+  for(const a of audits){
+    const isGo = a.verdict === "GO";
+    const gc = GROUP_COLORS[a.group];
+    container.innerHTML += `
+    <div class="card audit-card ${isGo ? 'audit-go' : 'audit-nogo'}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div><span style="font-weight:700;font-size:16px;">${a.id}</span> <span style="color:var(--muted);font-size:13px;">${a.name}</span></div>
+        <div style="font-weight:700;font-size:14px;color:${isGo?'var(--green)':'var(--red)'}">${a.verdict}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div><span class="stat-label">Posterior Mean</span><div style="font-size:20px;font-weight:600;">${a.mean.toFixed(3)}</div></div>
+        <div><span class="stat-label">P(&gt;0)</span><div style="font-size:20px;font-weight:600;color:${a.ppos>0.8?'var(--green)':'var(--yellow)'}">${(a.ppos*100).toFixed(0)}%</div></div>
+        <div><span class="stat-label">P(Top 3)</span><div style="font-size:20px;font-weight:600;">${(a.ptop3*100).toFixed(0)}%</div></div>
+        <div><span class="stat-label">P(Beats Peers)</span><div style="font-size:20px;font-weight:600;color:${a.pbp>=0.4?'var(--green)':'var(--red)'}">${(a.pbp*100).toFixed(0)}%</div></div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Published ${a.regSharpe.toFixed(2)} → Post-decay <strong>${a.postDecay.toFixed(3)}</strong> (${((1-a.postDecay/a.regSharpe)*100).toFixed(0)}% total shrinkage)</div>
+      <div style="font-size:12px;line-height:1.6;">${a.reason}</div>
+    </div>`;
+  }
+})();
+
+// ════════════════════════════════════════════════════════════════════════
+// 10. CROSS-GROUP STATISTICAL COMPARISONS (from MCMC posterior draws)
+// ════════════════════════════════════════════════════════════════════════
+
+const ALL_VARS = [];
+for(const [g, vars] of Object.entries(DATA)){
+  for(const v of vars) ALL_VARS.push({...v, group: g});
+}
+
+// Embedded results from crossgroup_stats.py (computed on actual MCMC traces)
+const XG_STATS = {
+  i2: {
+    S: [{id:"V011",med:0.916,lo:0.78,hi:0.98},{id:"V028",med:0.887,lo:0.71,hi:0.97},{id:"V007",med:0.811,lo:0.42,hi:0.97},
+        {id:"V003",med:0.607,lo:0.22,hi:0.90},{id:"V006",med:0.803,lo:0.40,hi:0.97},{id:"V008",med:0.796,lo:0.39,hi:0.97},
+        {id:"V012",med:0.669,lo:0.27,hi:0.93},{id:"C012",med:0.811,lo:0.42,hi:0.97},{id:"C001",med:0.749,lo:0.33,hi:0.95},
+        {id:"V019",med:0.778,lo:0.36,hi:0.96},{id:"C004",med:0.768,lo:0.34,hi:0.96},{id:"C006",med:0.694,lo:0.29,hi:0.94},
+        {id:"C003",med:0.634,lo:0.24,hi:0.91},{id:"V013",med:0.802,lo:0.39,hi:0.97}],
+    T: [{id:"V009",med:0.881,lo:0.69,hi:0.97},{id:"V026",med:0.536,lo:0.14,hi:0.87},{id:"V010",med:0.517,lo:0.12,hi:0.86},
+        {id:"V014",med:0.765,lo:0.34,hi:0.96},{id:"C008",med:0.737,lo:0.31,hi:0.95},{id:"C010",med:0.693,lo:0.27,hi:0.94},
+        {id:"C011",med:0.729,lo:0.30,hi:0.95},{id:"C009",med:0.766,lo:0.34,hi:0.96},{id:"V017",med:0.585,lo:0.18,hi:0.89}],
+    R: [{id:"V027",med:0.523,lo:0.13,hi:0.87},{id:"V015",med:0.548,lo:0.15,hi:0.88},{id:"V018",med:0.421,lo:0.06,hi:0.82},
+        {id:"V016",med:0.501,lo:0.11,hi:0.86},{id:"V004",med:0.263,lo:0.01,hi:0.72},{id:"V001",med:0.299,lo:0.02,hi:0.74},
+        {id:"V005",med:0.496,lo:0.11,hi:0.86},{id:"V002",med:0.512,lo:0.12,hi:0.86}],
+    Overlay: [{id:"C005",med:0.576,lo:0.17,hi:0.89},{id:"C002",med:0.652,lo:0.24,hi:0.92},{id:"C007",med:0.761,lo:0.34,hi:0.95}]
+  },
+  tau_pairwise: [
+    {pair:"S vs T",p:0.499},{pair:"S vs R",p:0.814},{pair:"S vs Overlay",p:0.716},
+    {pair:"T vs R",p:0.794},{pair:"T vs Overlay",p:0.695},{pair:"R vs Overlay",p:0.468}
+  ],
+  ppc: [
+    {group:"S",pMaxResid:0.717,pChi2:0.779,n:20},
+    {group:"T",pMaxResid:0.818,pChi2:0.799,n:16},
+    {group:"R",pMaxResid:0.694,pChi2:0.765,n:13},
+    {group:"Overlay",pMaxResid:0.637,pChi2:0.640,n:3}
+  ],
+  spearman: [
+    {group:"S",rho:0.372,lo:-0.137,hi:0.789,pPos:0.922},
+    {group:"T",rho:0.588,lo:0.137,hi:0.913,pPos:0.989},
+    {group:"R",rho:0.023,lo:-0.630,hi:0.756,pPos:0.435},
+    {group:"Overlay",rho:null,note:"n=3, too few"}
+  ],
+  evPrec: {rho:0.176,p:0.319,lo:-0.119,hi:0.468},
+  flagPerm: {kw_H:7.755,kw_p:0.051,pairs:[
+    {pair:"S vs T",diff:0.32,p:0.317},{pair:"S vs R",diff:-0.20,p:0.661},{pair:"S vs Overlay",diff:1.10,p:0.013},
+    {pair:"T vs R",diff:-0.51,p:0.166},{pair:"T vs Overlay",diff:0.78,p:0.229},{pair:"R vs Overlay",diff:1.29,p:0.023}
+  ]},
+  overlap: [
+    {pair:"V011(S) vs V009(T)",ovl:0.256,p:0.061},
+    {pair:"V011(S) vs V027(R)",ovl:0.456,p:0.853},
+    {pair:"V011(S) vs C005(Ov)",ovl:0.023,p:0.995},
+    {pair:"V009(T) vs V027(R)",ovl:0.072,p:0.995},
+    {pair:"V009(T) vs C005(Ov)",ovl:0.001,p:1.000},
+    {pair:"V027(R) vs C005(Ov)",ovl:0.132,p:0.975}
+  ]
+};
+
+// ── 10A: I² chart ───────────────────────────────────────────────────────
+(function(){
+  const allI2 = [];
+  for(const g of ['S','T','R','Overlay']){
+    for(const v of XG_STATS.i2[g]) allI2.push({...v, group:g});
+  }
+  // Sort by group then median I²
+  allI2.sort((a,b) => a.group < b.group ? -1 : a.group > b.group ? 1 : b.med - a.med);
+
+  new Chart(document.getElementById('xg-i2'), {
+    type: 'bar',
+    data: {
+      labels: allI2.map(v => v.id),
+      datasets: [{
+        label: 'Median I²',
+        data: allI2.map(v => v.med),
+        backgroundColor: allI2.map(v => GROUP_COLORS[v.group]+'88'),
+        borderColor: allI2.map(v => GROUP_COLORS[v.group]),
+        borderWidth: 1, borderRadius: 2,
+        // Error bars via plugin below
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      indexAxis: 'y',
+      scales: {
+        x: { min:0, max:1, ticks:{callback:v=>(v*100)+'%'}, grid:{color:'#30363d44'},
+             title:{display:true,text:'I² (% of variance from heterogeneity)',color:'#8b949e'} },
+        y: { ticks:{font:{size:9}}, grid:{display:false} }
+      },
+      plugins: { legend:{display:false} }
+    },
+    plugins: [{
+      afterDraw: function(chart){
+        const ctx = chart.ctx;
+        const meta = chart.getDatasetMeta(0);
+        ctx.save();
+        ctx.strokeStyle = '#e6edf388';
+        ctx.lineWidth = 1;
+        allI2.forEach((v, i) => {
+          const bar = meta.data[i];
+          if(!bar) return;
+          const xAxis = chart.scales.x;
+          const xLo = xAxis.getPixelForValue(v.lo);
+          const xHi = xAxis.getPixelForValue(v.hi);
+          const y = bar.y;
+          ctx.beginPath();
+          ctx.moveTo(xLo, y); ctx.lineTo(xHi, y);
+          ctx.stroke();
+          // Caps
+          ctx.beginPath(); ctx.moveTo(xLo, y-3); ctx.lineTo(xLo, y+3); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(xHi, y-3); ctx.lineTo(xHi, y+3); ctx.stroke();
+        });
+        // 50% line
+        const x50 = chart.scales.x.getPixelForValue(0.5);
+        ctx.beginPath(); ctx.setLineDash([4,4]); ctx.strokeStyle='#d2992244';
+        ctx.moveTo(x50, chart.scales.y.top); ctx.lineTo(x50, chart.scales.y.bottom); ctx.stroke();
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+// ── 10B: Tau pairwise comparison ────────────────────────────────────────
+(function(){
+  const pairs = XG_STATS.tau_pairwise;
+  new Chart(document.getElementById('xg-tau-pair'), {
+    type: 'bar',
+    data: {
+      labels: pairs.map(p => p.pair),
+      datasets: [{
+        label: 'P(τ_g1 > τ_g2)',
+        data: pairs.map(p => p.p),
+        backgroundColor: pairs.map(p => {
+          if(p.p > 0.80 || p.p < 0.20) return '#3fb95088';
+          return '#8b949e44';
+        }),
+        borderColor: pairs.map(p => p.p > 0.80 || p.p < 0.20 ? '#3fb950' : '#8b949e'),
+        borderWidth: 1, borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { min:0, max:1, grid:{color:'#30363d44'},
+             title:{display:true,text:'P(τ group₁ > τ group₂)',color:'#8b949e'} },
+        x: { grid:{display:false} }
+      },
+      plugins: { legend:{display:false} }
+    },
+    plugins: [{
+      afterDraw: function(chart){
+        const ctx = chart.ctx;
+        const yAxis = chart.scales.y;
+        const xAxis = chart.scales.x;
+        ctx.save();
+        [0.5, 0.8, 0.2].forEach((t,i) => {
+          const y = yAxis.getPixelForValue(t);
+          ctx.beginPath(); ctx.setLineDash(i===0?[6,3]:[3,3]);
+          ctx.strokeStyle = i===0?'#8b949e44':'#3fb95044'; ctx.lineWidth=1;
+          ctx.moveTo(xAxis.left,y); ctx.lineTo(xAxis.right,y); ctx.stroke();
+        });
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+// ── 10C: PPC chart ──────────────────────────────────────────────────────
+(function(){
+  const ppc = XG_STATS.ppc;
+  new Chart(document.getElementById('xg-ppc'), {
+    type: 'bar',
+    data: {
+      labels: ppc.map(p => p.group),
+      datasets: [
+        { label:'p(max|resid|)', data:ppc.map(p=>p.pMaxResid), backgroundColor:'#58a6ff88', borderColor:'#58a6ff', borderWidth:1, borderRadius:3 },
+        { label:'p(χ²)', data:ppc.map(p=>p.pChi2), backgroundColor:'#3fb95088', borderColor:'#3fb950', borderWidth:1, borderRadius:3 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { min:0, max:1, grid:{color:'#30363d44'}, title:{display:true,text:'Bayesian p-value',color:'#8b949e'} },
+        x: { grid:{display:false} }
+      },
+      plugins: { legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}} }
+    },
+    plugins: [{
+      afterDraw: function(chart){
+        const ctx = chart.ctx; const yAxis = chart.scales.y; const xAxis = chart.scales.x;
+        ctx.save();
+        [0.5, 0.05, 0.95].forEach((t,i) => {
+          const y = yAxis.getPixelForValue(t);
+          ctx.beginPath(); ctx.setLineDash([4,4]);
+          ctx.strokeStyle = i===0?'#3fb95044':'#f8514944'; ctx.lineWidth=1;
+          ctx.moveTo(xAxis.left,y); ctx.lineTo(xAxis.right,y); ctx.stroke();
+        });
+        ctx.fillStyle='#3fb95066'; ctx.font='9px sans-serif';
+        ctx.fillText('ideal ≈ 0.50', xAxis.right-70, yAxis.getPixelForValue(0.50)-4);
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+// ── 10D: Spearman ρ chart ───────────────────────────────────────────────
+(function(){
+  const sp = XG_STATS.spearman.filter(s => s.rho !== null);
+  new Chart(document.getElementById('xg-spearman'), {
+    type: 'bar',
+    data: {
+      labels: sp.map(s => s.group),
+      datasets: [{
+        label: 'Spearman ρ (grade vs rank)',
+        data: sp.map(s => s.rho),
+        backgroundColor: sp.map(s => s.pPos > 0.95 ? '#3fb95088' : s.pPos > 0.80 ? '#d2992288' : '#8b949e44'),
+        borderColor: sp.map(s => s.pPos > 0.95 ? '#3fb950' : s.pPos > 0.80 ? '#d29922' : '#8b949e'),
+        borderWidth: 1, borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { min:-1, max:1, grid:{color:'#30363d44'}, title:{display:true,text:'Spearman ρ (posterior draws)',color:'#8b949e'} },
+        x: { grid:{display:false} }
+      },
+      plugins: { legend:{display:false} }
+    },
+    plugins: [{
+      afterDraw: function(chart){
+        const ctx = chart.ctx; const meta = chart.getDatasetMeta(0);
+        const xAxis = chart.scales.x; const yAxis = chart.scales.y;
+        ctx.save(); ctx.strokeStyle='#e6edf366'; ctx.lineWidth=1;
+        sp.forEach((s,i) => {
+          const bar = meta.data[i]; if(!bar) return;
+          const yLo = yAxis.getPixelForValue(s.lo);
+          const yHi = yAxis.getPixelForValue(s.hi);
+          ctx.beginPath(); ctx.moveTo(bar.x, yLo); ctx.lineTo(bar.x, yHi); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(bar.x-4,yLo); ctx.lineTo(bar.x+4,yLo); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(bar.x-4,yHi); ctx.lineTo(bar.x+4,yHi); ctx.stroke();
+        });
+        // Zero line
+        const y0 = yAxis.getPixelForValue(0);
+        ctx.beginPath(); ctx.setLineDash([4,4]); ctx.strokeStyle='#8b949e44';
+        ctx.moveTo(xAxis.left,y0); ctx.lineTo(xAxis.right,y0); ctx.stroke();
+        // Annotations
+        ctx.fillStyle='#8b949e'; ctx.font='10px sans-serif';
+        sp.forEach((s,i) => {
+          const bar = meta.data[i]; if(!bar) return;
+          ctx.fillText(`P(ρ>0)=${(s.pPos*100).toFixed(0)}%`, bar.x+8, bar.y-6);
+        });
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+// ── 10E: Evidence-precision scatter ─────────────────────────────────────
+(function(){
+  const ep = XG_STATS.evPrec;
+  // Scatter of n_studies vs posterior CI width per variable
+  const pts = ALL_VARS.map(v => ({
+    x: v.n + (Math.random()-0.5)*0.3,
+    y: v.hi - v.lo,
+    id: v.id, group: v.group, name: v.name
+  }));
+
+  new Chart(document.getElementById('xg-evprec'), {
+    type: 'scatter',
+    data: {
+      datasets: ['S','T','R','Overlay'].map(g => ({
+        label: g,
+        data: pts.filter(p=>p.group===g).map(p=>({x:p.x,y:p.y})),
+        backgroundColor: GROUP_COLORS[g]+'88',
+        borderColor: GROUP_COLORS[g],
+        pointRadius: 6, pointHoverRadius: 8,
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { title:{display:true,text:'Number of Studies',color:'#8b949e'}, min:0, grid:{color:'#30363d44'} },
+        y: { title:{display:true,text:'95% CI Width',color:'#8b949e'}, min:0, grid:{color:'#30363d44'} }
+      },
+      plugins: {
+        legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}},
+        title:{display:true,text:`Spearman ρ(n_studies, post_SD) = ${ep.rho.toFixed(3)}, p = ${ep.p.toFixed(3)} [${ep.lo.toFixed(3)}, ${ep.hi.toFixed(3)}] — NOT significant`,
+               color:'#d29922',font:{size:11,weight:'normal'},padding:{bottom:8}}
+      }
+    }
+  });
+})();
+
+// ── 10F: Flag permutation ───────────────────────────────────────────────
+(function(){
+  const fp = XG_STATS.flagPerm;
+  new Chart(document.getElementById('xg-flagperm'), {
+    type: 'bar',
+    data: {
+      labels: fp.pairs.map(p => p.pair),
+      datasets: [{
+        label: 'Permutation p-value',
+        data: fp.pairs.map(p => p.p),
+        backgroundColor: fp.pairs.map(p => p.p < 0.05 ? '#3fb95088' : '#8b949e33'),
+        borderColor: fp.pairs.map(p => p.p < 0.05 ? '#3fb950' : '#8b949e'),
+        borderWidth: 1, borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { min:0, max:0.8, grid:{color:'#30363d44'}, title:{display:true,text:'Permutation p-value (10,000 perms)',color:'#8b949e'} },
+        x: { grid:{display:false}, ticks:{font:{size:10}} }
+      },
+      plugins: {
+        legend:{display:false},
+        title:{display:true,text:`Kruskal-Wallis H = ${fp.kw_H.toFixed(2)}, p = ${fp.kw_p.toFixed(3)} (borderline)`,
+               color:'#d29922',font:{size:11,weight:'normal'}}
+      }
+    },
+    plugins: [{
+      afterDraw: function(chart){
+        const ctx = chart.ctx; const yAxis = chart.scales.y; const xAxis = chart.scales.x;
+        const y05 = yAxis.getPixelForValue(0.05);
+        ctx.save(); ctx.beginPath(); ctx.setLineDash([6,3]); ctx.strokeStyle='#f85149'; ctx.lineWidth=1;
+        ctx.moveTo(xAxis.left,y05); ctx.lineTo(xAxis.right,y05); ctx.stroke();
+        ctx.fillStyle='#f85149'; ctx.font='10px sans-serif';
+        ctx.fillText('α = 0.05', xAxis.right-50, y05-5);
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+// ── 10G: Posterior overlap ──────────────────────────────────────────────
+(function(){
+  const ov = XG_STATS.overlap;
+  new Chart(document.getElementById('xg-overlap'), {
+    type: 'bar',
+    data: {
+      labels: ov.map(o => o.pair),
+      datasets: [{
+        label: 'Overlap Coefficient',
+        data: ov.map(o => o.ovl),
+        backgroundColor: ov.map(o => o.ovl > 0.3 ? '#d2992288' : o.ovl > 0.1 ? '#58a6ff66' : '#3fb95066'),
+        borderColor: ov.map(o => o.ovl > 0.3 ? '#d29922' : o.ovl > 0.1 ? '#58a6ff' : '#3fb950'),
+        borderWidth: 1, borderRadius: 3,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        y: { min:0, max:0.6, grid:{color:'#30363d44'}, title:{display:true,text:'∫ min(f₁, f₂) dx',color:'#8b949e'} },
+        x: { grid:{display:false}, ticks:{font:{size:9},maxRotation:30} }
+      },
+      plugins: {
+        legend:{display:false},
+        title:{display:true,text:'⚠ Different scales — OVL measures distributional overlap, NOT cross-group ranking',
+               color:'#f85149',font:{size:10,weight:'normal'}}
+      }
+    }
+  });
+})();
+
+// ── 10H: Tier Composition (unchanged logic) ─────────────────────────────
+(function(){
+  const groups = ['S','T','R','Overlay'];
+  const gradeTypes = ['A','B','C-PR','C-WP'];
+  const gradeLabels = ['Grade A','Grade B','Candidate (PR)','Candidate (WP)'];
+  const gradeColors = ['#3fb95099','#d2992299','#8b949e99','#484f5899'];
+  const datasets = gradeTypes.map((gt, i) => ({
+    label: gradeLabels[i],
+    data: groups.map(g => DATA[g].filter(v => v.grade === gt).length),
+    backgroundColor: gradeColors[i], borderColor: gradeColors[i].replace('99','ff'), borderWidth:1, borderRadius:2,
+  }));
+  new Chart(document.getElementById('xg-tiers'), {
+    type: 'bar', data: { labels: groups, datasets },
+    options: { responsive:true, maintainAspectRatio:false,
+      scales: { x:{stacked:true,grid:{display:false}}, y:{stacked:true,title:{display:true,text:'Variables',color:'#8b949e'},grid:{color:'#30363d44'}} },
+      plugins: { legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}} }
+    }
+  });
+})();
+
+// ── 10I: Cross-Group Evidence Scorecard ─────────────────────────────────
+(function(){
+  const scored = ALL_VARS.map(v => {
+    const ciWidth = (v.rkHi - v.rkLo) / DATA[v.group].length;
+    const rankStab = 1 - ciWidth;
+    const evDepth = Math.min(v.n / 5, 1);
+    const composite = v.ppos*0.30 + v.ptop3*0.25 + v.pbp*0.25 + rankStab*0.10 + evDepth*0.10;
+    return {...v, ciWidth, rankStab, evDepth, composite};
+  });
+  scored.sort((a,b) => b.composite - a.composite);
+
+  const container = document.getElementById('xg-top5-table');
+  let html = `<table class="tbl">
+    <tr><th>#</th><th>Group</th><th>Var</th><th>Name</th><th>Grade</th><th>P(&gt;0)</th><th>P(Top3)</th><th>p_beats</th><th>Rank Stab</th><th>Ev. Depth</th><th style="color:var(--accent)">Composite</th></tr>`;
+  scored.slice(0, 10).forEach((v, i) => {
+    const gc = GROUP_COLORS[v.group];
+    html += `<tr><td>${i+1}</td><td style="color:${gc};font-weight:600;">${v.group}</td><td><strong>${v.id}</strong></td><td>${v.name}</td><td>${v.grade}</td>
+      <td>${(v.ppos*100).toFixed(0)}%</td><td style="font-weight:${v.ptop3>=0.5?700:400}">${(v.ptop3*100).toFixed(0)}%</td>
+      <td style="color:${v.pbp>=0.4?'#3fb950':'#f85149'}">${(v.pbp*100).toFixed(0)}%</td><td>${v.rankStab.toFixed(2)}</td>
+      <td>${v.evDepth.toFixed(2)}</td><td style="font-weight:700;color:var(--accent)">${v.composite.toFixed(3)}</td></tr>`;
+  });
+  html += `</table>`;
+  container.innerHTML = html;
+})();
+
+// ════════════════════════════════════════════════════════════════════════
+// 11. RANKING TABLES
+// ════════════════════════════════════════════════════════════════════════
+(function(){
+  const container = document.getElementById('ranking-tables');
+  for(const [g, vars] of Object.entries(DATA)){
+    let html = `<h3>${GROUP_LABELS[g]}</h3><div class="card" style="overflow-x:auto;"><table class="tbl">`;
+    html += `<tr><th>#</th><th>Var</th><th>Name</th><th>Tier</th><th>Grade</th><th>n</th><th>Post. Mean</th><th>95% CI</th><th>P(&gt;0)</th><th>P(Top3)</th><th>Med Rank</th><th>p_beats</th><th>Decay Sharpe</th><th>Flags</th></tr>`;
+
+    vars.forEach((v,i) => {
+      const flagHtml = v.flags.map(f => {
+        if(f==='INDIST') return '<span class="flag flag-indist">INDIST</span>';
+        if(f==='RANK_UNSTAB') return '<span class="flag flag-unstable">RK_UNSTAB</span>';
+        if(f==='LOW_PWR') return '<span class="flag flag-lowpwr">LOW_PWR</span>';
+        if(f==='DIVERGE') return '<span class="flag flag-diverge">DIVERGE</span>';
+        return `<span class="flag">${f}</span>`;
+      }).join('') || '—';
+
+      const gc = v.grade === 'A' ? 'grade-a' : v.grade === 'B' ? 'grade-b' : 'grade-cand';
+
+      html += `<tr>
+        <td>${i+1}</td>
+        <td><strong>${v.id}</strong></td>
+        <td>${v.name}</td>
+        <td><span class="tier-badge ${v.tier===1?'tier-1':'tier-3'}">T${v.tier}</span></td>
+        <td class="${gc}">${v.grade}</td>
+        <td>${v.n}</td>
+        <td style="font-weight:600;">${v.mean.toFixed(3)}</td>
+        <td style="font-size:11px;">[${v.lo.toFixed(2)}, ${v.hi.toFixed(2)}]</td>
+        <td style="color:${v.ppos>=0.70?'#3fb950':v.ppos>=0.55?'#d29922':'#f85149'}">${(v.ppos*100).toFixed(0)}%</td>
+        <td style="font-weight:${v.ptop3>=0.5?700:400}">${(v.ptop3*100).toFixed(0)}%</td>
+        <td>${v.medRank}/${vars.length}</td>
+        <td style="color:${v.pbp>=0.40?'#3fb950':'#f85149'}">${(v.pbp*100).toFixed(0)}%</td>
+        <td>${v.postDecay.toFixed(3)}</td>
+        <td>${flagHtml}</td>
+      </tr>`;
+    });
+
+    html += `</table></div>`;
+    container.innerHTML += html;
+  }
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "variable": "WTI",
+  "value": 79.46,
+  "unit": "USD/bbl",
+  "timestamp": "2026-04-17T22:57:02+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (CL=F)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"CL=F\",\"exchangeName\":\"NYM\",\"fullExchangeName\":\"NY Mercantile\",\"instrumentType\":\"FUTURE\",\"firstTradeDate\":967003200,\"regularMarketTime\":177643782"
+}

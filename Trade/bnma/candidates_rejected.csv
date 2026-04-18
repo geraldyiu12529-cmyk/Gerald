@@ -1,0 +1,9 @@
+name,reason
+MVRV Z-Score,"Redundant with V019 (MVRV/SOPR already in registry). Same underlying metric, different scaling. No independent information."
+Funding rate arbitrage (delta-neutral),"Uncorrelated with directional strategies by construction — not a directional signal. Wrong scale for BNMA (arb returns, not long-short Sharpe)."
+Pairs trading BTC-ETH cointegration,"Relative-value strategy, not directional signal. Sharpe 2.45 at 5-min frequency = microstructure alpha, not tradeable at Gerald's horizon. Wrong scale."
+Dual momentum / Antonacci GEM,"Portfolio construction strategy, not a variable. Composite of TSMOM + cross-sectional momentum already captured by V009/V026."
+HRP (Hierarchical Risk Parity),"Portfolio construction method, not a signal variable. Not rankable on long-short Sharpe scale."
+EIA inventory surprises (crude),"Event-study scale, same exclusion rationale as V020/V033 (Catalyst category). Would need separate event-study BNMA."
+OPEC+ production decisions,Event-study / catalyst. Same exclusion as EIA. Not on long-short Sharpe scale.
+Geopolitical Risk Index (Caldara-Iacoviello),Candidate pool cap reached (12 admitted). Borderline — interesting but effect size primarily through VIX channel (overlap with V001). Could re-evaluate at next quarterly.

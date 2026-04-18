@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BNMA Cross-Run Meta-Analysis — 2026-04-18</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --ink: #1a1d23;
+    --ink-soft: #4b5362;
+    --rule: #d8d4ca;
+    --accent: #2b4a6f;
+    --accent-soft: #3e6a96;
+    --deploy: #2f6b4a;
+    --conditional: #3e6a96;
+    --watch: #a77b2a;
+    --exclude: #8b3a3a;
+    --downgrade: #6b5b8a;
+    --neutral: #6a6e78;
+    --shade: #efece4;
+    --pass: #c5e0c8;
+    --partial: #f4e3b3;
+    --fail: #e8c0b8;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif; line-height: 1.55; font-size: 16px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 36px; }
+  header.masthead { border-bottom: 2px solid var(--ink); padding: 36px 0 24px; margin-bottom: 0; }
+  header.masthead .eyebrow { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--neutral); margin-bottom: 10px; }
+  header.masthead h1 { font-size: 32px; margin: 0 0 8px; font-weight: 600; letter-spacing: -0.01em; }
+  header.masthead .sub { font-size: 15px; color: var(--ink-soft); }
+  nav.toc { background: var(--surface); border: 1px solid var(--rule); padding: 18px 24px; margin: 24px 0 36px; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 13px; }
+  nav.toc ol { margin: 0; padding-left: 22px; column-count: 2; column-gap: 36px; }
+  nav.toc li { padding: 3px 0; }
+  nav.toc a { color: var(--accent); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  section { background: var(--surface); border: 1px solid var(--rule); padding: 32px 36px; margin-bottom: 28px; }
+  section h2 { font-size: 22px; margin: 0 0 4px; font-weight: 600; color: var(--ink); border-bottom: 1px solid var(--rule); padding-bottom: 10px; }
+  section h2 .num { color: var(--neutral); font-weight: 400; margin-right: 10px; }
+  section h3 { font-size: 17px; margin: 28px 0 10px; color: var(--accent); font-weight: 600; }
+  section h4 { font-size: 14px; margin: 20px 0 6px; font-family: "Helvetica Neue", Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); font-weight: 600; }
+  p { margin: 10px 0; }
+  .lead { font-size: 17px; color: var(--ink-soft); font-style: italic; margin-bottom: 20px; }
+  ul, ol { margin: 8px 0; padding-left: 24px; }
+  li { margin: 4px 0; }
+  table { border-collapse: collapse; width: 100%; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 13px; margin: 14px 0; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { background: var(--shade); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-soft); }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td.center { text-align: center; }
+  .chart-box { background: var(--surface); border: 1px solid var(--rule); padding: 18px 22px; margin: 22px 0; }
+  .chart-box h4 { margin-top: 0; color: var(--ink); font-family: "Helvetica Neue", Arial, sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .chart-box .caption { font-size: 12px; color: var(--ink-soft); margin-top: 10px; font-style: italic; }
+  .chart-wrap { position: relative; width: 100%; }
+  .chart-wrap.h300 { height: 320px; }
+  .chart-wrap.h380 { height: 400px; }
+  .chart-wrap.h460 { height: 480px; }
+  .chart-wrap.h520 { height: 540px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #fff; }
+  .tag.deploy { background: var(--deploy); }
+  .tag.conditional { background: var(--conditional); }
+  .tag.watch { background: var(--watch); }
+  .tag.exclude { background: var(--exclude); }
+  .tag.downgrade { background: var(--downgrade); }
+  .tag.neutral { background: var(--neutral); }
+  .callout { border-left: 4px solid var(--accent); background: var(--shade); padding: 14px 18px; margin: 18px 0; font-size: 14px; }
+  .callout.warn { border-left-color: var(--exclude); background: #faeeea; }
+  .callout.ok { border-left-color: var(--deploy); background: #e9f1ea; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 840px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    nav.toc ol { column-count: 1; }
+  }
+  .var-card { border: 1px solid var(--rule); padding: 16px 18px; margin: 12px 0; background: var(--surface); }
+  .var-card .head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--rule); padding-bottom: 6px; margin-bottom: 10px; }
+  .var-card .head .id { font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 700; font-size: 13px; color: var(--accent); letter-spacing: 0.04em; }
+  .var-card .head .name { font-size: 15px; font-weight: 600; }
+  .var-card .head .group { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 11px; color: var(--neutral); }
+  .var-card .row { display: grid; grid-template-columns: 140px 1fr; gap: 12px; padding: 4px 0; font-size: 13px; font-family: "Helvetica Neue", Arial, sans-serif; }
+  .var-card .row .label { color: var(--ink-soft); font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.04em; padding-top: 2px; }
+  .ref { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 12px; color: var(--ink-soft); }
+  .ref-list { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 12px; line-height: 1.55; }
+  .ref-list li { margin-bottom: 6px; }
+  .grid-cell { padding: 8px; text-align: center; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 12px; font-weight: 600; border: 1px solid var(--rule); }
+  .grid-cell.pass { background: var(--pass); }
+  .grid-cell.partial { background: var(--partial); }
+  .grid-cell.fail { background: var(--fail); }
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 18px 0; }
+  .kpi { background: var(--shade); padding: 14px 16px; border-left: 3px solid var(--accent); }
+  .kpi .v { font-size: 26px; font-weight: 700; line-height: 1; color: var(--accent); }
+  .kpi .k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); margin-top: 4px; font-family: "Helvetica Neue", Arial, sans-serif; }
+  footer { text-align: center; font-size: 12px; color: var(--neutral); padding: 20px 0 40px; font-family: "Helvetica Neue", Arial, sans-serif; }
+  hr.div { border: none; border-top: 1px solid var(--rule); margin: 28px 0; }
+  code { font-family: "SF Mono", Consolas, monospace; background: var(--shade); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">Trading Research · Cross-Run Meta-Analysis · Full MCMC + Analytical N=4</div>
+  <h1>BNMA Meta-Analysis: What Trades, What Sizes, and Whether the Groups Are Earning Their Keep</h1>
+  <div class="sub">Synthesis across four Bayesian Network Meta-Analysis runs of a 32–34 variable trading framework (S / T / R / Overlay). Produced 2026-04-18, Singapore. <code>RUN_MODE = META_ANALYSIS; N_PAPERS = 4; RE_FITTING = NO.</code></div>
+</header>
+
+<nav class="toc">
+<strong>Contents</strong>
+<ol>
+  <li><a href="#tldr">TL;DR &amp; Headline Charts</a></li>
+  <li><a href="#lit-review">Literature Review</a></li>
+  <li><a href="#incl-excl">Inclusion &amp; Exclusion Criteria</a></li>
+  <li><a href="#methodology">Methodology</a></li>
+  <li><a href="#results">Results — Papers &amp; Meta-Analysis</a></li>
+  <li><a href="#discussion-papers">Discussion — Each Paper</a></li>
+  <li><a href="#discussion-meta">Discussion — The Meta-Analysis Itself</a></li>
+  <li><a href="#grouping">Grouping Review (4×5 Test Grid)</a></li>
+  <li><a href="#variables">Variable Deep-Dive: Why They Work / Don't</a></li>
+  <li><a href="#recommendations">Recommendations</a></li>
+  <li><a href="#references">References</a></li>
+</ol>
+</nav>
+
+<!-- ================== TL;DR ================== -->
+<section id="tldr">
+<h2><span class="num">0</span>TL;DR &amp; Headline Charts</h2>
+<p class="lead">The 4-paper evidence identifies 3 variables that clear every deployment bar in every run (V009 TSMOM, V027 Intermediary Capital, V028 Basis-Momentum), 9 that clearly fail, and 1 (V014 BTC exchange netflows) the papers genuinely disagree on because two different constructs have been pooled into one variable ID.</p>
+
+<div class="kpi-row">
+  <div class="kpi"><div class="v">3</div><div class="k">DEPLOY — 4 of 4 runs agree</div></div>
+  <div class="kpi"><div class="v">2</div><div class="k">DEPLOY_CONDITIONAL</div></div>
+  <div class="kpi"><div class="v">9</div><div class="k">EXCLUDE</div></div>
+  <div class="kpi"><div class="v">5</div><div class="k">Registry downgrades</div></div>
+</div>
+
+<div class="chart-box">
+<h4>Figure 1. Forest plot — the three DEPLOY variables across all four runs</h4>
+<div class="chart-wrap h460"><canvas id="forest-deploy"></canvas></div>
+<div class="caption">Median posteriors and 95% credible intervals for V009 / V027 / V028 in each of the four papers. P2 and P3 are analytical approximations, not full MCMC — P2/P3 intervals are narrower than P1/P4 because they omit between-study τ.</div>
+</div>
+
+<div class="chart-box">
+<h4>Figure 2. Drift range across runs — how consistent is each variable?</h4>
+<div class="chart-wrap h460"><canvas id="drift-bar"></canvas></div>
+<div class="caption">Drift range = max(posterior_median) − min(posterior_median) across the four runs. Bars above 0.4 indicate real disagreement. V014 BTC exchange netflows is the single worst offender (range 1.12) and is unresolvable from the papers alone — the next BNMA must split the construct.</div>
+</div>
+</section>
+
+<!-- ================== LITERATURE REVIEW ================== -->
+<section id="lit-review">
+<h2><span class="num">1</span>Literature Review</h2>
+
+<h3>1.1 Bayesian network meta-analysis as a methodology</h3>
+<p>Bayesian network meta-analysis (BNMA) originates in clinical epidemiology, where it was developed to pool direct and indirect treatment comparisons across partially-overlapping trials. The foundational papers are Lu &amp; Ades (2004) on mixed-treatment-comparison likelihoods and Dias, Ades, Welton, Jansen &amp; Sutton (2018, <i>Network Meta-Analysis for Decision-Making</i>, Wiley) on the full hierarchical specification. Application to finance is rare: published work on factor-portfolio meta-analysis is usually frequentist (Harvey, Liu &amp; Zhu 2016; Hou, Xue &amp; Zhang 2020) and single-factor rather than network-structured. The four papers synthesised here adapt the clinical-trials BNMA machinery to trading-variable ranking — with the common-scale likelihood replaced by post-decay Sharpe, the trial as a study-instance, and the asset-class-intercept replacing the clinical sub-population effect.</p>
+
+<h3>1.2 The four papers</h3>
+<p>The four runs are not four independent samples. They are two full-MCMC runs (Paper 1 and Paper 4) and two analytical-approximation runs (Paper 2 and Paper 3). The distinction matters because the analytical approximation silently falls back to the prior when a variable lacks likelihood input, producing <code>posterior_median = 0</code> with symmetric credible intervals — an artifact that an unprepared reader can easily misinterpret as "4-run evidence of a null effect."</p>
+
+<table>
+<thead><tr><th>#</th><th>Paper</th><th>Date</th><th>Engine</th><th>Vars</th><th>Characteristic</th></tr></thead>
+<tbody>
+<tr><td>P1</td><td>BNMA Mark 1</td><td>2026-04-18</td><td>Full MCMC · PyMC 5.28 · 3×2000 draws · R̂=1.00</td><td class="num">32</td><td>Richest posterior diagnostics; 18 variables with likelihood, 14 prior-only; explicit construct-heterogeneity flags on V001/V004/V009.</td></tr>
+<tr><td>P2</td><td>ChatGPT Mark 1</td><td>undated</td><td>Analytical approximation (MCMC failed — missing Python.h)</td><td class="num">25</td><td>14–20 variables pin at prior centre (posterior=0, symmetric CI). Tier-3 TOP3 for V018; V027 very strong.</td></tr>
+<tr><td>P3</td><td>ChatGPT Mark 2</td><td>undated</td><td>Analytical approximation (consolidated Mark 1)</td><td class="num">31</td><td>Only 5–6 variables estimable (V009, V011, V026, V027, V028, C004). Confirms V009/V027/V028 at rank 1 in each group.</td></tr>
+<tr><td>P4</td><td>bnma-claude Mark 2</td><td>2026-04-17</td><td>Full MCMC · 4×2000 post-warmup · R̂&lt;1.01 · ESS&gt;400</td><td class="num">34</td><td>Strongest prior-sensitivity analysis (6 variables move ≥3 ranks under loose prior); Bayesian p-value posterior predictive checks.</td></tr>
+</tbody>
+</table>
+
+<h3>1.3 The primary-source literature for the main variables</h3>
+<p>The BNMA runs draw likelihood from a heterogeneous academic corpus. A handful of the variables rest on classics; others rest on thin recent work. Understanding which is which informs the verdicts below.</p>
+
+<div class="grid-2">
+<div>
+<h4>Macro · Rates · Credit</h4>
+<ul class="ref-list">
+<li><b>V001 VIX</b> — Whaley (2000) introduced the index construct; risk-premium literature is Bollerslev, Tauchen &amp; Zhou (2009) on variance risk premia. <i>Long literature, thin trading-Sharpe evidence in the BNMA.</i></li>
+<li><b>V004 HY OAS / EBP</b> — Gilchrist &amp; Zakrajšek (2012, AER) on the Excess Bond Premium. Hu (2024) supplies an ML-composite extension. <i>Strong lineage; construct heterogeneity between Hu's ML and single-EBP.</i></li>
+<li><b>V005 NFCI</b> — Brave &amp; Butters (2012) Chicago Fed National Financial Conditions Index. <i>Macro-financial diagnostic, not a trading signal — BNMA correctly fails to find a Sharpe for it.</i></li>
+<li><b>V006 UST 2s10s</b> — Estrella &amp; Hardouvelis (1991) on the predictive content of the slope; Rudebusch &amp; Williams (2009) on term structure and recession. <i>Predictive for macro, weak as an entry trigger for equity/crypto.</i></li>
+<li><b>V007 Real yield / breakevens</b> — Beeler &amp; Campbell (2012). <i>Regime-sensitive post-2022 per P3.</i></li>
+<li><b>V008 ACM term premium</b> — Adrian, Crump &amp; Moench (2013, JFE). <i>Information source, not a direct trade.</i></li>
+</ul>
+</div>
+<div>
+<h4>Cross-Asset · Momentum · Carry</h4>
+<ul class="ref-list">
+<li><b>V009 TSMOM</b> — Moskowitz, Ooi &amp; Pedersen (2012, JFE); Hurst, Ooi &amp; Pedersen (2017, JPM) for the 100-year extension. <i>The deepest literature of any variable in the framework. Earns its DEPLOY.</i></li>
+<li><b>V010 Revision breadth</b> — Chan, Jegadeesh &amp; Lakonishok (1996). Sharpe-Gil (2024) provides the 6-bin decile evidence. <i>Selection-bias flag on Sharpe-Gil (1 of 6 bins chosen).</i></li>
+<li><b>V011 Brent M1-M3</b> / commodity curve carry — Erb &amp; Harvey (2006); Gorton &amp; Rouwenhorst (2006). <i>Robust commodity-futures literature.</i></li>
+<li><b>V026 Residual momentum (FF5)</b> — Blitz, Huij &amp; Martens (2011); factor residualisation vs Fama &amp; French (2015) 5-factor model. <i>Positive evidence but subsumed by V009 in every run.</i></li>
+<li><b>V027 Intermediary capital ratio</b> — Adrian, Etula &amp; Muir (2014, JF, "AEM"); He, Kelly &amp; Manela (2017, JFE, "HKM"). <i>Registry currently cites HKM; BNMA evidence says re-anchor to AEM.</i></li>
+<li><b>V028 Basis-momentum</b> — Boons &amp; Prado (2019, JF). <i>Single-paper origin but strong replication; DEPLOY in all four runs.</i></li>
+</ul>
+</div>
+</div>
+
+<div class="grid-2">
+<div>
+<h4>Crypto / On-chain</h4>
+<ul class="ref-list">
+<li><b>V012 BTC active addresses, V013 BTC hash rate, V019 MVRV/SOPR</b> — Liu &amp; Tsyvinski (2021, RFS) on crypto cross-section; Griffin &amp; Shams (2020) on manipulation. <i>Mechanism-thin; BNMA correctly rates as INDIST.</i></li>
+<li><b>V014 BTC exchange netflows</b> — Anastasopoulos et al. (2026) on order-flow (cited P1, Sharpe 1.34–1.88); Lee-Wang vol-sort cluster (negative). <i>Two constructs pooled; see Section 9.</i></li>
+<li><b>V015 BTC realized vol, V016 BTC perp funding rate, V018 BTC 3m basis</b> — Koutmos (2018); Alexander et al. (2022). <i>V018 the most promising, but post-ETF regime (2024+) is too short to re-pool.</i></li>
+<li><b>V017 BTC ETF net flows</b> — post-Jan-2024 spot ETF literature. <i>Insufficient sample; EXCLUDE.</i></li>
+</ul>
+</div>
+<div>
+<h4>Overlay / Regime / Tier-3 candidates</h4>
+<ul class="ref-list">
+<li><b>C009 Faber TAA</b> — Faber (2007, JWM) "A Quantitative Approach to Tactical Asset Allocation"; 112-year sample and GTAA extension. <i>Only P1 includes it; formal PROMOTE but needs replication.</i></li>
+<li><b>C001/C002/C003 200-DMA, market breadth, VIX term structure</b> — Faber lineage plus Whaley 2000. <i>All WATCH; P4 gives them posteriors near zero with narrow CIs because n=3 peers degenerate.</i></li>
+<li><b>Tier-3 NVT/MVRV oscillators (C001/C002 in P2, C004 in P4)</b> — Yang &amp; Fantazzini (2022, MPRA). <i>Single working paper; DEFER until replication.</i></li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- ================== INCLUSION / EXCLUSION ================== -->
+<section id="incl-excl">
+<h2><span class="num">2</span>Inclusion &amp; Exclusion Criteria</h2>
+<p class="lead">Two distinct screens apply: one for the <em>variable</em> (does it belong in the BNMA ranking?) and one for the <em>study</em> (does it qualify as likelihood input for its variable?).</p>
+
+<h3>2.1 Variable-level criteria (entry into the BNMA ranking)</h3>
+<table>
+<thead><tr><th>Criterion</th><th>Required</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>Peer-reviewed lineage OR registered candidate</td><td>Grade A/B (registry) or Tier-3 admitted candidate with ≥1 published study</td><td>Framework registry; literature-review skill §5-criteria list</td></tr>
+<tr><td>Mechanism-grounded</td><td>Variable must have a stated economic mechanism — not a data-mined pattern</td><td>Methodology Prompt §3 evidence grading</td></tr>
+<tr><td>Real-time implementable</td><td>Data must be available with known latency and no future bias</td><td>Risk Rules pre-entry checklist</td></tr>
+<tr><td>Independent from existing Grade A set</td><td>Not a linear combination of existing signals (double-count gate created if correlated)</td><td>P1 §3 marginal-contribution flags</td></tr>
+<tr><td>Replicated at least once</td><td>At least one independent study beyond the origin paper; Tier-3 admits may waive pending replication flag</td><td>P4 §7 Tier-3 graduation criteria</td></tr>
+</tbody>
+</table>
+
+<h3>2.2 Study-level criteria (entry as BNMA likelihood input)</h3>
+<table>
+<thead><tr><th>Inclusion</th><th>Exclusion</th></tr></thead>
+<tbody>
+<tr>
+<td>
+<ul>
+<li>Annualised long-short Sharpe (or sizing-improvement Δ for R-group)</li>
+<li>Study-level standard error (SE) reported or computable</li>
+<li>Sample period ≥ 2 years (waived for Tier-3 research)</li>
+<li>Trading costs disclosed or conservatively imputable</li>
+</ul>
+</td>
+<td>
+<ul>
+<li>Selection-bias papers (e.g., reporting only best-performing decile/bin) — flagged but not excluded</li>
+<li>Overlapping samples with other studies of same variable — pooled with reduced effective weight</li>
+<li>Crypto studies &lt; 12 months post-spot-ETF (2024+) — defer per P1 recommendation</li>
+<li>ML-composite papers mixed with single-construct papers — split into separate constructs</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h3>2.3 Promotion / graduation criteria (Tier 3 → Grade B)</h3>
+<p>A Tier-3 candidate is promoted to Grade B only if <em>all three</em> criteria clear in the same BNMA run:</p>
+<ol>
+<li><b>P(μ&nbsp;&gt;&nbsp;0) &gt; 0.70</b> — posterior probability that the effect is positive</li>
+<li><b>p_beats_peers &gt; 0.60</b> — marginal contribution dominance against declared peers</li>
+<li><b>Heterogeneity check pass</b> — τ_med consistent with group-average τ</li>
+</ol>
+
+<div class="callout">
+<b>Result across the 4 runs.</b> Only one variable met all three criteria in any single run: C009 Faber TAA in P1 (p_positive 0.991, p_beats_peers 0.679, τ 0.074). Because it appears only in P1, the meta-analysis graduates it <em>conditionally</em> — registry change admitted, capital commitment pending second-run replication.
+</div>
+</section>
+
+<!-- ================== METHODOLOGY ================== -->
+<section id="methodology">
+<h2><span class="num">3</span>Methodology</h2>
+
+<h3>3.1 Hierarchical model specification</h3>
+<p>Each BNMA run fits four parallel hierarchical models — one per Score_Component (S, T, R, Overlay). Within each group, the likelihood pools studies for each variable via a common-scale mean plus an asset-class intercept plus a between-study heterogeneity term:</p>
+<p><code>y_{ij} ~ Normal(μ_j + α_{a(j)}, σ²_{ij} + τ²_g)</code></p>
+<p>where <code>y_{ij}</code> is the reported Sharpe (or sizing-Δ for R-group) of study i on variable j; <code>μ_j</code> is the variable effect; <code>α_a</code> is the asset-class intercept; <code>τ²_g</code> is the group heterogeneity. Priors are grade-tiered (tight on Grade A, looser on Grade B, skeptical on Tier-3).</p>
+
+<h3>3.2 Engine choice — full MCMC vs analytical approximation</h3>
+<p>Full MCMC is the intended engine (PyMC 5.28, non-centred parameterisation, 3–4 chains × 2000 draws × 1500 tune, <code>target_accept = 0.95</code>). Papers 1 and 4 executed this. Papers 2 and 3 fell back to an analytical approximation because the Python compilation environment was missing headers. The analytical fallback returns the prior centre for any variable without likelihood input. <em>This is flagged throughout the meta-analysis.</em></p>
+
+<h3>3.3 Outputs per variable</h3>
+<ul>
+<li><code>posterior_median</code>, <code>CI95_low</code>, <code>CI95_high</code> — the effect distribution</li>
+<li><code>p_positive = P(μ_j &gt; 0)</code> — probability the effect is positive</li>
+<li><code>p_top3</code> — probability the variable is in the top 3 of its group</li>
+<li><code>p_beats_peers</code> — probability of dominating declared peers on marginal contribution</li>
+<li><code>τ_med</code> — between-study heterogeneity posterior median</li>
+<li><code>post_decay_Sharpe</code> — registry-decayed SR for realistic OOS expectation</li>
+<li>Flags: <code>RANK_UNSTABLE</code>, <code>INDISTINGUISHABLE_FROM_ZERO</code>, <code>HETEROGENEOUS</code>, <code>DIVERGENCE</code>, <code>LOW_POWER_CANDIDATE</code>, <code>GRADE_A_BOTTOM3</code>, <code>TIER3_TOP3</code>, <code>REGISTRY_SHRINKAGE_*σ</code></li>
+</ul>
+
+<h3>3.4 Prior-sensitivity audit</h3>
+<p>Each paper reruns under a uniformly-loose prior (e.g. <code>N(0, 0.5)</code> for S/T, <code>N(0, 0.25)</code> for R/Overlay). A variable is flagged PRIOR_SENSITIVE if its median rank moves ≥ 3 positions between tight and loose priors. P4 found 6 such variables (V008, V019, C001_P4, C004_P4, V004, V016); P1 found zero; P2/P3 also zero under their analytical scheme.</p>
+
+<h3>3.5 Meta-analysis algorithm (this report)</h3>
+<ol>
+<li>Extract all variable-level posterior data from the 4 papers</li>
+<li>Build a cross-run state table keyed by variable ID (V-series) or by name (C-series, because IDs drift across papers)</li>
+<li>Compute <code>n_runs_appeared</code>, <code>median_posterior</code>, <code>drift_range</code>, and <code>consensus_p_positive</code> per variable</li>
+<li>Apply verdict thresholds (DEPLOY / CONDITIONAL / WATCH / EXCLUDE / DOWNGRADE)</li>
+<li>Propose within-group weighting — posterior-proportional, inverse-variance, or equal-weight, by evidence</li>
+<li>Test each group against five effectiveness criteria (4×5 grid)</li>
+<li>Propose registry actions, trading prescriptions, and next-BNMA priorities</li>
+</ol>
+</section>
+
+<!-- ================== RESULTS ================== -->
+<section id="results">
+<h2><span class="num">4</span>Results — Papers &amp; Meta-Analysis</h2>
+
+<h3>4.1 Per-paper headline results</h3>
+<table>
+<thead><tr><th>Paper</th><th>Rank 1 S</th><th>Rank 1 T</th><th>Rank 1 R</th><th>Rank 1 Overlay</th><th>Formal promotes</th><th>Audit verdicts</th></tr></thead>
+<tbody>
+<tr><td>P1</td><td>V004 / V028 tied<br><span class="ref">(R rank 1 was V004 post 0.93)</span></td><td>C015 Overnight L/S (1.26); V014 flow (1.15)</td><td>V004 EBP (0.93)</td><td>C009 Faber TAA (0.25)</td><td>C009 PROMOTE to Grade B Overlay</td><td>V026 GO · V027 GO (re-anchor AEM) · V028 GO (headline fix)</td></tr>
+<tr><td>P2</td><td>V028 (0.79)</td><td>V009 (0.87)</td><td>V027 (0.57)</td><td>— (not estimable)</td><td>C001 MVRV/NVRV promote T (single-paper)</td><td>V026 NO-GO · V027 GO · V028 GO</td></tr>
+<tr><td>P3</td><td>V028 (0.79)</td><td>V009 (0.87–0.90)</td><td>V027 (0.57)</td><td>— (not estimable)</td><td>None cleared</td><td>V026 NO-GO · V027 GO · V028 GO</td></tr>
+<tr><td>P4</td><td>V011 (0.40) / V028 (0.39)</td><td>V009 (0.68)</td><td>V027 (0.24)</td><td>C005 200-DMA (0.009, WATCH)</td><td>None cleared</td><td>V026 NO-GO · V027 GO · V028 GO</td></tr>
+</tbody>
+</table>
+
+<div class="chart-box">
+<h4>Figure 3. Posterior median per run — the DEPLOY spine + EXCLUDE examples</h4>
+<div class="chart-wrap h520"><canvas id="posterior-grouped"></canvas></div>
+<div class="caption">Each cluster is one variable; bars are P1, P2, P3, P4 posteriors. DEPLOY spine (V009/V027/V028) is positive in all 4 runs. V014 shows the widest drift (1.15 to 0.03). Zero bars for P2/P3 on macro/R variables are analytical-fallback artifacts.</div>
+</div>
+
+<div class="chart-box">
+<h4>Figure 4. p_positive heatmap — probability of positive effect</h4>
+<div class="chart-wrap h520"><canvas id="ppositive-heatmap"></canvas></div>
+<div class="caption">Darker cells = higher probability the variable's effect is positive. The DEPLOY spine shows uniformly dark rows. Analytical-fallback cells pin at exactly 0.50 — visually distinguishable from true posterior 0.5 (which would appear only as coincidence).</div>
+</div>
+
+<div class="chart-box">
+<h4>Figure 5. p_beats_peers — marginal contribution vs declared peers</h4>
+<div class="chart-wrap h460"><canvas id="peers-bar"></canvas></div>
+<div class="caption">Only variables where p_beats_peers has meaning (at least one non-analytical run). The bar for V026 shows it is peer-dominated in every run (values 0.17 / 0.009 / 0.009 / 0.053) — a pattern that prevents standalone deployment despite p_positive = 1.00.</div>
+</div>
+
+<h3>4.2 Meta-analysis verdicts</h3>
+<table>
+<thead><tr><th>Verdict</th><th>Count</th><th>Variables</th></tr></thead>
+<tbody>
+<tr><td><span class="tag deploy">DEPLOY</span></td><td>3</td><td>V009 TSMOM · V027 Intermediary capital ratio · V028 Basis-momentum</td></tr>
+<tr><td><span class="tag conditional">CONDITIONAL</span></td><td>2</td><td>V011 Brent M1-M3 (commodity only) · V026 Residual momentum (factor-neutral sleeve only)</td></tr>
+<tr><td><span class="tag watch">WATCH</span></td><td>4</td><td>V015 BTC realized vol · V018 BTC 3m basis · C005 200-DMA filter · C002 VIX term slope</td></tr>
+<tr><td><span class="tag exclude">EXCLUDE</span></td><td>9</td><td>V002 · V005 · V010 · V012 · V013 · V016 · V017 · V019 · C011 VIX futures term</td></tr>
+<tr><td><span class="tag downgrade">DOWNGRADE</span></td><td>5</td><td>V001 VIX · V004 HY OAS · V006 UST 2s10s · V007 Real yield · V008 ACM term premium</td></tr>
+<tr><td><span class="tag neutral">PROMOTE_COND.</span></td><td>1</td><td>C009 Faber TAA (single-run, pending replication)</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- ================== DISCUSSION — PAPERS ================== -->
+<section id="discussion-papers">
+<h2><span class="num">5</span>Discussion — Each Paper</h2>
+
+<h3>5.1 Paper 1 — BNMA Mark 1 (2026-04-18, full MCMC)</h3>
+<p>Paper 1 is the strongest diagnostic package of the four. It explicitly documents construct heterogeneity (V001 VIX L/S futures vs vol-managed; V004 EBP Hu ML composite vs single-EBP; V009 TSMOM ML net of TC vs CTA-style), flags registry divergence for V014 (posterior 1.15 vs registry 0.45) with a specific mechanism (Anastasopoulos 2026 order-flow pulling the estimate above Lee-Wang vol-sort), and formally promotes one Overlay variable (C009 Faber TAA). Its audit verdicts — GO on V026, V027 (with AEM re-anchor), and V028 (with headline correction) — are the most operationally concrete of the four runs. The weakness is that P1's posterior for V014 is almost certainly over-reading the one order-flow study's effect; the registry split (order-flow construct vs vol-sort construct) is the correct way to reconcile this rather than accepting the pooled estimate.</p>
+
+<h3>5.2 Paper 2 — ChatGPT Mark 1 (undated, analytical approximation)</h3>
+<p>Paper 2 is informative only for variables that have real likelihood input — V009, V011, V018, V026, V027, V028, plus the two Tier-3 candidates C001 (MVRV/NVRV) and C002 (NVT). For every unlikelihood-input variable, its posterior is literally the prior: <code>median = 0</code>, <code>p_positive = 0.50</code>, symmetric CI. Treating those as real "null effects" is a category error. What Paper 2 <em>does</em> establish is that the analytical approximation, where it moves, agrees with the full-MCMC runs on variable ordering — V028 rank 1 in S, V009 rank 1 in T, V027 rank 1 in R — which is independent corroboration of the spine. Its TIER3_TOP3 flag on V018 (BTC 3m basis) is the clearest flag across the four papers that V018 deserves WATCH rather than EXCLUDE.</p>
+
+<h3>5.3 Paper 3 — ChatGPT Mark 2 (undated, consolidated analytical)</h3>
+<p>Paper 3 is structurally a re-packaging of Paper 2 — same engine, more variable IDs admitted but most marked <code>NO_NUMERIC_INPUT</code>. Its contribution is the prior-sensitivity confirmation (C004 Dual-momentum/GEM moves 1 rank under loose prior — the largest shift found in any of the 4 papers under the analytical approximation, and far below the ≥3-rank threshold) and the explicit tagging of V007 as <code>REGIME_SENSITIVE_POST2022</code>. Both are small but useful incremental findings. Paper 3's value is <em>not</em> its posteriors; it is its methodological annotations.</p>
+
+<h3>5.4 Paper 4 — bnma-claude Mark 2 (2026-04-17, full MCMC)</h3>
+<p>Paper 4 is methodologically the most rigorous. It runs 4 chains × 2000 post-warmup draws, computes posterior-predictive <em>p</em>-values per group (all in 0.05–0.95 band, so no systematic misfit), and does the most comprehensive prior-sensitivity sweep (6 variables move ≥ 3 ranks — all Tier-3 candidates or bottom-ranked Grade A). Its posteriors are materially <em>more shrunk</em> than P1's — V027 posterior 0.24 vs P1's 0.81, V014 posterior 0.03 vs P1's 1.15, V028 posterior 0.39 vs P1's 0.79. This is partly Bayesian shrinkage toward the group mean, and partly because P4 priors are more skeptical (P4 explicitly flags 19 REGISTRY_SHRINKAGE events at 2+σ, versus P1's zero). Neither paper is wrong; they represent different defensible choices on the skeptical-prior vs informative-prior continuum. The meta-analysis uses the P1/P4 centrals as the planning-Sharpe range.</p>
+</section>
+
+<!-- ================== DISCUSSION — META ================== -->
+<section id="discussion-meta">
+<h2><span class="num">6</span>Discussion — The Meta-Analysis Itself</h2>
+
+<h3>6.1 What a 4-paper synthesis can and cannot resolve</h3>
+<p>A 4-paper BNMA synthesis is not a random sample of independent runs. Two of the four (P2, P3) are analytical approximations that corroborate P1/P4 only where likelihood exists. In practice, the effective N is closer to 2.5. That is enough to <em>identify</em> DEPLOY variables — V009, V027, V028 show p_positive ≥ 0.98 in every run where any estimate is produced — but it is <em>not</em> enough to settle construct disputes like V014 BTC exchange netflows, where P1 and P4 disagree by 1.12 in posterior median. For a reader seeking 95%-confidence statements on a contested variable, N ≥ 6 independent full-MCMC runs is the minimum.</p>
+
+<h3>6.2 Drift vs noise</h3>
+<p>The meta-analysis applies a simple rule: posterior drift &lt; 0.15 is noise; 0.15–0.40 is meaningful; &gt; 0.40 is a construct dispute. By this rule, V009 (drift 0.22) and V028 (drift 0.40) are at the edge of meaningful but not contested. V027 (drift 0.57) is meaningful, driven by P1 reporting 0.81 and P4 reporting 0.24 — the registry re-anchor from HKM 2017 to AEM 2014 partially explains this. V014 (drift 1.12) is the only true construct dispute.</p>
+
+<h3>6.3 The Bayesian-shrinkage vs informative-prior tension</h3>
+<p>P1 and P4 differ systematically: P4 is more skeptical (shrinks posteriors harder toward the group mean) and P1 is more informative (lets study-level effects speak). Both are defensible and both converge on the same ranking. The meta-analysis does not take sides — it quotes the P1/P4 range where it matters and uses the central estimate for Stage 4 prescriptions.</p>
+
+<h3>6.4 What is missing from the corpus</h3>
+<ul>
+<li><b>Realised OOS P&amp;L.</b> No paper includes SignalLedger-linked realised performance. The post-decay Sharpes in this report are model extrapolations.</li>
+<li><b>Registry change log</b> — we cannot separate "methodology changed" from "evidence evolved" across papers.</li>
+<li><b>A common prior-sensitivity protocol</b> — P1 uses Moskowitz-style tight priors; P4 uses grade-tiered priors; P2/P3 use their analytical defaults. Cross-run prior-sensitivity comparison is therefore imperfect.</li>
+</ul>
+</section>
+
+<!-- ================== GROUPING ================== -->
+<section id="grouping">
+<h2><span class="num">7</span>Grouping Review — Is S / T / R / Overlay Earning Its Keep?</h2>
+<p class="lead">Five tests, four groups, 20 cells. The grouping is working on Actionability (what each group is <em>for</em>) and failing on Scale Consistency and Discrimination — but those failures point to a within-group scale fix and to pruning, not to a regrouping.</p>
+
+<div class="chart-box">
+<h4>Figure 6. Effectiveness grid — 4 groups × 5 tests</h4>
+<div style="overflow-x: auto;">
+<table style="max-width: 900px; margin: 12px auto;">
+<thead>
+<tr><th style="background:#fff;border-bottom:2px solid var(--ink);">Group</th>
+<th>T1 Discrimination<br><span class="ref">rank_ci_width &lt; 0.7×K</span></th>
+<th>T2 Peer-dominance<br><span class="ref">p_beats_peers &gt; 0.50</span></th>
+<th>T3 Scale consistency<br><span class="ref">single effect scale</span></th>
+<th>T4 Asset-class diversity<br><span class="ref">≥2 asset classes</span></th>
+<th>T5 Actionability<br><span class="ref">distinct trading actions</span></th>
+<th>Score</th></tr>
+</thead>
+<tbody>
+<tr><td><b>S</b> (Sentiment)</td>
+<td class="grid-cell partial">PARTIAL</td>
+<td class="grid-cell partial">PARTIAL</td>
+<td class="grid-cell fail">FAIL</td>
+<td class="grid-cell pass">PASS</td>
+<td class="grid-cell pass">PASS</td>
+<td class="center"><b>3.5 / 5</b></td></tr>
+<tr><td><b>T</b> (Tactical)</td>
+<td class="grid-cell fail">FAIL</td>
+<td class="grid-cell pass">PASS</td>
+<td class="grid-cell partial">PARTIAL</td>
+<td class="grid-cell fail">FAIL</td>
+<td class="grid-cell partial">PARTIAL</td>
+<td class="center"><b>2.0 / 5</b></td></tr>
+<tr><td><b>R</b> (Regime)</td>
+<td class="grid-cell fail">FAIL</td>
+<td class="grid-cell partial">PARTIAL</td>
+<td class="grid-cell fail">FAIL</td>
+<td class="grid-cell partial">PARTIAL</td>
+<td class="grid-cell pass">PASS</td>
+<td class="center"><b>2.0 / 5</b></td></tr>
+<tr><td><b>Overlay</b></td>
+<td class="grid-cell fail">FAIL</td>
+<td class="grid-cell fail">FAIL</td>
+<td class="grid-cell fail">FAIL</td>
+<td class="grid-cell fail">FAIL</td>
+<td class="grid-cell pass">PASS</td>
+<td class="center"><b>1.0 / 5</b></td></tr>
+</tbody>
+</table>
+</div>
+<div class="caption">PASS = test met; PARTIAL = met for top of group but not tail, or met in 2 of 4 runs; FAIL = not met. Scoring: PASS=1.0, PARTIAL=0.5, FAIL=0.</div>
+</div>
+
+<h3>7.1 Per-group commentary — why the grid reads this way</h3>
+
+<div class="grid-2">
+<div>
+<h4>S — Sentiment / Positioning (3.5 / 5)</h4>
+<p>The S group works at the top (V028 and V011 discriminate cleanly) and degenerates in the tail (V007/V008/V012/V013/V019 all INDIST in the full-MCMC runs). Scale FAIL is because V011's effect is measured in commodity-curve basis-point convenience yield, while V028 is in time-series-of-curve Sharpe — not the same scale even within the group. This is fixable: restrict S-group study inputs to the long-short-Sharpe scale and accept that commodity-curve carry is a variant of that measurement.</p>
+</div>
+<div>
+<h4>T — Tactical Timing (2.0 / 5)</h4>
+<p>T fails Discrimination and Asset-class diversity. Of 12 T-variables in P1, 7 are crypto positioning variables that are INDIST from zero in the full-MCMC runs (V014, V017, C006–C011 in P4). The group reads as "momentum + a crypto-positioning waste tail." Actionability is PARTIAL because the surviving tradable variable is V009 alone. Do <em>not</em> regroup; <em>do</em> prune the crypto-positioning tail back to the 2–3 variables that have real mechanism and real study evidence.</p>
+</div>
+</div>
+
+<div class="grid-2">
+<div>
+<h4>R — Regime / Risk (2.0 / 5)</h4>
+<p>The cleanest failure-by-design. R's explicit purpose is a sizing scalar (a single action), so Actionability PASSING is a feature. But the group is "V027 + 7 variables that don't discriminate" — P4 §8 caveat 5 says this explicitly. The Scale failure is the most important: V001 VIX and V004 EBP are entering BNMA as raw L/S Sharpes ~1.0+, while R's intended effect scale is sizing-improvement Δ ~0.0–0.4. Until study inputs are normalised to the intended scale, R-group posteriors will continue to show the P1 vs P4 gap (V001 posterior 0.72 in P1, −0.03 in P4).</p>
+</div>
+<div>
+<h4>Overlay (1.0 / 5)</h4>
+<p>Overlay fails four of five because it has three variables. Any group of n=3 is statistically degenerate on rank-width, peer-dominance, and asset-class diversity. Actionability is the only honest pass. The fix is not regrouping but <em>adding variables</em> — promote C009 Faber TAA conditionally (as recommended below), admit 2–3 more regime candidates (MA-ribbon, risk parity, etc.), and let the group reach n≥6 before judging it on discrimination.</p>
+</div>
+</div>
+
+<h3>7.2 Alternative groupings considered and rejected</h3>
+<ul>
+<li><b>By asset class (Macro / Equity / Crypto / Commodity).</b> Rejected — makes Scale FAIL worse, because V027 (dimensionless balance-sheet stress) and V004 (bps credit spread) would still sit together as "Macro."</li>
+<li><b>By mechanism (Valuation / Momentum / Positioning / Stress).</b> Rejected — creates new peer-dominance failures by pooling V028 and V009 into "Momentum" where V009 would dominate V028.</li>
+<li><b>By horizon (Intraday / Days / Weeks / Months).</b> Rejected — orthogonal to the framework's decision logic; many Grade A variables operate on a single horizon by construction.</li>
+<li><b>By role (Entry / Sizing / Gate / Exit).</b> Essentially equivalent to current S / T / R / Overlay. A rename, not a restructure.</li>
+<li><b>Hybrid 2-axis (Mechanism × Horizon).</b> Rejected — produces more groups, each with fewer variables, worsening the n&lt;6 degeneracy that Overlay already suffers.</li>
+</ul>
+
+<div class="callout ok">
+<b>Grouping recommendation.</b> Keep S / T / R / Overlay. Enforce R-group effect-scale normalisation (the P1 §8 caveat-1 fix). Prune the T-group crypto-positioning tail. Add 2–3 Overlay variables to break the n=3 degeneracy. Do <em>not</em> restructure the taxonomy.
+</div>
+</section>
+
+<!-- ================== VARIABLES ================== -->
+<section id="variables">
+<h2><span class="num">8</span>Variable Deep-Dive: Why They Work, Why They Don't</h2>
+<p class="lead">Each card below summarises the variable's mechanism, what the 4 runs found, and why the verdict lands where it does. Ordered by verdict.</p>
+
+<h3>8.1 DEPLOY — the tradable spine</h3>
+
+<div class="var-card">
+<div class="head"><span class="id">V009</span><span class="name">Time-Series Momentum (TSMOM)</span><span class="group">T · DEPLOY</span></div>
+<div class="row"><div class="label">Mechanism</div><div>Trend-following: long assets with positive 12m return, short those with negative. Anchored in Moskowitz-Ooi-Pedersen (2012) with Hurst-Ooi-Pedersen (2017) 100-year replication. Economic story: delayed investor reaction to slow-moving fundamental changes; across-asset momentum is orthogonal to cross-sectional.</div></div>
+<div class="row"><div class="label">4-Run Evidence</div><div>p_positive = 1.00 in every run. Posterior median 0.68 (P4) to 0.87 (P2–P3). p_beats_peers 0.66 / 0.99 / 0.99 / 0.95. Only HETEROG flag in P1 (reflects the genuine gap between 0-bp ML studies and net CTA).</div></div>
+<div class="row"><div class="label">Why it works</div><div>Deepest academic lineage of any variable in the framework; replicated across asset classes, decades, and methodological specifications. Post-decay Sharpe 0.35–0.50 is consistent with realised CTA-industry Sharpe. The mechanism is robust because it doesn't require a specific market microstructure — only that information diffuses across investors at finite speed.</div></div>
+</div>
+
+<div class="var-card">
+<div class="head"><span class="id">V027</span><span class="name">Intermediary Capital Ratio</span><span class="group">R · DEPLOY</span></div>
+<div class="row"><div class="label">Mechanism</div><div>Balance-sheet health of primary-dealer banks predicts asset-class-wide risk premia. When dealer capital is stressed, risk premia widen across everything they make markets in. Origin: Adrian-Etula-Muir (2014 JF, "AEM"). Registry currently cites He-Kelly-Manela (2017, "HKM"); BNMA evidence says re-anchor to AEM because AEM's capital-ratio definition (primary-dealer leverage) is the measured quantity, not HKM's broker-sector variant.</div></div>
+<div class="row"><div class="label">4-Run Evidence</div><div>p_positive = 1.00 in P1/P2/P3, 0.985 in P4. p_top3 = 0.90 / 1.00 / 1.00 / 0.97. p_beats_peers 0.37 / 1.00 / 1.00 / 0.95 — the P1 weakness is because P1's R group had V004 at rank 1. Three of four runs agree V027 is rank 1 in R.</div></div>
+<div class="row"><div class="label">Why it works</div><div>The mechanism is a balance-sheet constraint, not a price pattern. Risk premia are a function of the marginal intermediary's shadow cost of capital — so every risk-asset is linked to this one measure. It functions as a <em>sizing scalar</em>, not an entry, because its signal is the <em>multiplier</em> on gross exposure under stress — halve when z-score below −1σ.</div></div>
+</div>
+
+<div class="var-card">
+<div class="head"><span class="id">V028</span><span class="name">Basis-Momentum</span><span class="group">S · DEPLOY</span></div>
+<div class="row"><div class="label">Mechanism</div><div>Cross-asset basis-momentum (Boons &amp; Prado 2019, JF): past changes in the shape of the futures curve predict future returns. Economic story: curve-shape changes reflect supply-demand imbalances that persist — a convenience-yield signal with a momentum overlay.</div></div>
+<div class="row"><div class="label">4-Run Evidence</div><div>p_positive = 1.00 (P1/P2/P3), 0.99 (P4). p_beats_peers 0.51 / 0.81 / 0.81 / 0.50 — dominates V011 in 2 of 4. Audit GO in all runs. P1 registry-correction action: headline Sharpe fix from 1.2–1.5 (registry) to 0.9 (paper-level) — the Sharpe claim has been sanity-adjusted.</div></div>
+<div class="row"><div class="label">Why it works</div><div>It's a single-paper origin but the internal replication across commodity sub-samples is strong (Boons &amp; Prado test 14 commodities; 11 show the effect). Post-decay Sharpe ~0.39–0.47 is in line. Works because curve-shape changes encode information about storage economics that spot-price changes alone don't.</div></div>
+</div>
+
+<h3>8.2 DEPLOY_CONDITIONAL</h3>
+
+<div class="var-card">
+<div class="head"><span class="id">V011</span><span class="name">Brent M1-M3 Curve Slope</span><span class="group">S · CONDITIONAL</span></div>
+<div class="row"><div class="label">Mechanism</div><div>Commodity curve carry (Erb-Harvey 2006; Gorton-Rouwenhorst 2006): when the front-month futures price is below the deferred-month (backwardation), investors are paid to hold the future; when above (contango), they pay. The sign of M1 − M3 predicts expected roll return on the curve.</div></div>
+<div class="row"><div class="label">4-Run Evidence</div><div>p_positive 1.00 across all 4. p_beats_peers 0.49 / 0.19 / 0.19 / 0.50 — weaker than V028 in 2 runs. Posterior median range 0.40 (P4) to 0.79 (P1).</div></div>
+<div class="row"><div class="label">Why it's conditional</div><div>The mechanism is commodity-curve-specific and doesn't cross-apply to equities/crypto/FX. The 2 runs where V028 dominates (P2, P3) are where V011 carries the "BTC-active-addresses universe" penalty from being pooled with unrelated S-group variables. Use it only on commodity curves — don't treat it as a cross-asset sentiment signal.</div></div>
+</div>
+
+<div class="var-card">
+<div class="head"><span class="id">V026</span><span class="name">Residual Momentum (FF5)</span><span class="group">T · CONDITIONAL — sleeve only</span></div>
+<div class="row"><div class="label">Mechanism</div><div>Momentum applied to returns residualised against the Fama-French 5-factor model (Blitz-Huij-Martens 2011). Isolates stock-specific momentum by removing market / size / value / profitability / investment factor exposures.</div></div>
+<div class="row"><div class="label">4-Run Evidence</div><div>p_positive 1.00 in all 4. <em>But</em> p_beats_peers 0.17 / 0.009 / 0.009 / 0.053 — peer-dominated by V009 in every single run. Posterior 0.39–0.69.</div></div>
+<div class="row"><div class="label">Why it's capped at sleeve deployment</div><div>The signal is real but V009 captures the same economic content at the asset-class level without the factor-model imposition. The only portfolios where V026 is worth running are those with a factor-neutrality mandate where V009 cannot be deployed — a narrow equity-long-short sleeve, not the core book. Size at 25% of V009 or smaller.</div></div>
+</div>
+
+<h3>8.3 WATCH</h3>
+
+<div class="var-card">
+<div class="head"><span class="id">V018</span><span class="name">BTC 3-Month Basis</span><span class="group">R · WATCH</span></div>
+<div class="row"><div class="label">Mechanism</div><div>Futures vs spot price difference on BTC; proxies for leverage, funding, and retail speculation. When basis is unusually wide (or inverted), it signals regime stress or euphoria.</div></div>
+<div class="row"><div class="label">4-Run Evidence</div><div>P1 p_positive 0.70 no flag; P2 p_positive 0.98 TIER3_TOP3; P4 p_positive 0.58 INDIST. Drift range 0.23 — not a construct dispute, but inconsistent.</div></div>
+<div class="row"><div class="label">Why watch, not deploy</div><div>Post-spot-ETF era (2024-01+) is structurally different from the pre-ETF basis regime. Current replications all n ≤ 18 months post-ETF — not enough data to pool. Revisit in 2027 when sample reaches 24+ months.</div></div>
+</div>
+
+<div class="var-card">
+<div class="head"><span class="id">V015</span><span class="name">BTC Realized Volatility</span><span class="group">R · WATCH</span></div>
+<div class="row"><div class="label">Mechanism</div><div>Realized-vol regime indicator on BTC — higher realized vol signals deleveraging environment, scales into gross exposure when low.</div></div>
+<div class="row"><div class="label">4-Run Evidence</div><div>P1 p_positive 0.68 UNSTABLE; P4 p_positive 0.58 MODERATE_MARGINAL_CONTRIBUTION. Small positive in both full-MCMC runs; analytical runs give it nothing.</div></div>
+<div class="row"><div class="label">Why watch</div><div>Borderline signal — not strong enough to DEPLOY, not weak enough to EXCLUDE. One more full-MCMC run at 12+ months further sample should settle it either way.</div></div>
+</div>
+
+<h3>8.4 EXCLUDE — why each one fails</h3>
+
+<div class="grid-2">
+<div class="var-card">
+<div class="head"><span class="id">V010</span><span class="name">Revision Breadth</span><span class="group">T · EXCLUDE</span></div>
+<div class="row"><div class="label">Why it fails</div><div>p_beats_peers 0.098 / 0.016 / 0.016 / 0.006 — peer-crushed by V009 in every run. P1 SELECTION_BIAS flag on the Sharpe-Gil 2024 source (1 of 6 decile bins). The signal is real (p_positive = 1.00 in P4) but economically redundant with V009.</div></div>
+</div>
+<div class="var-card">
+<div class="head"><span class="id">V014</span><span class="name">BTC Exchange Netflows</span><span class="group">T · EXCLUDE (pending split)</span></div>
+<div class="row"><div class="label">Why it fails</div><div>Two different constructs pooled into one variable. P1 posterior 1.15 (driven by Anastasopoulos 2026 order-flow ML study); P4 posterior 0.03 (pooling order-flow with vol-sort studies). Next BNMA must split into "BTC exchange order-flow" and "BTC exchange vol-sort cluster" — only then can either be evaluated.</div></div>
+</div>
+</div>
+
+<div class="grid-2">
+<div class="var-card">
+<div class="head"><span class="id">V002</span><span class="name">MOVE Index</span><span class="group">R · EXCLUDE</span></div>
+<div class="row"><div class="label">Why it fails</div><div>Rates vol proxy that is mechanically correlated with V001 VIX. p_beats_peers 0.10–0.27 in full-MCMC runs. The information is real but already priced in VIX / HY OAS / intermediary-capital composite.</div></div>
+</div>
+<div class="var-card">
+<div class="head"><span class="id">V005</span><span class="name">NFCI</span><span class="group">R · EXCLUDE</span></div>
+<div class="row"><div class="label">Why it fails</div><div>It's a diagnostic, not a trade. The Chicago Fed NFCI aggregates 105 indicators; it's designed for macro-surveillance, not real-time entry. p_beats_peers 0.003–0.034 in the 4 runs.</div></div>
+</div>
+</div>
+
+<div class="grid-2">
+<div class="var-card">
+<div class="head"><span class="id">V012 / V013</span><span class="name">BTC Active Addresses · BTC Hash Rate</span><span class="group">S · EXCLUDE</span></div>
+<div class="row"><div class="label">Why they fail</div><div>Mechanism-thin. Liu-Tsyvinski (2021) establishes the cross-section, not a tradable timing variable. The 4 runs uniformly produce INDIST from zero. Stop padding S with on-chain metrics that don't predict anything after controlling for price.</div></div>
+</div>
+<div class="var-card">
+<div class="head"><span class="id">V016 · V017</span><span class="name">BTC Perp Funding · BTC ETF Net Flows</span><span class="group">R · T · EXCLUDE</span></div>
+<div class="row"><div class="label">Why they fail</div><div>V016: p_positive 0.50 in P4 under loose prior moves +4 ranks — entirely prior-dependent. V017: insufficient sample, the ETF era is too short.</div></div>
+</div>
+</div>
+
+<div class="grid-2">
+<div class="var-card">
+<div class="head"><span class="id">V019</span><span class="name">MVRV / SOPR</span><span class="group">S · EXCLUDE</span></div>
+<div class="row"><div class="label">Why it fails</div><div>On-chain valuation ratio. Mechanism exists but is weak at timing. PRIOR_SENSITIVE+3 in P4. p_positive 0.51.</div></div>
+</div>
+<div class="var-card">
+<div class="head"><span class="id">C011</span><span class="name">VIX Futures Term Structure (P1 only)</span><span class="group">Overlay · EXCLUDE</span></div>
+<div class="row"><div class="label">Why it fails</div><div>Appeared only in P1 with p_positive 0.62 and p_beats_peers 0.32. Single-run, borderline signal — not replicated.</div></div>
+</div>
+</div>
+
+<h3>8.5 REGISTRY DOWNGRADE — Grade A variables failing the grade</h3>
+
+<table>
+<thead><tr><th>Var</th><th>Current grade</th><th>Recommended</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>V001 VIX</td><td>A</td><td>B</td><td>P1 rank 3 strong (0.72) but P4 −0.03. Construct heterogeneity (L/S futures vs vol-managed), not a signal failure. Grade B + construct split.</td></tr>
+<tr><td>V004 HY OAS / EBP</td><td>A</td><td>B + double-count gate with V027</td><td>P1 rank 1 R (0.93), P4 −0.01 REDUNDANT_VS_V027. Hu ML composite (single-construct) is a different variable than the single-EBP Gilchrist-Zakrajsek construct.</td></tr>
+<tr><td>V006 UST 2s10s slope</td><td>A</td><td>B</td><td>3 of 4 INDIST; p_beats_peers &lt; 0.40 in every run. Macro forecaster, not trading signal.</td></tr>
+<tr><td>V007 Real yield / breakevens</td><td>A</td><td>B (or regime-restrict)</td><td>P3 explicit REGIME_SENSITIVE_POST2022 flag. Signal existed pre-2022; unreliable since.</td></tr>
+<tr><td>V008 ACM term premium</td><td>A</td><td>B</td><td>3 of 4 INDIST, PRIOR_SENSITIVE+3 in P4 — rank is a prior artifact.</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- ================== RECOMMENDATIONS ================== -->
+<section id="recommendations">
+<h2><span class="num">9</span>Recommendations</h2>
+
+<h3>9.1 Registry actions with 4-run support</h3>
+<ol>
+<li><b>Re-anchor V027 to AEM 2014</b> (not HKM 2017). Supported by P1 audit verdict, P3 divergence=FALSE only after correction.</li>
+<li><b>Correct V028 headline Sharpe</b> in registry from 1.2–1.5 to ≈ 0.8 paper-level / 0.47 post-decay. Supported by P1 §6.</li>
+<li><b>Create V004 ↔ V027 double-count gate.</b> Rule: "take the more negative, do not sum." Supported by P1 §3, P4 V004 REDUNDANT_VS_V027.</li>
+<li><b>Split V014 BTC exchange netflows</b> into order-flow (anchor 0.6–0.8) and vol-sort (Provisional). Supported by P1 §4.</li>
+<li><b>Downgrade V001, V004, V006, V007, V008 from Grade A to Grade B.</b> Supported by 3-of-4 INDIST pattern documented in Section 8.5.</li>
+<li><b>Remove V010 and V017 from the tradable registry</b>, move to Tier 3 research pool.</li>
+<li><b>Promote C009 Faber TAA to Grade B Overlay</b> conditionally — registry admit, capital commit awaits next-BNMA replication.</li>
+</ol>
+
+<h3>9.2 Trading recommendations — the portfolio blueprint</h3>
+<div class="callout">
+<b>Canonical pattern, confirmed by all 4 runs:</b> <code>position = sign(S_direction + T_direction) × vol_target × R_sizing_scalar × Overlay_gate</code>. S and T provide entry direction and conviction (both on L/S Sharpe scale). R (V027) provides the sizing scalar — halve gross when 12m z-score &lt; −1σ. Overlay provides an ON/OFF gate (currently C009 advisory only).
+</div>
+
+<table>
+<thead><tr><th>Var</th><th>Role</th><th>Entry</th><th>Sizing</th><th>Exit</th><th>Cost</th><th>Exp. post-decay SR</th></tr></thead>
+<tbody>
+<tr><td>V009</td><td>ENTRY_TRIGGER</td><td>12m ret &gt; 0 AND 6m &gt; 0 (same sign); position = sign(12m ret); monthly rebalance</td><td>vol-scale to 10% ann per position</td><td>Signal flip, one-side only; + monthly override</td><td>12 bp rt equities · 40 bp rt commod</td><td class="num">0.46</td></tr>
+<tr><td>V027</td><td>REGIME_FILTER + sizing scalar</td><td>Intermediary capital 12m z-score &lt; −1σ (stress ON) OR &gt; +1σ</td><td>halve portfolio gross when stress ON</td><td>z back above −0.5σ (hysteresis)</td><td>0 bp filter-only</td><td class="num">—</td></tr>
+<tr><td>V028</td><td>ENTRY_TRIGGER</td><td>basis-momentum z &gt; 0 on 6m window; commodity-futures only</td><td>equal-risk with V011</td><td>z &lt; 0</td><td>40 bp rt commod</td><td class="num">0.45</td></tr>
+<tr><td>V011</td><td>ENTRY_TRIGGER (conditional)</td><td>Brent M1-M3 slope z &lt; −1σ long / &gt; +1σ short; commodity curve only</td><td>equal-risk with V028</td><td>slope reverts to 0</td><td>40 bp rt commod</td><td class="num">0.48</td></tr>
+<tr><td>V026</td><td>ENTRY_TRIGGER (sleeve only)</td><td>FF5-residualized equities; same rule as V009</td><td>25% of V009 size; factor-neutral sleeve only</td><td>signal flip</td><td>15 bp rt equities</td><td class="num">0.35</td></tr>
+</tbody>
+</table>
+
+<h3>9.3 Architecture recommendations</h3>
+<ol>
+<li><b>Keep S / T / R / Overlay grouping.</b> The 4×5 grid rejects every proposed regrouping. Scale failures are within-group fixes, not taxonomy problems.</li>
+<li><b>Enforce R-group effect-scale normalisation.</b> All R-group study inputs must be on sizing-improvement Δ scale (~0.0–0.4), not raw L/S Sharpe (~1.0+). Recode V001 and V004 inputs before the next BNMA or fail-loud and skip them.</li>
+<li><b>Prune the T-group crypto-positioning tail.</b> V014, V017 are the clearest exits. Only V009 survives as a T-group DEPLOY; V026 as sleeve-only.</li>
+<li><b>Grow Overlay to n ≥ 6.</b> Admit C009 Faber TAA, and search for 2–3 more regime candidates (moving-average ribbon, risk-parity gate, realised-vol-term-structure gate) so discrimination tests become meaningful.</li>
+<li><b>Budget full MCMC for every run.</b> Analytical-approximation runs silently return the prior for unlikelihood-input variables. Either execute MCMC or don't produce the run.</li>
+</ol>
+
+<h3>9.4 Variable-level summary</h3>
+<div class="chart-box">
+<h4>Figure 7. Verdict map — post-decay Sharpe vs peer dominance (DEPLOY + CONDITIONAL)</h4>
+<div class="chart-wrap h380"><canvas id="sharpe-peer-scatter"></canvas></div>
+<div class="caption">Circle area ∝ drift stability (smaller drift = larger marker). V009 TSMOM sits in the top-right quadrant — high Sharpe, peer-dominant, low drift. V026 sits bottom-right — positive Sharpe but peer-crushed.</div>
+</div>
+
+<h3>9.5 Next-BNMA priorities</h3>
+<ol>
+<li>Run full MCMC. No analytical fallback runs in the corpus.</li>
+<li>Replicate C009 Faber TAA — capital commitment waits on this.</li>
+<li>Split V014 into the two constructs (order-flow vs vol-sort) before pooling.</li>
+<li>Pin V027's 12-month-window specification so post-decay Sharpe stops drifting.</li>
+<li>Defer V018 BTC 3m basis until 24+ months of post-ETF data exist (~2027).</li>
+<li>Scale-normalise R-group likelihood inputs at ingestion.</li>
+</ol>
+</section>
+
+<!-- ================== REFERENCES ================== -->
+<section id="references">
+<h2><span class="num">10</span>References</h2>
+
+<h4>BNMA methodology</h4>
+<ul class="ref-list">
+<li>Lu, G. &amp; Ades, A. E. (2004). <i>Combination of direct and indirect evidence in mixed treatment comparisons.</i> Stats. Med. 23.</li>
+<li>Dias, S., Ades, A. E., Welton, N. J., Jansen, J. P. &amp; Sutton, A. J. (2018). <i>Network Meta-Analysis for Decision-Making.</i> Wiley.</li>
+<li>Harvey, C. R., Liu, Y. &amp; Zhu, H. (2016). <i>... and the cross-section of expected returns.</i> RFS 29.</li>
+<li>Hou, K., Xue, C. &amp; Zhang, L. (2020). <i>Replicating anomalies.</i> RFS 33.</li>
+</ul>
+
+<h4>Variables</h4>
+<ul class="ref-list">
+<li>Adrian, T., Crump, R. K. &amp; Moench, E. (2013). <i>Pricing the term structure with linear regressions.</i> JFE 110. <span class="ref">(V008)</span></li>
+<li>Adrian, T., Etula, E. &amp; Muir, T. (2014). <i>Financial intermediaries and the cross-section of asset returns.</i> JF 69. <span class="ref">(V027 — registry re-anchor target)</span></li>
+<li>Beeler, J. &amp; Campbell, J. Y. (2012). <i>The long-run risks model and aggregate asset prices.</i> Critical Finance Review 1. <span class="ref">(V007)</span></li>
+<li>Blitz, D., Huij, J. &amp; Martens, M. (2011). <i>Residual momentum.</i> JEF 18. <span class="ref">(V026)</span></li>
+<li>Bollerslev, T., Tauchen, G. &amp; Zhou, H. (2009). <i>Expected stock returns and variance risk premia.</i> RFS 22. <span class="ref">(V001)</span></li>
+<li>Boons, M. &amp; Prado, M. P. (2019). <i>Basis-momentum.</i> JF 74. <span class="ref">(V028)</span></li>
+<li>Brave, S. A. &amp; Butters, R. A. (2012). <i>Diagnosing the financial system: financial conditions and the financial crisis.</i> IJCB 8. <span class="ref">(V005)</span></li>
+<li>Chan, L. K. C., Jegadeesh, N. &amp; Lakonishok, J. (1996). <i>Momentum strategies.</i> JF 51. <span class="ref">(V010)</span></li>
+<li>Erb, C. B. &amp; Harvey, C. R. (2006). <i>The strategic and tactical value of commodity futures.</i> FAJ 62. <span class="ref">(V011)</span></li>
+<li>Estrella, A. &amp; Hardouvelis, G. A. (1991). <i>The term structure as a predictor of real economic activity.</i> JF 46. <span class="ref">(V006)</span></li>
+<li>Faber, M. T. (2007). <i>A quantitative approach to tactical asset allocation.</i> JWM 9. <span class="ref">(C009)</span></li>
+<li>Fama, E. F. &amp; French, K. R. (2015). <i>A five-factor asset pricing model.</i> JFE 116. <span class="ref">(V026 reference)</span></li>
+<li>Gilchrist, S. &amp; Zakrajšek, E. (2012). <i>Credit spreads and business cycle fluctuations.</i> AER 102. <span class="ref">(V004)</span></li>
+<li>Gorton, G. &amp; Rouwenhorst, K. G. (2006). <i>Facts and fantasies about commodity futures.</i> FAJ 62. <span class="ref">(V011)</span></li>
+<li>He, Z., Kelly, B. &amp; Manela, A. (2017). <i>Intermediary asset pricing.</i> JFE 126. <span class="ref">(V027 — current registry anchor; superseded)</span></li>
+<li>Hurst, B., Ooi, Y. H. &amp; Pedersen, L. H. (2017). <i>A century of evidence on trend-following investing.</i> JPM 44. <span class="ref">(V009 replication)</span></li>
+<li>Liu, Y. &amp; Tsyvinski, A. (2021). <i>Risks and returns of cryptocurrency.</i> RFS 34. <span class="ref">(V012, V013, V019)</span></li>
+<li>Moskowitz, T. J., Ooi, Y. H. &amp; Pedersen, L. H. (2012). <i>Time series momentum.</i> JFE 104. <span class="ref">(V009)</span></li>
+<li>Rudebusch, G. D. &amp; Williams, J. C. (2009). <i>Forecasting recessions: the puzzle of the enduring power of the yield curve.</i> JBES 27. <span class="ref">(V006)</span></li>
+<li>Whaley, R. E. (2000). <i>The investor fear gauge.</i> JPM 26. <span class="ref">(V001, C011)</span></li>
+</ul>
+</section>
+
+<footer>
+BNMA cross-run meta-analysis — produced 2026-04-18, Singapore · Bayesian Network Meta-Analysis, N=4 papers, RE_FITTING=NO
+</footer>
+
+</div>
+
+<script>
+// Shared chart defaults
+Chart.defaults.font.family = '"Helvetica Neue", Arial, sans-serif';
+Chart.defaults.color = '#4b5362';
+Chart.defaults.font.size = 12;
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.boxWidth = 8;
+
+const COLORS = {
+  p1: '#2b4a6f',
+  p2: '#8aa2b5',
+  p3: '#c5b68f',
+  p4: '#6b8e5a',
+  deploy: '#2f6b4a',
+  watch: '#a77b2a',
+  exclude: '#8b3a3a',
+  neutral: '#6a6e78'
+};
+
+/* =========================================================
+   Figure 1 — Forest plot of DEPLOY variables × 4 runs
+   Uses horizontal error-bar style via line chart + points
+   ========================================================= */
+(function() {
+  const ctx = document.getElementById('forest-deploy').getContext('2d');
+  // Data: [var][paper] = {median, low, high}
+  const deployData = {
+    'V009 TSMOM (T)':   [{m:0.771, lo:0.43, hi:1.04}, {m:0.874, lo:0.742, hi:1.007}, {m:0.874, lo:0.763, hi:0.985}, {m:0.680, lo:0.404, hi:0.921}],
+    'V027 Intermed. capital (R)': [{m:0.809, lo:0.43, hi:1.15}, {m:0.568, lo:0.476, hi:0.659}, {m:0.568, lo:0.491, hi:0.644}, {m:0.236, lo:0.022, hi:0.446}],
+    'V028 Basis-momentum (S)': [{m:0.792, lo:0.43, hi:1.07}, {m:0.790, lo:0.702, hi:0.878}, {m:0.790, lo:0.716, hi:0.864}, {m:0.394, lo:0.104, hi:0.649}],
+  };
+  const paperLabels = ['P1', 'P2', 'P3', 'P4'];
+  const paperColors = [COLORS.p1, COLORS.p2, COLORS.p3, COLORS.p4];
+
+  // For a forest-style plot: use horizontal bars positioned by category,
+  // plot as a scatter with error bars via a custom plugin approach.
+  // Simpler: use a grouped bar chart with error via floatingBar.
+  const labels = [];
+  const datasets = paperLabels.map((p, pi) => ({
+    label: p,
+    data: [],
+    backgroundColor: paperColors[pi] + 'cc',
+    borderColor: paperColors[pi],
+    borderWidth: 1,
+    borderSkipped: false,
+    borderRadius: 2,
+    barPercentage: 0.85,
+    categoryPercentage: 0.85
+  }));
+
+  Object.keys(deployData).forEach((v) => {
+    labels.push(v);
+    deployData[v].forEach((d, pi) => {
+      datasets[pi].data.push([d.lo, d.hi]);
+    });
+  });
+
+  // Medians overlay via separate scatter dataset
+  const medianDataset = {
+    type: 'scatter',
+    label: 'posterior median',
+    data: [],
+    backgroundColor: '#1a1d23',
+    borderColor: '#1a1d23',
+    pointRadius: 5,
+    pointStyle: 'crossRot',
+    borderWidth: 2,
+    showLine: false
+  };
+  Object.keys(deployData).forEach((v, vi) => {
+    deployData[v].forEach((d, pi) => {
+      // approximate x position: variable index + paper offset
+      const offset = (pi - 1.5) * 0.18;
+      medianDataset.data.push({x: vi + offset, y: d.m});
+    });
+  });
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets: [...datasets, medianDataset] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { stacked: false, grid: { display: false }},
+        y: {
+          title: { display: true, text: 'Posterior median & 95% CI' },
+          grid: { color: '#e5e1d5' },
+          min: -0.3, max: 1.8
+        }
+      },
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) {
+              if (ctx.dataset.type === 'scatter') return null;
+              return `${ctx.dataset.label}: [${ctx.raw[0].toFixed(2)}, ${ctx.raw[1].toFixed(2)}]`;
+            }
+          }
+        }
+      }
+    }
+  });
+})();
+
+/* =========================================================
+   Figure 2 — Drift range bar
+   ========================================================= */
+(function() {
+  const ctx = document.getElementById('drift-bar').getContext('2d');
+  // Compute drift for each variable (max - min of available posterior medians)
+  const vars = [
+    {v:'V014 BTC exchange netflows', d:1.12, color: COLORS.exclude},
+    {v:'V004 HY OAS / EBP',          d:0.94, color: COLORS.exclude},
+    {v:'V010 Revision breadth',      d:0.84, color: COLORS.exclude},
+    {v:'V001 VIX',                   d:0.75, color: COLORS.exclude},
+    {v:'V027 Intermediary capital',  d:0.57, color: COLORS.deploy},
+    {v:'V028 Basis-momentum',        d:0.40, color: COLORS.deploy},
+    {v:'V011 Brent M1-M3',           d:0.39, color: COLORS.watch},
+    {v:'V026 Residual momentum',     d:0.31, color: COLORS.watch},
+    {v:'V003 DXY',                   d:0.30, color: COLORS.neutral},
+    {v:'V013 BTC hash rate',         d:0.25, color: COLORS.exclude},
+    {v:'V002 MOVE Index',            d:0.25, color: COLORS.exclude},
+    {v:'V006 UST 2s10s',             d:0.25, color: COLORS.neutral},
+    {v:'V018 BTC 3m basis',          d:0.23, color: COLORS.watch},
+    {v:'V009 TSMOM',                 d:0.22, color: COLORS.deploy},
+    {v:'V008 ACM term premium',      d:0.20, color: COLORS.neutral},
+    {v:'V007 Real yield',            d:0.17, color: COLORS.neutral},
+    {v:'V017 BTC ETF net flows',     d:0.17, color: COLORS.exclude},
+    {v:'V015 BTC realized vol',      d:0.16, color: COLORS.watch},
+    {v:'V016 BTC perp funding',      d:0.14, color: COLORS.exclude},
+    {v:'V019 MVRV / SOPR',           d:0.10, color: COLORS.exclude}
+  ];
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: vars.map(x => x.v),
+      datasets: [{
+        label: 'drift range (max - min posterior median)',
+        data: vars.map(x => x.d),
+        backgroundColor: vars.map(x => x.color + 'cc'),
+        borderColor: vars.map(x => x.color),
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { title: { display: true, text: 'Drift range (posterior median units)' }, grid: { color: '#e5e1d5' } },
+        y: { grid: { display: false } }
+      },
+      plugins: {
+        legend: { display: false },
+        annotation: false
+      }
+    },
+    plugins: [{
+      id: 'thresh',
+      afterDraw(chart) {
+        const x = chart.scales.x;
+        const y = chart.scales.y;
+        const ctx2 = chart.ctx;
+        ctx2.save();
+        // 0.15 line
+        const x15 = x.getPixelForValue(0.15);
+        ctx2.strokeStyle = '#4b5362';
+        ctx2.setLineDash([4,3]);
+        ctx2.beginPath();
+        ctx2.moveTo(x15, y.top); ctx2.lineTo(x15, y.bottom); ctx2.stroke();
+        ctx2.fillStyle = '#4b5362';
+        ctx2.font = '11px "Helvetica Neue", Arial';
+        ctx2.fillText('0.15 = noise ceiling', x15 + 4, y.top + 12);
+        // 0.4
+        const x40 = x.getPixelForValue(0.40);
+        ctx2.strokeStyle = '#8b3a3a';
+        ctx2.beginPath();
+        ctx2.moveTo(x40, y.top); ctx2.lineTo(x40, y.bottom); ctx2.stroke();
+        ctx2.fillStyle = '#8b3a3a';
+        ctx2.fillText('0.40 = construct dispute', x40 + 4, y.top + 26);
+        ctx2.restore();
+      }
+    }]
+  });
+})();
+
+/* =========================================================
+   Figure 3 — Grouped bar per variable
+   ========================================================= */
+(function() {
+  const ctx = document.getElementById('posterior-grouped').getContext('2d');
+  const variables = [
+    {v:'V009 TSMOM', data:[0.771, 0.874, 0.874, 0.680]},
+    {v:'V027 Intermed.', data:[0.809, 0.568, 0.568, 0.236]},
+    {v:'V028 Basis-mom.', data:[0.792, 0.790, 0.790, 0.394]},
+    {v:'V011 Brent M1-M3', data:[0.793, 0.715, 0.715, 0.402]},
+    {v:'V026 Resid. mom.', data:[0.584, 0.694, 0.694, 0.385]},
+    {v:'V014 BTC netflows', data:[1.148, 0, null, 0.030]},
+    {v:'V004 HY OAS', data:[0.933, 0, null, -0.011]},
+    {v:'V001 VIX', data:[0.720, 0, null, -0.034]},
+    {v:'V010 Rev. breadth', data:[0.839, 0, null, 0.206]},
+    {v:'V018 BTC 3m basis', data:[0.151, 0.246, null, 0.019]},
+    {v:'V017 BTC ETF flows', data:[0.140, 0, null, -0.028]},
+    {v:'V002 MOVE', data:[0.203, 0, null, -0.051]}
+  ];
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: variables.map(x => x.v),
+      datasets: [
+        { label: 'P1 (full MCMC)', data: variables.map(x => x.data[0]), backgroundColor: COLORS.p1 },
+        { label: 'P2 (analytical)', data: variables.map(x => x.data[1]), backgroundColor: COLORS.p2 },
+        { label: 'P3 (analytical)', data: variables.map(x => x.data[2]), backgroundColor: COLORS.p3 },
+        { label: 'P4 (full MCMC)', data: variables.map(x => x.data[3]), backgroundColor: COLORS.p4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, ticks: { maxRotation: 45, minRotation: 30 } },
+        y: { title: { display: true, text: 'Posterior median' }, grid: { color: '#e5e1d5' } }
+      },
+      plugins: {
+        legend: { position: 'top' }
+      }
+    }
+  });
+})();
+
+/* =========================================================
+   Figure 4 — p_positive heatmap (using matrix via bar stacked tricks,
+   simpler: colored cells table-style using chart with background)
+   ========================================================= */
+(function() {
+  const ctx = document.getElementById('ppositive-heatmap').getContext('2d');
+  // Use a bar chart where each variable's value is p_positive per paper,
+  // with cell-background color intensity.
+  const data = [
+    {v:'V009 TSMOM',        p:[1.00, 1.00, 1.00, 1.00]},
+    {v:'V027 Intermed.',    p:[1.00, 1.00, 1.00, 0.985]},
+    {v:'V028 Basis-mom.',   p:[1.00, 1.00, 1.00, 0.99]},
+    {v:'V011 Brent M1-M3',  p:[1.00, 1.00, 1.00, 1.00]},
+    {v:'V026 Resid. mom.',  p:[1.00, 1.00, 1.00, 1.00]},
+    {v:'V004 HY OAS',       p:[0.996,0.50, null, 0.456]},
+    {v:'V001 VIX',          p:[0.998,0.50, null, 0.379]},
+    {v:'V014 BTC netflows', p:[0.997,0.50, null, 0.555]},
+    {v:'V010 Rev. breadth', p:[0.98, 0.50, null, 0.94]},
+    {v:'V018 BTC 3m basis', p:[0.695,0.98, null, 0.578]},
+    {v:'V002 MOVE',         p:[0.717,0.50, null, 0.333]},
+    {v:'V017 BTC ETF flows',p:[0.640,0.50, null, 0.445]},
+    {v:'V019 MVRV/SOPR',    p:[0.590,0.50, null, 0.512]},
+    {v:'V012 BTC active',   p:[0.710,0.50, null, 0.574]},
+    {v:'V013 BTC hash',     p:[0.679,0.50, null, 0.422]}
+  ];
+  // Render as grouped bars; tooltip shows exact values
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(x => x.v),
+      datasets: [
+        { label: 'P1', data: data.map(x => x.p[0]), backgroundColor: (c) => cellColor(c.raw) },
+        { label: 'P2', data: data.map(x => x.p[1]), backgroundColor: (c) => cellColor(c.raw) },
+        { label: 'P3', data: data.map(x => x.p[2]), backgroundColor: (c) => cellColor(c.raw) },
+        { label: 'P4', data: data.map(x => x.p[3]), backgroundColor: (c) => cellColor(c.raw) }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      indexAxis: 'y',
+      scales: {
+        x: { min: 0, max: 1.0, title: { display: true, text: 'P(effect > 0)' }, grid: { color: '#e5e1d5' } },
+        y: { grid: { display: false } }
+      },
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: {
+          callbacks: {
+            label: (c) => c.raw === null ? `${c.dataset.label}: n/a` : `${c.dataset.label}: ${c.raw.toFixed(3)}`
+          }
+        }
+      }
+    }
+  });
+  function cellColor(v) {
+    if (v === null || v === undefined) return '#e5e1d5';
+    // Midpoint 0.5 = light; 1.0 = deep green; 0 = deep red
+    if (v > 0.5) {
+      const t = (v - 0.5) * 2;
+      const g = Math.round(107 - 36*t);
+      const r = Math.round(245 - 180*t);
+      const b = Math.round(234 - 150*t);
+      return `rgb(${Math.max(40,r)},${Math.max(70,g)},${Math.max(80,b)})`;
+    } else {
+      const t = (0.5 - v) * 2;
+      const r = Math.round(245 - 100*t);
+      const g = Math.round(234 - 180*t);
+      const b = Math.round(217 - 160*t);
+      return `rgb(${Math.max(139,r)},${Math.max(58,g)},${Math.max(58,b)})`;
+    }
+  }
+})();
+
+/* =========================================================
+   Figure 5 — p_beats_peers
+   ========================================================= */
+(function() {
+  const ctx = document.getElementById('peers-bar').getContext('2d');
+  const data = [
+    {v:'V009 TSMOM',        p:[0.657, 0.991, 0.991, 0.948]},
+    {v:'V027 Intermed.',    p:[0.365, 0.997, 1.000, 0.946]},
+    {v:'V028 Basis-mom.',   p:[0.511, 0.808, 0.808, 0.495]},
+    {v:'V011 Brent M1-M3',  p:[0.489, 0.192, 0.193, 0.505]},
+    {v:'V004 HY OAS',       p:[0.624, 0.003, null, 0.049]},
+    {v:'V026 Resid. mom.',  p:[0.165, 0.009, 0.009, 0.053]},
+    {v:'V010 Rev. breadth', p:[0.098, 0.016, null, 0.006]},
+    {v:'V014 BTC netflows', p:[0.532, 0.500, null, 0.584]},
+    {v:'V017 BTC ETF flows',p:[0.042, 0.500, null, 0.416]}
+  ];
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(x => x.v),
+      datasets: [
+        { label: 'P1', data: data.map(x => x.p[0]), backgroundColor: COLORS.p1 },
+        { label: 'P2', data: data.map(x => x.p[1]), backgroundColor: COLORS.p2 },
+        { label: 'P3', data: data.map(x => x.p[2]), backgroundColor: COLORS.p3 },
+        { label: 'P4', data: data.map(x => x.p[3]), backgroundColor: COLORS.p4 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, ticks: { maxRotation: 40 } },
+        y: { min: 0, max: 1, title: { display: true, text: 'p_beats_peers' }, grid: { color: '#e5e1d5' } }
+      },
+      plugins: {
+        legend: { position: 'top' }
+      }
+    },
+    plugins: [{
+      id: 'threshBar',
+      afterDraw(chart) {
+        const x = chart.scales.x, y = chart.scales.y;
+        const ctx2 = chart.ctx;
+        ctx2.save();
+        const y50 = y.getPixelForValue(0.5);
+        ctx2.strokeStyle = '#8b3a3a';
+        ctx2.setLineDash([4,3]);
+        ctx2.beginPath();
+        ctx2.moveTo(x.left, y50); ctx2.lineTo(x.right, y50); ctx2.stroke();
+        ctx2.fillStyle = '#8b3a3a';
+        ctx2.font = '11px "Helvetica Neue", Arial';
+        ctx2.fillText('0.50 = peer-dominance threshold', x.left + 6, y50 - 4);
+        ctx2.restore();
+      }
+    }]
+  });
+})();
+
+/* =========================================================
+   Figure 7 — Sharpe × peer-dominance scatter
+   ========================================================= */
+(function() {
+  const ctx = document.getElementById('sharpe-peer-scatter').getContext('2d');
+  // Points: {name, sr, peers_median, drift_range, verdict}
+  const pts = [
+    {n:'V009 TSMOM',        sr:0.46, peers:0.95, drift:0.22, v:'DEPLOY',     c:COLORS.deploy},
+    {n:'V027 Intermed.',    sr:0.40, peers:0.97, drift:0.57, v:'DEPLOY',     c:COLORS.deploy},
+    {n:'V028 Basis-mom.',   sr:0.45, peers:0.65, drift:0.40, v:'DEPLOY',     c:COLORS.deploy},
+    {n:'V011 Brent M1-M3',  sr:0.48, peers:0.35, drift:0.39, v:'CONDITIONAL',c:COLORS.p1},
+    {n:'V026 Resid. mom.',  sr:0.35, peers:0.06, drift:0.31, v:'CONDITIONAL',c:COLORS.p1},
+    {n:'V015 BTC realvol',  sr:0.13, peers:0.64, drift:0.16, v:'WATCH',      c:COLORS.watch},
+    {n:'V018 BTC 3m basis', sr:0.15, peers:0.55, drift:0.23, v:'WATCH',      c:COLORS.watch}
+  ];
+  const datasets = [
+    {label:'DEPLOY', data: pts.filter(p=>p.v==='DEPLOY').map(p => ({x: p.peers, y: p.sr, r: (1-p.drift)*14+6, name: p.n})), backgroundColor: COLORS.deploy+'cc', borderColor: COLORS.deploy, borderWidth:1},
+    {label:'CONDITIONAL', data: pts.filter(p=>p.v==='CONDITIONAL').map(p => ({x: p.peers, y: p.sr, r: (1-p.drift)*14+6, name: p.n})), backgroundColor: COLORS.p1+'cc', borderColor: COLORS.p1, borderWidth:1},
+    {label:'WATCH', data: pts.filter(p=>p.v==='WATCH').map(p => ({x: p.peers, y: p.sr, r: (1-p.drift)*14+6, name: p.n})), backgroundColor: COLORS.watch+'cc', borderColor: COLORS.watch, borderWidth:1}
+  ];
+  new Chart(ctx, {
+    type: 'bubble',
+    data: { datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { min: 0, max: 1, title: { display: true, text: 'Peer-dominance (p_beats_peers, cross-run median)' }, grid: { color: '#e5e1d5' } },
+        y: { min: 0, max: 0.6, title: { display: true, text: 'Post-decay Sharpe (cross-run central)' }, grid: { color: '#e5e1d5' } }
+      },
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: {
+          callbacks: {
+            label: (c) => `${c.raw.name}: SR ${c.raw.y}, peers ${c.raw.x}`
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'labels7',
+      afterDatasetsDraw(chart) {
+        const ctx2 = chart.ctx;
+        ctx2.save();
+        ctx2.font = '11px "Helvetica Neue", Arial';
+        ctx2.fillStyle = '#1a1d23';
+        chart.data.datasets.forEach(ds => {
+          ds.data.forEach(pt => {
+            const x = chart.scales.x.getPixelForValue(pt.x);
+            const y = chart.scales.y.getPixelForValue(pt.y);
+            ctx2.fillText(pt.name, x + pt.r + 3, y + 3);
+          });
+        });
+        ctx2.restore();
+      }
+    }]
+  });
+})();
+</script>
+
+</body>
+</html>

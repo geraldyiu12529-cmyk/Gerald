@@ -1,0 +1,10 @@
+{
+  "variable": "PYPL",
+  "value": 50.96,
+  "unit": "",
+  "timestamp": "2026-04-17T23:06:57+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (PYPL)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"PYPL\",\"exchangeName\":\"NMS\",\"fullExchangeName\":\"NasdaqGS\",\"instrumentType\":\"EQUITY\",\"firstTradeDate\":1436189400,\"regularMarketTime\":1776438417,\"h"
+}

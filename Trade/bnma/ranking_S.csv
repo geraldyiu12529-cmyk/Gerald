@@ -1,0 +1,15 @@
+var_id,name,tier,grade,asset_class,n_studies,posterior_mean,ci95_low,ci95_high,p_positive,p_top3,median_rank,rank_ci_low,rank_ci_high,rank_ci_width,tau_posterior_median,peers,p_beats_peers,registry_published_sharpe,post_decay_sharpe,divergence_flag,indistinguishable_flag,rank_unstable_flag,low_power_flag
+V011,Brent M1-M3 curve slope,1,A,Commodities,3,0.402,0.1553,0.6475,0.9968,0.8857,2,1,4,0.2143,0.0762,V028,0.5047,0.74,0.281,True,False,False,False
+V028,Basis-momentum,1,A,Commodities,3,0.3945,0.1043,0.6489,0.9921,0.8648,2,1,5,0.2857,0.1118,V011,0.4953,0.8,0.2402,True,False,False,False
+V007,Real yield / Breakevens,1,A,Rates,1,0.1681,-0.3104,0.6293,0.771,0.3485,5,1,14,0.9286,0.1562,"V003,V006,V008",0.3492,N/A,0.1185,False,False,True,False
+V003,DXY,1,A,Cross-Asset,2,0.1211,-0.1647,0.3989,0.8179,0.1632,6,2,13,0.7857,0.0985,V007,0.4287,N/A,0.0857,False,False,True,False
+V006,UST 2Y/10Y yields,1,A,Rates,1,0.1177,-0.388,0.5855,0.7065,0.2653,6,1,14,0.9286,0.1555,"V007,V008",0.3226,N/A,0.0852,False,False,True,False
+V008,ACM Term Premium 10Y,1,A,Rates,1,0.079,-0.4094,0.5436,0.6461,0.2135,6,1,14,0.9286,0.1534,"V006,V007",0.2574,N/A,0.0577,False,False,True,False
+V012,BTC active addresses,1,A,Crypto,2,0.031,-0.2764,0.3656,0.5743,0.0807,8,3,14,0.7857,0.1037,"V013,V019",0.3961,N/A,0.0207,False,False,True,False
+C012,Price-to-sales (tech),3,Candidate-PR,Equities,1,0.0221,-0.1676,0.2085,0.5949,0.0188,9,4,13,0.6429,0.1562,V003,0.274,N/A,0.0134,False,False,False,True
+C001,Global M2 money supply,3,Candidate-WP,Crypto,1,0.0055,-0.0884,0.099,0.546,0.0012,9,6,13,0.5,0.1207,"V012,V013",0.2679,N/A,0.0032,False,True,False,True
+V019,MVRV / SOPR,1,B,Crypto,1,0.004,-0.3334,0.3431,0.5115,0.0685,10,3,14,0.7857,0.1408,V012,0.453,N/A,0.003,False,True,True,False
+C004,NVT Signal (90d),3,Candidate-WP,Crypto,1,0.0037,-0.0965,0.0979,0.5401,0.0016,9,6,13,0.5,0.1257,"V019,V012",0.2328,N/A,0.0025,False,True,False,True
+C006,China PMI leading copper,3,Candidate-PR,Commodities,1,0.0027,-0.1712,0.174,0.5114,0.0087,10,5,14,0.6429,0.12,V003,0.2297,N/A,0.0015,False,True,False,True
+C003,Gold/silver ratio,3,Candidate-WP,Commodities,1,0.0004,-0.0937,0.0955,0.5019,0.0007,10,6,13,0.5,0.1064,"V003,V007",0.0524,N/A,0.0001,False,True,False,True
+V013,BTC hash rate,1,A,Crypto,1,-0.036,-0.4606,0.4029,0.4219,0.0789,11,3,14,0.7857,0.1574,V012,0.3983,N/A,-0.0254,False,True,True,False

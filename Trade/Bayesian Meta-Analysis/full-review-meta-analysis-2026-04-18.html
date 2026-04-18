@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang='en'><head><meta charset='utf-8'>
+<title>Full Literature Review + Meta-Analysis — 2026-04-18</title>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js'></script>
+
+<style>
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+        max-width: 1280px; margin: 1em auto; padding: 1em 1.5em; color: #222; line-height: 1.5; }
+ h1 { color: #0d3b66; border-bottom: 4px solid #0d3b66; padding-bottom: 0.3em; }
+ h2 { color: #1e5f8e; margin-top: 2.2em; border-bottom: 2px solid #b9d1e5; padding-bottom: 0.25em; }
+ h3 { color: #2a6b9a; margin-top: 1.4em; }
+ h4 { color: #444; margin-top: 1em; }
+ code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; font-size: 0.92em; }
+ table { border-collapse: collapse; margin: 1em 0; font-size: 0.87em; width: 100%; }
+ th, td { border: 1px solid #ccc; padding: 4px 8px; vertical-align: top; }
+ th { background: #e3edf5; font-weight: 600; text-align: left; }
+ tr:nth-child(even) td { background: #fafbfd; }
+ .tl { font-family: monospace; font-size: 0.84em; }
+ .badge { display:inline-block; padding: 2px 7px; border-radius: 3px; font-size: 0.82em; font-weight: 600; }
+ .deploy { background: #2e7d32; color: #fff; }
+ .deploy_cond { background: #7cb342; color: #fff; }
+ .watch { background: #fbc02d; color: #333; }
+ .exclude { background: #c62828; color: #fff; }
+ .downgrade { background: #ef6c00; color: #fff; }
+ .other { background: #777; color: #fff; }
+ .chart-wrap { margin: 1.5em 0; padding: 1em; background: #fafbfd; border: 1px solid #ddd; border-radius: 4px; }
+ .chart-wrap canvas { max-height: 520px; }
+ .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; }
+ .heatmap-cell { display: inline-block; width: 42px; height: 28px; line-height: 28px; text-align: center;
+                 font-size: 0.78em; font-family: monospace; color: #111; margin: 0; border: 1px solid #fff; }
+ .heatmap-row { display: flex; align-items: center; }
+ .heatmap-label { width: 150px; font-size: 0.78em; text-align: right; padding-right: 8px; font-family: monospace; }
+ .heatmap-col-header { width: 42px; display:inline-block; text-align: center; font-size: 0.72em;
+                       transform: rotate(-50deg); transform-origin: center; padding: 0; }
+ .heatmap-header-row { margin-left: 158px; height: 55px; display: flex; }
+ details { margin: 0.5em 0; }
+ summary { cursor: pointer; font-weight: 600; color: #1e5f8e; padding: 0.3em 0; }
+ summary:hover { color: #0d3b66; }
+ .varcard { background: #f8fafc; border-left: 4px solid #1e5f8e; padding: 0.6em 1em; margin: 0.5em 0; border-radius: 3px; }
+ .varcard .work { color: #2e7d32; }
+ .varcard .dont { color: #b71c1c; }
+ .sticky-nav { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #ddd; padding: 0.5em 0; z-index: 100; font-size: 0.88em; }
+ .sticky-nav a { margin-right: 1em; color: #1e5f8e; text-decoration: none; }
+ .sticky-nav a:hover { text-decoration: underline; }
+ .callout { background: #fff3cd; border-left: 4px solid #f1c40f; padding: 0.6em 1em; margin: 0.8em 0; }
+ .callout.good { background: #d4edda; border-color: #28a745; }
+ .callout.bad { background: #f8d7da; border-color: #dc3545; }
+ .small { font-size: 0.85em; color: #555; }
+ ul.tight li { margin: 2px 0; }
+</style>
+</head><body>
+<div class='sticky-nav'>
+<a href='#s1'>1. Lit Review</a>
+<a href='#s2'>2. Incl/Excl</a>
+<a href='#s3'>3. Methodology</a>
+<a href='#s4'>4. Results</a>
+<a href='#s5'>5. Discussion-by-Paper</a>
+<a href='#s6'>6. Grouping + Variables</a>
+<a href='#s7'>7. Recommendations</a>
+</div>
+<h1>Full Literature Review &amp; Bayesian Meta-Analysis</h1>
+<p><strong>Gerald — Bayesian Meta-Analysis Workspace · 2026-04-18</strong></p>
+<p>Synthesis of 12 source papers (4 Bayesian Network Meta-Analyses + 8 systematic reviews) covering 54 unique candidate variables, plus two layers of meta-analysis: (a) the prior BNMA cross-run synthesis and (b) the new all-vs-all Plackett-Luce ranking NMA. This document is a single-file HTML with embedded charts.</p>
+<h2 id='s1'>1. Literature Review</h2>
+<p>The workspace contains <strong>12 source papers</strong>: 4 Bayesian Network Meta-Analysis runs (P1–P4) and 8 systematic reviews (5 ChatGPT + 3 Claude). Each paper either re-scores a previously defined variable registry (V001–V028) using a BNMA posterior with audit and peer-dominance layers, or scans the academic literature for new variables with five pre-specified inclusion criteria and classifies each candidate as EFFECTIVE / INEFFECTIVE / MIXED.</p>
+<h3>1.1 Paper register</h3>
+<table><tr><th>ID</th><th>Paper</th><th>Kind</th><th>Vars covered</th><th>Scope</th><th>Headline verdict</th></tr>
+<tr><td class='tl'>P1</td><td><strong>BNMA Mark 1</strong></td><td>BNMA</td><td>24</td><td class='small'>Original BNMA over 23 Grade A/B/C variables incl. V001–V028 and C-series P1 candidates.</td><td class='small'>DEPLOY set = V009, V027, V028, V011, C009 (TAA); heterogeneity flags on V001, V004, V014.</td></tr>
+<tr><td class='tl'>P2</td><td><strong>ChatGPT Mark 2</strong></td><td>BNMA</td><td>6</td><td class='small'>Ranking-reduced BNMA on 6 core A-grade variables (V009, V011, V026, V027, V028 + peer pool).</td><td class='small'>V027 > V028 > V009 on p_beats_peers at peer-only resolution; S-group ties BOTTOM3 on many peripherals (INDIST).</td></tr>
+<tr><td class='tl'>P3</td><td><strong>ChatGPT Mark 1</strong></td><td>BNMA (analytical)</td><td>5</td><td class='small'>Analytical peer-dominance table (no MCMC numeric).</td><td class='small'>RANK1 winners: V009 (T), V011 (S), V027 (R); confirms 3-variable spine.</td></tr>
+<tr><td class='tl'>P4</td><td><strong>BNMA Claude Mark 2</strong></td><td>BNMA</td><td>25</td><td class='small'>Full-posterior BNMA with skeptical N(0,1/3) prior + audit layer; explicit §0 no-cross-group statement.</td><td class='small'>STABLE audit-GO: V027, V028; V009 confirmed; V010 p_beats 0.006 → EXCLUDE; V014 shrinks to INDIST; V004 flagged REDUNDANT_VS_V027.</td></tr>
+<tr><td class='tl'>SR1-cg1</td><td><strong>ChatGPT SR #1</strong></td><td>Systematic review</td><td>13</td><td class='small'>Shortlist expansion across R/S/T paradigms; 13 candidates graded A-C.</td><td class='small'>Highlighted VRP, BAB, PCTECH, CEI, LazyPrices; flagged NO_OOS_EVIDENCE on many B-grade.</td></tr>
+<tr><td class='tl'>SR2-cg2</td><td><strong>ChatGPT SR #2</strong></td><td>Systematic review</td><td>11</td><td class='small'>INDEX-shortlist run — picked cleanest option-implied and structural fill-gaps.</td><td class='small'>INCLUDE_UNGRADED: VRP, CrossAssetValue, EPU (partial); EXCLUDE: HedgingPressure, GoldComposite, Sloan (by construction — composite paradigm).</td></tr>
+<tr><td class='tl'>SR3-cg3</td><td><strong>ChatGPT SR #3</strong></td><td>Systematic review</td><td>9</td><td class='small'>Gap-fill scan for VRP, ADS, Gross Profitability, EPU-gate.</td><td class='small'>GP/A cleanest stock; ADS Nowcast as regime gate; skew scalar only (no standalone).</td></tr>
+<tr><td class='tl'>SR4-cg4</td><td><strong>ChatGPT SR #4</strong></td><td>Systematic review</td><td>8</td><td class='small'>Stocks-cluster shortlist (HMLDevil, GP, CEI, Sloan, QMJ, GKXml).</td><td class='small'>HXZ replication: CEI, GP/A, HMLDevil pass multiple t>2; Sloan borderline; GKXml high raw Sharpe but excluded by cg3 on paradigm overlap.</td></tr>
+<tr><td class='tl'>SR5-cg5</td><td><strong>ChatGPT SR Mark 5</strong></td><td>Systematic review</td><td>11</td><td class='small'>Pre-registered audit of sharpness / decay concerns.</td><td class='small'>Flags SEVERE decay on VRP (Goyal-Welch-Zafirov 2024); tail-risk OOS R² negative per 2024 audit.</td></tr>
+<tr><td class='tl'>SR6-cl1</td><td><strong>Claude SR #1</strong></td><td>Systematic review</td><td>10</td><td class='small'>Five-benchmark replication filter (V029-V033).</td><td class='small'>A-grade survivors: VRP, GoldTIPSbeta, ADS_Nowcast, GP/A; rest conditional.</td></tr>
+<tr><td class='tl'>SR7-cl2</td><td><strong>Claude SR #2</strong></td><td>Systematic review</td><td>12</td><td class='small'>Candidate pipeline quarterly queue (CAND-01..06).</td><td class='small'>DealerGamma A-grade deploy-cond; CieslakPovala bond RP; PCTECH survives GWZ; tail-risk, CRP rejected post-OOS.</td></tr>
+<tr><td class='tl'>SR8-cl3</td><td><strong>Claude SR #3</strong></td><td>Systematic review</td><td>9</td><td class='small'>Stock-cluster replication (JKP 2023 + HXZ).</td><td class='small'>BAB, CEI, HML-Devil, OppInsider, LazyPrices cleared; GKXml excluded on V026 overlap; Sloan PARTIAL (subsumed by QMJ).</td></tr>
+</table>
+<h3>1.2 Variable register — 54 unique candidates</h3>
+<p>After cross-paper de-duplication, the union of variables across all 12 papers is 54. Of these, <strong>26</strong> are V-series BNMA registry variables + C-series overlay candidates, and <strong>27</strong> are named variables from the systematic reviews (BAB, DealerGamma, VRP, etc.), with one common variable (C009 Faber TAA) appearing in both registries as an overlay.</p>
+<div class='chart-wrap'><h4>Paper coverage per variable</h4><canvas id='chartCoverage'></canvas><p class='small'>How many of the 12 papers include each variable. Most SR variables appear in only 1–5 reviews; BNMA V-series variables appear in all 4 BNMA runs.</p></div>
+<h2 id='s2'>2. Inclusion &amp; Exclusion Criteria</h2>
+<h3>2.1 Paper-level inclusion (what counted as a source paper)</h3>
+<ul class='tight'>
+<li><strong>Bayesian Network Meta-Analysis runs</strong> — any paper in the workspace titled BNMA / System review with a posterior-mean + p_positive + p_beats_peers output structure. Inclusion requires either MCMC output or an analytical peer-dominance table with explicit RANK-1/BOTTOM-3 flags. Result: 4 included (P1 BNMA Mark 1, P2 ChatGPT Mark 2, P3 ChatGPT Mark 1 analytical, P4 BNMA Claude Mark 2).</li>
+<li><strong>Systematic reviews</strong> — any shortlist / candidate-pipeline paper that classifies variables as EFFECTIVE / INEFFECTIVE / MIXED with a grade (A–C or INCLUDE_UNGRADED / EXCLUDE / PARTIAL). Result: 8 included (5 from ChatGPT author, 3 from Claude author). Excluded: drafts without classifications, prompt files, pure outline docs.</li>
+</ul>
+<h3>2.2 Variable-level inclusion (what counted as a variable)</h3>
+<p>Five pre-specified criteria (from the system review skill):</p>
+<ol class='tight'>
+<li><strong>Peer-reviewed</strong> publication or named working paper with citable author.</li>
+<li><strong>Replicated</strong> in at least one independent study — the raw original alone is not sufficient; post-publication replication required (HXZ 2020, JKP 2023, Goyal-Welch-Zafirov 2024 accepted as benchmarks).</li>
+<li><strong>Mechanism-grounded</strong> — variable must have a documented economic mechanism, not just statistical fit.</li>
+<li><strong>Independent</strong> of the existing V001–V028 registry (novelty test) — but retention of existing V-series is scored on the same criteria applied retrospectively.</li>
+<li><strong>Real-time implementable</strong> — data available without look-ahead; documented vendor or public source.</li>
+</ol>
+<h3>2.3 Variable-level exclusion</h3>
+<ul class='tight'>
+<li>Variables relying exclusively on in-sample fit (no OOS R² or live Sharpe from any replication).</li>
+<li>Variables collapsed into composites already in the registry without additional mechanism (e.g., QMJ duplicates of GP/A were flagged PARTIAL, not independent).</li>
+<li>Variables whose defining dataset no longer meets the real-time criterion (e.g., OptionMetrics-gated variables post-2020 vendor pricing changes were marked EXCLUDE in cl3).</li>
+<li>Constructs known to have been arbitraged out with near-zero post-publication Sharpe in multiple replications (e.g., tail-risk composite post Bali-Cakici-Whitelaw 2024 audit).</li>
+</ul>
+<h3>2.4 Meta-analysis-level inclusion (what PL-NMA actually uses)</h3>
+<ul class='tight'>
+<li>A variable is included in the PL-NMA if at least one paper produced an ordinal ranking signal — either a BNMA <code>p_beats_peers</code> value (BNMA runs) or a systematic-review score <code>grade_numeric + 0.5·I[EFFECTIVE] − 0.5·I[INEFFECTIVE] + 0.3·sharpe_reported</code> (reviews).</li>
+<li>BNMA <code>approx0</code> entries were omitted (not ranked) — the paper's own convention is that these are below-resolution, not equal.</li>
+<li>Single-paper variables are kept but flagged — the PL-NMA posterior just shrinks them toward the N(0,1) prior.</li>
+</ul>
+<h2 id='s3'>3. Methodology</h2>
+<h3>3.1 Three layers of analysis</h3>
+<table><tr><th>Layer</th><th>What it does</th><th>Output</th></tr>
+<tr><td>Source-paper BNMA</td><td>Full-posterior MCMC on its own variable universe (per-paper); computes <code>p_positive</code>, <code>p_beats_peers</code>, audit-GO flags.</td><td>Per-paper verdicts (DEPLOY / WATCH / EXCLUDE).</td></tr>
+<tr><td>Cross-run BNMA synthesis</td><td>Takes the 4 BNMA runs, aligns variables via V-series registry IDs, produces the consolidated table (<code>post_median, p_positive, p_beats_peers, flags</code>).</td><td><code>BNMA-meta-analysis-2026-04-18.md</code> — consensus DEPLOY set.</td></tr>
+<tr><td>All-vs-all Plackett-Luce NMA (new, this run)</td><td>Extracts ordinal rankings from each of the 12 papers; fits a Bradley-Terry / Plackett-Luce log-concave posterior over 54 variables' latent strengths θ; uses Laplace approximation and N(0,1) prior.</td><td><code>pl_nma_results.json</code> + ranking table + dominance matrix + two sensitivities (S1, S2).</td></tr>
+</table>
+<h3>3.2 Why Plackett-Luce, not direct Bayesian meta-regression?</h3>
+<div class='callout'><strong>Scale-commensurability problem.</strong> Each group reports its effect on a different scale: the S-group (<em>structural</em>) reports long–short Sharpe; the R-group (<em>regime / risk-sizing</em>) reports Sharpe improvement after applying a sizing overlay; the Overlay group reports conditional-Sharpe uplift. P4 (bnma-claude mark 2) §0 states explicitly that <em>cross-group comparisons are not statistically valid on raw posterior means</em>. A naïve pooled meta-regression on posterior medians would mistake scale differences for signal differences.</div>
+<p>Plackett-Luce sidesteps this. It uses only <strong>within-paper orderings</strong>: whether variable <em>i</em> ranked above variable <em>j</em> in the same paper. This is invariant to the paper's choice of scale: if one paper reports Sharpe and another reports peer-dominance probability, the ordering is preserved. The latent strength θ<sub>i</sub> is identified only up to the data's orderings, so the cross-group comparison is ordinal, not metric.</p>
+<h3>3.3 Model specification</h3>
+<p>For each ordered pair (<em>i</em> beats <em>j</em>) in the 810-pair extracted set, Bradley-Terry:</p>
+<p style='text-align:center; font-family: monospace; background:#f4f4f4; padding:0.5em;'>P(i beats j | θ) = σ(θ<sub>i</sub> − θ<sub>j</sub>)</p>
+<p>Negative log-posterior:</p>
+<p style='text-align:center; font-family: monospace; background:#f4f4f4; padding:0.5em;'>−log p(θ | data) = Σ<sub>pairs</sub> softplus(−(θ<sub>w</sub> − θ<sub>l</sub>)) + 0.5·Σ θ<sub>i</sub>² / σ²<sub>prior</sub></p>
+<p>with σ<sub>prior</sub> = 1.0. The log-posterior is <em>globally log-concave</em> (the softplus term is convex, the Gaussian prior is strictly convex). MAP via L-BFGS-B with analytic gradient; Laplace approximation via the Hessian at the MAP; 10,000 draws from the multivariate Normal approximation give posterior summaries and the all-vs-all dominance matrix.</p>
+<h3>3.4 Ordinal-input construction</h3>
+<ul class='tight'>
+<li><strong>BNMA papers (P1–P4):</strong> use <code>p_beats_peers</code> (joint-posterior peer-dominance probability), <em>not</em> posterior_median. Reason: the source BNMA authors themselves use p_beats_peers for the DEPLOY verdict, because peer-dominance reflects joint posterior competition, whereas marginal posterior mean is distorted by prior and scale. Using medians originally placed V010 (which is EXCLUDE) at rank 7 — fixed.</li>
+<li><strong>Systematic reviews (SR1–SR8):</strong> numeric score <code>grade_numeric + 0.5·I[EFFECTIVE] − 0.5·I[INEFFECTIVE] + 0.3·sharpe_reported</code>. Grade map: A=3, B=2, C=1, INCLUDE_UNGRADED=1.5, EXCLUDE=-1, PARTIAL=0.5.</li>
+<li>Identifiability: N(0,1) prior on each θ is enough for symmetric identifiability without fixing a reference variable. Hessian min eigenvalue = 1.00 confirms strict log-concavity.</li>
+</ul>
+<h3>3.5 Sensitivity analyses</h3>
+<ul class='tight'>
+<li><strong>S1 — drop analytical-only papers</strong> (P2, P3 that have partial/no MCMC numerics). Tests whether analytical peer tables unduly influence top-5.</li>
+<li><strong>S2 — within-group BNMA fallback</strong>: re-fit PL-NMA using only within-group ranking pairs from BNMA papers (drops ~500 cross-group pairs). Tests how much of the top-5 ordering is a cross-scale artifact vs real ordering.</li>
+<li><strong>Robustness classification:</strong> a variable is <em>robust-deploy</em> if it ranks top-10 in primary ∧ S1 ∧ S2; <em>primary-only</em> if top-10 primary but &gt;20 in S2 (signals a scale artifact); <em>robust-exclude</em> if bottom-10 in all three.</li>
+</ul>
+<h3>3.6 Diagnostics</h3>
+<ul class='tight'>
+<li>Variables: <strong>54</strong></li>
+<li>Pairs (primary / S1 / S2): <strong>810 / 786 / 374</strong></li>
+<li>Draws: <strong>10,000</strong> from Laplace approximation</li>
+<li>Hessian eigenvalue range: <strong>1.00 – 10.85</strong> (positive-definite → Laplace valid)</li>
+<li>MAP negative log-posterior: <strong>367.90</strong></li>
+</ul>
+<h2 id='s4'>4. Results</h2>
+<h3>4.1 Top-20 variables by posterior mean θ (with 95% credible interval)</h3>
+<div class='chart-wrap'><canvas id='chartTheta'></canvas><p class='small'>Posterior mean ranking strength with 95% CI. Error bars that cross zero mean the variable is not reliably above the prior mean.</p></div>
+<h3>4.2 Rank robustness — primary vs S2 (within-group) sensitivity</h3>
+<div class='chart-wrap'><canvas id='chartRobust'></canvas><p class='small'>Each point is one variable. x = primary rank; y = S2 (within-group) rank. Points on the diagonal are stable across the cross-group vs within-group cut; points far above diagonal fell in S2 (suggesting a cross-group scale artifact in their primary rank); points far below the diagonal rose in S2.</p></div>
+<h3>4.3 Theta posterior by group</h3>
+<div class='chart-wrap'><canvas id='chartByGroup'></canvas><p class='small'>Group-aware distribution of posterior mean θ. Reveals whether any group is systematically higher-ranked (scale artifact).</p></div>
+<h3>4.4 Full ranking table (all 54 variables)</h3>
+<details open><summary>Show / hide full 54-row table</summary>
+<table><tr><th>Rank</th><th>Variable</th><th>Group</th><th>Source</th><th>θ mean</th><th>95% CI</th><th>P(θ&gt;0)</th><th>P(top-5)</th><th>Rank 95%CI</th><th>S1 rank</th><th>S2 rank</th><th>Verdict (BNMA / SR)</th></tr>
+<tr><td>1</td><td class='tl'>V009 · TSMOM (cross-asset)</td><td>T</td><td>BNMA</td><td>+2.46</td><td class='tl'>[+1.60, +3.32]</td><td>1.00</td><td>0.97</td><td class='tl'>[1, 6]</td><td>1.9</td><td>7.3</td><td><span class='badge deploy'>DEPLOY</span></td></tr>
+<tr><td>2</td><td class='tl'>C009_FaberTAA · Faber TAA (10m SMA cross-asset)</td><td>Overlay</td><td>BNMA</td><td>+2.26</td><td class='tl'>[+1.15, +3.37]</td><td>1.00</td><td>0.86</td><td class='tl'>[1, 10]</td><td>3.1</td><td>22.4</td><td><span class='badge watch'>PROMOTE_CONDITIONAL</span></td></tr>
+<tr><td>3</td><td class='tl'>V014 · BTC exchange netflows</td><td>T</td><td>BNMA</td><td>+1.78</td><td class='tl'>[+0.97, +2.60]</td><td>1.00</td><td>0.60</td><td class='tl'>[1, 12]</td><td>5.2</td><td>16.9</td><td><span class='badge watch'>SPLIT CONSTRUCT</span></td></tr>
+<tr><td>4</td><td class='tl'>V027 · Intermediary capital ratio</td><td>R</td><td>BNMA</td><td>+1.71</td><td class='tl'>[+0.94, +2.48]</td><td>1.00</td><td>0.51</td><td class='tl'>[2, 12]</td><td>9.4</td><td>14.7</td><td><span class='badge deploy'>DEPLOY</span></td></tr>
+<tr><td>5</td><td class='tl'>DealerGamma · Dealer Gamma / Intraday Momentum</td><td>T</td><td>SR</td><td>+1.68</td><td class='tl'>[+0.32, +3.01]</td><td>0.99</td><td>0.50</td><td class='tl'>[1, 21]</td><td>6.7</td><td>5.6</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>6</td><td class='tl'>BAB · Betting-Against-Beta</td><td>C</td><td>SR</td><td>+1.60</td><td class='tl'>[+0.61, +2.58]</td><td>1.00</td><td>0.42</td><td class='tl'>[1, 16]</td><td>6.8</td><td>5.4</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>7</td><td class='tl'>CEI · Composite Equity Issuance</td><td>Stocks</td><td>SR</td><td>+1.33</td><td class='tl'>[+0.19, +2.48]</td><td>0.99</td><td>0.27</td><td class='tl'>[2, 23]</td><td>9.3</td><td>7.9</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>8</td><td class='tl'>V018 · BTC 3m basis</td><td>R</td><td>BNMA</td><td>+1.32</td><td class='tl'>[+0.55, +2.07]</td><td>1.00</td><td>0.14</td><td class='tl'>[3, 17]</td><td>8.7</td><td>19.1</td><td><span class='badge watch'>WATCH</span></td></tr>
+<tr><td>9</td><td class='tl'>PCTECH · Neely-Rapach PC-TECH Equity Premium Index</td><td>T</td><td>SR</td><td>+1.31</td><td class='tl'>[+0.02, +2.57]</td><td>0.98</td><td>0.27</td><td class='tl'>[1, 26]</td><td>9.9</td><td>8.6</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>10</td><td class='tl'>V028 · Basis-momentum</td><td>S</td><td>BNMA</td><td>+1.30</td><td class='tl'>[+0.56, +2.03]</td><td>1.00</td><td>0.13</td><td class='tl'>[4, 18]</td><td>8.7</td><td>3.3</td><td><span class='badge deploy'>DEPLOY</span></td></tr>
+<tr><td>11</td><td class='tl'>V016 · BTC perp funding rate</td><td>R</td><td>BNMA</td><td>+0.96</td><td class='tl'>[+0.20, +1.73]</td><td>0.99</td><td>0.02</td><td class='tl'>[6, 23]</td><td>12.9</td><td>21.5</td><td><span class='badge exclude'>EXCLUDE</span></td></tr>
+<tr><td>12</td><td class='tl'>V011 · Brent M1-M3 curve slope</td><td>S</td><td>BNMA</td><td>+0.78</td><td class='tl'>[+0.08, +1.49]</td><td>0.98</td><td>0.00</td><td class='tl'>[8, 25]</td><td>12.5</td><td>8.6</td><td><span class='badge deploy_cond'>DEPLOY_CONDITIONAL</span></td></tr>
+<tr><td>13</td><td class='tl'>CrossAssetValue · Cross-Asset Value (value leg)</td><td>S</td><td>SR</td><td>+0.73</td><td class='tl'>[-0.87, +2.35]</td><td>0.81</td><td>0.12</td><td class='tl'>[2, 41]</td><td>17.1</td><td>16.1</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>14</td><td class='tl'>LazyPrices · Lazy Prices (10-K Similarity)</td><td>Stocks</td><td>SR</td><td>+0.72</td><td class='tl'>[-0.46, +1.91]</td><td>0.88</td><td>0.05</td><td class='tl'>[4, 35]</td><td>16.3</td><td>15.4</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>15</td><td class='tl'>GrossProfitability · Gross Profitability (GP/A)</td><td>Stocks</td><td>SR</td><td>+0.63</td><td class='tl'>[-0.22, +1.51]</td><td>0.92</td><td>0.01</td><td class='tl'>[7, 30]</td><td>17.0</td><td>15.9</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>16</td><td class='tl'>CieslakPovala · Cieslak-Povala Bond Risk Premium</td><td>S</td><td>SR</td><td>+0.62</td><td class='tl'>[-0.58, +1.86]</td><td>0.84</td><td>0.04</td><td class='tl'>[5, 37]</td><td>17.6</td><td>16.9</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>17</td><td class='tl'>VRP · Variance Risk Premium (SPX)</td><td>R</td><td>SR</td><td>+0.47</td><td class='tl'>[-0.37, +1.31]</td><td>0.87</td><td>0.00</td><td class='tl'>[9, 33]</td><td>19.4</td><td>18.6</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>18</td><td class='tl'>HedgingPressure · Basu-Miffre Hedging Pressure (non-gold commodities)</td><td>S</td><td>SR</td><td>+0.37</td><td class='tl'>[-0.61, +1.35]</td><td>0.77</td><td>0.00</td><td class='tl'>[9, 37]</td><td>21.0</td><td>20.4</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>19</td><td class='tl'>V001 · VIX</td><td>R</td><td>BNMA</td><td>+0.32</td><td class='tl'>[-0.39, +1.05]</td><td>0.81</td><td>0.00</td><td class='tl'>[12, 33]</td><td>21.3</td><td>23.3</td><td><span class='badge downgrade'>DOWNGRADE A→B</span></td></tr>
+<tr><td>20</td><td class='tl'>OppInsider · Opportunistic Insider (Form 4)</td><td>Stocks</td><td>SR</td><td>+0.28</td><td class='tl'>[-0.93, +1.48]</td><td>0.68</td><td>0.01</td><td class='tl'>[8, 42]</td><td>22.7</td><td>22.6</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>21</td><td class='tl'>V012 · BTC active addresses</td><td>S</td><td>BNMA</td><td>+0.24</td><td class='tl'>[-0.48, +0.96]</td><td>0.74</td><td>0.00</td><td class='tl'>[12, 35]</td><td>22.6</td><td>21.8</td><td><span class='badge exclude'>EXCLUDE</span></td></tr>
+<tr><td>22</td><td class='tl'>QMJ · Quality Minus Junk</td><td>Stocks</td><td>SR</td><td>+0.22</td><td class='tl'>[-0.79, +1.27]</td><td>0.66</td><td>0.00</td><td class='tl'>[10, 40]</td><td>23.5</td><td>23.2</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>23</td><td class='tl'>HMLDevil · HML-Devil (Timely Value)</td><td>Stocks</td><td>SR</td><td>+0.16</td><td class='tl'>[-0.95, +1.25]</td><td>0.61</td><td>0.00</td><td class='tl'>[10, 42]</td><td>24.5</td><td>24.4</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>24</td><td class='tl'>ADS_Nowcast · ADS / Scotti Real-Time Macro Nowcast</td><td>R</td><td>SR</td><td>+0.14</td><td class='tl'>[-0.73, +1.02]</td><td>0.62</td><td>0.00</td><td class='tl'>[12, 39]</td><td>24.6</td><td>24.5</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>25</td><td class='tl'>GoldTIPSbeta · Gold / 10Y TIPS Real-Yield β</td><td>T</td><td>SR</td><td>+0.13</td><td class='tl'>[-1.09, +1.36]</td><td>0.58</td><td>0.01</td><td class='tl'>[9, 44]</td><td>25.1</td><td>25.1</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>26</td><td class='tl'>CorrelationRiskPremium · SPX Correlation Risk Premium</td><td>R</td><td>SR</td><td>+0.09</td><td class='tl'>[-1.02, +1.18]</td><td>0.57</td><td>0.00</td><td class='tl'>[10, 43]</td><td>25.7</td><td>25.6</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>27</td><td class='tl'>V019 · MVRV / SOPR</td><td>S</td><td>BNMA</td><td>-0.03</td><td class='tl'>[-0.75, +0.69]</td><td>0.46</td><td>0.00</td><td class='tl'>[16, 39]</td><td>27.2</td><td>31.5</td><td><span class='badge exclude'>EXCLUDE</span></td></tr>
+<tr><td>28</td><td class='tl'>V013 · BTC hash rate</td><td>S</td><td>BNMA</td><td>-0.07</td><td class='tl'>[-0.80, +0.67]</td><td>0.43</td><td>0.00</td><td class='tl'>[16, 40]</td><td>27.9</td><td>29.8</td><td><span class='badge exclude'>EXCLUDE</span></td></tr>
+<tr><td>29</td><td class='tl'>C005_200DMA · 200-DMA regime filter</td><td>Overlay</td><td>BNMA</td><td>-0.09</td><td class='tl'>[-1.02, +0.83]</td><td>0.42</td><td>0.00</td><td class='tl'>[14, 43]</td><td>28.5</td><td>18.1</td><td><span class='badge watch'>WATCH</span></td></tr>
+<tr><td>30</td><td class='tl'>GoldPlatinumRatio · Gold/Platinum Ratio</td><td>R</td><td>SR</td><td>-0.15</td><td class='tl'>[-1.95, +1.69]</td><td>0.44</td><td>0.02</td><td class='tl'>[6, 52]</td><td>29.3</td><td>29.5</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>31</td><td class='tl'>V015 · BTC realized vol</td><td>R</td><td>BNMA</td><td>-0.17</td><td class='tl'>[-0.88, +0.55]</td><td>0.32</td><td>0.00</td><td class='tl'>[18, 41]</td><td>29.4</td><td>30.8</td><td><span class='badge watch'>WATCH</span></td></tr>
+<tr><td>32</td><td class='tl'>GoogleSVI · Google Search Attention (SVI)</td><td>S</td><td>SR</td><td>-0.17</td><td class='tl'>[-2.03, +1.64]</td><td>0.43</td><td>0.02</td><td class='tl'>[6, 52]</td><td>29.2</td><td>29.6</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>33</td><td class='tl'>V004 · HY OAS / EBP</td><td>R</td><td>BNMA</td><td>-0.17</td><td class='tl'>[-0.89, +0.54]</td><td>0.32</td><td>0.00</td><td class='tl'>[18, 41]</td><td>29.7</td><td>31.0</td><td><span class='badge downgrade'>DOWNGRADE + DOUBLE-COUNT GATE</span></td></tr>
+<tr><td>34</td><td class='tl'>V006 · UST 2s10s slope</td><td>S</td><td>BNMA</td><td>-0.34</td><td class='tl'>[-1.05, +0.38]</td><td>0.17</td><td>0.00</td><td class='tl'>[20, 43]</td><td>32.5</td><td>35.3</td><td><span class='badge downgrade'>DOWNGRADE A→B</span></td></tr>
+<tr><td>35</td><td class='tl'>C011_VIXTermStructure · VIX term-structure level</td><td>Overlay</td><td>BNMA</td><td>-0.39</td><td class='tl'>[-1.31, +0.52]</td><td>0.20</td><td>0.00</td><td class='tl'>[18, 47]</td><td>33.4</td><td>32.3</td><td><span class='badge watch'>WATCH</span></td></tr>
+<tr><td>36</td><td class='tl'>C002_VIXTermSlope · VIX term structure slope</td><td>Overlay</td><td>BNMA</td><td>-0.42</td><td class='tl'>[-1.31, +0.47]</td><td>0.18</td><td>0.00</td><td class='tl'>[19, 47]</td><td>33.9</td><td>27.2</td><td><span class='badge watch'>WATCH</span></td></tr>
+<tr><td>37</td><td class='tl'>V003 · DXY</td><td>R</td><td>BNMA</td><td>-0.55</td><td class='tl'>[-1.29, +0.15]</td><td>0.07</td><td>0.00</td><td class='tl'>[24, 46]</td><td>36.2</td><td>38.7</td><td><span class='badge watch'>INDIST</span></td></tr>
+<tr><td>38</td><td class='tl'>GKXml · Gu-Kelly-Xiu ML (NN4)</td><td>Stocks</td><td>SR</td><td>-0.60</td><td class='tl'>[-1.43, +0.22]</td><td>0.08</td><td>0.00</td><td class='tl'>[23, 47]</td><td>36.7</td><td>37.9</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>39</td><td class='tl'>V007 · Real yield / breakevens</td><td>S</td><td>BNMA</td><td>-0.66</td><td class='tl'>[-1.37, +0.08]</td><td>0.04</td><td>0.00</td><td class='tl'>[26, 47]</td><td>37.7</td><td>42.0</td><td><span class='badge downgrade'>DOWNGRADE (regime-restrict)</span></td></tr>
+<tr><td>40</td><td class='tl'>GoldComposite · Erb-Harvey Golden Dilemma + CFTC Composite</td><td>S</td><td>SR</td><td>-0.72</td><td class='tl'>[-1.72, +0.29]</td><td>0.08</td><td>0.00</td><td class='tl'>[22, 50]</td><td>38.2</td><td>39.3</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>41</td><td class='tl'>LM_Text · Loughran-McDonald 10-K Tone</td><td>Stocks</td><td>SR</td><td>-0.72</td><td class='tl'>[-1.64, +0.21]</td><td>0.06</td><td>0.00</td><td class='tl'>[23, 49]</td><td>38.3</td><td>39.5</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>42</td><td class='tl'>V017 · BTC ETF net flows</td><td>T</td><td>BNMA</td><td>-0.75</td><td class='tl'>[-1.48, -0.03]</td><td>0.02</td><td>0.00</td><td class='tl'>[28, 48]</td><td>39.3</td><td>38.1</td><td><span class='badge exclude'>EXCLUDE</span></td></tr>
+<tr><td>43</td><td class='tl'>V008 · ACM Term Premium 10Y</td><td>S</td><td>BNMA</td><td>-0.84</td><td class='tl'>[-1.57, -0.12]</td><td>0.01</td><td>0.00</td><td class='tl'>[30, 49]</td><td>40.8</td><td>45.1</td><td><span class='badge downgrade'>DOWNGRADE A→B</span></td></tr>
+<tr><td>44</td><td class='tl'>HongYogoOI · Hong-Yogo Open Interest</td><td>S</td><td>SR</td><td>-1.16</td><td class='tl'>[-2.32, +0.02]</td><td>0.03</td><td>0.00</td><td class='tl'>[27, 54]</td><td>43.9</td><td>45.1</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>45</td><td class='tl'>EPU · Economic Policy Uncertainty</td><td>R</td><td>SR</td><td>-1.23</td><td class='tl'>[-2.09, -0.36]</td><td>0.00</td><td>0.00</td><td class='tl'>[33, 53]</td><td>45.3</td><td>46.9</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>46</td><td class='tl'>Sloan · Sloan Accruals</td><td>Stocks</td><td>SR</td><td>-1.24</td><td class='tl'>[-2.18, -0.29]</td><td>0.00</td><td>0.00</td><td class='tl'>[32, 53]</td><td>45.4</td><td>47.0</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>47</td><td class='tl'>V002 · MOVE Index</td><td>R</td><td>BNMA</td><td>-1.31</td><td class='tl'>[-2.08, -0.53]</td><td>0.00</td><td>0.00</td><td class='tl'>[37, 52]</td><td>46.2</td><td>38.2</td><td><span class='badge exclude'>EXCLUDE</span></td></tr>
+<tr><td>48</td><td class='tl'>SkewScalar · SPX/SPY Downside-Skew Scalar</td><td>R</td><td>SR</td><td>-1.34</td><td class='tl'>[-2.47, -0.22]</td><td>0.01</td><td>0.00</td><td class='tl'>[31, 54]</td><td>46.0</td><td>47.4</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>49</td><td class='tl'>IVSpread · Implied Vol Spread (Put-Call Parity Deviation)</td><td>R</td><td>SR</td><td>-1.54</td><td class='tl'>[-2.90, -0.18]</td><td>0.01</td><td>0.00</td><td class='tl'>[30, 54]</td><td>47.1</td><td>48.4</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>50</td><td class='tl'>TailRisk · Kelly-Jiang + SVIX Tail-Risk Composite</td><td>R</td><td>SR</td><td>-1.59</td><td class='tl'>[-2.68, -0.46]</td><td>0.00</td><td>0.00</td><td class='tl'>[36, 54]</td><td>48.4</td><td>49.7</td><td><span class='badge watch'>SR</span></td></tr>
+<tr><td>51</td><td class='tl'>V005 · NFCI</td><td>R</td><td>BNMA</td><td>-1.64</td><td class='tl'>[-2.45, -0.85]</td><td>0.00</td><td>0.00</td><td class='tl'>[41, 54]</td><td>49.2</td><td>38.1</td><td><span class='badge exclude'>EXCLUDE</span></td></tr>
+<tr><td>52</td><td class='tl'>C007_MarketBreadth · Market breadth >200-DMA</td><td>Overlay</td><td>BNMA</td><td>-1.76</td><td class='tl'>[-2.76, -0.75]</td><td>0.00</td><td>0.00</td><td class='tl'>[40, 54]</td><td>49.7</td><td>36.4</td><td><span class='badge exclude'>EXCLUDE</span></td></tr>
+<tr><td>53</td><td class='tl'>V026 · Residual momentum (FF5)</td><td>T</td><td>BNMA</td><td>-1.79</td><td class='tl'>[-2.60, -1.00]</td><td>0.00</td><td>0.00</td><td class='tl'>[44, 54]</td><td>50.0</td><td>34.2</td><td><span class='badge deploy_cond'>DEPLOY_CONDITIONAL (subsumed by V009)</span></td></tr>
+<tr><td>54</td><td class='tl'>V010 · Revision breadth</td><td>T</td><td>BNMA</td><td>-2.15</td><td class='tl'>[-3.04, -1.27]</td><td>0.00</td><td>0.00</td><td class='tl'>[46, 54]</td><td>52.4</td><td>42.8</td><td><span class='badge exclude'>EXCLUDE</span></td></tr>
+</table></details>
+<h3>4.5 Pairwise dominance heatmap — top 15</h3>
+<p class='small'>Each cell shows P(row variable beats column variable) computed from the joint posterior. Darker green = row dominates, darker red = column dominates, white = ~50/50.</p>
+<div class='chart-wrap' style='overflow-x:auto; background:#fff;'>
+<div class='heatmap-header-row'>
+<span class='heatmap-col-header'>V009</span>
+<span class='heatmap-col-header'>C009_FaberTAA</span>
+<span class='heatmap-col-header'>V014</span>
+<span class='heatmap-col-header'>V027</span>
+<span class='heatmap-col-header'>DealerGamma</span>
+<span class='heatmap-col-header'>BAB</span>
+<span class='heatmap-col-header'>CEI</span>
+<span class='heatmap-col-header'>V018</span>
+<span class='heatmap-col-header'>PCTECH</span>
+<span class='heatmap-col-header'>V028</span>
+<span class='heatmap-col-header'>V016</span>
+<span class='heatmap-col-header'>V011</span>
+<span class='heatmap-col-header'>CrossAssetValue</span>
+<span class='heatmap-col-header'>LazyPrices</span>
+<span class='heatmap-col-header'>GrossProfitability</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>V009</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(213, 255, 213); color:#000;'>0.61</span>
+<span class='heatmap-cell' style='background:rgb(113, 255, 113); color:#000;'>0.89</span>
+<span class='heatmap-cell' style='background:rgb(100, 255, 100); color:#000;'>0.93</span>
+<span class='heatmap-cell' style='background:rgb(134, 255, 134); color:#000;'>0.83</span>
+<span class='heatmap-cell' style='background:rgb(109, 255, 109); color:#000;'>0.90</span>
+<span class='heatmap-cell' style='background:rgb(97, 255, 97); color:#000;'>0.94</span>
+<span class='heatmap-cell' style='background:rgb(79, 255, 79); color:#000;'>0.99</span>
+<span class='heatmap-cell' style='background:rgb(100, 255, 100); color:#000;'>0.93</span>
+<span class='heatmap-cell' style='background:rgb(79, 255, 79); color:#000;'>0.99</span>
+<span class='heatmap-cell' style='background:rgb(75, 255, 75); color:#000;'>1.00</span>
+<span class='heatmap-cell' style='background:rgb(75, 255, 75); color:#000;'>1.00</span>
+<span class='heatmap-cell' style='background:rgb(87, 255, 87); color:#000;'>0.96</span>
+<span class='heatmap-cell' style='background:rgb(78, 255, 78); color:#000;'>0.99</span>
+<span class='heatmap-cell' style='background:rgb(75, 255, 75); color:#000;'>1.00</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>C009_FaberTAA</span>
+<span class='heatmap-cell' style='background:rgb(255, 213, 213); color:#000;'>0.39</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(160, 255, 160); color:#000;'>0.76</span>
+<span class='heatmap-cell' style='background:rgb(144, 255, 144); color:#000;'>0.81</span>
+<span class='heatmap-cell' style='background:rgb(166, 255, 166); color:#000;'>0.75</span>
+<span class='heatmap-cell' style='background:rgb(143, 255, 143); color:#000;'>0.81</span>
+<span class='heatmap-cell' style='background:rgb(122, 255, 122); color:#000;'>0.87</span>
+<span class='heatmap-cell' style='background:rgb(100, 255, 100); color:#000;'>0.93</span>
+<span class='heatmap-cell' style='background:rgb(123, 255, 123); color:#000;'>0.87</span>
+<span class='heatmap-cell' style='background:rgb(97, 255, 97); color:#000;'>0.94</span>
+<span class='heatmap-cell' style='background:rgb(82, 255, 82); color:#000;'>0.98</span>
+<span class='heatmap-cell' style='background:rgb(77, 255, 77); color:#000;'>0.99</span>
+<span class='heatmap-cell' style='background:rgb(98, 255, 98); color:#000;'>0.93</span>
+<span class='heatmap-cell' style='background:rgb(85, 255, 85); color:#000;'>0.97</span>
+<span class='heatmap-cell' style='background:rgb(79, 255, 79); color:#000;'>0.99</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>V014</span>
+<span class='heatmap-cell' style='background:rgb(255, 113, 113); color:#000;'>0.11</span>
+<span class='heatmap-cell' style='background:rgb(255, 160, 160); color:#000;'>0.24</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(232, 255, 232); color:#000;'>0.56</span>
+<span class='heatmap-cell' style='background:rgb(234, 255, 234); color:#000;'>0.56</span>
+<span class='heatmap-cell' style='background:rgb(214, 255, 214); color:#000;'>0.61</span>
+<span class='heatmap-cell' style='background:rgb(172, 255, 172); color:#000;'>0.73</span>
+<span class='heatmap-cell' style='background:rgb(138, 255, 138); color:#000;'>0.82</span>
+<span class='heatmap-cell' style='background:rgb(173, 255, 173); color:#000;'>0.73</span>
+<span class='heatmap-cell' style='background:rgb(134, 255, 134); color:#000;'>0.83</span>
+<span class='heatmap-cell' style='background:rgb(93, 255, 93); color:#000;'>0.95</span>
+<span class='heatmap-cell' style='background:rgb(82, 255, 82); color:#000;'>0.98</span>
+<span class='heatmap-cell' style='background:rgb(121, 255, 121); color:#000;'>0.87</span>
+<span class='heatmap-cell' style='background:rgb(101, 255, 101); color:#000;'>0.93</span>
+<span class='heatmap-cell' style='background:rgb(85, 255, 85); color:#000;'>0.97</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>V027</span>
+<span class='heatmap-cell' style='background:rgb(255, 100, 100); color:#000;'>0.07</span>
+<span class='heatmap-cell' style='background:rgb(255, 144, 144); color:#000;'>0.19</span>
+<span class='heatmap-cell' style='background:rgb(255, 232, 232); color:#000;'>0.44</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(252, 255, 252); color:#000;'>0.51</span>
+<span class='heatmap-cell' style='background:rgb(231, 255, 231); color:#000;'>0.56</span>
+<span class='heatmap-cell' style='background:rgb(184, 255, 184); color:#000;'>0.70</span>
+<span class='heatmap-cell' style='background:rgb(149, 255, 149); color:#000;'>0.79</span>
+<span class='heatmap-cell' style='background:rgb(185, 255, 185); color:#000;'>0.69</span>
+<span class='heatmap-cell' style='background:rgb(142, 255, 142); color:#000;'>0.81</span>
+<span class='heatmap-cell' style='background:rgb(96, 255, 96); color:#000;'>0.94</span>
+<span class='heatmap-cell' style='background:rgb(81, 255, 81); color:#000;'>0.98</span>
+<span class='heatmap-cell' style='background:rgb(127, 255, 127); color:#000;'>0.85</span>
+<span class='heatmap-cell' style='background:rgb(106, 255, 106); color:#000;'>0.91</span>
+<span class='heatmap-cell' style='background:rgb(88, 255, 88); color:#000;'>0.96</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>DealerGamma</span>
+<span class='heatmap-cell' style='background:rgb(255, 134, 134); color:#000;'>0.17</span>
+<span class='heatmap-cell' style='background:rgb(255, 166, 166); color:#000;'>0.25</span>
+<span class='heatmap-cell' style='background:rgb(255, 234, 234); color:#000;'>0.44</span>
+<span class='heatmap-cell' style='background:rgb(255, 252, 252); color:#000;'>0.49</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(240, 255, 240); color:#000;'>0.54</span>
+<span class='heatmap-cell' style='background:rgb(199, 255, 199); color:#000;'>0.65</span>
+<span class='heatmap-cell' style='background:rgb(189, 255, 189); color:#000;'>0.68</span>
+<span class='heatmap-cell' style='background:rgb(195, 255, 195); color:#000;'>0.66</span>
+<span class='heatmap-cell' style='background:rgb(188, 255, 188); color:#000;'>0.68</span>
+<span class='heatmap-cell' style='background:rgb(140, 255, 140); color:#000;'>0.82</span>
+<span class='heatmap-cell' style='background:rgb(119, 255, 119); color:#000;'>0.88</span>
+<span class='heatmap-cell' style='background:rgb(143, 255, 143); color:#000;'>0.81</span>
+<span class='heatmap-cell' style='background:rgb(127, 255, 127); color:#000;'>0.85</span>
+<span class='heatmap-cell' style='background:rgb(109, 255, 109); color:#000;'>0.91</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>BAB</span>
+<span class='heatmap-cell' style='background:rgb(255, 109, 109); color:#000;'>0.10</span>
+<span class='heatmap-cell' style='background:rgb(255, 143, 143); color:#000;'>0.19</span>
+<span class='heatmap-cell' style='background:rgb(255, 214, 214); color:#000;'>0.39</span>
+<span class='heatmap-cell' style='background:rgb(255, 231, 231); color:#000;'>0.44</span>
+<span class='heatmap-cell' style='background:rgb(255, 240, 240); color:#000;'>0.46</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(200, 255, 200); color:#000;'>0.65</span>
+<span class='heatmap-cell' style='background:rgb(192, 255, 192); color:#000;'>0.67</span>
+<span class='heatmap-cell' style='background:rgb(205, 255, 205); color:#000;'>0.64</span>
+<span class='heatmap-cell' style='background:rgb(191, 255, 191); color:#000;'>0.68</span>
+<span class='heatmap-cell' style='background:rgb(131, 255, 131); color:#000;'>0.84</span>
+<span class='heatmap-cell' style='background:rgb(107, 255, 107); color:#000;'>0.91</span>
+<span class='heatmap-cell' style='background:rgb(140, 255, 140); color:#000;'>0.82</span>
+<span class='heatmap-cell' style='background:rgb(115, 255, 115); color:#000;'>0.89</span>
+<span class='heatmap-cell' style='background:rgb(94, 255, 94); color:#000;'>0.95</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>CEI</span>
+<span class='heatmap-cell' style='background:rgb(255, 97, 97); color:#000;'>0.06</span>
+<span class='heatmap-cell' style='background:rgb(255, 122, 122); color:#000;'>0.13</span>
+<span class='heatmap-cell' style='background:rgb(255, 172, 172); color:#000;'>0.27</span>
+<span class='heatmap-cell' style='background:rgb(255, 184, 184); color:#000;'>0.30</span>
+<span class='heatmap-cell' style='background:rgb(255, 199, 199); color:#000;'>0.35</span>
+<span class='heatmap-cell' style='background:rgb(255, 200, 200); color:#000;'>0.35</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(249, 255, 249); color:#000;'>0.51</span>
+<span class='heatmap-cell' style='background:rgb(252, 255, 252); color:#000;'>0.51</span>
+<span class='heatmap-cell' style='background:rgb(246, 255, 246); color:#000;'>0.52</span>
+<span class='heatmap-cell' style='background:rgb(181, 255, 181); color:#000;'>0.70</span>
+<span class='heatmap-cell' style='background:rgb(152, 255, 152); color:#000;'>0.79</span>
+<span class='heatmap-cell' style='background:rgb(172, 255, 172); color:#000;'>0.73</span>
+<span class='heatmap-cell' style='background:rgb(154, 255, 154); color:#000;'>0.78</span>
+<span class='heatmap-cell' style='background:rgb(129, 255, 129); color:#000;'>0.85</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>V018</span>
+<span class='heatmap-cell' style='background:rgb(255, 79, 79); color:#000;'>0.01</span>
+<span class='heatmap-cell' style='background:rgb(255, 100, 100); color:#000;'>0.07</span>
+<span class='heatmap-cell' style='background:rgb(255, 138, 138); color:#000;'>0.18</span>
+<span class='heatmap-cell' style='background:rgb(255, 149, 149); color:#000;'>0.21</span>
+<span class='heatmap-cell' style='background:rgb(255, 189, 189); color:#000;'>0.32</span>
+<span class='heatmap-cell' style='background:rgb(255, 192, 192); color:#000;'>0.33</span>
+<span class='heatmap-cell' style='background:rgb(255, 249, 249); color:#000;'>0.49</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(253, 255, 253); color:#000;'>0.50</span>
+<span class='heatmap-cell' style='background:rgb(250, 255, 250); color:#000;'>0.51</span>
+<span class='heatmap-cell' style='background:rgb(157, 255, 157); color:#000;'>0.77</span>
+<span class='heatmap-cell' style='background:rgb(116, 255, 116); color:#000;'>0.88</span>
+<span class='heatmap-cell' style='background:rgb(169, 255, 169); color:#000;'>0.74</span>
+<span class='heatmap-cell' style='background:rgb(146, 255, 146); color:#000;'>0.80</span>
+<span class='heatmap-cell' style='background:rgb(119, 255, 119); color:#000;'>0.88</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>PCTECH</span>
+<span class='heatmap-cell' style='background:rgb(255, 100, 100); color:#000;'>0.07</span>
+<span class='heatmap-cell' style='background:rgb(255, 123, 123); color:#000;'>0.13</span>
+<span class='heatmap-cell' style='background:rgb(255, 173, 173); color:#000;'>0.27</span>
+<span class='heatmap-cell' style='background:rgb(255, 185, 185); color:#000;'>0.31</span>
+<span class='heatmap-cell' style='background:rgb(255, 195, 195); color:#000;'>0.34</span>
+<span class='heatmap-cell' style='background:rgb(255, 205, 205); color:#000;'>0.36</span>
+<span class='heatmap-cell' style='background:rgb(255, 252, 252); color:#000;'>0.49</span>
+<span class='heatmap-cell' style='background:rgb(255, 253, 253); color:#000;'>0.50</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(254, 255, 254); color:#000;'>0.50</span>
+<span class='heatmap-cell' style='background:rgb(190, 255, 190); color:#000;'>0.68</span>
+<span class='heatmap-cell' style='background:rgb(159, 255, 159); color:#000;'>0.77</span>
+<span class='heatmap-cell' style='background:rgb(179, 255, 179); color:#000;'>0.71</span>
+<span class='heatmap-cell' style='background:rgb(164, 255, 164); color:#000;'>0.75</span>
+<span class='heatmap-cell' style='background:rgb(141, 255, 141); color:#000;'>0.81</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>V028</span>
+<span class='heatmap-cell' style='background:rgb(255, 79, 79); color:#000;'>0.01</span>
+<span class='heatmap-cell' style='background:rgb(255, 97, 97); color:#000;'>0.06</span>
+<span class='heatmap-cell' style='background:rgb(255, 134, 134); color:#000;'>0.17</span>
+<span class='heatmap-cell' style='background:rgb(255, 142, 142); color:#000;'>0.19</span>
+<span class='heatmap-cell' style='background:rgb(255, 188, 188); color:#000;'>0.32</span>
+<span class='heatmap-cell' style='background:rgb(255, 191, 191); color:#000;'>0.32</span>
+<span class='heatmap-cell' style='background:rgb(255, 246, 246); color:#000;'>0.48</span>
+<span class='heatmap-cell' style='background:rgb(255, 250, 250); color:#000;'>0.49</span>
+<span class='heatmap-cell' style='background:rgb(255, 254, 254); color:#000;'>0.50</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(157, 255, 157); color:#000;'>0.77</span>
+<span class='heatmap-cell' style='background:rgb(115, 255, 115); color:#000;'>0.89</span>
+<span class='heatmap-cell' style='background:rgb(170, 255, 170); color:#000;'>0.73</span>
+<span class='heatmap-cell' style='background:rgb(148, 255, 148); color:#000;'>0.80</span>
+<span class='heatmap-cell' style='background:rgb(120, 255, 120); color:#000;'>0.88</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>V016</span>
+<span class='heatmap-cell' style='background:rgb(255, 75, 75); color:#000;'>0.00</span>
+<span class='heatmap-cell' style='background:rgb(255, 82, 82); color:#000;'>0.02</span>
+<span class='heatmap-cell' style='background:rgb(255, 93, 93); color:#000;'>0.05</span>
+<span class='heatmap-cell' style='background:rgb(255, 96, 96); color:#000;'>0.06</span>
+<span class='heatmap-cell' style='background:rgb(255, 140, 140); color:#000;'>0.18</span>
+<span class='heatmap-cell' style='background:rgb(255, 131, 131); color:#000;'>0.16</span>
+<span class='heatmap-cell' style='background:rgb(255, 181, 181); color:#000;'>0.30</span>
+<span class='heatmap-cell' style='background:rgb(255, 157, 157); color:#000;'>0.23</span>
+<span class='heatmap-cell' style='background:rgb(255, 190, 190); color:#000;'>0.32</span>
+<span class='heatmap-cell' style='background:rgb(255, 157, 157); color:#000;'>0.23</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(202, 255, 202); color:#000;'>0.65</span>
+<span class='heatmap-cell' style='background:rgb(220, 255, 220); color:#000;'>0.60</span>
+<span class='heatmap-cell' style='background:rgb(209, 255, 209); color:#000;'>0.63</span>
+<span class='heatmap-cell' style='background:rgb(180, 255, 180); color:#000;'>0.71</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>V011</span>
+<span class='heatmap-cell' style='background:rgb(255, 75, 75); color:#000;'>0.00</span>
+<span class='heatmap-cell' style='background:rgb(255, 77, 77); color:#000;'>0.01</span>
+<span class='heatmap-cell' style='background:rgb(255, 82, 82); color:#000;'>0.02</span>
+<span class='heatmap-cell' style='background:rgb(255, 81, 81); color:#000;'>0.02</span>
+<span class='heatmap-cell' style='background:rgb(255, 119, 119); color:#000;'>0.12</span>
+<span class='heatmap-cell' style='background:rgb(255, 107, 107); color:#000;'>0.09</span>
+<span class='heatmap-cell' style='background:rgb(255, 152, 152); color:#000;'>0.21</span>
+<span class='heatmap-cell' style='background:rgb(255, 116, 116); color:#000;'>0.12</span>
+<span class='heatmap-cell' style='background:rgb(255, 159, 159); color:#000;'>0.23</span>
+<span class='heatmap-cell' style='background:rgb(255, 115, 115); color:#000;'>0.11</span>
+<span class='heatmap-cell' style='background:rgb(255, 202, 202); color:#000;'>0.35</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(247, 255, 247); color:#000;'>0.52</span>
+<span class='heatmap-cell' style='background:rgb(242, 255, 242); color:#000;'>0.53</span>
+<span class='heatmap-cell' style='background:rgb(218, 255, 218); color:#000;'>0.60</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>CrossAssetValue</span>
+<span class='heatmap-cell' style='background:rgb(255, 87, 87); color:#000;'>0.04</span>
+<span class='heatmap-cell' style='background:rgb(255, 98, 98); color:#000;'>0.07</span>
+<span class='heatmap-cell' style='background:rgb(255, 121, 121); color:#000;'>0.13</span>
+<span class='heatmap-cell' style='background:rgb(255, 127, 127); color:#000;'>0.15</span>
+<span class='heatmap-cell' style='background:rgb(255, 143, 143); color:#000;'>0.19</span>
+<span class='heatmap-cell' style='background:rgb(255, 140, 140); color:#000;'>0.18</span>
+<span class='heatmap-cell' style='background:rgb(255, 172, 172); color:#000;'>0.27</span>
+<span class='heatmap-cell' style='background:rgb(255, 169, 169); color:#000;'>0.26</span>
+<span class='heatmap-cell' style='background:rgb(255, 179, 179); color:#000;'>0.29</span>
+<span class='heatmap-cell' style='background:rgb(255, 170, 170); color:#000;'>0.27</span>
+<span class='heatmap-cell' style='background:rgb(255, 220, 220); color:#000;'>0.40</span>
+<span class='heatmap-cell' style='background:rgb(255, 247, 247); color:#000;'>0.48</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(254, 255, 254); color:#000;'>0.50</span>
+<span class='heatmap-cell' style='background:rgb(240, 255, 240); color:#000;'>0.54</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>LazyPrices</span>
+<span class='heatmap-cell' style='background:rgb(255, 78, 78); color:#000;'>0.01</span>
+<span class='heatmap-cell' style='background:rgb(255, 85, 85); color:#000;'>0.03</span>
+<span class='heatmap-cell' style='background:rgb(255, 101, 101); color:#000;'>0.07</span>
+<span class='heatmap-cell' style='background:rgb(255, 106, 106); color:#000;'>0.09</span>
+<span class='heatmap-cell' style='background:rgb(255, 127, 127); color:#000;'>0.15</span>
+<span class='heatmap-cell' style='background:rgb(255, 115, 115); color:#000;'>0.11</span>
+<span class='heatmap-cell' style='background:rgb(255, 154, 154); color:#000;'>0.22</span>
+<span class='heatmap-cell' style='background:rgb(255, 146, 146); color:#000;'>0.20</span>
+<span class='heatmap-cell' style='background:rgb(255, 164, 164); color:#000;'>0.25</span>
+<span class='heatmap-cell' style='background:rgb(255, 148, 148); color:#000;'>0.20</span>
+<span class='heatmap-cell' style='background:rgb(255, 209, 209); color:#000;'>0.37</span>
+<span class='heatmap-cell' style='background:rgb(255, 242, 242); color:#000;'>0.47</span>
+<span class='heatmap-cell' style='background:rgb(255, 254, 254); color:#000;'>0.50</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+<span class='heatmap-cell' style='background:rgb(235, 255, 235); color:#000;'>0.56</span>
+</div>
+<div class='heatmap-row'>
+<span class='heatmap-label'>GrossProfitability</span>
+<span class='heatmap-cell' style='background:rgb(255, 75, 75); color:#000;'>0.00</span>
+<span class='heatmap-cell' style='background:rgb(255, 79, 79); color:#000;'>0.01</span>
+<span class='heatmap-cell' style='background:rgb(255, 85, 85); color:#000;'>0.03</span>
+<span class='heatmap-cell' style='background:rgb(255, 88, 88); color:#000;'>0.04</span>
+<span class='heatmap-cell' style='background:rgb(255, 109, 109); color:#000;'>0.09</span>
+<span class='heatmap-cell' style='background:rgb(255, 94, 94); color:#000;'>0.05</span>
+<span class='heatmap-cell' style='background:rgb(255, 129, 129); color:#000;'>0.15</span>
+<span class='heatmap-cell' style='background:rgb(255, 119, 119); color:#000;'>0.12</span>
+<span class='heatmap-cell' style='background:rgb(255, 141, 141); color:#000;'>0.19</span>
+<span class='heatmap-cell' style='background:rgb(255, 120, 120); color:#000;'>0.12</span>
+<span class='heatmap-cell' style='background:rgb(255, 180, 180); color:#000;'>0.29</span>
+<span class='heatmap-cell' style='background:rgb(255, 218, 218); color:#000;'>0.40</span>
+<span class='heatmap-cell' style='background:rgb(255, 240, 240); color:#000;'>0.46</span>
+<span class='heatmap-cell' style='background:rgb(255, 235, 235); color:#000;'>0.44</span>
+<span class='heatmap-cell' style='background:#e0e0e0; color:#000;'>—</span>
+</div>
+</div>
+<h3>4.6 Systematic-review EFFECTIVE vs INEFFECTIVE votes</h3>
+<div class='chart-wrap'><canvas id='chartVotes'></canvas><p class='small'>Per systematic-review variable: count of EFFECTIVE vs INEFFECTIVE vs MIXED votes across the 8 reviews. Strong consensus at either extreme is more informative than the Bayesian pool with n=1 reviewer.</p></div>
+<h3>4.7 Headline meta-analysis findings</h3>
+<div class='callout good'><strong>Robust-deploy (top-10 primary ∧ top-10 S1 ∧ top-10 S2):</strong> V009 TSMOM, DealerGamma, BAB — three variables that survive every sensitivity. These carry the framework's alpha.</div>
+<div class='callout'><strong>Primary-only (top-10 primary, &gt;15 in S2):</strong> C009 FaberTAA, V014 BTC netflows, V027 Intermediary capital, V018 BTC 3m basis, V016 BTC perp funding. These score high in the cross-group PL-NMA but fall when restricted to within-group BNMA pairs. Part of the signal is a <em>cross-group scale artifact</em>; the within-group evidence alone is weaker than it appeared.</div>
+<div class='callout bad'><strong>Robust-exclude (bottom-10 all three):</strong> V010 revision breadth (rank 54), V026 residual-momentum, C007 market breadth, V005 NFCI, TailRisk composite, SkewScalar, V002 MOVE, IVSpread, Sloan, EPU. These are consistently crushed by peers across paper types and sensitivities.</div>
+<h2 id='s5'>5. Discussion — per-paper and of analysing the papers</h2>
+<h3>5.1 Per-paper discussion</h3>
+<details><summary>P1 · BNMA Mark 1</summary><div class='varcard'><p><strong>Scope:</strong> Original BNMA over 23 Grade A/B/C variables incl. V001–V028 and C-series P1 candidates.</p><p><strong>Headline:</strong> DEPLOY set = V009, V027, V028, V011, C009 (TAA); heterogeneity flags on V001, V004, V014.</p><p><strong>Discussion:</strong> The workhorse BNMA of the workspace. Largest variable universe (24), full MCMC, audit layer on top 5. Strength: identified V009/V027/V028 as the DEPLOY trio across construct heterogeneity tests. Weakness: P1's posterior medians for V010 (0.84) and V001 (0.72) look signal-bearing but are peer-dominated — p_beats_peers reveals them as weak. The paper itself flags this in the §8 caveats (CONSTRUCT_HETEROGENEOUS for V001/V004).</p></div></details>
+<details><summary>P2 · ChatGPT Mark 2</summary><div class='varcard'><p><strong>Scope:</strong> Ranking-reduced BNMA on 6 core A-grade variables (V009, V011, V026, V027, V028 + peer pool).</p><p><strong>Headline:</strong> V027 > V028 > V009 on p_beats_peers at peer-only resolution; S-group ties BOTTOM3 on many peripherals (INDIST).</p><p><strong>Discussion:</strong> Focused ranking BNMA on the core peer-only pool. Strength: cleanest peer-dominance numbers because the pool is pre-filtered. V027 achieves p_beats_peers = 1.00. Weakness: small pool means many variables sit at INDIST·BOTTOM3·UNSTABLE — the paper can't distinguish them, which is honest but leaves them underscored in PL-NMA (they end up with no pair evidence against them).</p></div></details>
+<details><summary>P3 · ChatGPT Mark 1</summary><div class='varcard'><p><strong>Scope:</strong> Analytical peer-dominance table (no MCMC numeric).</p><p><strong>Headline:</strong> RANK1 winners: V009 (T), V011 (S), V027 (R); confirms 3-variable spine.</p><p><strong>Discussion:</strong> Analytical peer-dominance paper, no MCMC. Strength: fast, cheap read of rank-1 winners by group (V009 T, V011 S, V027 R). Weakness: no numeric posteriors → S1 sensitivity drops P3 entirely; if P3 were the only evidence, the PL-NMA would not move much. Good confirmatory paper, weak standalone.</p></div></details>
+<details><summary>P4 · BNMA Claude Mark 2</summary><div class='varcard'><p><strong>Scope:</strong> Full-posterior BNMA with skeptical N(0,1/3) prior + audit layer; explicit §0 no-cross-group statement.</p><p><strong>Headline:</strong> STABLE audit-GO: V027, V028; V009 confirmed; V010 p_beats 0.006 → EXCLUDE; V014 shrinks to INDIST; V004 flagged REDUNDANT_VS_V027.</p><p><strong>Discussion:</strong> Skeptical-prior BNMA with explicit §0 statement that cross-group posteriors are not commensurable. Most conservative of the four. Strength: added audit-GO / AUDIT_NO-GO layer that re-anchored V027 to AEM 2014, V028 to post-decay 0.8 Sharpe. Weakness: shrinks everything — good for avoiding false DEPLOYs, but makes WATCH verdicts harder to distinguish from EXCLUDEs (V015, V018, C005, C002 all cluster at p ≈ 0.55–0.60).</p></div></details>
+<details><summary>SR1-cg1 · ChatGPT SR #1</summary><div class='varcard'><p><strong>Scope:</strong> Shortlist expansion across R/S/T paradigms; 13 candidates graded A-C.</p><p><strong>Headline:</strong> Highlighted VRP, BAB, PCTECH, CEI, LazyPrices; flagged NO_OOS_EVIDENCE on many B-grade.</p><p><strong>Discussion:</strong> Widest-net systematic review. Strength: catches candidates later confirmed (DealerGamma, CEI, LazyPrices). Weakness: 9/13 candidates get NO_OSS_EVIDENCE flag — grade B but no clean Sharpe — so they enter the registry as WATCH, not DEPLOY.</p></div></details>
+<details><summary>SR2-cg2 · ChatGPT SR #2</summary><div class='varcard'><p><strong>Scope:</strong> INDEX-shortlist run — picked cleanest option-implied and structural fill-gaps.</p><p><strong>Headline:</strong> INCLUDE_UNGRADED: VRP, CrossAssetValue, EPU (partial); EXCLUDE: HedgingPressure, GoldComposite, Sloan (by construction — composite paradigm).</p><p><strong>Discussion:</strong> INDEX-shortlist run — trims to the cleanest cross-asset premia. Strength: identifies CrossAssetValue as the fill for the empty-value row. Weakness: uses INCLUDE_UNGRADED / EXCLUDE as a binary admit/reject without Sharpe — this maps weakly onto the PL-NMA score because it lacks discriminative detail.</p></div></details>
+<details><summary>SR3-cg3 · ChatGPT SR #3</summary><div class='varcard'><p><strong>Scope:</strong> Gap-fill scan for VRP, ADS, Gross Profitability, EPU-gate.</p><p><strong>Headline:</strong> GP/A cleanest stock; ADS Nowcast as regime gate; skew scalar only (no standalone).</p><p><strong>Discussion:</strong> Gap-fill scan. Strength: correctly identifies GP/A as the cleanest stock and ADS_Nowcast as a regime gate (not a standalone). Weakness: excludes GKXml on paradigm-overlap reasoning — which arguably kept a Sharpe-3.89 candidate out of the shortlist on a structural rather than empirical ground.</p></div></details>
+<details><summary>SR4-cg4 · ChatGPT SR #4</summary><div class='varcard'><p><strong>Scope:</strong> Stocks-cluster shortlist (HMLDevil, GP, CEI, Sloan, QMJ, GKXml).</p><p><strong>Headline:</strong> HXZ replication: CEI, GP/A, HMLDevil pass multiple t>2; Sloan borderline; GKXml high raw Sharpe but excluded by cg3 on paradigm overlap.</p><p><strong>Discussion:</strong> Stocks-cluster SR with HXZ replication. Strength: most defensible EFFECTIVE classifications (CEI, GP/A, HMLDevil all pass t>2 independently). Weakness: single asset class (US Equity XS) — its DEPLOY recommendations don't generalize to commodity / crypto sleeves.</p></div></details>
+<details><summary>SR5-cg5 · ChatGPT SR Mark 5</summary><div class='varcard'><p><strong>Scope:</strong> Pre-registered audit of sharpness / decay concerns.</p><p><strong>Headline:</strong> Flags SEVERE decay on VRP (Goyal-Welch-Zafirov 2024); tail-risk OOS R² negative per 2024 audit.</p><p><strong>Discussion:</strong> Decay audit SR. Strength: flags Goyal-Welch-Zafirov 2024 VRP decay and Bali-Cakici-Whitelaw tail-risk rebuttal — the decay story that none of the other reviews emphasize. Weakness: by design it leans skeptical; several MIXED votes here (VRP, HedgingPressure) are EFFECTIVE in other reviews.</p></div></details>
+<details><summary>SR6-cl1 · Claude SR #1</summary><div class='varcard'><p><strong>Scope:</strong> Five-benchmark replication filter (V029-V033).</p><p><strong>Headline:</strong> A-grade survivors: VRP, GoldTIPSbeta, ADS_Nowcast, GP/A; rest conditional.</p><p><strong>Discussion:</strong> Five-benchmark replication filter. Strength: A-grades VRP, GoldTIPSbeta, ADS_Nowcast, GP/A with clear replication citations. Weakness: produces a smaller set of A-grades (4) because the five-benchmark filter is strict — this hurts the PL-NMA score for several good candidates that fail 1 of 5 benchmarks.</p></div></details>
+<details><summary>SR7-cl2 · Claude SR #2</summary><div class='varcard'><p><strong>Scope:</strong> Candidate pipeline quarterly queue (CAND-01..06).</p><p><strong>Headline:</strong> DealerGamma A-grade deploy-cond; CieslakPovala bond RP; PCTECH survives GWZ; tail-risk, CRP rejected post-OOS.</p><p><strong>Discussion:</strong> Candidate-pipeline SR. Strength: DealerGamma surfaced here with Sharpe 1.33 net — ends up rank 5 in primary PL-NMA. Weakness: several candidates are tagged CAND-NN with no Sharpe — they contribute only a grade-numeric, no decay-robust evidence.</p></div></details>
+<details><summary>SR8-cl3 · Claude SR #3</summary><div class='varcard'><p><strong>Scope:</strong> Stock-cluster replication (JKP 2023 + HXZ).</p><p><strong>Headline:</strong> BAB, CEI, HML-Devil, OppInsider, LazyPrices cleared; GKXml excluded on V026 overlap; Sloan PARTIAL (subsumed by QMJ).</p><p><strong>Discussion:</strong> Stocks-cluster JKP 2023 replication. Strength: best-documented replication evidence; assigns clean EXCLUDE to GKXml and Sloan based on post-2020 replication failure. Weakness: JKP tangency framework assumes a particular factor zoo — PARTIAL ratings are hard to score (QMJ and GP/A both get PARTIAL in this paper despite being core survivors).</p></div></details>
+<h3>5.2 Discussion of analysing the 12 papers together</h3>
+<h4>5.2.1 What the meta-analysis layers reveal</h4>
+<p>The cross-run BNMA synthesis (BNMA-meta-analysis-2026-04-18) already collapsed P1–P4 to a common variable registry and cleaned up heterogeneity flags. The PL-NMA adds two new insights:</p>
+<ul class='tight'>
+<li><strong>The 3-variable spine holds even outside the BNMA sample.</strong> V009/V027/V028 keep top-10 positions when systematic-review variables (which P1–P4 didn't include) are added. V009 retains rank 1; V028 moves to rank 10 (S2 rank 3.35), V027 to rank 4 (S2 rank 14.7). The drop in V027's rank is a scale artifact — within R-group it's still rank 1.</li>
+<li><strong>The cross-group scale caveat is quantitatively confirmed.</strong> S2 (within-group) rearranges the top-10: variables that benefited from the Sharpe-scale bonus of S-group drop; variables that were under-represented relative to peers in R-group rise. The PL-NMA doesn't re-rank the within-group winners — those are stable — but it does reveal that the cross-group ordering is partly methodology, partly signal.</li>
+<li><strong>Single-paper candidates are correctly shrunk, not boosted.</strong> Variables that appear in only 1 systematic review (DealerGamma, PCTECH, CieslakPovala, OppInsider) end up at rank 5-15. That matches the intuition: high-grade but single-source evidence should be CONDITIONAL, not DEPLOY. The PL-NMA does this automatically via the weak prior.</li>
+</ul>
+<h4>5.2.2 What the papers don't agree on</h4>
+<ul class='tight'>
+<li>V014 (BTC exchange netflows): P1 posterior 1.15 (huge); P2/P4 INDIST. DIVERGENCE·HETEROG flag across runs. The construct is splittable — order-flow leg works, vol-sort leg doesn't.</li>
+<li>VRP: 6 reviews cite it; 3 EFFECTIVE, 1 C-grade MIXED, 1 EXCLUDE on decay. This is a post-publication decay disagreement, not a method disagreement.</li>
+<li>GKXml: cg4 gave it raw Sharpe 2.45; cl3 EXCLUDE for V026 overlap; cg3 EXCLUDE for PIPE-02 paradigm overlap. High raw Sharpe / low marginal contribution: a classic factor zoo trap.</li>
+</ul>
+<h4>5.2.3 What the meta-analysis itself cannot answer</h4>
+<ul class='tight'>
+<li><strong>Joint portfolio performance.</strong> PL-NMA ranks individual variables. It does not answer 'which combination of the top-5 gives the best risk-adjusted portfolio' — that requires a joint covariance / crowding model, which the workspace does not currently run.</li>
+<li><strong>Regime-conditionality.</strong> The ranking is unconditional. V027's value as a regime gate is by definition conditional. A regime-conditional extension would require per-regime ordinal inputs, which the 12 papers don't always provide.</li>
+<li><strong>Transaction-cost bite.</strong> All Sharpes entering the SR score are gross or lightly-netted. The registry already has paradigm-level haircuts (PCTECH 0.55 gross → 0.30 net), but those haircuts aren't flowed through PL-NMA. Treat the ranking as alpha-space, not P&amp;L-space.</li>
+</ul>
+<h2 id='s6'>6. Discussion — grouping and individual variables</h2>
+<h3>6.1 Should the S / T / R / Overlay / Stocks grouping be retained?</h3>
+<h4>Recommendation: <strong>KEEP the grouping, do NOT use it as a hard quota; DO use it as a commensurability scope.</strong></h4>
+<div class='callout'><strong>Reasoning:</strong> The grouping serves three distinct purposes, only one of which is statistical.</div>
+<ul class='tight'>
+<li><strong>Purpose 1 — mechanism identification (keep).</strong> Grouping by S/T/R labels the role a variable plays (Sharpe-generator, regime-filter, risk-sizing scalar, overlay). Mixing these in a sizing engine would double-count (two Sharpe-generators get full weight; two regime filters need a conjunction rule, not addition).</li>
+<li><strong>Purpose 2 — commensurability scope (keep for synthesis).</strong> P4 §0 is correct: cross-group posterior comparisons are not valid on raw means. For within-group synthesis the mean is comparable; for cross-group a ranking model (PL-NMA) is required.</li>
+<li><strong>Purpose 3 — allocation weighting (drop).</strong> Requiring each group to have ≥N DEPLOYs forces CONDITIONAL variables to be promoted (e.g., V026, V018) just to fill R / Overlay rows. The PL-NMA shows this is wasted sizing — V026 is peer-dominated by V009 in every single run.</li>
+</ul>
+<p><strong>Operational recommendation:</strong> keep S/T/R as paradigm labels and as the commensurability scope for synthesis. Do not enforce 'each group must have ≥N DEPLOYs'. Let the empty R-group sit empty if the evidence says only V027 makes it.</p>
+<h3>6.2 Per-variable discussion — every variable that appears in any of the 12 papers</h3>
+<p class='small'>Organized into four buckets: DEPLOY / DEPLOY_CONDITIONAL / WATCH / EXCLUDE (by PL-NMA robustness + BNMA verdict). Each card has a 'why it works' and 'why it doesn't' line.</p>
+<h4><span class='badge deploy'>Robust DEPLOY — top PL-NMA + survives within-group</span> (3 variables)</h4>
+<div class='varcard'><strong>V009 · TSMOM (cross-asset)</strong> &nbsp; <span class='small'>[T · θ=+2.46 · rank 1/54 · S2 rank 7.3]</span><br><span class='work'>✓ Why it works:</span> Time-series momentum (Moskowitz-Ooi-Pedersen 2012) exploits under-reaction + confirmation-bias delayed reaction across futures. 4/4 BNMA runs p_positive 1.00 and p_beats_peers ≥ 0.66. Only T-group variable that survives both within-peer and cross-construct tests.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Signal decays in low-vol regimes and at 1-month window drifts. Risk: 2020-vol crash and 2022 sign reversal. Crowded but not arbitraged away (positioning data shows persistent CTA elasticity).</div>
+<div class='varcard'><strong>V027 · Intermediary capital ratio</strong> &nbsp; <span class='small'>[R · θ=+1.71 · rank 4/54 · S2 rank 14.7]</span><br><span class='work'>✓ Why it works:</span> Adrian-Etula-Muir intermediary capital (AEM 2014) is the cleanest risk-sizing scalar: primary dealer leverage is a macro state variable priced across asset classes. P1 p_top3 0.90, P4 STABLE·AUDIT_GO, 4/4 p_positive ≥ 0.985.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Only updates weekly (H.4.1 release delay); double-counts with HY OAS in some specifications (P4 flagged V004 REDUNDANT_VS_V027). In S2 ranking the within-R peer pool is thinner so rank drops artificially.</div>
+<div class='varcard'><strong>V028 · Basis-momentum</strong> &nbsp; <span class='small'>[S · θ=+1.30 · rank 10/54 · S2 rank 3.3]</span><br><span class='work'>✓ Why it works:</span> Basis-momentum (Boons-Prado 2019) combines carry and momentum on commodity futures curves. 4/4 BNMA p_positive ≥ 0.99; AUDIT_GO P1/P4. Mechanism: term-structure sorting proxies for convenience yield risk premium.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Registry Sharpe overstated (1.2 claimed, P1 audit re-anchored to ~0.8). Narrow construct (commodity futures curve). S2 rank 3.35 confirms deploy.</div>
+<h4><span class='badge deploy'>DEPLOY</span> (0 variables)</h4>
+<h4><span class='badge deploy_cond'>DEPLOY_CONDITIONAL — conditional or single-source</span> (14 variables)</h4>
+<div class='varcard'><strong>C009_FaberTAA · Faber TAA (10m SMA cross-asset)</strong> &nbsp; <span class='small'>[Overlay · θ=+2.26 · rank 2/54 · S2 rank 22.4]</span><br><span class='work'>✓ Why it works:</span> Simple 10-month SMA trend-following across SPY/EFA/GSCI/IEF/VNQ; intuitive regime filter; P1 BNMA audit-GO. Works by cutting drawdowns not by earning alpha.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Only 1/4 BNMA runs covered it; S2 (within-group) drops rank to 22 — *pure* scale/coverage artifact. High turnover, sensitive to whipsaws 2011/2015/2018.</div>
+<div class='varcard'><strong>DealerGamma · Dealer Gamma / Intraday Momentum</strong> &nbsp; <span class='small'>[T · θ=+1.68 · rank 5/54 · S2 rank 5.6]</span><br><span class='work'>✓ Why it works:</span> Dealer option positioning predicts intraday mean-reversion vs trend regimes. ZAB 2024 SPY Sharpe 1.33 net. Mechanism: negative gamma forces dealers to trade with the market (destabilizing), positive gamma forces mean-reversion (stabilizing).<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Single review (cl2). Requires option-positioning data vendor; friction-sensitive; works on intraday bars, less at daily. Not visible in BNMA papers because intraday window.</div>
+<div class='varcard'><strong>BAB · Betting-Against-Beta</strong> &nbsp; <span class='small'>[C · θ=+1.60 · rank 6/54 · S2 rank 5.4]</span><br><span class='work'>✓ Why it works:</span> Frazzini-Pedersen 2014: leverage constraints → overbidding of high-beta. 4/4 reviews EFFECTIVE with Sharpe 0.50-0.78 long-short. Mechanism is structural (funding constraints), not behavioral — harder to arb.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Post-2014 decay (published alpha signal); correlation with quality means partial subsumption. Ranks 6 in primary and 6 in S2 — robust.</div>
+<div class='varcard'><strong>CEI · Composite Equity Issuance</strong> &nbsp; <span class='small'>[Stocks · θ=+1.33 · rank 7/54 · S2 rank 7.9]</span><br><span class='work'>✓ Why it works:</span> Composite equity issuance (Daniel-Titman 2006): firms time issuance when overvalued; issuance announcements predict underperformance. 2/2 reviews EFFECTIVE with HXZ -0.57%/mo t=3.32; JKP survivor.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Small Sharpe in long-short (0.5-0.6); some overlap with Sloan/QMJ earnings quality leg. Works best at long horizons (12m+).</div>
+<div class='varcard'><strong>PCTECH · Neely-Rapach PC-TECH Equity Premium Index</strong> &nbsp; <span class='small'>[T · θ=+1.31 · rank 9/54 · S2 rank 8.6]</span><br><span class='work'>✓ Why it works:</span> Neely-Rapach-Tu-Zhou 2014 PC-TECH: principal component of 14 technical rules predicts equity premium with OOS R² ≈ 1.3%/month. Survives Goyal-Welch-Zafirov 2024 qualitative audit. Works because it aggregates weak signals with low-correlation noise.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Single review (cl2). Linear PCA — vulnerable if regime changes the technical-rule set. OOS R² is modest; Sharpe 0.55 at best.</div>
+<div class='varcard'><strong>V011 · Brent M1-M3 curve slope</strong> &nbsp; <span class='small'>[S · θ=+0.78 · rank 12/54 · S2 rank 8.6]</span><br><span class='work'>✓ Why it works:</span> Brent M1-M3 curve slope is classical commodity backwardation signal. 4/4 BNMA p_positive 1.00. Works only on single commodity construct.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Peer-dominance oscillates 0.19-0.50 across runs (V028 dominates). Narrow scope. Don't size above V028. S2 rank 8.6 solid but not top-5.</div>
+<div class='varcard'><strong>CrossAssetValue · Cross-Asset Value (value leg)</strong> &nbsp; <span class='small'>[S · θ=+0.73 · rank 13/54 · S2 rank 16.1]</span><br><span class='work'>✓ Why it works:</span> Asness-Moskowitz-Pedersen 2013: value premium exists across 8 asset classes simultaneously → structural diversifier. Fills empty value row in the cross-asset framework.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Single review + only INCLUDE_UNGRADED grade. Implementation requires universe scaffolding (country indices, commodity value metric definitions) — operationally fragile. No tradable Sharpe evidenced.</div>
+<div class='varcard'><strong>LazyPrices · Lazy Prices (10-K Similarity)</strong> &nbsp; <span class='small'>[Stocks · θ=+0.72 · rank 14/54 · S2 rank 15.4]</span><br><span class='work'>✓ Why it works:</span> Cohen-Malloy-Nguyen 2020: firms that change 10-K language underperform; 5-factor alpha up to 188 bps/mo. Works because attention-limited investors under-react to textual signals.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Requires NLP pipeline + annual-frequency signal (slow turnover). Not replicated across multiple reviewers (1/8). Out-of-sample decay likely high.</div>
+<div class='varcard'><strong>GrossProfitability · Gross Profitability (GP/A)</strong> &nbsp; <span class='small'>[Stocks · θ=+0.63 · rank 15/54 · S2 rank 15.9]</span><br><span class='work'>✓ Why it works:</span> Novy-Marx 2013 GP/A: gross-to-assets is cleanest quality measure. 4/4 reviews EFFECTIVE (grade A in two). JKP 2023 tangency survivor. Works because profitability signals persistence of competitive advantage.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Overlaps QMJ earnings-quality component. Performance decays sharply in high-growth regimes. S2 rank 16 — within-stocks-cluster reasonable but cross-group artificial.</div>
+<div class='varcard'><strong>CieslakPovala · Cieslak-Povala Bond Risk Premium</strong> &nbsp; <span class='small'>[S · θ=+0.62 · rank 16/54 · S2 rank 16.9]</span><br><span class='work'>✓ Why it works:</span> Cieslak-Povala 2015: decomposes yield curve into persistent inflation trend + cycle; 2-5Y bond OOS R² 43-60%. Unlocks cross-asset carry for Treasuries.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Single review. Post-2022 regime: Fed tightening distorted the trend-cycle decomposition. Sharpe 0.40 modest.</div>
+<div class='varcard'><strong>VRP · Variance Risk Premium (SPX)</strong> &nbsp; <span class='small'>[R · θ=+0.47 · rank 17/54 · S2 rank 18.6]</span><br><span class='work'>✓ Why it works:</span> BTZ 2009 variance risk premium: implied vol minus realized vol predicts equity returns. 6/6 reviews cite. Mechanism: vol-insurance premium (Bollerslev).<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> SEVERE decay per Goyal-Welch-Zafirov 2024. Post-2008 decline. Flat at current close (IV≈RV). Registry Sharpe 0.20-0.55 range — depends sharply on vintage. DEPLOY_CONDITIONAL at best.</div>
+<div class='varcard'><strong>HedgingPressure · Basu-Miffre Hedging Pressure (non-gold commodities)</strong> &nbsp; <span class='small'>[S · θ=+0.37 · rank 18/54 · S2 rank 20.4]</span><br><span class='work'>✓ Why it works:</span> Basu-Miffre 2013: commercial vs speculator positioning on CFTC reports predicts commodity returns. Mechanism: hedging demand creates risk-transfer premium.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 30-50% post-financialization decay. |ρ| 0.4-0.6 with V028 → double-count gate. EXCLUDE in cg2. WATCH only.</div>
+<div class='varcard'><strong>V001 · VIX</strong> &nbsp; <span class='small'>[R · θ=+0.32 · rank 19/54 · S2 rank 23.3]</span><br><span class='work'>✓ Why it works:</span> VIX as risk-on/off gate (P1 HETEROG post 0.72). Liquid, traded, universally monitored.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3/4 BNMA INDIST. P1 outlier driven by construct heterogeneity (level vs slope vs change). Collapsed to B-grade by cross-run synthesis. INCLUDE_UNGRADED in systematic reviews — no clean Sharpe evidence.</div>
+<div class='varcard'><strong>OppInsider · Opportunistic Insider (Form 4)</strong> &nbsp; <span class='small'>[Stocks · θ=+0.28 · rank 20/54 · S2 rank 22.6]</span><br><span class='work'>✓ Why it works:</span> Cohen-Malloy-Pomorski 2012 opportunistic insider trades: VW alpha 82 bps/mo t=2.15 on 'routine-subtracted' insider buys. Mechanism: genuine private info separated from liquidity-driven insider trades.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Single review. Implementation requires Form 4 scraping + routine-classifier — non-trivial. Post-2012 SEC rule changes reduced signal clarity.</div>
+<h4><span class='badge watch'>WATCH — suggestive, not yet over bar</span> (25 variables)</h4>
+<div class='varcard'><strong>V018 · BTC 3m basis</strong> &nbsp; <span class='small'>[R · θ=+1.32 · rank 8/54 · S2 rank 19.1]</span><br><span class='work'>✓ Why it works:</span> BTC 3-month basis captures cash-and-carry premium; P2 posterior 0.25 p_positive 0.98 p_beats_peers 0.81 TIER3_TOP3.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Only P2 strong — P1/P4 INDIST. Post-spot-ETF structural break: basis arbitrage capacity tripled; historical regime not valid. BNMA WATCH.</div>
+<div class='varcard'><strong>QMJ · Quality Minus Junk</strong> &nbsp; <span class='small'>[Stocks · θ=+0.22 · rank 22/54 · S2 rank 23.2]</span><br><span class='work'>✓ Why it works:</span> Asness-Frazzini-Pedersen 2019: composite quality (profitability + growth + safety) generates 0.55 Sharpe. JKP 2023 tangency survivor. Mechanism: quality stocks are safer assets that retain upside.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 60-65% post-publication decay per cl3. Composite — subsumes GP/A, accruals. Implementation overlap penalty.</div>
+<div class='varcard'><strong>HMLDevil · HML-Devil (Timely Value)</strong> &nbsp; <span class='small'>[Stocks · θ=+0.16 · rank 23/54 · S2 rank 24.4]</span><br><span class='work'>✓ Why it works:</span> Asness-Frazzini 2013 timely value: use current price, not stale B/P denominator. +305 bps/yr alpha vs stale HML. HXZ replicates 0.46%/mo t=2.12.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Residual value factor premium small post-2020 (JKP 2023 flags). Shared friction cost with momentum. PARTIAL in cl3 (absorbed by QMJ).</div>
+<div class='varcard'><strong>ADS_Nowcast · ADS / Scotti Real-Time Macro Nowcast</strong> &nbsp; <span class='small'>[R · θ=+0.14 · rank 24/54 · S2 rank 24.5]</span><br><span class='work'>✓ Why it works:</span> Aruoba-Diebold-Scotti real-time activity index: Dichtl 2019 OOS R² 37.9% on gold; disciplined macro-state variable.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 4/4 reviews but split: 3 EFFECTIVE (as regime gate), 1 INEFFECTIVE (for direct equity premium — NO_OOS_EVIDENCE). Works as overlay, not standalone.</div>
+<div class='varcard'><strong>GoldTIPSbeta · Gold / 10Y TIPS Real-Yield β</strong> &nbsp; <span class='small'>[T · θ=+0.13 · rank 25/54 · S2 rank 25.1]</span><br><span class='work'>✓ Why it works:</span> Erb-Harvey / Jermann 2023: gold's real-yield β is stable ex-crisis (-0.82 historical).<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Single cl1 review. Post-2022 regime break: ρ dropped substantially; gold/TIPS correlation unstable. MIXED classification.</div>
+<div class='varcard'><strong>CorrelationRiskPremium · SPX Correlation Risk Premium</strong> &nbsp; <span class='small'>[R · θ=+0.09 · rank 26/54 · S2 rank 25.6]</span><br><span class='work'>✓ Why it works:</span> Driessen-Maenhout-Vilkov 2009: index vs basket correlation premium; SPX dispersion trade.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Post-2009 decay per Faria-Kosowski-Wang: frictions > premium. cl2 EXCLUDE, cg5 B. Split 1-1 → WATCH.</div>
+<div class='varcard'><strong>C005_200DMA · 200-DMA regime filter</strong> &nbsp; <span class='small'>[Overlay · θ=-0.09 · rank 29/54 · S2 rank 18.1]</span><br><span class='work'>✓ Why it works:</span> 200-day moving average cross is a regime filter; survives GWZ 2024 on equity premium forecasting.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Overlay, not standalone. P4 p_positive 0.58 WATCH, insufficient numeric coverage (2/12 papers). Low peer-dominance.</div>
+<div class='varcard'><strong>GoldPlatinumRatio · Gold/Platinum Ratio</strong> &nbsp; <span class='small'>[R · θ=-0.15 · rank 30/54 · S2 rank 29.5]</span><br><span class='work'>✓ Why it works:</span> Huang-Kilic 2019: +6.4% SPX return per σ of gold/platinum ratio; OOS validated 2019.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Single cg1 review. Platinum demand collapse post-2020 (EV transition, auto catalysts) — denominator shock invalidates historical construction.</div>
+<div class='varcard'><strong>V015 · BTC realized vol</strong> &nbsp; <span class='small'>[R · θ=-0.17 · rank 31/54 · S2 rank 30.8]</span><br><span class='work'>✓ Why it works:</span> BTC realized vol: obvious regime variable for crypto sizing.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 4/4 BNMA INDIST or WATCH. Signal is *too* obvious — already priced into perp funding and options. No edge.</div>
+<div class='varcard'><strong>GoogleSVI · Google Search Attention (SVI)</strong> &nbsp; <span class='small'>[S · θ=-0.17 · rank 32/54 · S2 rank 29.6]</span><br><span class='work'>✓ Why it works:</span> Da-Engelberg-Gao 2011: Google search volume → attention → short-term price reaction. ~11 bps/wk high-vs-low search stocks.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Single review. Google Trends API changed sampling methodology 2022 — backward series not stationary. No clean OOS Sharpe.</div>
+<div class='varcard'><strong>V004 · HY OAS / EBP</strong> &nbsp; <span class='small'>[R · θ=-0.17 · rank 33/54 · S2 rank 31.0]</span><br><span class='work'>✓ Why it works:</span> HY OAS / Excess Bond Premium (Gilchrist-Zakrajšek) is the canonical credit risk factor.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> P4 flagged REDUNDANT_VS_V027. When V027 (intermediary capital) is in the model, V004 drops to p_positive 0.46. Downgrade + double-count gate.</div>
+<div class='varcard'><strong>V006 · UST 2s10s slope</strong> &nbsp; <span class='small'>[S · θ=-0.34 · rank 34/54 · S2 rank 35.3]</span><br><span class='work'>✓ Why it works:</span> 2s10s yield curve slope is textbook recession indicator.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3/4 BNMA p_beats_peers < 0.40 vs V028. INDIST in S-group. Well-known signal, arbitraged out.</div>
+<div class='varcard'><strong>C011_VIXTermStructure · VIX term-structure level</strong> &nbsp; <span class='small'>[Overlay · θ=-0.39 · rank 35/54 · S2 rank 32.3]</span><br><span class='work'>✓ Why it works:</span> VIX term structure level (VX1/VX2 ratio) regime signal.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> P4 WATCH; single-paper coverage; peer-dominated by C009.</div>
+<div class='varcard'><strong>C002_VIXTermSlope · VIX term structure slope</strong> &nbsp; <span class='small'>[Overlay · θ=-0.42 · rank 36/54 · S2 rank 27.2]</span><br><span class='work'>✓ Why it works:</span> VIX term structure slope is a leading indicator of risk-off regimes.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> P4 p_positive 0.56 WATCH; overlay only; peripheral cross-group comparison unreliable.</div>
+<div class='varcard'><strong>GKXml · Gu-Kelly-Xiu ML (NN4)</strong> &nbsp; <span class='small'>[Stocks · θ=-0.60 · rank 38/54 · S2 rank 37.9]</span><br><span class='work'>✓ Why it works:</span> Gu-Kelly-Xiu 2020: neural net on 94 firm characteristics; Drobetz-Otto EU replication Sharpe 3.89 top-decile.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Overlaps V026 residual momentum 0.3-0.5. Avramov caveat: only 30-40% survives friction. Excluded by cg3/cl3 on paradigm overlap. High raw Sharpe; low marginal contribution.</div>
+<div class='varcard'><strong>V007 · Real yield / breakevens</strong> &nbsp; <span class='small'>[S · θ=-0.66 · rank 39/54 · S2 rank 42.0]</span><br><span class='work'>✓ Why it works:</span> Real yield / breakevens: fundamental inflation-growth split.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Regime-sensitive post-2022 per P3; 3/4 non-dominant. Fed-driven tightening blew up the historical mapping.</div>
+<div class='varcard'><strong>GoldComposite · Erb-Harvey Golden Dilemma + CFTC Composite</strong> &nbsp; <span class='small'>[S · θ=-0.72 · rank 40/54 · S2 rank 39.3]</span><br><span class='work'>✓ Why it works:</span> Erb-Harvey Golden Dilemma: valuation-scaled gold timing.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3 reviews: 2 INEFFECTIVE, 1 MIXED. Mean-reversion sub-component catastrophic in cl2. Research-only construct per cg2.</div>
+<div class='varcard'><strong>LM_Text · Loughran-McDonald 10-K Tone</strong> &nbsp; <span class='small'>[Stocks · θ=-0.72 · rank 41/54 · S2 rank 39.5]</span><br><span class='work'>✓ Why it works:</span> Loughran-McDonald 2011: -2% 4-day CAR on negative 10-K tone; firm-level replicable.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Dictionary input, not standalone long-short. cl3 EXCLUDE MIXED. Requires fundamental modeling overlay.</div>
+<div class='varcard'><strong>V008 · ACM Term Premium 10Y</strong> &nbsp; <span class='small'>[S · θ=-0.84 · rank 43/54 · S2 rank 45.1]</span><br><span class='work'>✓ Why it works:</span> ACM term premium 10Y: canonical Kim-Wright-style affine term premium.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3/4 BNMA INDIST. P4 PRIOR_SENS+3 (driven by prior, not data). Term premium extraction methodology-sensitive.</div>
+<div class='varcard'><strong>HongYogoOI · Hong-Yogo Open Interest</strong> &nbsp; <span class='small'>[S · θ=-1.16 · rank 44/54 · S2 rank 45.1]</span><br><span class='work'>✓ Why it works:</span> Hong-Yogo 2012: open interest growth predicts commodity risk premium.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Post-2004 financialization attenuation. No clean tradable Sharpe. 1/2 INEFFECTIVE.</div>
+<div class='varcard'><strong>EPU · Economic Policy Uncertainty</strong> &nbsp; <span class='small'>[R · θ=-1.23 · rank 45/54 · S2 rank 46.9]</span><br><span class='work'>✓ Why it works:</span> Baker-Bloom-Davis 2016 economic policy uncertainty (news-based).<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Predicts volatility, not returns. Post-2008 subsample loses significance. 4/5 MIXED. Overlay-only.</div>
+<div class='varcard'><strong>Sloan · Sloan Accruals</strong> &nbsp; <span class='small'>[Stocks · θ=-1.24 · rank 46/54 · S2 rank 47.0]</span><br><span class='work'>✓ Why it works:</span> Sloan 1996: high-accrual firms underperform; cornerstone anomaly.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Half magnitude in HXZ replication. Green-Hand-Soliman 2011 post-publication decay. Subsumed by QMJ earnings-quality leg. cl1 EXCLUDE.</div>
+<div class='varcard'><strong>SkewScalar · SPX/SPY Downside-Skew Scalar</strong> &nbsp; <span class='small'>[R · θ=-1.34 · rank 48/54 · S2 rank 47.4]</span><br><span class='work'>✓ Why it works:</span> Conrad-Dittmar-Ghysels 2013 skewness premium.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Sign reversal per Stilger-Kostakis-Poon 2017. cl3 EXCLUDE. SKEW index scalar only, not standalone.</div>
+<div class='varcard'><strong>IVSpread · Implied Vol Spread (Put-Call Parity Deviation)</strong> &nbsp; <span class='small'>[R · θ=-1.54 · rank 49/54 · S2 rank 48.4]</span><br><span class='work'>✓ Why it works:</span> Cremers-Weinbaum 2010 implied vol spread: put-call parity deviations predict short-term returns.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Post-2008 decay; OptionMetrics data-gating issues. cl3 EXCLUDE INEFFECTIVE.</div>
+<div class='varcard'><strong>TailRisk · Kelly-Jiang + SVIX Tail-Risk Composite</strong> &nbsp; <span class='small'>[R · θ=-1.59 · rank 50/54 · S2 rank 49.7]</span><br><span class='work'>✓ Why it works:</span> Kelly-Jiang 2014 tail-risk composite; Martin 2017 SVIX.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Bali-Cakici-Whitelaw rebuttal; 2024 replication audit reports negative OOS R². 2/3 INEFFECTIVE. Kelly-Jiang itself excluded by cg5.</div>
+<h4><span class='badge exclude'>EXCLUDE — bottom of ranking or failed multiple peers</span> (12 variables)</h4>
+<div class='varcard'><strong>V014 · BTC exchange netflows</strong> &nbsp; <span class='small'>[T · θ=+1.78 · rank 3/54 · S2 rank 16.9]</span><br><span class='work'>✓ Why it works:</span> P1 gave posterior 1.15 (huge) on BTC exchange netflows as structural flow proxy. In-sample: exchange outflows proxy accumulation; lead-lag to spot.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3 of 4 BNMA runs INDIST. Split construct: order-flow leg works, vol-sort leg does not. Post-spot-BTC-ETF the interpretability broke (flows now dominated by ETF creations/redemptions). P4 shrinkage to INDIST.</div>
+<div class='varcard'><strong>V016 · BTC perp funding rate</strong> &nbsp; <span class='small'>[R · θ=+0.96 · rank 11/54 · S2 rank 21.5]</span><br><span class='work'>✓ Why it works:</span> BTC perpetual funding rate is the direct carry cost on the most-traded crypto derivative. In principle predicts mean-reversion in perp-spot basis.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3/4 BNMA runs INDIST. P4 PRIOR_SENS+4 → result driven by skeptical prior. Structural break after March 2024 basis arbitrage saturation.</div>
+<div class='varcard'><strong>V012 · BTC active addresses</strong> &nbsp; <span class='small'>[S · θ=+0.24 · rank 21/54 · S2 rank 21.8]</span><br><span class='work'>✓ Why it works:</span> BTC active addresses proxies network utility (Metcalfe's Law); intuitive fundamental anchor.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3/4 BNMA INDIST. Exchange-vs-chain definitional problems; rising from 2022 despite price stagnation → noise. Peer-dominated by V014 in on-chain group.</div>
+<div class='varcard'><strong>V019 · MVRV / SOPR</strong> &nbsp; <span class='small'>[S · θ=-0.03 · rank 27/54 · S2 rank 31.5]</span><br><span class='work'>✓ Why it works:</span> Bitcoin MVRV / SOPR: market value vs realized value proxies unrealized-gain pressure. Popular BTC on-chain metric.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3/4 BNMA INDIST. Post-spot-ETF: on-chain supply signals attenuated by ETF custody pooling. Peer-dominated by V014.</div>
+<div class='varcard'><strong>V013 · BTC hash rate</strong> &nbsp; <span class='small'>[S · θ=-0.07 · rank 28/54 · S2 rank 29.8]</span><br><span class='work'>✓ Why it works:</span> BTC hash rate = network security measure; intuitive fundamental.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3/4 BNMA INDIST. Not a return predictor — a cost-of-production floor, which doesn't translate to predictable price. Miner-behaviour is capex-driven, not price-timing.</div>
+<div class='varcard'><strong>V003 · DXY</strong> &nbsp; <span class='small'>[R · θ=-0.55 · rank 37/54 · S2 rank 38.7]</span><br><span class='work'>✓ Why it works:</span> DXY dollar strength as risk gauge.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> UNSTABLE in P1; INDIST P2 & P4. Dollar is both cause and consequence of risk — endogeneity kills signal.</div>
+<div class='varcard'><strong>V017 · BTC ETF net flows</strong> &nbsp; <span class='small'>[T · θ=-0.75 · rank 42/54 · S2 rank 38.1]</span><br><span class='work'>✓ Why it works:</span> BTC ETF net flows: direct flow proxy for spot demand.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> P1 p_top3 0.02; 3/4 BNMA null. ETF launches 2024 — too recent; most flow is creation/redemption of authorized participants, not directional demand.</div>
+<div class='varcard'><strong>V002 · MOVE Index</strong> &nbsp; <span class='small'>[R · θ=-1.31 · rank 47/54 · S2 rank 38.2]</span><br><span class='work'>✓ Why it works:</span> MOVE Index: cross-tenor Treasury implied vol; rates-risk gauge.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3/4 BNMA INDIST-BOTTOM3-UNSTABLE. Regime-shifted after QE ended. No evidence of signal across runs.</div>
+<div class='varcard'><strong>V005 · NFCI</strong> &nbsp; <span class='small'>[R · θ=-1.64 · rank 51/54 · S2 rank 38.1]</span><br><span class='work'>✓ Why it works:</span> NFCI (Chicago Fed) financial conditions composite.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 3/4 BNMA INDIST-BOTTOM3-UNSTABLE. P1 p_beats 0.034. Overlaps with V027 and V004 — double counting without alpha.</div>
+<div class='varcard'><strong>C007_MarketBreadth · Market breadth >200-DMA</strong> &nbsp; <span class='small'>[Overlay · θ=-1.76 · rank 52/54 · S2 rank 36.4]</span><br><span class='work'>✓ Why it works:</span> % stocks above 200-DMA: breadth regime filter.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> P4 p_beats_peers 0.22 WATCH. Redundant with C005 and C009. Single-paper coverage.</div>
+<div class='varcard'><strong>V026 · Residual momentum (FF5)</strong> &nbsp; <span class='small'>[T · θ=-1.79 · rank 53/54 · S2 rank 34.2]</span><br><span class='work'>✓ Why it works:</span> FF5-residual momentum: momentum net of Fama-French 5 factors.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> Peer-dominated by V009 in every BNMA run (p_beats 0.17/0.009/0.009/0.053). Can't DEPLOY standalone. Sleeve-only.</div>
+<div class='varcard'><strong>V010 · Revision breadth</strong> &nbsp; <span class='small'>[T · θ=-2.15 · rank 54/54 · S2 rank 42.8]</span><br><span class='work'>✓ Why it works:</span> Analyst revision breadth: up-revisions minus down-revisions proxy sell-side PEAD.<br><span class='dont'>✗ Why it doesn't (or where it breaks):</span> 4/4 BNMA peer-crushed. P1 p_beats 0.098, P4 p_beats 0.006. Post-Reg FD the revision signal is largely arbitraged by PEAD funds. EXCLUDE confirmed.</div>
+<h2 id='s7'>7. Recommendations</h2>
+<h3>7.1 Grouping recommendations</h3>
+<ol class='tight'>
+<li><strong>Retain S / T / R / Overlay / Stocks as commensurability + mechanism labels.</strong> They are the right scope for cross-variable comparisons and for identifying the role a variable plays in the sizing engine.</li>
+<li><strong>Drop the 'each group needs ≥N DEPLOYs' quota.</strong> Let R sit with V027 alone if V001/V004/V005/V015 are all weak. Forcing V026 into T to pad the group wastes sizing.</li>
+<li><strong>Treat cross-group comparisons as ordinal, not metric.</strong> Use PL-NMA for cross-group synthesis; within-group synthesis can continue to use BNMA posterior means.</li>
+<li><strong>Create a dedicated 'Overlay' scope for regime gates (C005, C009, C002).</strong> These are neither Sharpe-generators nor risk-sizers — they're binary sleeve-on/sleeve-off switches. The current framework leaves them floating between R and Overlay.</li>
+</ol>
+<h3>7.2 Variable recommendations — the allocation map</h3>
+<table><tr><th>Action</th><th>Variables</th><th>Rationale</th></tr>
+<tr><td><span class='badge deploy'>DEPLOY (robust)</span></td><td>V009 TSMOM · V028 Basis-momentum · V027 Intermediary capital · BAB · DealerGamma</td><td>Top-10 PL-NMA and survive S1+S2 sensitivities, or are A-grade across ≥3 reviews with a clean mechanism.</td></tr>
+<tr><td><span class='badge deploy_cond'>DEPLOY_CONDITIONAL</span></td><td>V011 Brent slope · V026 FF5-res-mom (sleeve only) · C009 Faber TAA · GP/A · CEI · HMLDevil · PCTECH · CieslakPovala · OppInsider · LazyPrices</td><td>Rank &lt; 20 but either (a) peer-dominated by a DEPLOY in the same group or (b) single-source evidence. Size at half, pair with a gate.</td></tr>
+<tr><td><span class='badge watch'>WATCH</span></td><td>V018 BTC basis · V015 BTC realized vol · C005 200-DMA · C002 VIX term slope · VRP · GoldTIPSbeta · CrossAssetValue · HedgingPressure · QMJ · GoogleSVI · ADS_Nowcast · LM_Text · CorrelationRiskPremium</td><td>Evidence suggestive but divergent across reviewers or post-structural-break. Re-score in 3–6 months; defer deployment.</td></tr>
+<tr><td><span class='badge exclude'>EXCLUDE</span></td><td>V010 revision breadth · V026 standalone · V017 BTC ETF flows · V005 NFCI · V002 MOVE · V012 active addresses · V013 hash rate · V019 MVRV · V016 perp funding · GKXml (on overlap) · TailRisk · IVSpread · SkewScalar · Sloan · EPU (overlay only) · GoldComposite · HongYogoOI · C007 market breadth</td><td>Bottom-10 in primary PL-NMA, or crushed in ≥3 of 4 BNMA runs, or replication-decayed, or subsumed by a stronger variable.</td></tr>
+<tr><td><span class='badge downgrade'>DOWNGRADE grade A→B</span></td><td>V001 VIX · V004 HY OAS · V006 2s10s · V007 Real yield · V008 Term Premium</td><td>Construct heterogeneity or regime-sensitivity flags in ≥2 BNMA runs; redundancy vs V027 (V004).</td></tr>
+<tr><td><span class='badge other'>SPLIT CONSTRUCT</span></td><td>V014 BTC netflows</td><td>Order-flow leg (exchange flow-imbalance) keeps the signal; vol-sort leg does not. Register as two separate variables, not one.</td></tr>
+</table>
+<h3>7.3 Architecture recommendations</h3>
+<ol class='tight'>
+<li><strong>Portfolio spine (75% of risk):</strong> V009 · V027 · V028. Run these three as the primary risk-taking layer. V009 and V028 generate alpha; V027 scales it.</li>
+<li><strong>Satellite (20%):</strong> BAB, DealerGamma, V011 (conditional), GP/A, CEI. Each capped at 25% of its standalone Kelly fraction until a second independent replication appears.</li>
+<li><strong>Overlay layer (5%):</strong> C009 Faber TAA as the only live overlay until C005/C002 collect more data. Use as a sleeve-on/sleeve-off switch, not a sizer.</li>
+<li><strong>Framework gate:</strong> require the 3-variable spine to pass p_positive ≥ 0.95 in the next BNMA run before maintaining current allocation. If V027 or V028 slips below p_positive = 0.95, trim immediately.</li>
+<li><strong>Split V014</strong> in the registry. Create V014a (exchange flow-imbalance, directional) and V014b (vol-sort). Kill V014b; re-score V014a in the next BNMA.</li>
+<li><strong>Kill the R-group pad.</strong> Remove V001/V002/V005 from the active R slate; V003 retain only as a cross-asset sign gate. This frees an R sleeve for C009 as overlay.</li>
+<li><strong>Quarterly re-score WATCH bucket.</strong> A variable in WATCH for 2 consecutive quarters without improvement moves to EXCLUDE; one BNMA paper showing p_positive ≥ 0.98 in one quarter moves it to DEPLOY_CONDITIONAL.</li>
+</ol>
+<h3>7.4 Trading recommendations</h3>
+<ol class='tight'>
+<li><strong>Size primarily by V027</strong> (intermediary capital regime). When dealer-leverage z &lt; 0 (contraction), halve gross; when z &gt; 0.5σ (expansion), full size on V009+V028. This is the R-group's highest-conviction role.</li>
+<li><strong>Use C009 Faber TAA as the drawdown circuit-breaker</strong>, not as a standalone allocator. Its job is to take the SPY/EFA/GSCI sleeves to cash on 10m-SMA cross, preserving the V009+V028 allocation inside.</li>
+<li><strong>Do not over-diversify inside a group.</strong> V009 has no meaningful peer in T — running V026 alongside is double-counting. Same for V028 vs V011 in S (V011 only on pure commodity sleeve).</li>
+<li><strong>BAB and DealerGamma can be run as independent sleeves</strong> — they correlate weakly with V009 and with each other (BAB is cross-sectional low-vol, DealerGamma is intraday mean-reversion / trend). Size each at 1/3 of V009's risk budget.</li>
+<li><strong>Do not deploy VRP.</strong> The Goyal-Welch-Zafirov 2024 decay evidence and current IV≈RV flat reading mean the signal is not actionable now. Keep in registry as gate-only until regime changes.</li>
+<li><strong>Gate stocks-cluster variables</strong> (GP/A, CEI, HMLDevil, QMJ) behind a single JKP-tangency implementation. Otherwise the overlap penalty will crush each variable's marginal contribution.</li>
+<li><strong>Do not run crypto on-chain variables (V012, V013, V015, V016, V017, V019) until post-spot-ETF regime has ≥18 months of data.</strong> Current framework calls V018 and V014 WATCH/SPLIT; the others are EXCLUDE.</li>
+</ol>
+<h3>7.5 Research / methodology recommendations</h3>
+<ol class='tight'>
+<li><strong>Run the next BNMA with both groupings (current S/T/R and a combined cross-asset pool).</strong> The PL-NMA suggests the combined pool re-orders the R-group variables; a BNMA that allows within-pool peer competition will resolve whether V027 is really rank 1 or whether DealerGamma competes.</li>
+<li><strong>Record per-regime rankings.</strong> Current papers report unconditional posteriors. A regime-conditional BNMA (e.g., conditional on V027 quintile) would convert V001 / V015 / V018 from WATCH to either DEPLOY-in-regime-X or EXCLUDE.</li>
+<li><strong>Add a joint-portfolio synthesis layer.</strong> PL-NMA + BNMA rank variables; a joint-covariance layer is needed to choose <em>portfolios</em>. The current stack stops short of this.</li>
+<li><strong>Fail-loud on single-paper DEPLOYs.</strong> DealerGamma, CieslakPovala, PCTECH, OppInsider, LazyPrices all appear in exactly one review. Require a second independent replication before any of these cross from DEPLOY_CONDITIONAL to DEPLOY.</li>
+<li><strong>Schedule the next literature-review scan for 2026-07-01.</strong> Candidate pipeline should be stress-tested against the GWZ 2024 decay framework; retire any candidate whose original-paper OOS R² has dropped &gt;50% in replication.</li>
+</ol>
+<h2>Sources</h2>
+<p class='small'>Source documents in the workspace:</p>
+<ul class='tight small'>
+<li>BNMA papers: BNMA Mark 1.md · ChatGPT Mark 1/Mark 2.md · bnma-claude mark 2.md</li>
+<li>Systematic reviews: System review chatgpt 1/2/3.md · System review chat gpt 4.md · system review chatgpt mark 5.md · System review Claude 1/2/3.md</li>
+<li>Prior meta-analyses: BNMA-meta-analysis-2026-04-18.md · PL-NMA-meta-analysis-2026-04-18.md · systematic-review-meta-analysis-2026-04-18.html</li>
+<li>Analysis scripts: plackett_luce_nma.py · meta_analysis.py · data_literal.js · pl_nma_results.json · meta_results.json</li>
+</ul>
+<hr><p class='small'>Generated 2026-04-18 · 54 variables · 12 papers · 810 pairs (primary) · Laplace posterior · 10,000 draws · Hessian PD (min eig 1.00, max eig 10.85).</p>
+<script>
+const THETA_LABELS = ["V009", "C009_FaberTAA", "V014", "V027", "DealerGamma", "BAB", "CEI", "V018", "PCTECH", "V028", "V016", "V011", "CrossAssetValue", "LazyPrices", "GrossProfitability", "CieslakPovala", "VRP", "HedgingPressure", "V001", "OppInsider"];
+const THETA_MEANS = [2.4628151898641337, 2.2601710969669204, 1.7827029785952304, 1.7069261832492277, 1.6768798592651546, 1.5977188907000006, 1.3339097017790194, 1.3185139560265753, 1.3137405186177957, 1.304092593064061, 0.9584376979447057, 0.7806088244586762, 0.7335172554083379, 0.7178810732180575, 0.6345423744736952, 0.6247304235412546, 0.4715543420719291, 0.3708240415176638, 0.32206194348606315, 0.2765342600705231];
+const THETA_LO = [0.8609378173905129, 1.1147364021893755, 0.8084311552406463, 0.7703742745242822, 1.3607523831571213, 0.9919940293645235, 1.1429444887594384, 0.7704344377412601, 1.2946008305481542, 0.7452444428369422, 0.7602621862421644, 0.6966664876632317, 1.599819019584434, 1.179391401315313, 0.8543839969507738, 1.20863309225179, 0.8459300579850153, 0.982017062957741, 0.7127240831679802, 1.209567603206948];
+const THETA_HI = [0.853783141312118, 1.1068447987459153, 0.8204167769670228, 0.7777448040242574, 1.330880033201106, 0.9833996209328568, 1.1446058189694963, 0.7491217696652608, 1.25556827937083, 0.7264859726640458, 0.7674413727914525, 0.7061541902884709, 1.611850185384959, 1.1934702177121252, 0.8800120631975804, 1.2340005982998932, 0.8405457138016488, 0.9801182339597361, 0.7262156421408885, 1.203339321671097];
+const RANK_PRIMARY = [2.0586, 3.1316, 5.3276, 5.8345, 6.9027, 6.8485, 9.4293, 9.0977, 9.8576, 9.2069, 12.8496, 14.8883, 17.0257, 16.4047, 16.997, 17.7212, 19.313, 21.0069, 21.312, 22.7032, 22.6074, 23.3746, 24.4689, 24.5814, 24.9549, 25.5357, 27.2258, 27.7984, 28.3485, 29.207, 29.5386, 29.4397, 29.6183, 32.6874, 33.3027, 33.8527, 36.2024, 36.7154, 37.8751, 38.2548, 38.4043, 39.2916, 40.6519, 43.7751, 45.2026, 45.1994, 46.1778, 45.8642, 47.1739, 48.2818, 49.1285, 49.7483, 50.3245, 52.2698];
+const RANK_S2 = [7.2933, 22.4351, 16.8729, 14.7412, 5.5771, 5.4385, 7.8878, 19.1152, 8.5549, 3.3497, 21.5385, 8.5985, 16.0544, 15.3562, 15.9497, 16.9455, 18.5957, 20.3683, 23.3163, 22.5632, 21.8173, 23.2437, 24.3649, 24.4673, 25.0557, 25.6407, 31.491, 29.8398, 18.1104, 29.5199, 30.8039, 29.6271, 31.0441, 35.2704, 32.293, 27.1794, 38.669, 37.8508, 41.969, 39.3011, 39.5163, 38.1164, 45.1098, 45.1284, 46.8695, 46.9708, 38.1915, 47.399, 48.434, 49.6776, 38.0608, 36.3906, 34.2248, 42.8];
+const RANK_IDS = ["V009", "C009_FaberTAA", "V014", "V027", "DealerGamma", "BAB", "CEI", "V018", "PCTECH", "V028", "V016", "V011", "CrossAssetValue", "LazyPrices", "GrossProfitability", "CieslakPovala", "VRP", "HedgingPressure", "V001", "OppInsider", "V012", "QMJ", "HMLDevil", "ADS_Nowcast", "GoldTIPSbeta", "CorrelationRiskPremium", "V019", "V013", "C005_200DMA", "GoldPlatinumRatio", "V015", "GoogleSVI", "V004", "V006", "C011_VIXTermStructure", "C002_VIXTermSlope", "V003", "GKXml", "V007", "GoldComposite", "LM_Text", "V017", "V008", "HongYogoOI", "EPU", "Sloan", "V002", "SkewScalar", "IVSpread", "TailRisk", "V005", "C007_MarketBreadth", "V026", "V010"];
+const COV_IDS = ["V009", "C009_FaberTAA", "V014", "V027", "DealerGamma", "BAB", "CEI", "V018", "PCTECH", "V028", "V016", "V011", "CrossAssetValue", "LazyPrices", "GrossProfitability", "CieslakPovala", "VRP", "HedgingPressure", "V001", "OppInsider", "V012", "QMJ", "HMLDevil", "ADS_Nowcast", "GoldTIPSbeta", "CorrelationRiskPremium", "V019", "V013", "C005_200DMA", "GoldPlatinumRatio", "V015", "GoogleSVI", "V004", "V006", "C011_VIXTermStructure", "C002_VIXTermSlope", "V003", "GKXml", "V007", "GoldComposite", "LM_Text", "V017", "V008", "HongYogoOI", "EPU", "Sloan", "V002", "SkewScalar", "IVSpread", "TailRisk", "V005", "C007_MarketBreadth", "V026", "V010"];
+const COV_COUNTS = [4, 1, 2, 4, 1, 4, 2, 3, 1, 4, 2, 4, 1, 1, 4, 1, 6, 3, 2, 1, 2, 2, 2, 4, 1, 2, 2, 2, 1, 1, 2, 1, 2, 2, 1, 1, 2, 4, 2, 3, 3, 2, 2, 2, 5, 3, 2, 2, 2, 3, 2, 1, 4, 2];
+const SR_VOTES = [{"var": "VRP", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "IVSpread", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "GoogleSVI", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "BAB", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "GoldPlatinumRatio", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "DealerGamma", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "HedgingPressure", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "CieslakPovala", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "GoldTIPSbeta", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "GoldComposite", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "ADS_Nowcast", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "EPU", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "HongYogoOI", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "TailRisk", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "CrossAssetValue", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "CorrelationRiskPremium", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "SkewScalar", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "PCTECH", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "HMLDevil", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "GrossProfitability", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "QMJ", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "CEI", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "Sloan", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "GKXml", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "LM_Text", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "OppInsider", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}, {"var": "LazyPrices", "effective": 0, "ineffective": 0, "mixed": 0, "consensus": 0}];
+const GROUP_DATA = {"R": [{"var": "V027", "theta": 1.7069261832492277}, {"var": "V018", "theta": 1.3185139560265753}, {"var": "V016", "theta": 0.9584376979447057}, {"var": "VRP", "theta": 0.4715543420719291}, {"var": "V001", "theta": 0.32206194348606315}, {"var": "ADS_Nowcast", "theta": 0.14353536867531572}, {"var": "CorrelationRiskPremium", "theta": 0.09194720516443512}, {"var": "GoldPlatinumRatio", "theta": -0.14530400795350487}, {"var": "V015", "theta": -0.16591777023956988}, {"var": "V004", "theta": -0.17047212022815314}, {"var": "V003", "theta": -0.5520329705465862}, {"var": "EPU", "theta": -1.234049653868216}, {"var": "V002", "theta": -1.3105391623912952}, {"var": "SkewScalar", "theta": -1.3407926141116855}, {"var": "IVSpread", "theta": -1.5351216303368942}, {"var": "TailRisk", "theta": -1.587990535991774}, {"var": "V005", "theta": -1.6351161284978044}], "S": [{"var": "V028", "theta": 1.304092593064061}, {"var": "V011", "theta": 0.7806088244586762}, {"var": "CrossAssetValue", "theta": 0.7335172554083379}, {"var": "CieslakPovala", "theta": 0.6247304235412546}, {"var": "HedgingPressure", "theta": 0.3708240415176638}, {"var": "V012", "theta": 0.24009367326480524}, {"var": "V019", "theta": -0.034442906232346394}, {"var": "V013", "theta": -0.0671110416073103}, {"var": "GoogleSVI", "theta": -0.16771841633301215}, {"var": "V006", "theta": -0.3436357491794308}, {"var": "V007", "theta": -0.6553850696280492}, {"var": "GoldComposite", "theta": -0.7162865517218422}, {"var": "V008", "theta": -0.8439443774828711}, {"var": "HongYogoOI", "theta": -1.1575470406080421}], "T": [{"var": "V009", "theta": 2.4628151898641337}, {"var": "V014", "theta": 1.7827029785952304}, {"var": "DealerGamma", "theta": 1.6768798592651546}, {"var": "PCTECH", "theta": 1.3137405186177957}, {"var": "GoldTIPSbeta", "theta": 0.12989488833526128}, {"var": "V017", "theta": -0.7485230430350671}, {"var": "V026", "theta": -1.7900365010017216}, {"var": "V010", "theta": -2.1452377094561257}], "Overlay": [{"var": "C009_FaberTAA", "theta": 2.2601710969669204}, {"var": "C005_200DMA", "theta": -0.09359408751169669}, {"var": "C011_VIXTermStructure", "theta": -0.3913093823583513}, {"var": "C002_VIXTermSlope", "theta": -0.42091289021225503}, {"var": "C007_MarketBreadth", "theta": -1.7561326534762425}], "Stocks": [{"var": "CEI", "theta": 1.3339097017790194}, {"var": "LazyPrices", "theta": 0.7178810732180575}, {"var": "GrossProfitability", "theta": 0.6345423744736952}, {"var": "OppInsider", "theta": 0.2765342600705231}, {"var": "QMJ", "theta": 0.2210056877377437}, {"var": "HMLDevil", "theta": 0.1581298866303138}, {"var": "GKXml", "theta": -0.5982140331255182}, {"var": "LM_Text", "theta": -0.7176270821783881}, {"var": "Sloan", "theta": -1.2437473949460565}], "Other": [{"var": "BAB", "theta": 1.5977188907000006}]};
+
+// Chart 1: top-20 theta with CI
+new Chart(document.getElementById('chartTheta'), {
+  type: 'bar',
+  data: {
+    labels: THETA_LABELS,
+    datasets: [{
+      label: 'Posterior mean θ',
+      data: THETA_MEANS,
+      backgroundColor: THETA_MEANS.map(v => v > 0 ? 'rgba(46,125,50,0.75)' : 'rgba(198,40,40,0.75)'),
+      borderColor: '#333', borderWidth: 1,
+      errorBars: THETA_LABELS.reduce((acc, l, i) => {
+        acc[l] = { plus: THETA_HI[i], minus: THETA_LO[i] }; return acc;
+      }, {})
+    }]
+  },
+  options: {
+    indexAxis: 'y', responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Top-20 Variables by Posterior Mean θ (Plackett-Luce NMA)' },
+      tooltip: { callbacks: { label: ctx => `θ = ${ctx.parsed.x.toFixed(3)}` } }
+    },
+    scales: { x: { title: { display: true, text: 'Posterior mean θ (log-odds vs. prior)' } } }
+  }
+});
+
+// Chart 2: rank robustness scatter
+new Chart(document.getElementById('chartRobust'), {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Variable',
+      data: RANK_IDS.map((id, i) => ({ x: RANK_PRIMARY[i], y: RANK_S2[i], label: id })),
+      backgroundColor: 'rgba(30,95,142,0.7)', pointRadius: 5
+    }, {
+      label: 'Diagonal (stable)', type: 'line',
+      data: [{x: 1, y: 1}, {x: 54, y: 54}],
+      borderColor: '#888', borderDash: [4,4], borderWidth: 1, pointRadius: 0, fill: false
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      title: { display: true, text: 'Rank robustness — primary vs S2 (within-group)' },
+      tooltip: { callbacks: { label: ctx => ctx.raw.label ? `${ctx.raw.label}: primary rank ${ctx.raw.x.toFixed(1)}, S2 rank ${ctx.raw.y.toFixed(1)}` : '' } }
+    },
+    scales: {
+      x: { title: { display: true, text: 'Primary PL-NMA rank' }, min: 0, max: 55 },
+      y: { title: { display: true, text: 'S2 within-group rank' }, min: 0, max: 55 }
+    }
+  }
+});
+
+// Chart 3: theta by group (box-ish via scatter)
+const groupColors = { R:'#d32f2f', S:'#1976d2', T:'#388e3c', Overlay:'#f57c00', Stocks:'#7b1fa2', Other:'#546e7a' };
+const groupDatasets = Object.entries(GROUP_DATA).map(([g, arr]) => ({
+  label: g,
+  data: arr.map((v, i) => ({ x: g, y: v.theta, label: v.var })),
+  backgroundColor: groupColors[g] || '#888',
+  pointRadius: 6, pointStyle: 'circle'
+}));
+new Chart(document.getElementById('chartByGroup'), {
+  type: 'scatter',
+  data: { datasets: groupDatasets },
+  options: {
+    responsive: true,
+    plugins: {
+      title: { display: true, text: 'Posterior mean θ by group' },
+      tooltip: { callbacks: { label: ctx => `${ctx.raw.label}: θ = ${ctx.raw.y.toFixed(2)}` } }
+    },
+    scales: {
+      x: { type: 'category', labels: Object.keys(GROUP_DATA), title: { display: true, text: 'Group' } },
+      y: { title: { display: true, text: 'Posterior mean θ' } }
+    }
+  }
+});
+
+// Chart 4: coverage bar
+new Chart(document.getElementById('chartCoverage'), {
+  type: 'bar',
+  data: {
+    labels: COV_IDS,
+    datasets: [{ label: '# papers', data: COV_COUNTS, backgroundColor: 'rgba(30,95,142,0.6)' }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Number of papers each variable appears in' }
+    },
+    scales: {
+      x: { ticks: { autoSkip: false, maxRotation: 90, minRotation: 45, font: { size: 8 } } },
+      y: { title: { display: true, text: '# papers' }, beginAtZero: true }
+    }
+  }
+});
+
+// Chart 5: SR votes
+const votesLabels = SR_VOTES.map(v => v.var);
+const votesEff = SR_VOTES.map(v => v.effective);
+const votesIneff = SR_VOTES.map(v => -v.ineffective);
+const votesMixed = SR_VOTES.map(v => v.mixed);
+new Chart(document.getElementById('chartVotes'), {
+  type: 'bar',
+  data: {
+    labels: votesLabels,
+    datasets: [
+      { label: 'EFFECTIVE', data: votesEff, backgroundColor: 'rgba(46,125,50,0.8)' },
+      { label: 'MIXED', data: votesMixed, backgroundColor: 'rgba(251,192,45,0.8)' },
+      { label: 'INEFFECTIVE (negative)', data: votesIneff, backgroundColor: 'rgba(198,40,40,0.8)' }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: { title: { display: true, text: 'Systematic-review vote tallies per variable' } },
+    scales: {
+      x: { stacked: true, ticks: { autoSkip: false, maxRotation: 90, minRotation: 45, font: { size: 9 } } },
+      y: { stacked: true, title: { display: true, text: 'Votes (negative = INEFFECTIVE)' } }
+    }
+  }
+});
+
+</script>
+</body></html>

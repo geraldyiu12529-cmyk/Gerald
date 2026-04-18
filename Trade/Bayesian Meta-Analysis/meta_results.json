@@ -1,0 +1,1505 @@
+{
+  "variables": {
+    "VRP": {
+      "name": "Variance Risk Premium (SPX)",
+      "citation": "Bollerslev-Tauchen-Zhou 2009 RFS",
+      "group": "R",
+      "paradigm": "Option-implied",
+      "asset": "US Equity Index",
+      "target_gap": "Volatility premium",
+      "reviews": {
+        "cg1": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "NO_OOS_EVIDENCE but mechanism strong"
+        },
+        "cg2": {
+          "grade": "INCLUDE_UNGRADED",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "Highest of shortlist \u2014 cleanest option-implied premium"
+        },
+        "cg3": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "FLAT at current close (IV~RV), but keep in registry"
+        },
+        "cg5": {
+          "grade": "C",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "SEVERE decay per Goyal-Welch-Zafirov 2024"
+        },
+        "cl1": {
+          "grade": "A",
+          "sharpe": 0.55,
+          "class": "EFFECTIVE",
+          "note": "V029 A-grade; BMXZ 2014 OOS R\u00b2 4-6% at 3M"
+        },
+        "cl2": {
+          "grade": "B",
+          "sharpe": 0.2,
+          "class": "EFFECTIVE",
+          "note": "Post-crisis decay flagged; incremental Sharpe 0.10-0.20"
+        }
+      },
+      "consensus": {
+        "n_reviews": 6,
+        "avg_grade": 1.97,
+        "effective_votes": 5,
+        "ineffective_votes": 0,
+        "mixed_votes": 1,
+        "consensus": 0.83,
+        "sharpes_reported": [
+          0.55,
+          0.2
+        ],
+        "sharpe_mean": 0.375,
+        "sharpe_sd": 0.247
+      },
+      "bayes": {
+        "post_mean": 0.364,
+        "post_sd": 0.098,
+        "ci95_lo": 0.172,
+        "ci95_hi": 0.555,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 0.742,
+        "n": 2,
+        "ybar": 0.375
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    },
+    "IVSpread": {
+      "name": "Implied Vol Spread (Put-Call Parity Deviation)",
+      "citation": "Cremers-Weinbaum 2010 JFQA",
+      "group": "R",
+      "paradigm": "Option-implied",
+      "asset": "US Equity XS",
+      "target_gap": "Option skew",
+      "reviews": {
+        "cg1": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "~0.51%/wk long-short; NO_OOS_EVIDENCE"
+        },
+        "cl3": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "Post-2008 decay + OptionMetrics gating"
+        }
+      },
+      "consensus": {
+        "n_reviews": 2,
+        "avg_grade": 1.0,
+        "effective_votes": 1,
+        "ineffective_votes": 1,
+        "mixed_votes": 0,
+        "consensus": 0.0,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "WATCH"
+    },
+    "GoogleSVI": {
+      "name": "Google Search Attention (SVI)",
+      "citation": "Da-Engelberg-Gao 2011 JF",
+      "group": "S",
+      "paradigm": "Behavioral-positioning",
+      "asset": "US Equity XS",
+      "target_gap": "Attention / sentiment",
+      "reviews": {
+        "cg1": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "~11 bps/wk high vs low-search; NO_OOS_EVIDENCE"
+        }
+      },
+      "consensus": {
+        "n_reviews": 1,
+        "avg_grade": 2.0,
+        "effective_votes": 1,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    },
+    "BAB": {
+      "name": "Betting-Against-Beta",
+      "citation": "Frazzini-Pedersen 2014 JF",
+      "group": "C",
+      "paradigm": "Classical-risk-premium",
+      "asset": "US+Global Equity",
+      "target_gap": "Defensive / Low-vol",
+      "reviews": {
+        "cg1": {
+          "grade": "B",
+          "sharpe": 0.78,
+          "class": "EFFECTIVE",
+          "note": "1926-2012 Sharpe 0.78"
+        },
+        "cg3": {
+          "grade": "B",
+          "sharpe": 0.5,
+          "class": "EFFECTIVE",
+          "note": "CAND-06 STOCKS; partly subsumed by quality"
+        },
+        "cg4": {
+          "grade": "INCLUDE_UNGRADED",
+          "sharpe": 0.78,
+          "class": "EFFECTIVE",
+          "note": "0.70%/mo excess return; alpha 0.55%/mo t=5.59"
+        },
+        "cl3": {
+          "grade": "B+",
+          "sharpe": 0.55,
+          "class": "EFFECTIVE",
+          "note": "V030; NMV value-weighted variant SR 0.49 net"
+        }
+      },
+      "consensus": {
+        "n_reviews": 4,
+        "avg_grade": 2.02,
+        "effective_votes": 4,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [
+          0.78,
+          0.5,
+          0.78,
+          0.55
+        ],
+        "sharpe_mean": 0.653,
+        "sharpe_sd": 0.149
+      },
+      "bayes": {
+        "post_mean": 0.623,
+        "post_sd": 0.072,
+        "ci95_lo": 0.483,
+        "ci95_hi": 0.764,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 1.0,
+        "n": 4,
+        "ybar": 0.653
+      },
+      "recommendation": "DEPLOY"
+    },
+    "GoldPlatinumRatio": {
+      "name": "Gold/Platinum Ratio",
+      "citation": "Huang-Kilic 2019 JFE",
+      "group": "R",
+      "paradigm": "Structural-nowcasting",
+      "asset": "Commodity / Macro",
+      "target_gap": "Gold + macro regime",
+      "reviews": {
+        "cg1": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "+6.4% SPX per \u03c3; OOS validated"
+        }
+      },
+      "consensus": {
+        "n_reviews": 1,
+        "avg_grade": 2.0,
+        "effective_votes": 1,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    },
+    "DealerGamma": {
+      "name": "Dealer Gamma / Intraday Momentum",
+      "citation": "Baltussen-Da-Lammers-Martens 2021 JFE",
+      "group": "T",
+      "paradigm": "Option-implied",
+      "asset": "US Equity Index",
+      "target_gap": "Option-implied directional",
+      "reviews": {
+        "cl2": {
+          "grade": "A",
+          "sharpe": 1.33,
+          "class": "EFFECTIVE",
+          "note": "ZAB 2024 SPY Sharpe 1.33 net; OOS persistence"
+        }
+      },
+      "consensus": {
+        "n_reviews": 1,
+        "avg_grade": 3.0,
+        "effective_votes": 1,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [
+          1.33
+        ],
+        "sharpe_mean": 1.33,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 1.057,
+        "post_sd": 0.129,
+        "ci95_lo": 0.805,
+        "ci95_hi": 1.309,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 1.0,
+        "n": 1,
+        "ybar": 1.33
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    },
+    "HedgingPressure": {
+      "name": "Basu-Miffre Hedging Pressure (non-gold commodities)",
+      "citation": "Basu-Miffre 2013 JBF",
+      "group": "S",
+      "paradigm": "Behavioral-positioning",
+      "asset": "Commodity",
+      "target_gap": "Commodity beyond V028/V011",
+      "reviews": {
+        "cg2": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "Weak OOS durability"
+        },
+        "cg5": {
+          "grade": "B",
+          "sharpe": 0.51,
+          "class": "MIXED",
+          "note": "CAND-01 WTI; NO_CLEAN_OOS_SHARPE"
+        },
+        "cl2": {
+          "grade": "B",
+          "sharpe": 0.48,
+          "class": "EFFECTIVE",
+          "note": "CAND-03; ~30-50% decay; correlates V028 |\u03c1| 0.4-0.6"
+        }
+      },
+      "consensus": {
+        "n_reviews": 3,
+        "avg_grade": 1.33,
+        "effective_votes": 1,
+        "ineffective_votes": 1,
+        "mixed_votes": 1,
+        "consensus": 0.0,
+        "sharpes_reported": [
+          0.51,
+          0.48
+        ],
+        "sharpe_mean": 0.495,
+        "sharpe_sd": 0.021
+      },
+      "bayes": {
+        "post_mean": 0.465,
+        "post_sd": 0.098,
+        "ci95_lo": 0.274,
+        "ci95_hi": 0.657,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 0.955,
+        "n": 2,
+        "ybar": 0.495
+      },
+      "recommendation": "WATCH"
+    },
+    "CieslakPovala": {
+      "name": "Cieslak-Povala Bond Risk Premium",
+      "citation": "Cieslak-Povala 2015 RFS",
+      "group": "S",
+      "paradigm": "Classical-risk-premium",
+      "asset": "Treasuries",
+      "target_gap": "Cross-asset carry",
+      "reviews": {
+        "cl2": {
+          "grade": "B",
+          "sharpe": 0.4,
+          "class": "EFFECTIVE",
+          "note": "CAND-04; R\u00b2 43-60% IS on 2-5Y excess bond"
+        }
+      },
+      "consensus": {
+        "n_reviews": 1,
+        "avg_grade": 2.0,
+        "effective_votes": 1,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [
+          0.4
+        ],
+        "sharpe_mean": 0.4,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.374,
+        "post_sd": 0.129,
+        "ci95_lo": 0.121,
+        "ci95_hi": 0.626,
+        "prob_positive": 0.998,
+        "prob_exceeds_03": 0.716,
+        "n": 1,
+        "ybar": 0.4
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    },
+    "GoldTIPSbeta": {
+      "name": "Gold / 10Y TIPS Real-Yield \u03b2",
+      "citation": "Erb-Harvey 2013 FAJ / Jermann 2023",
+      "group": "T",
+      "paradigm": "Classical-risk-premium",
+      "asset": "Gold",
+      "target_gap": "Gold-specific directional",
+      "reviews": {
+        "cl1": {
+          "grade": "A",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "V030 A-cond; post-2022 regime break; \u03c1 dropped from -0.82"
+        }
+      },
+      "consensus": {
+        "n_reviews": 1,
+        "avg_grade": 3.0,
+        "effective_votes": 0,
+        "ineffective_votes": 0,
+        "mixed_votes": 1,
+        "consensus": 0.0,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "WATCH"
+    },
+    "GoldComposite": {
+      "name": "Erb-Harvey Golden Dilemma + CFTC Composite",
+      "citation": "Erb-Harvey 2013 FAJ",
+      "group": "S",
+      "paradigm": "Behavioral-positioning",
+      "asset": "Gold",
+      "target_gap": "Gold directional",
+      "reviews": {
+        "cl2": {
+          "grade": "C",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "CAND-05; mean-reversion sub-component catastrophic"
+        },
+        "cg2": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "Gold forecast combination fragile / research-only"
+        },
+        "cg5": {
+          "grade": "C",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "CAND-06 gold positioning; NO_CLEAN_OOS_SHARPE"
+        }
+      },
+      "consensus": {
+        "n_reviews": 3,
+        "avg_grade": 0.67,
+        "effective_votes": 0,
+        "ineffective_votes": 2,
+        "mixed_votes": 1,
+        "consensus": -0.67,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "EXCLUDE"
+    },
+    "ADS_Nowcast": {
+      "name": "ADS / Scotti Real-Time Macro Nowcast",
+      "citation": "Aruoba-Diebold-Scotti 2009; Scotti 2016 JME",
+      "group": "R",
+      "paradigm": "Structural-nowcasting",
+      "asset": "Cross-asset",
+      "target_gap": "Macro nowcasting",
+      "reviews": {
+        "cg3": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "CAND-02 nowcast gate; survives as disciplined state-updating"
+        },
+        "cg5": {
+          "grade": "B-",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "CAND-03 TLT duration overlay"
+        },
+        "cl1": {
+          "grade": "A",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "V031 regime gate; gold OOS R\u00b2 37.9% per Dichtl 2019"
+        },
+        "cl2": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "NO_OOS_EVIDENCE for direct equity premium"
+        }
+      },
+      "consensus": {
+        "n_reviews": 4,
+        "avg_grade": 1.68,
+        "effective_votes": 3,
+        "ineffective_votes": 1,
+        "mixed_votes": 0,
+        "consensus": 0.5,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    },
+    "EPU": {
+      "name": "Economic Policy Uncertainty",
+      "citation": "Baker-Bloom-Davis 2016 QJE",
+      "group": "R",
+      "paradigm": "Behavioral-positioning",
+      "asset": "Cross-asset",
+      "target_gap": "Sentiment / policy",
+      "reviews": {
+        "cg2": {
+          "grade": "INCLUDE_UNGRADED",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "Effective conditional; text-based TradFi sleeve"
+        },
+        "cg3": {
+          "grade": "C",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "CAND-04 gate only; size 0.5 inside broader stack"
+        },
+        "cg5": {
+          "grade": "C+",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "CAND-04; only scalar gate, not standalone"
+        },
+        "cl1": {
+          "grade": "PARTIAL",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "DUAL-USE conditional"
+        },
+        "cl2": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "Predicts vol not returns; post-2008 subsample loses significance"
+        }
+      },
+      "consensus": {
+        "n_reviews": 5,
+        "avg_grade": 0.92,
+        "effective_votes": 0,
+        "ineffective_votes": 1,
+        "mixed_votes": 4,
+        "consensus": -0.2,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "EXCLUDE"
+    },
+    "HongYogoOI": {
+      "name": "Hong-Yogo Open Interest",
+      "citation": "Hong-Yogo 2012 JFE",
+      "group": "S",
+      "paradigm": "Behavioral-positioning",
+      "asset": "Commodity",
+      "target_gap": "Cross-asset carry variant",
+      "reviews": {
+        "cl1": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "V032; post-2004 financialization attenuation"
+        },
+        "cl2": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "No clean tradable Sharpe; weakened post-fin"
+        }
+      },
+      "consensus": {
+        "n_reviews": 2,
+        "avg_grade": 1.0,
+        "effective_votes": 1,
+        "ineffective_votes": 1,
+        "mixed_votes": 0,
+        "consensus": 0.0,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "WATCH"
+    },
+    "TailRisk": {
+      "name": "Kelly-Jiang + SVIX Tail-Risk Composite",
+      "citation": "Kelly-Jiang 2014 RFS; Martin 2017 QJE",
+      "group": "R",
+      "paradigm": "Option-implied",
+      "asset": "US Equity Index",
+      "target_gap": "Option-implied tail",
+      "reviews": {
+        "cl1": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "V033; Chapman-Gallmeyer-Martin 2018 replicates"
+        },
+        "cl2": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "Bali-Cakici-Whitelaw rebuttal; weak aggregate-timing OOS"
+        },
+        "cg5": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "2024 replication audit reports negative OOS R\u00b2"
+        }
+      },
+      "consensus": {
+        "n_reviews": 3,
+        "avg_grade": 0.67,
+        "effective_votes": 1,
+        "ineffective_votes": 2,
+        "mixed_votes": 0,
+        "consensus": -0.33,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "EXCLUDE"
+    },
+    "CrossAssetValue": {
+      "name": "Cross-Asset Value (value leg)",
+      "citation": "Asness-Moskowitz-Pedersen 2013 JF",
+      "group": "S",
+      "paradigm": "Classical-risk-premium",
+      "asset": "Cross-asset",
+      "target_gap": "Value (empty row)",
+      "reviews": {
+        "cg2": {
+          "grade": "INCLUDE_UNGRADED",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "Structural diversifier; fills empty value row"
+        }
+      },
+      "consensus": {
+        "n_reviews": 1,
+        "avg_grade": 1.8,
+        "effective_votes": 1,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    },
+    "CorrelationRiskPremium": {
+      "name": "SPX Correlation Risk Premium",
+      "citation": "Driessen-Maenhout-Vilkov 2009 JF",
+      "group": "R",
+      "paradigm": "Option-implied",
+      "asset": "US Equity Index",
+      "target_gap": "Option-implied correlation",
+      "reviews": {
+        "cl2": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "Faria-Kosowski-Wang post-2009 OOS decline; frictions > premium"
+        },
+        "cg5": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "CAND-02 implied correlation gate"
+        }
+      },
+      "consensus": {
+        "n_reviews": 2,
+        "avg_grade": 1.0,
+        "effective_votes": 1,
+        "ineffective_votes": 1,
+        "mixed_votes": 0,
+        "consensus": 0.0,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "WATCH"
+    },
+    "SkewScalar": {
+      "name": "SPX/SPY Downside-Skew Scalar",
+      "citation": "Conrad-Dittmar-Ghysels 2013",
+      "group": "R",
+      "paradigm": "Option-implied",
+      "asset": "US Equity Index",
+      "target_gap": "Skew / risk-reversal",
+      "reviews": {
+        "cg3": {
+          "grade": "B/C",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "CAND-03; SKEW 141.8 vs 130 y/y; scalar only"
+        },
+        "cl3": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "Sign reversal per Stilger-Kostakis-Poon 2017"
+        }
+      },
+      "consensus": {
+        "n_reviews": 2,
+        "avg_grade": 0.75,
+        "effective_votes": 0,
+        "ineffective_votes": 1,
+        "mixed_votes": 1,
+        "consensus": -0.5,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "EXCLUDE"
+    },
+    "PCTECH": {
+      "name": "Neely-Rapach PC-TECH Equity Premium Index",
+      "citation": "Neely-Rapach-Tu-Zhou 2014 MgmtSci",
+      "group": "T",
+      "paradigm": "Structural-nowcasting",
+      "asset": "US Equity Index",
+      "target_gap": "Technical composite",
+      "reviews": {
+        "cl2": {
+          "grade": "B",
+          "sharpe": 0.55,
+          "class": "EFFECTIVE",
+          "note": "CAND-06; OOS R\u00b2 1.32% monthly; survives GWZ 2024 qualitatively"
+        }
+      },
+      "consensus": {
+        "n_reviews": 1,
+        "avg_grade": 2.0,
+        "effective_votes": 1,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [
+          0.55
+        ],
+        "sharpe_mean": 0.55,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.484,
+        "post_sd": 0.129,
+        "ci95_lo": 0.232,
+        "ci95_hi": 0.736,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 0.924,
+        "n": 1,
+        "ybar": 0.55
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    },
+    "HMLDevil": {
+      "name": "HML-Devil (Timely Value)",
+      "citation": "Asness-Frazzini 2013 JPM",
+      "group": "Stocks",
+      "paradigm": "Classical-risk-premium",
+      "asset": "US Equity XS",
+      "target_gap": "Value",
+      "reviews": {
+        "cg4": {
+          "grade": "INCLUDE_UNGRADED",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "CAND-01; +305bps/yr alpha vs stale; HXZ replicates 0.46%/mo t=2.12"
+        },
+        "cl3": {
+          "grade": "B",
+          "sharpe": 0.5,
+          "class": "EFFECTIVE",
+          "note": "V032 + Cop overlay; value cluster survivor"
+        }
+      },
+      "consensus": {
+        "n_reviews": 2,
+        "avg_grade": 1.9,
+        "effective_votes": 2,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [
+          0.5
+        ],
+        "sharpe_mean": 0.5,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.447,
+        "post_sd": 0.129,
+        "ci95_lo": 0.195,
+        "ci95_hi": 0.699,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 0.874,
+        "n": 1,
+        "ybar": 0.5
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    },
+    "GrossProfitability": {
+      "name": "Gross Profitability (GP/A)",
+      "citation": "Novy-Marx 2013",
+      "group": "Stocks",
+      "paradigm": "Classical-risk-premium",
+      "asset": "US Equity XS",
+      "target_gap": "Quality / profitability",
+      "reviews": {
+        "cg3": {
+          "grade": "A",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "CAND-05 cleanest stock candidate; survives FF5"
+        },
+        "cg4": {
+          "grade": "INCLUDE_UNGRADED",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "CAND-02; HXZ 0.37%/mo t=2.63"
+        },
+        "cl1": {
+          "grade": "A",
+          "sharpe": 0.5,
+          "class": "EFFECTIVE",
+          "note": "PIPE-01; JKP 2023 profitability tangency survivor"
+        },
+        "cl3": {
+          "grade": "PARTIAL",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "Absorbed inside QMJ composite"
+        }
+      },
+      "consensus": {
+        "n_reviews": 4,
+        "avg_grade": 2.08,
+        "effective_votes": 4,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [
+          0.5
+        ],
+        "sharpe_mean": 0.5,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.447,
+        "post_sd": 0.129,
+        "ci95_lo": 0.195,
+        "ci95_hi": 0.699,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 0.874,
+        "n": 1,
+        "ybar": 0.5
+      },
+      "recommendation": "DEPLOY"
+    },
+    "QMJ": {
+      "name": "Quality Minus Junk",
+      "citation": "Asness-Frazzini-Pedersen 2019 RAS",
+      "group": "Stocks",
+      "paradigm": "Classical-risk-premium",
+      "asset": "US+Global Equity XS",
+      "target_gap": "Quality",
+      "reviews": {
+        "cg4": {
+          "grade": "PARTIAL",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "Credible but composite; overlaps GP/A"
+        },
+        "cl3": {
+          "grade": "B+",
+          "sharpe": 0.55,
+          "class": "EFFECTIVE",
+          "note": "V029; JKP 2023 quality cluster tangency survivor; ~60-65% decay"
+        }
+      },
+      "consensus": {
+        "n_reviews": 2,
+        "avg_grade": 1.4,
+        "effective_votes": 2,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [
+          0.55
+        ],
+        "sharpe_mean": 0.55,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.484,
+        "post_sd": 0.129,
+        "ci95_lo": 0.232,
+        "ci95_hi": 0.736,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 0.924,
+        "n": 1,
+        "ybar": 0.55
+      },
+      "recommendation": "WATCH"
+    },
+    "CEI": {
+      "name": "Composite Equity Issuance",
+      "citation": "Daniel-Titman 2006 JF",
+      "group": "Stocks",
+      "paradigm": "Classical-risk-premium",
+      "asset": "US Equity XS",
+      "target_gap": "Issuance / buyback",
+      "reviews": {
+        "cg4": {
+          "grade": "INCLUDE_UNGRADED",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "CAND-04; HXZ -0.57%/mo t=3.32"
+        },
+        "cl3": {
+          "grade": "A",
+          "sharpe": 0.6,
+          "class": "EFFECTIVE",
+          "note": "V031; survivor all four replication benchmarks"
+        }
+      },
+      "consensus": {
+        "n_reviews": 2,
+        "avg_grade": 2.4,
+        "effective_votes": 2,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [
+          0.6
+        ],
+        "sharpe_mean": 0.6,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.521,
+        "post_sd": 0.129,
+        "ci95_lo": 0.268,
+        "ci95_hi": 0.773,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 0.957,
+        "n": 1,
+        "ybar": 0.6
+      },
+      "recommendation": "DEPLOY"
+    },
+    "Sloan": {
+      "name": "Sloan Accruals",
+      "citation": "Sloan 1996 AccRev",
+      "group": "Stocks",
+      "paradigm": "Classical-risk-premium",
+      "asset": "US Equity XS",
+      "target_gap": "Earnings quality",
+      "reviews": {
+        "cg4": {
+          "grade": "INCLUDE_UNGRADED",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "CAND-05; HXZ -0.27%/mo t=-2.13; q-alpha -0.54%/mo"
+        },
+        "cl1": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "Half magnitude (HXZ); Green-Hand-Soliman 2011 decay"
+        },
+        "cl3": {
+          "grade": "PARTIAL",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "Subsumed by QMJ earnings-quality leg"
+        }
+      },
+      "consensus": {
+        "n_reviews": 3,
+        "avg_grade": 0.77,
+        "effective_votes": 1,
+        "ineffective_votes": 1,
+        "mixed_votes": 1,
+        "consensus": 0.0,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "EXCLUDE"
+    },
+    "GKXml": {
+      "name": "Gu-Kelly-Xiu ML (NN4)",
+      "citation": "Gu-Kelly-Xiu 2020 RFS",
+      "group": "Stocks",
+      "paradigm": "ML-or-Altdata",
+      "asset": "US Equity XS",
+      "target_gap": "ML modern paradigm",
+      "reviews": {
+        "cg3": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "Overlaps PIPE-02 paradigm; excluded from INDEX shortlist"
+        },
+        "cg4": {
+          "grade": "INCLUDE_UNGRADED",
+          "sharpe": 2.45,
+          "class": "EFFECTIVE",
+          "note": "CAND-06; Drobetz-Otto EU replication Sharpe 3.89 decile"
+        },
+        "cl1": {
+          "grade": "B",
+          "sharpe": 1.35,
+          "class": "EFFECTIVE",
+          "note": "PIPE-02; Avramov caveat 30-40% survives friction"
+        },
+        "cl3": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "INEFFECTIVE",
+          "note": "Overlaps V026 residual momentum 0.3-0.5 expected"
+        }
+      },
+      "consensus": {
+        "n_reviews": 4,
+        "avg_grade": 0.95,
+        "effective_votes": 2,
+        "ineffective_votes": 1,
+        "mixed_votes": 1,
+        "consensus": 0.25,
+        "sharpes_reported": [
+          2.45,
+          1.35
+        ],
+        "sharpe_mean": 1.9,
+        "sharpe_sd": 0.778
+      },
+      "bayes": {
+        "post_mean": 1.656,
+        "post_sd": 0.098,
+        "ci95_lo": 1.465,
+        "ci95_hi": 1.847,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 1.0,
+        "n": 2,
+        "ybar": 1.9
+      },
+      "recommendation": "EXCLUDE"
+    },
+    "LM_Text": {
+      "name": "Loughran-McDonald 10-K Tone",
+      "citation": "Loughran-McDonald 2011 JF",
+      "group": "Stocks",
+      "paradigm": "ML-or-Altdata",
+      "asset": "US Equity XS",
+      "target_gap": "NLP / text",
+      "reviews": {
+        "cg3": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "CAND-07; -2% 4-day CAR on negative tone"
+        },
+        "cl1": {
+          "grade": "B",
+          "sharpe": null,
+          "class": "EFFECTIVE",
+          "note": "PIPE-03; replicated firm-level by Tetlock et al."
+        },
+        "cl3": {
+          "grade": "EXCLUDE",
+          "sharpe": null,
+          "class": "MIXED",
+          "note": "Dictionary input, not standalone long-short"
+        }
+      },
+      "consensus": {
+        "n_reviews": 3,
+        "avg_grade": 1.33,
+        "effective_votes": 2,
+        "ineffective_votes": 0,
+        "mixed_votes": 1,
+        "consensus": 0.67,
+        "sharpes_reported": [],
+        "sharpe_mean": null,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.3,
+        "post_sd": 0.25,
+        "ci95_lo": -0.19,
+        "ci95_hi": 0.79,
+        "prob_positive": 0.8849303297782917,
+        "prob_exceeds_03": 0.5,
+        "n": 0,
+        "ybar": null
+      },
+      "recommendation": "WATCH"
+    },
+    "OppInsider": {
+      "name": "Opportunistic Insider (Form 4)",
+      "citation": "Cohen-Malloy-Pomorski 2012 JF",
+      "group": "Stocks",
+      "paradigm": "Behavioral-positioning",
+      "asset": "US Equity XS",
+      "target_gap": "Alt-data insider",
+      "reviews": {
+        "cl3": {
+          "grade": "B",
+          "sharpe": 0.5,
+          "class": "EFFECTIVE",
+          "note": "V033; VW alpha 82 bps/mo t=2.15"
+        }
+      },
+      "consensus": {
+        "n_reviews": 1,
+        "avg_grade": 2.0,
+        "effective_votes": 1,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [
+          0.5
+        ],
+        "sharpe_mean": 0.5,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.447,
+        "post_sd": 0.129,
+        "ci95_lo": 0.195,
+        "ci95_hi": 0.699,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 0.874,
+        "n": 1,
+        "ybar": 0.5
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    },
+    "LazyPrices": {
+      "name": "Lazy Prices (10-K Similarity)",
+      "citation": "Cohen-Malloy-Nguyen 2020 JF",
+      "group": "Stocks",
+      "paradigm": "ML-or-Altdata",
+      "asset": "US Equity XS",
+      "target_gap": "Modern NLP",
+      "reviews": {
+        "cl3": {
+          "grade": "B",
+          "sharpe": 0.55,
+          "class": "EFFECTIVE",
+          "note": "V034; 5-factor alpha up to 188 bps/mo"
+        }
+      },
+      "consensus": {
+        "n_reviews": 1,
+        "avg_grade": 2.0,
+        "effective_votes": 1,
+        "ineffective_votes": 0,
+        "mixed_votes": 0,
+        "consensus": 1.0,
+        "sharpes_reported": [
+          0.55
+        ],
+        "sharpe_mean": 0.55,
+        "sharpe_sd": null
+      },
+      "bayes": {
+        "post_mean": 0.484,
+        "post_sd": 0.129,
+        "ci95_lo": 0.232,
+        "ci95_hi": 0.736,
+        "prob_positive": 1.0,
+        "prob_exceeds_03": 0.924,
+        "n": 1,
+        "ybar": 0.55
+      },
+      "recommendation": "DEPLOY_CONDITIONAL"
+    }
+  },
+  "ranked": [
+    "DealerGamma",
+    "BAB",
+    "CEI",
+    "GKXml",
+    "PCTECH",
+    "LazyPrices",
+    "GrossProfitability",
+    "OppInsider",
+    "HMLDevil",
+    "CieslakPovala",
+    "QMJ",
+    "VRP",
+    "GoogleSVI",
+    "GoldPlatinumRatio",
+    "CrossAssetValue",
+    "GoldTIPSbeta",
+    "ADS_Nowcast",
+    "LM_Text",
+    "HedgingPressure",
+    "IVSpread",
+    "HongYogoOI",
+    "CorrelationRiskPremium",
+    "Sloan",
+    "EPU",
+    "TailRisk",
+    "SkewScalar",
+    "GoldComposite"
+  ],
+  "prior_bnma": {
+    "V009 (TSMOM)": {
+      "action": "DEPLOY",
+      "post_decay_SR": 0.46,
+      "group": "T",
+      "note": "4/4 runs p_positive\u22650.98 p_beats_peers\u22650.66"
+    },
+    "V027 (Intermediary)": {
+      "action": "DEPLOY",
+      "post_decay_SR": 0.34,
+      "group": "R",
+      "note": "Regime filter sizing scalar; AEM 2014 anchor"
+    },
+    "V028 (Basis-mom)": {
+      "action": "DEPLOY",
+      "post_decay_SR": 0.45,
+      "group": "S",
+      "note": "6m window commodity-futures only"
+    },
+    "V011 (Brent slope)": {
+      "action": "DEPLOY_COND",
+      "post_decay_SR": 0.48,
+      "group": "S",
+      "note": "Conditional; equal-risk with V028"
+    },
+    "V026 (FF5 residual momentum)": {
+      "action": "DEPLOY_COND",
+      "post_decay_SR": 0.35,
+      "group": "T",
+      "note": "Sleeve only; subsumed by V009"
+    },
+    "V018 (BTC 3m basis)": {
+      "action": "WATCH",
+      "post_decay_SR": null,
+      "group": "R",
+      "note": "Defer pooling to 2027; post-spot-BTC-ETF regime break"
+    },
+    "V001 (VIX)": {
+      "action": "DOWNGRADE_A_to_B",
+      "post_decay_SR": null,
+      "group": "R",
+      "note": "3/4 INDIST"
+    },
+    "V004 (HY OAS/EBP)": {
+      "action": "DOWNGRADE_A_to_B",
+      "post_decay_SR": null,
+      "group": "R",
+      "note": "Redundant with V027; double-count gate required"
+    },
+    "V002 (MOVE)": {
+      "action": "EXCLUDE",
+      "post_decay_SR": null,
+      "group": "R",
+      "note": ""
+    },
+    "V010 (Revision breadth)": {
+      "action": "EXCLUDE",
+      "post_decay_SR": null,
+      "group": "T",
+      "note": "p_beats 0.098 in P1, 0.006 in P4"
+    },
+    "V014 (BTC netflows)": {
+      "action": "SPLIT",
+      "post_decay_SR": null,
+      "group": "T",
+      "note": "1.12 posterior drift; split order-flow vs vol-sort"
+    },
+    "V017 (BTC ETF flows)": {
+      "action": "EXCLUDE",
+      "post_decay_SR": null,
+      "group": "T",
+      "note": "p_top3 0.02 in P1, INDIST in P2"
+    },
+    "C009 (Faber TAA)": {
+      "action": "PROMOTE_COND",
+      "post_decay_SR": null,
+      "group": "Overlay",
+      "note": "1/4 run coverage; need second replication"
+    }
+  },
+  "gap_synthesis": {
+    "Gold directional": {
+      "best": "GoldTIPSbeta",
+      "grade": "A-cond",
+      "filled": true
+    },
+    "Volatility risk premium": {
+      "best": "VRP",
+      "grade": "B",
+      "filled": true
+    },
+    "Option-implied skew": {
+      "best": "SkewScalar",
+      "grade": "B/C",
+      "filled": "Partial"
+    },
+    "Option-implied correlation": {
+      "best": "CorrelationRiskPremium",
+      "grade": "B",
+      "filled": "Partial"
+    },
+    "Intraday/dealer gamma": {
+      "best": "DealerGamma",
+      "grade": "A",
+      "filled": true
+    },
+    "Cross-asset carry": {
+      "best": "CieslakPovala",
+      "grade": "B",
+      "filled": "Partial"
+    },
+    "Macro nowcasting": {
+      "best": "ADS_Nowcast",
+      "grade": "A/B",
+      "filled": true
+    },
+    "Value (Stocks)": {
+      "best": "HMLDevil",
+      "grade": "B",
+      "filled": true
+    },
+    "Quality (Stocks)": {
+      "best": "QMJ",
+      "grade": "B+",
+      "filled": true
+    },
+    "Defensive / BAB": {
+      "best": "BAB",
+      "grade": "B",
+      "filled": true
+    },
+    "Issuance / buyback": {
+      "best": "CEI",
+      "grade": "A",
+      "filled": true
+    },
+    "Earnings quality": {
+      "best": "Sloan",
+      "grade": "Partial",
+      "filled": "Partial"
+    },
+    "ML / Altdata": {
+      "best": "GKXml",
+      "grade": "B",
+      "filled": true
+    },
+    "NLP / Text": {
+      "best": "LazyPrices",
+      "grade": "B",
+      "filled": true
+    },
+    "Insider signal": {
+      "best": "OppInsider",
+      "grade": "B",
+      "filled": true
+    },
+    "Attention / Sentiment": {
+      "best": "GoogleSVI",
+      "grade": "B",
+      "filled": "Partial"
+    },
+    "Cross-asset Value": {
+      "best": "CrossAssetValue",
+      "grade": "B-",
+      "filled": "Partial"
+    },
+    "Commodity positioning": {
+      "best": "HedgingPressure",
+      "grade": "B",
+      "filled": "Partial"
+    },
+    "Tail-risk composite": {
+      "best": "TailRisk",
+      "grade": "C-B",
+      "filled": "Disputed"
+    }
+  },
+  "paradigm_counts": {
+    "Option-implied": 2,
+    "Behavioral-positioning": 2,
+    "Classical-risk-premium": 6,
+    "Structural-nowcasting": 3,
+    "ML-or-Altdata": 1
+  },
+  "n_reviews": 8,
+  "n_candidates": 27
+}

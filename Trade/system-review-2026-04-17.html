@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>System Review — 2026-04-17</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --panel-2: #243147;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --violet: #a78bfa;
+    --border: #334155;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 24px;
+  }
+  header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+  h1 { margin: 0 0 4px; font-size: 24px; }
+  .sub { color: var(--muted); font-size: 13px; }
+  h2 { font-size: 16px; margin: 24px 0 12px; color: var(--accent); font-weight: 600; letter-spacing: 0.02em; }
+  .headline {
+    background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+    padding: 18px 20px;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    border-left: 4px solid var(--accent);
+  }
+  .headline .label { font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .headline .body { font-size: 14px; line-height: 1.55; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .kpi .v { font-size: 22px; font-weight: 700; }
+  .kpi .l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+  .kpi .d { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .kpi.gap .v { color: var(--red); }
+  .kpi.win .v { color: var(--green); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 16px; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .panel h3 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+  .panel .caption { color: var(--muted); font-size: 11px; margin-bottom: 12px; }
+  .chart-wrap { position: relative; height: 280px; }
+  .chart-wrap.tall { height: 340px; }
+  .chart-wrap.short { height: 220px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    letter-spacing: 0.04em;
+  }
+  .tag.high { background: rgba(248, 113, 113, 0.15); color: var(--red); }
+  .tag.med { background: rgba(251, 191, 36, 0.15); color: var(--amber); }
+  .tag.low { background: rgba(148, 163, 184, 0.15); color: var(--muted); }
+  .tag.keep { background: rgba(74, 222, 128, 0.15); color: var(--green); }
+  .tag.modify { background: rgba(251, 191, 36, 0.15); color: var(--amber); }
+  .tag.hold { background: rgba(167, 139, 250, 0.15); color: var(--violet); }
+  .tag.add { background: rgba(56, 189, 248, 0.15); color: var(--accent); }
+  footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; }
+  code { background: var(--panel-2); padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+  @media (max-width: 960px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>System Review — 2026-04-17</h1>
+  <div class="sub">Inaugural semi-annual audit · on-demand · 4-day acted-on evidence window · self-audit skipped (first run)</div>
+</header>
+
+<div class="headline">
+  <div class="label">Headline finding</div>
+  <div class="body">
+    Architecture is correctly shaped but is leaking <b>~900K–1.3M tokens/month</b> on avoidable startup boilerplate and repeated-artifact reads, while the <b>Monitoring bucket holds zero processes despite four live-money positions</b>. Fix the boilerplate leak on <code>us-close-snapshot</code> + <code>workspace-tidy</code>, apply the six drift-patch files, and add a scheduled positions/thesis monitor — these three moves free <b>~25–35% of monthly burn</b> and close the largest structural gap.
+  </div>
+</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="v">~3.94M</div><div class="l">Current monthly burn (tokens)</div><div class="d">15 recurring processes</div></div>
+  <div class="kpi win"><div class="v">+700K–1.3M</div><div class="l">Net tokens/month freed if HIGH proposals applied</div><div class="d">post-change burn ~2.6–3.2M</div></div>
+  <div class="kpi gap"><div class="v">0</div><div class="l">Processes in Monitoring bucket</div><div class="d">~$4K at-risk book unwatched</div></div>
+  <div class="kpi"><div class="v">5 / 3 / 1</div><div class="l">Proposals HIGH / MED / LOW</div><div class="d">0 REMOVE · 6 drift patches blocked</div></div>
+</div>
+
+<h2>Monthly token burn — where it goes</h2>
+<div class="grid-2">
+  <div class="panel">
+    <h3>Burn by process (K tokens/month)</h3>
+    <div class="caption">Top 3: us-close (29%), trade-rec (25%), brief (13%). Red portion = estimated boilerplate leak.</div>
+    <div class="chart-wrap tall"><canvas id="burnBar"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>Share of monthly burn</h3>
+    <div class="caption">Trading-core rec-generation dominates. Two utility tasks (us-close + tidy) together carry ~33% of burn.</div>
+    <div class="chart-wrap tall"><canvas id="burnDonut"></canvas></div>
+  </div>
+</div>
+
+<h2>Structural shape — value chain + verdicts</h2>
+<div class="grid-3">
+  <div class="panel">
+    <h3>Value-chain bucket distribution</h3>
+    <div class="caption">Monitoring = 0 (gap). Rec-generation = 5 (spine). Meta-review borderline over-represented at N&lt;30 closed signals.</div>
+    <div class="chart-wrap"><canvas id="bucketBar"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>Audit verdicts (15 processes)</h3>
+    <div class="caption">Zero REMOVE. Three MODIFY-efficiency. Two HOLD (inaugural, self-remove rule arms).</div>
+    <div class="chart-wrap"><canvas id="verdictDonut"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>Boilerplate leak vs productive</h3>
+    <div class="caption">us-close + workspace-tidy still run full Session Startup Protocol. Blocked by Windows ro mount.</div>
+    <div class="chart-wrap"><canvas id="leakBar"></canvas></div>
+  </div>
+</div>
+
+<h2>Efficiency tally — projected change if HIGH proposals applied</h2>
+<div class="grid-2">
+  <div class="panel">
+    <h3>Per-proposal tokens saved/month (K)</h3>
+    <div class="caption">Range shown as low–high. A1 positions-monitor is new burn (negative bar). Net flow is positive.</div>
+    <div class="chart-wrap"><canvas id="tallyBar"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>Current vs. projected monthly burn</h3>
+    <div class="caption">Post-change range ~2.6M–3.2M. Freed context feeds trade-rec's decision budget directly.</div>
+    <div class="chart-wrap"><canvas id="beforeAfter"></canvas></div>
+  </div>
+</div>
+
+<h2>Ranked proposals</h2>
+<div class="panel">
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Type</th><th>Proposal</th><th>Impact</th><th class="num">Monthly Δ (K)</th><th>Blocker</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><b>E1</b></td><td><span class="tag modify">MOD-eff</span></td><td>Read-override prepend on <code>us-close-snapshot</code> + <code>workspace-tidy</code></td><td><span class="tag high">HIGH</span></td><td class="num" style="color:var(--green)">+780 to +1,300</td><td>Windows ro mount</td></tr>
+      <tr><td><b>E2</b></td><td><span class="tag modify">MOD-eff</span></td><td>Apply six blocked <code>*-patch-*.md</code> drift files</td><td><span class="tag high">HIGH</span></td><td class="num" style="color:var(--green)">+15 + quality</td><td>Windows ro mount</td></tr>
+      <tr><td><b>E3</b></td><td><span class="tag modify">MOD-eff</span></td><td>Trim market-brief §3 scorecard (collapse 8 flat-Sum≤+1 rows)</td><td><span class="tag high">HIGH</span></td><td class="num" style="color:var(--green)">+44 to +88</td><td>skill-creator edit</td></tr>
+      <tr><td><b>E4</b></td><td><span class="tag modify">MOD-eff</span></td><td>Shared <code>catalysts-YYYY-MM-DD.md</code> consumed by brief / rec / review</td><td><span class="tag high">HIGH</span></td><td class="num" style="color:var(--green)">+80 to +120</td><td>news-events SKILL.md refactor</td></tr>
+      <tr><td><b>A1</b></td><td><span class="tag add">ADD</span></td><td><code>positions-monitor</code> skill + intraday scheduled task</td><td><span class="tag high">HIGH</span></td><td class="num" style="color:var(--red)">−220</td><td>none — skill-creator + schedule</td></tr>
+      <tr><td><b>S1</b></td><td><span class="tag modify">MOD-scope</span></td><td>Raise catalyst-calendar ownership to news-events (pairs with E4)</td><td><span class="tag med">MED</span></td><td class="num">—</td><td>none</td></tr>
+      <tr><td><b>S2</b></td><td><span class="tag modify">MOD-scope</span></td><td>Add executed-trade P&amp;L attribution phase to weekly-regime-signal-review</td><td><span class="tag med">MED</span></td><td class="num">—</td><td>none</td></tr>
+      <tr><td><b>A2</b></td><td><span class="tag add">ADD</span></td><td>Extend <code>trade-update</code> with pre-entry-checklist compliance check</td><td><span class="tag med">MED</span></td><td class="num" style="color:var(--muted)">negligible</td><td>none</td></tr>
+      <tr><td><b>A3</b></td><td><span class="tag add">ADD</span></td><td>N-month audit-review template for future promoted variables</td><td><span class="tag low">LOW</span></td><td class="num">—</td><td>none</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Gaps and redundancies — structural findings</h2>
+<div class="grid-2">
+  <div class="panel">
+    <h3 style="color:var(--red)">Gaps (missing capability)</h3>
+    <table>
+      <tbody>
+        <tr><td><b>G1</b></td><td>Monitoring bucket empty — no stop-breach / thesis-invalidation / time-inv / correlation-gate watch on INTC, Gold, QQQ.</td></tr>
+        <tr><td><b>G2</b></td><td>No executed-trade P&amp;L attribution. SignalLedger marks hypotheticals only; EWY +$2.75 unattributed downstream.</td></tr>
+        <tr><td><b>G3</b></td><td>No pre-entry compliance audit on executed entries. EWY $145 stop vs methodology $133 caught only after stop hit.</td></tr>
+        <tr><td><b>G4</b></td><td>Audit-addition 6-month review hard-coded to 2026-04-14 additions — no template for Q3/Q4 promotions.</td></tr>
+        <tr><td><b>G5</b></td><td>Session Startup bloat: Methodology + Cores + Memory + Risk + Retention loaded every run when ~5–8K is decision-relevant.</td></tr>
+        <tr><td><b>G6</b></td><td>Lessons-to-gates loop is manual. memory-lessons.md accumulates but no auto-convert to Risk Rules / trade-update checks.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="panel">
+    <h3 style="color:var(--amber)">Redundancies (efficiency drag)</h3>
+    <table>
+      <tbody>
+        <tr><td><b>R1</b></td><td>us-close + workspace-tidy run full startup protocol — ~1.0M tokens/month leak. Blocked by Windows ro mount.</td></tr>
+        <tr><td><b>R2</b></td><td>Catalyst calendar duplicated 5 ways (brief §5, news §3, rec §5/§8, weekly §7, Memory §6). ~4–6K/day.</td></tr>
+        <tr><td><b>R3</b></td><td>Scorecard restated 5 ways per week across brief / rec / us-close / weekly / signal-review.</td></tr>
+        <tr><td><b>R4</b></td><td>News file read by both brief and trade-rec in full; cached <code>news-signals.json</code> would save ~4–5K/day.</td></tr>
+        <tr><td><b>R5</b></td><td>Six unresolved <code>*-patch-*.md</code> drift files at root — indicator of broken write path, not just backlog.</td></tr>
+        <tr><td><b>R6</b></td><td>Stale zi-prefix scratch folders + skill-patches.zip + system-review-skill-package-2026-04-17.zip accumulating at root.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+  <b>Implementation pointers:</b> Adds (A1–A3) → invoke <code>skill-creator</code> for scaffold + <code>schedule</code> for cron. Modifies (E1, E2) → Gerald edits Windows-side task prompts. Modifies (E3, E4) → <code>skill-creator</code> for SKILL.md changes. No REMOVE this cycle.<br>
+  <b>Next review:</b> 2026-10-04 per skill spec; scheduled task cron next fires 2026-05-03 — recommend letting it fire as the self-audit cycle.<br>
+  <span class="sub">Source: system-review-2026-04-17.md · first run, no prior-cycle comparison</span>
+</footer>
+
+<script>
+Chart.defaults.color = '#e2e8f0';
+Chart.defaults.borderColor = '#334155';
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif';
+
+// Monthly burn data
+const burnLabels = ['us-close-snapshot', 'trade-rec', 'market-brief', 'preflight-audit-data', 'news-events', 'workspace-tidy', 'weekly-regime-signal-review', 'pipeline-recovery', 'remainder'];
+const burnTotal  = [1155, 990, 528, 484, 330, 172, 156, 66, 60];
+const burnLeak   = [880, 0, 0, 0, 0, 120, 0, 0, 0];
+const burnProd   = burnTotal.map((t, i) => t - burnLeak[i]);
+
+new Chart(document.getElementById('burnBar'), {
+  type: 'bar',
+  data: {
+    labels: burnLabels,
+    datasets: [
+      { label: 'Productive', data: burnProd, backgroundColor: '#38bdf8', stack: 's' },
+      { label: 'Boilerplate leak', data: burnLeak, backgroundColor: '#f87171', stack: 's' }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { stacked: true, grid: { color: '#334155' }, ticks: { callback: v => v + 'K' } },
+      y: { stacked: true, grid: { display: false } }
+    },
+    plugins: { legend: { position: 'bottom' } }
+  }
+});
+
+new Chart(document.getElementById('burnDonut'), {
+  type: 'doughnut',
+  data: {
+    labels: burnLabels,
+    datasets: [{
+      data: burnTotal,
+      backgroundColor: ['#f87171','#38bdf8','#4ade80','#fbbf24','#a78bfa','#fb7185','#60a5fa','#34d399','#94a3b8']
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'right', labels: { font: { size: 11 } } },
+      tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed + 'K (' + ((ctx.parsed/3940)*100).toFixed(1) + '%)' } }
+    }
+  }
+});
+
+// Value-chain buckets
+new Chart(document.getElementById('bucketBar'), {
+  type: 'bar',
+  data: {
+    labels: ['Research', 'Rec-generation', 'Execution', 'Monitoring', 'Post-trade review', 'Infrastructure', 'Meta-review'],
+    datasets: [{
+      label: 'Processes',
+      data: [1.5, 5, 0.5, 0, 1.5, 3, 3.5],
+      backgroundColor: ['#38bdf8','#4ade80','#fbbf24','#f87171','#a78bfa','#60a5fa','#94a3b8'],
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#334155' } },
+      x: { grid: { display: false } }
+    },
+    plugins: { legend: { display: false } }
+  }
+});
+
+// Verdicts
+new Chart(document.getElementById('verdictDonut'), {
+  type: 'doughnut',
+  data: {
+    labels: ['KEEP (9)', 'MODIFY-efficiency (3)', 'MODIFY-scope (1)', 'HOLD (2)', 'REMOVE (0)'],
+    datasets: [{
+      data: [9, 3, 1, 2, 0],
+      backgroundColor: ['#4ade80','#fbbf24','#f59e0b','#a78bfa','#f87171']
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
+  }
+});
+
+// Leak breakdown
+new Chart(document.getElementById('leakBar'), {
+  type: 'bar',
+  data: {
+    labels: ['us-close-snapshot', 'workspace-tidy'],
+    datasets: [
+      { label: 'Productive', data: [275, 52], backgroundColor: '#38bdf8', stack: 'x' },
+      { label: 'Boilerplate leak', data: [880, 120], backgroundColor: '#f87171', stack: 'x' }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { stacked: true, grid: { color: '#334155' }, ticks: { callback: v => v + 'K' } },
+      y: { stacked: true, grid: { display: false } }
+    },
+    plugins: { legend: { position: 'bottom' } }
+  }
+});
+
+// Efficiency tally
+new Chart(document.getElementById('tallyBar'), {
+  type: 'bar',
+  data: {
+    labels: ['E1 override', 'E2 patches', 'E3 trim brief', 'E4 catalysts cache', 'A1 positions-monitor'],
+    datasets: [
+      { label: 'Low estimate', data: [780, 15, 44, 80, -220], backgroundColor: ctx => ctx.parsed.y < 0 ? '#f87171' : '#4ade80' },
+      { label: 'High estimate', data: [1300, 15, 88, 120, -220], backgroundColor: ctx => ctx.parsed.y < 0 ? '#b91c1c' : '#22c55e' }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: { grid: { color: '#334155' }, ticks: { callback: v => (v>0?'+':'') + v + 'K' } },
+      x: { grid: { display: false } }
+    },
+    plugins: {
+      legend: { position: 'bottom' },
+      tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y>0?'+':'') + ctx.parsed.y + 'K' } }
+    }
+  }
+});
+
+// Before vs after
+new Chart(document.getElementById('beforeAfter'), {
+  type: 'bar',
+  data: {
+    labels: ['Current burn', 'Projected (low)', 'Projected (high)'],
+    datasets: [{
+      label: 'Monthly tokens (K)',
+      data: [3940, 2640, 3240],
+      backgroundColor: ['#f87171', '#4ade80', '#86efac'],
+      borderRadius: 6
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { callback: v => (v/1000).toFixed(1) + 'M' } },
+      x: { grid: { display: false } }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => ctx.parsed.y + 'K tokens/month' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

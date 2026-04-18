@@ -1,0 +1,9 @@
+var_id,name,tier,grade,asset_class,n_studies,posterior_mean,ci95_low,ci95_high,p_positive,p_top3,median_rank,rank_ci_low,rank_ci_high,rank_ci_width,tau_posterior_median,peers,p_beats_peers,registry_published_sharpe,post_decay_sharpe,divergence_flag,indistinguishable_flag,rank_unstable_flag,low_power_flag
+V027,Intermediary capital ratio,1,A,Cross-Asset,3,0.2359,0.0216,0.4455,0.985,0.9559,1,1,3,0.25,0.0819,V004,0.9461,0.6,0.1423,True,False,False,False
+V015,BTC realized vol,1,A,Crypto,1,0.0307,-0.2422,0.3067,0.5846,0.4397,4,1,8,0.875,0.0918,V001,0.6397,N/A,0.0212,False,False,True,False
+V018,BTC 3m basis,1,B,Crypto,2,0.0191,-0.1813,0.2136,0.5775,0.3753,4,2,8,0.75,0.0782,V016,0.5532,N/A,0.0132,False,False,True,False
+V016,BTC perp funding rate,1,B,Crypto,1,0.0003,-0.2047,0.2112,0.5016,0.3118,5,2,8,0.75,0.0878,V018,0.4468,N/A,0.0003,False,True,True,False
+V004,HY OAS,1,A,Cross-Asset,2,-0.0107,-0.2249,0.2068,0.4559,0.2789,5,2,8,0.75,0.0613,"V027,V001",0.0494,N/A,-0.0081,False,True,True,False
+V001,VIX,1,A,Cross-Asset,2,-0.0342,-0.2518,0.1829,0.3786,0.215,6,2,8,0.75,0.0665,"V002,V004,V005",0.2354,N/A,-0.0239,False,True,True,False
+V005,NFCI,1,A,Cross-Asset,1,-0.0354,-0.2848,0.2183,0.3726,0.2312,6,2,8,0.75,0.0871,"V001,V004",0.3105,N/A,-0.0263,False,True,True,False
+V002,MOVE Index,1,A,Cross-Asset,1,-0.0511,-0.2999,0.2128,0.3334,0.1923,6,2,8,0.75,0.0893,"V001,V004",0.2744,N/A,-0.0362,False,True,True,False

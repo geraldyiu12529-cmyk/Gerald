@@ -1,0 +1,10 @@
+{
+  "variable": "SPX",
+  "value": 7022.95,
+  "unit": "",
+  "timestamp": "2026-04-16T04:41:10+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (^GSPC)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"^GSPC\",\"exchangeName\":\"SNP\",\"fullExchangeName\":\"SNP\",\"instrumentType\":\"INDEX\",\"firstTradeDate\":-1325583000,\"regularMarketTime\":1776285670,\"hasPr"
+}

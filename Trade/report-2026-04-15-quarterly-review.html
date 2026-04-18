@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quarterly Methodology Review — 2026-04-15</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #c9d1d9;
+    --heading: #e6edf3; --accent: #58a6ff; --green: #3fb950; --yellow: #d29922;
+    --red: #f85149; --orange: #db6d28; --purple: #bc8cff; --muted: #8b949e;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 24px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  h1 { color: var(--heading); font-size: 28px; margin-bottom: 8px; }
+  h2 { color: var(--heading); font-size: 20px; margin: 32px 0 16px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  h3 { color: var(--accent); font-size: 16px; margin: 20px 0 10px; }
+  .banner { background: #1c2333; border: 1px solid var(--yellow); border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
+  .banner-title { color: var(--yellow); font-weight: 600; margin-bottom: 4px; }
+  .banner-text { color: var(--muted); font-size: 14px; }
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin: 20px 0; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; }
+  .stat-value { font-size: 32px; font-weight: 700; color: var(--heading); }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .chart-container { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .chart-title { color: var(--heading); font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+  .chart-wrap { position: relative; max-height: 350px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
+  th { background: #1c2128; color: var(--heading); padding: 10px 12px; text-align: left; border-bottom: 2px solid var(--border); }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: #1c2128; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .tag-retain { background: rgba(63,185,80,0.15); color: var(--green); }
+  .tag-defer { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .tag-datagap { background: rgba(139,148,158,0.15); color: var(--muted); }
+  .tag-watch { background: rgba(219,109,40,0.15); color: var(--orange); }
+  .tag-confirmed { background: rgba(63,185,80,0.25); color: var(--green); }
+  .tag-live { background: rgba(88,166,255,0.15); color: var(--accent); }
+  .tag-missing { background: rgba(248,81,73,0.15); color: var(--red); }
+  .timeline-item { display: flex; gap: 16px; padding: 12px 0; border-left: 2px solid var(--border); margin-left: 8px; padding-left: 20px; }
+  .timeline-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; margin-left: -26px; }
+  .dot-green { background: var(--green); }
+  .dot-yellow { background: var(--yellow); }
+  .dot-blue { background: var(--accent); }
+  .footer { margin-top: 40px; padding: 16px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; text-align: center; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } .stats-row { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Quarterly Methodology Review</h1>
+<p style="color:var(--muted)">2026-04-15 | Gerald's Trading Workspace | Inaugural Review</p>
+
+<div class="banner">
+  <div class="banner-title">First Quarterly Review — Establishing Baselines</div>
+  <div class="banner-text">System operational for 1 day. 0 closed signals. All assessments are initial structural readings, not performance conclusions. Statistical patterns require 30+ closed signals.</div>
+</div>
+
+<div class="stats-row">
+  <div class="stat-card"><div class="stat-value">9</div><div class="stat-label">Total Signals</div></div>
+  <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">Promoted</div></div>
+  <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">Closed</div></div>
+  <div class="stat-card"><div class="stat-value">13</div><div class="stat-label">Dimensions Audited</div></div>
+  <div class="stat-card"><div class="stat-value" style="color:var(--green)">13</div><div class="stat-label">Retained</div></div>
+  <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">Change Proposals</div></div>
+</div>
+
+<!-- Chart 1: Dimension Fitness Scorecard -->
+<h2>1. Analytical Dimension Fitness Scorecard</h2>
+<div class="chart-container">
+  <div class="chart-title">Dimension Ratings (0-3 scale: Findings / Sample Adequacy / Context Efficiency)</div>
+  <div class="chart-wrap"><canvas id="dimFitness"></canvas></div>
+</div>
+
+<!-- Dimension Table -->
+<table>
+  <thead><tr><th>#</th><th>Dimension</th><th>Findings (0-3)</th><th>Sample (0-3)</th><th>Efficiency (0-3)</th><th>Recommendation</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Win rate by score component</td><td>0.5</td><td>0</td><td>3</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>2</td><td>Win rate by asset class</td><td>0.5</td><td>0</td><td>3</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>3</td><td>Win rate by regime label</td><td>0</td><td>0</td><td>3</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>4</td><td>Blocking leg distribution</td><td>1.5</td><td>1</td><td>3</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>5</td><td>Near-miss counterfactual</td><td>1</td><td>0.5</td><td>2.5</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>6</td><td>Audit-addition contribution</td><td>1.5</td><td>0.5</td><td>3</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>7</td><td>Threshold sensitivity</td><td>0</td><td>0</td><td>3</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>8</td><td>Interaction matrix</td><td>0</td><td>0</td><td>2</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>9</td><td>Time-to-exit distribution</td><td>0</td><td>0</td><td>2.5</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>10</td><td>MAE/MFE analysis</td><td>0</td><td>0</td><td>2.5</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>11</td><td>Catalyst resolution</td><td>0</td><td>0</td><td>2.5</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>12</td><td>VIX-at-entry conditioning</td><td>0</td><td>0</td><td>2.5</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+    <tr><td>13</td><td>Near-miss regression</td><td>0</td><td>0</td><td>2</td><td><span class="tag tag-retain">RETAIN</span></td></tr>
+  </tbody>
+</table>
+
+<!-- Chart 2: Research Core Reconciliation Heatmap -->
+<h2>2. Research Core Reconciliation</h2>
+<div class="chart-container">
+  <div class="chart-title">Top-28 Variables — Status Heatmap</div>
+  <div class="chart-wrap"><canvas id="reconHeatmap"></canvas></div>
+</div>
+
+<table>
+  <thead><tr><th>Variable</th><th>Grade</th><th>Pipeline?</th><th>Ledger Support</th><th>Regime Concern</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td>1-9: Core momentum/carry/credit/FCI/policy/valuation/revisions/quality/fwd-rate</td><td>A</td><td>Most yes</td><td>—</td><td>No</td><td><span class="tag tag-datagap">DATA GAP</span></td></tr>
+    <tr><td>10. ACM term premium</td><td>A</td><td style="color:var(--red)">MISSING</td><td>—</td><td>Stale data</td><td><span class="tag tag-watch">WATCH</span></td></tr>
+    <tr><td>11-14: Breakevens / real yields / inventories / curve slope</td><td>A</td><td>Yes</td><td>—</td><td>Gold-TIPS break</td><td><span class="tag tag-datagap">DATA GAP</span></td></tr>
+    <tr><td>15-25: FX / positioning / flow / skew / VRP / sentiment / correlation / supply / buyback / insider</td><td>A-B</td><td>Partial</td><td>—</td><td>No</td><td><span class="tag tag-datagap">DATA GAP</span></td></tr>
+    <tr style="background:#1a2332"><td><strong>26. Residual momentum</strong></td><td><strong>A</strong></td><td><span class="tag tag-live">LIVE</span></td><td>T=0 for all 12</td><td>Data quality</td><td><span class="tag tag-watch">WATCH</span></td></tr>
+    <tr style="background:#1a2332"><td><strong>27. Intermediary capital</strong></td><td><strong>A</strong></td><td><span class="tag tag-live">LIVE</span></td><td>z=+1.86 (first)</td><td>Needs stress test</td><td><span class="tag tag-watch">WATCH</span></td></tr>
+    <tr style="background:#1a2332"><td><strong>28. Basis-momentum</strong></td><td><strong>A</strong></td><td><span class="tag tag-live">LIVE</span></td><td>2 divergence caps</td><td>No</td><td><span class="tag tag-confirmed">CONFIRMED (early)</span></td></tr>
+  </tbody>
+</table>
+
+<!-- Chart 3: Audit-Addition Contribution Timeline -->
+<h2>3. Audit-Addition Variable Tracking</h2>
+<div class="banner">
+  <div class="banner-title">2026-10-14 Deadline: 183 days remaining</div>
+  <div class="banner-text">GO/NO-GO decision required for each of the three audit-addition variables. Formal recommendation in Q4 review (2026-10-01).</div>
+</div>
+
+<div class="chart-container">
+  <div class="chart-title">Contribution Log Entries by Variable (cumulative)</div>
+  <div class="chart-wrap"><canvas id="auditTimeline"></canvas></div>
+</div>
+
+<table>
+  <thead><tr><th>Variable</th><th>Log Entries</th><th>Decision-Moving?</th><th>Pipeline Status</th><th>2026-10-14 Outlook</th></tr></thead>
+  <tbody>
+    <tr><td>Basis-momentum</td><td>2 (WTI cap, Gold cap)</td><td style="color:var(--green)"><strong>YES</strong></td><td><span class="tag tag-live">LIVE</span></td><td style="color:var(--green)">On track for GO</td></tr>
+    <tr><td>Intermediary capital</td><td>1 (EWY caveat resolved)</td><td>Structural only</td><td><span class="tag tag-live">LIVE</span></td><td style="color:var(--yellow)">Needs stress episode</td></tr>
+    <tr><td>Residual momentum</td><td>1 (block lifted, no signal)</td><td style="color:var(--red)">Not yet</td><td><span class="tag tag-live">LIVE (noisy)</span></td><td style="color:var(--orange)">Needs data quality fix</td></tr>
+  </tbody>
+</table>
+
+<!-- Chart 4: Cumulative P&L Curve -->
+<h2>4. Cumulative P&L (Near-Miss Hypothetical)</h2>
+<div class="chart-container">
+  <div class="chart-title">Hypothetical unrealized moves — all near-miss signals (1-day snapshot, NOT performance)</div>
+  <div class="chart-wrap"><canvas id="pnlCurve"></canvas></div>
+</div>
+
+<!-- Chart 5: Variable Candidate Pipeline Funnel -->
+<h2>5. Variable Candidate Pipeline</h2>
+<div class="chart-container">
+  <div class="chart-title">Pipeline Funnel — candidates by stage</div>
+  <div class="chart-wrap"><canvas id="pipelineFunnel"></canvas></div>
+</div>
+
+<table>
+  <thead><tr><th>Candidate</th><th>Data Ready?</th><th>Evidence</th><th>Cost</th><th>Recommendation</th></tr></thead>
+  <tbody>
+    <tr><td>GEX (gamma exposure)</td><td>No</td><td>Trad core reference</td><td>Medium</td><td><span class="tag tag-defer">DEFER</span></td></tr>
+    <tr><td>Cross-asset lead-lag</td><td>Partial</td><td>None yet</td><td>Medium</td><td><span class="tag tag-defer">DEFER</span></td></tr>
+    <tr><td>Correlation-regime filter</td><td>Partial</td><td>None yet</td><td>Low-Med</td><td><span class="tag tag-defer">DEFER</span></td></tr>
+    <tr><td>Decision tree features</td><td>No (need 50+)</td><td>None</td><td>High</td><td><span class="tag tag-defer">DEFER</span></td></tr>
+    <tr><td>Calendar/seasonal effects</td><td>Retroactive</td><td>None yet</td><td>Low</td><td><span class="tag tag-defer">DEFER</span></td></tr>
+  </tbody>
+</table>
+
+<!-- Chart 6: Context Budget Breakdown -->
+<h2>6. Context Budget</h2>
+<div class="chart-container">
+  <div class="chart-title">Token consumption by component (weekly review cycle)</div>
+  <div class="chart-wrap"><canvas id="contextBudget"></canvas></div>
+</div>
+
+<!-- Chart 7: Methodology Change Timeline -->
+<h2>7. Methodology Change Log</h2>
+<div class="chart-container">
+  <div class="chart-title">Change Proposals Over Time</div>
+  <div style="text-align:center; padding:40px; color:var(--muted)">
+    <p style="font-size:48px; margin-bottom:12px">0</p>
+    <p>No RECOMMEND-status change proposals exist.</p>
+    <p style="font-size:13px; margin-top:8px">5 MONITOR items carried forward from inaugural signal review.</p>
+  </div>
+</div>
+
+<h3>MONITOR Items (from signal-review-2026-04-15)</h3>
+<div>
+  <div class="timeline-item"><div class="timeline-dot dot-yellow"></div><div><strong>M01:</strong> Basis-momentum divergence cap aggressiveness for WTI in backwardation. <em>N=1, 1 day.</em></div></div>
+  <div class="timeline-item"><div class="timeline-dot dot-yellow"></div><div><strong>M02:</strong> R-1 over-filtering silver in demand-driven breakouts. <em>N=2, 1 day.</em></div></div>
+  <div class="timeline-item"><div class="timeline-dot dot-green"></div><div><strong>M03:</strong> Equity near-misses moving in signal direction despite fail-loud. <em>Resolved — pipeline now live.</em></div></div>
+  <div class="timeline-item"><div class="timeline-dot dot-blue"></div><div><strong>M04:</strong> All signals long-only in single regime. <em>Structural — awaiting regime shift.</em></div></div>
+  <div class="timeline-item"><div class="timeline-dot dot-yellow"></div><div><strong>M05:</strong> EWY price discrepancy ($107.61 vs ~$147). <em>PENDING Gerald verification.</em></div></div>
+</div>
+
+<h2>8. Next Steps</h2>
+<div class="stats-row" style="grid-template-columns: 1fr 1fr">
+  <div class="stat-card" style="text-align:left">
+    <h3 style="margin-top:0">Q3 Review — 2026-07-01</h3>
+    <p style="font-size:13px; color:var(--muted)">First review with meaningful data (expect 60-90 signals, 30-50 closed). Statistical conclusions become directionally meaningful. Enhancement dimensions assessed for first time.</p>
+  </div>
+  <div class="stat-card" style="text-align:left">
+    <h3 style="margin-top:0; color:var(--red)">Q4 Review — 2026-10-01 (CRITICAL)</h3>
+    <p style="font-size:13px; color:var(--muted)">Formal GO/NO-GO for audit-addition variables ahead of 2026-10-14 hard deadline. Full dimension fitness assessment with 120+ signals.</p>
+  </div>
+</div>
+
+<div class="footer">
+  Quarterly Methodology Review | Generated 2026-04-15 | Review covers: 2026-04-14 to 2026-04-15 (1 day) | Signals: 9 (0 promoted, 9 near-miss, 0 closed) | Ledger health: OK
+</div>
+
+</div>
+
+<script>
+// Color palette
+const colors = {
+  accent: '#58a6ff', green: '#3fb950', yellow: '#d29922', red: '#f85149',
+  orange: '#db6d28', purple: '#bc8cff', muted: '#8b949e', bg: '#161b22',
+  gridColor: 'rgba(48,54,61,0.6)', textColor: '#8b949e'
+};
+
+const defaultOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: { legend: { labels: { color: colors.textColor, font: { size: 11 } } } },
+  scales: {
+    x: { ticks: { color: colors.textColor, font: { size: 10 } }, grid: { color: colors.gridColor } },
+    y: { ticks: { color: colors.textColor, font: { size: 10 } }, grid: { color: colors.gridColor } }
+  }
+};
+
+// 1. Dimension Fitness Scorecard (horizontal bar)
+new Chart(document.getElementById('dimFitness'), {
+  type: 'bar',
+  data: {
+    labels: ['1.Score comp','2.Asset class','3.Regime','4.Block dist','5.Counterfactual','6.Audit-add','7.Threshold','8.Interaction','9.Time-exit','10.MAE/MFE','11.Catalyst','12.VIX cond','13.NM regress'],
+    datasets: [
+      { label: 'Findings', data: [0.5,0.5,0,1.5,1,1.5,0,0,0,0,0,0,0], backgroundColor: colors.accent },
+      { label: 'Sample Adequacy', data: [0,0,0,1,0.5,0.5,0,0,0,0,0,0,0], backgroundColor: colors.green },
+      { label: 'Context Efficiency', data: [3,3,3,3,2.5,3,3,2,2.5,2.5,2.5,2.5,2], backgroundColor: colors.purple }
+    ]
+  },
+  options: {
+    ...defaultOptions,
+    indexAxis: 'y',
+    plugins: { ...defaultOptions.plugins, title: { display: false } },
+    scales: {
+      x: { ...defaultOptions.scales.x, max: 3, title: { display: true, text: 'Score (0-3)', color: colors.textColor } },
+      y: { ...defaultOptions.scales.y, ticks: { color: colors.textColor, font: { size: 10 } } }
+    }
+  }
+});
+
+// 2. Reconciliation Heatmap (grouped bar: pipeline/support/concern)
+new Chart(document.getElementById('reconHeatmap'), {
+  type: 'bar',
+  data: {
+    labels: ['TSMOM','Carry','Credit','FCI','Policy','Valuation','Revisions','Quality','Fwd-rate','TermPrem','Breakeven','RealYield','Inventory','Curve','FX IR','FX PPP','CFTC','OrderFlow','Skew','VRP','Sentiment','Correlation','Supply','Buyback','Insider','ResidMom','IntermCap','BasisMom'],
+    datasets: [
+      { label: 'In Pipeline (1=yes, 0.5=partial, 0=no)', data: [1,1,1,1,1,0.5,0.5,0.5,0,0,1,1,1,1,0.5,0,0.5,0,0,0,1,0.5,0,0,0,1,1,1], backgroundColor: colors.accent, barPercentage: 0.6 },
+      { label: 'Regime Concern (1=yes)', data: [0,0,0,0,0,0,0,0,0,0.5,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0.5,0,0], backgroundColor: colors.red, barPercentage: 0.6 }
+    ]
+  },
+  options: {
+    ...defaultOptions,
+    scales: {
+      x: { ...defaultOptions.scales.x, ticks: { maxRotation: 90, minRotation: 45, font: { size: 8 } } },
+      y: { ...defaultOptions.scales.y, max: 1.2 }
+    }
+  }
+});
+
+// 3. Audit-Addition Timeline (bar — contribution counts)
+new Chart(document.getElementById('auditTimeline'), {
+  type: 'bar',
+  data: {
+    labels: ['Week 1 (Apr 14-15)'],
+    datasets: [
+      { label: 'Basis-momentum', data: [2], backgroundColor: colors.green, barPercentage: 0.5 },
+      { label: 'Intermediary capital', data: [1], backgroundColor: colors.accent, barPercentage: 0.5 },
+      { label: 'Residual momentum', data: [1], backgroundColor: colors.orange, barPercentage: 0.5 }
+    ]
+  },
+  options: {
+    ...defaultOptions,
+    plugins: {
+      ...defaultOptions.plugins,
+      annotation: undefined
+    },
+    scales: {
+      x: defaultOptions.scales.x,
+      y: { ...defaultOptions.scales.y, beginAtZero: true, title: { display: true, text: 'Contribution log entries', color: colors.textColor } }
+    }
+  }
+});
+
+// 4. P&L Curve (bar — unrealized moves per signal)
+new Chart(document.getElementById('pnlCurve'), {
+  type: 'bar',
+  data: {
+    labels: ['Copper','Brent','WTI','TSM','Gold','META','AMZN','Silver'],
+    datasets: [{
+      label: 'Hypothetical move % (1 day, unrealized)',
+      data: [-2.8, -3.2, -4.3, -0.2, 0.4, 3.2, 4.5, 4.7],
+      backgroundColor: [-2.8,-3.2,-4.3,-0.2,0.4,3.2,4.5,4.7].map(v => v >= 0 ? colors.green : colors.red),
+      borderRadius: 4
+    }]
+  },
+  options: {
+    ...defaultOptions,
+    plugins: {
+      ...defaultOptions.plugins,
+      subtitle: { display: true, text: 'EWY excluded (price discrepancy). NOT performance — 1-day unrealized snapshot.', color: colors.muted, font: { size: 11 } }
+    },
+    scales: {
+      x: defaultOptions.scales.x,
+      y: { ...defaultOptions.scales.y, title: { display: true, text: 'Move %', color: colors.textColor } }
+    }
+  }
+});
+
+// 5. Pipeline Funnel
+new Chart(document.getElementById('pipelineFunnel'), {
+  type: 'bar',
+  data: {
+    labels: ['Idea', 'Data Assessment', 'Data Ready', 'Piloting', 'Active', 'Retired'],
+    datasets: [{
+      label: 'Candidates',
+      data: [0, 5, 0, 0, 0, 0],
+      backgroundColor: [colors.muted, colors.yellow, colors.accent, colors.green, colors.green, colors.red],
+      borderRadius: 4,
+      barPercentage: 0.6
+    }]
+  },
+  options: {
+    ...defaultOptions,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: defaultOptions.scales.x,
+      y: { ...defaultOptions.scales.y, beginAtZero: true, max: 6, title: { display: true, text: 'Count', color: colors.textColor } }
+    }
+  }
+});
+
+// 6. Context Budget (stacked bar)
+new Chart(document.getElementById('contextBudget'), {
+  type: 'bar',
+  data: {
+    labels: ['Current (9 signals)', 'Projected Q3 (60 signals)', 'Archival threshold (80)'],
+    datasets: [
+      { label: 'Signal rows', data: [1350, 4500, 4500], backgroundColor: colors.accent },
+      { label: 'Original tables (1-7)', data: [1200, 1200, 1200], backgroundColor: colors.green },
+      { label: 'Enhancement tables (8-13)', data: [1500, 1500, 1500], backgroundColor: colors.purple },
+      { label: 'Column defs & rules', data: [500, 500, 500], backgroundColor: colors.muted },
+      { label: 'Review file', data: [3500, 5000, 5500], backgroundColor: colors.yellow }
+    ]
+  },
+  options: {
+    ...defaultOptions,
+    plugins: {
+      ...defaultOptions.plugins,
+      annotation: undefined
+    },
+    scales: {
+      x: defaultOptions.scales.x,
+      y: { ...defaultOptions.scales.y, stacked: true, title: { display: true, text: 'Tokens', color: colors.textColor } }
+    }
+  }
+});
+
+// Make stacked
+Chart.getChart('contextBudget').config.options.scales.x.stacked = true;
+Chart.getChart('contextBudget').update();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Workflow Audit — 2026-04-15</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--head:#f0f6fc;--green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;--muted:#8b949e;--purple:#bc8cff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);padding:24px;max-width:1100px;margin:auto;line-height:1.6}
+h1{color:var(--head);font-size:1.6rem;margin-bottom:4px}
+h2{color:var(--blue);font-size:1.2rem;margin:28px 0 10px;border-bottom:1px solid var(--border);padding-bottom:6px}
+h3{color:var(--head);font-size:1rem;margin:16px 0 6px}
+.subtitle{color:var(--muted);font-size:.85rem;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-bottom:12px}
+.verdict-box{font-size:1.05rem;font-weight:700;text-align:center;padding:16px;border-radius:8px;margin:16px 0}
+.verdict-good{background:#0d1f0d;border:2px solid var(--green);color:var(--green)}
+table{width:100%;border-collapse:collapse;font-size:.85rem;margin:8px 0}
+th{background:#21262d;color:var(--head);text-align:left;padding:6px 8px;border-bottom:2px solid var(--border)}
+td{padding:6px 8px;border-bottom:1px solid var(--border)}
+tr:hover td{background:#1c2128}
+.score{display:inline-block;font-size:.75rem;padding:2px 8px;border-radius:10px;font-weight:700}
+.s10{background:#0d1f0d;color:var(--green);border:1px solid var(--green)}
+.s9{background:#0d1f0d;color:var(--green);border:1px solid var(--green)}
+.s8{background:#0d1a2d;color:var(--blue);border:1px solid var(--blue)}
+.s7{background:#1a1207;color:var(--yellow);border:1px solid var(--yellow)}
+.s6{background:#1a1207;color:var(--yellow);border:1px solid var(--yellow)}
+.s5{background:#1c0e14;color:var(--red);border:1px solid var(--red)}
+.tag{display:inline-block;font-size:.72rem;padding:2px 7px;border-radius:10px;font-weight:600}
+.tag-strength{background:#0d1f0d;color:var(--green);border:1px solid var(--green)}
+.tag-weakness{background:#1c0e14;color:var(--red);border:1px solid var(--red)}
+.tag-rec{background:#1a0d2e;color:var(--purple);border:1px solid var(--purple)}
+p{margin:6px 0 10px}
+ul{margin:4px 0 10px 18px;font-size:.9rem}
+li{margin-bottom:4px}
+.bar-container{background:#21262d;border-radius:4px;height:22px;position:relative;margin:3px 0}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:.75rem;font-weight:700;color:var(--head);transition:width .3s}
+.bar-10{background:linear-gradient(90deg,#238636,#3fb950);width:100%}
+.bar-9{background:linear-gradient(90deg,#238636,#3fb950);width:90%}
+.bar-8{background:linear-gradient(90deg,#1f6feb,#58a6ff);width:80%}
+.bar-7{background:linear-gradient(90deg,#9e6a03,#d29922);width:70%}
+.bar-6{background:linear-gradient(90deg,#9e6a03,#d29922);width:60%}
+.bar-5{background:linear-gradient(90deg,#da3633,#f85149);width:50%}
+.section-num{color:var(--muted);font-size:.8rem}
+.footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:24px;padding-top:12px;border-top:1px solid var(--border)}
+.rank-badge{display:inline-block;width:24px;height:24px;line-height:24px;text-align:center;border-radius:50%;font-size:.75rem;font-weight:700;margin-right:6px}
+.rank-1{background:var(--green);color:#0d1117}
+.rank-2{background:var(--blue);color:#0d1117}
+.rank-3{background:var(--blue);color:#0d1117}
+.rank-4{background:var(--yellow);color:#0d1117}
+.rank-5{background:var(--yellow);color:#0d1117}
+.rank-6{background:var(--yellow);color:#0d1117}
+.rank-7{background:var(--yellow);color:#0d1117}
+.rank-8{background:var(--red);color:#fff}
+.rank-9{background:var(--red);color:#fff}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+
+<h1>Workflow Audit — Gerald's Trading Workspace</h1>
+<div class="subtitle">2026-04-15 &nbsp;|&nbsp; Comprehensive review of methodology, automation, files, instructions, and outputs &nbsp;|&nbsp; Day 2 of operations</div>
+
+<div class="verdict-box verdict-good">OVERALL: 8.4 / 10 — Exceptionally well-architected for a 1-day-old workspace. Highest scores on methodology rigor and safety guardrails. Main gap: data pipeline sourcing (3 audit-addition variables still have no automated pull path).</div>
+
+<!-- ============================================================ -->
+<h2>1. Component Scorecard</h2>
+
+<div class="card">
+<table>
+<thead>
+<tr><th>#</th><th>Component</th><th>Score</th><th>Bar</th><th>Key Strengths</th><th>Key Gaps</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="rank-badge rank-1">1</span></td>
+<td><strong>Methodology Framework</strong><br><span class="section-num">Methodology Prompt.md</span></td>
+<td><span class="score s10">10/10</span></td>
+<td><div class="bar-container"><div class="bar-fill bar-10">10</div></div></td>
+<td>8-step sequential discipline; evidence grading (A/B/C); explicit "no trade" as valid output; correlation gate; catalyst scoring; reconciliation notes</td>
+<td>None material</td>
+</tr>
+<tr>
+<td><span class="rank-badge rank-1">2</span></td>
+<td><strong>Risk Rules</strong><br><span class="section-num">Risk Rules.md</span></td>
+<td><span class="score s9">9.5/10</span></td>
+<td><div class="bar-container"><div class="bar-fill bar-9">9.5</div></div></td>
+<td>ATR-based sizing, quarter-Kelly, 6-item pre-entry checklist, drawdown breakers (−15%/−20%), sector caps, time-to-invalidation rule</td>
+<td>No position-level P&L tracking automation yet (manual Memory.md)</td>
+</tr>
+<tr>
+<td><span class="rank-badge rank-2">3</span></td>
+<td><strong>Trade Rec Skill</strong><br><span class="section-num">daily-trade-rec/SKILL.md</span></td>
+<td><span class="score s9">9/10</span></td>
+<td><div class="bar-container"><div class="bar-fill bar-9">9</div></div></td>
+<td>8-step execution with upstream synthesis; web-search gap closure; HTML report with Chart.js; audit-addition visibility panel; §10 contribution log discipline</td>
+<td>v8 same-day reruns created unnecessary churn on Day 1 (8 versions for zero trades)</td>
+</tr>
+<tr>
+<td><span class="rank-badge rank-3">4</span></td>
+<td><strong>Memory System</strong><br><span class="section-num">Memory.md + .auto-memory/</span></td>
+<td><span class="score s9">9/10</span></td>
+<td><div class="bar-container"><div class="bar-fill bar-9">9</div></div></td>
+<td>Dual-layer (trade memory + auto-memory); 10-section structure; absolute dates; clock crosswalk; contribution log §10 for audit trail</td>
+<td>Memory.md §8 is 180+ lines of Day 1 lessons — will become unwieldy without periodic condensation</td>
+</tr>
+<tr>
+<td><span class="rank-badge rank-4">5</span></td>
+<td><strong>Scheduled Pipeline</strong><br><span class="section-num">7 tasks, 5 recurring</span></td>
+<td><span class="score s8">8.5/10</span></td>
+<td><div class="bar-container"><div class="bar-fill bar-8">8.5</div></div></td>
+<td>Clean sequencing (brief→news→rec at 20:00/20:10/20:20); Mon-Fri US-close snapshot; weekly review; workspace tidy; 6-month audit review one-shot</td>
+<td>Brief and news share same cron minute (20:00); no preflight-check wired into pipeline; no weekend skip on brief/news/rec</td>
+</tr>
+<tr>
+<td><span class="rank-badge rank-5">6</span></td>
+<td><strong>Retention Policy</strong><br><span class="section-num">Retention Policy.md + workspace-tidy</span></td>
+<td><span class="score s8">8.5/10</span></td>
+<td><div class="bar-container"><div class="bar-fill bar-8">8.5</div></div></td>
+<td>3-tier system (live/archive/digest); trade-rec never-digest rule; pin rule for active-thesis files; duplicate quarantine; cleanup log</td>
+<td>No actual archive content yet (too early); news-events/README.md has its own retention logic that partially overlaps</td>
+</tr>
+<tr>
+<td><span class="rank-badge rank-6">7</span></td>
+<td><strong>News Capture</strong><br><span class="section-num">news-events/ + README.md</span></td>
+<td><span class="score s8">8/10</span></td>
+<td><div class="bar-container"><div class="bar-fill bar-8">8</div></div></td>
+<td>7-section format (geopolitics, macro, calendar, corporate, crypto, flash, regime implications); hotspot table; category-based search; sourced and dated items</td>
+<td>No archive-summary.md created yet; hotspot table needs monthly review cadence automated</td>
+</tr>
+<tr>
+<td><span class="rank-badge rank-7">8</span></td>
+<td><strong>Data Sources & Fail-Loud</strong><br><span class="section-num">Data Sources.md</span></td>
+<td><span class="score s7">7.5/10</span></td>
+<td><div class="bar-container"><div class="bar-fill bar-7">7.5</div></div></td>
+<td>Comprehensive source map (28+ variables); free-first philosophy; fail-loud rule is properly binding; every Grade A variable has a named pull path</td>
+<td><strong>3 audit-addition variables have no automated pull</strong> (residual momentum requires monthly OLS; intermediary capital requires CSV parsing; basis-momentum requires historical F1–F2 series). Egress restrictions block FRED/CoinGlass direct API calls</td>
+</tr>
+<tr>
+<td><span class="rank-badge rank-8">9</span></td>
+<td><strong>CLAUDE.md / Session Instructions</strong><br><span class="section-num">.claude/CLAUDE.md</span></td>
+<td><span class="score s8">8/10</span></td>
+<td><div class="bar-container"><div class="bar-fill bar-8">8</div></div></td>
+<td>Mandatory 4-read startup protocol; dual-memory update rules; audit-addition binding section; clear "What NOT to do" list; comprehensive file index</td>
+<td>Audit-addition section duplicates content already in Methodology Prompt.md; could be a pointer instead</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h2>2. Score Visualization</h2>
+<div class="card" style="max-width:700px;margin:0 auto 12px">
+<canvas id="scoreChart" height="320"></canvas>
+</div>
+<script>
+const ctx1 = document.getElementById('scoreChart').getContext('2d');
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ['Methodology','Risk Rules','Trade Rec Skill','Memory System','Scheduled Pipeline','Retention Policy','News Capture','Data Sources','CLAUDE.md'],
+    datasets: [{
+      label: 'Score / 10',
+      data: [10, 9.5, 9, 9, 8.5, 8.5, 8, 7.5, 8],
+      backgroundColor: ['#3fb950','#3fb950','#3fb950','#3fb950','#58a6ff','#58a6ff','#58a6ff','#d29922','#58a6ff'],
+      borderColor: ['#238636','#238636','#238636','#238636','#1f6feb','#1f6feb','#1f6feb','#9e6a03','#1f6feb'],
+      borderWidth: 1,
+      borderRadius: 4
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    scales: {
+      x: { min: 0, max: 10, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } },
+      y: { grid: { display: false }, ticks: { color: '#c9d1d9', font: { size: 11 } } }
+    },
+    plugins: {
+      legend: { display: false },
+      title: { display: true, text: 'Component Scores (Ranked)', color: '#f0f6fc', font: { size: 14 } }
+    }
+  }
+});
+</script>
+
+<!-- ============================================================ -->
+<h2>3. Strengths — What's Working Exceptionally Well</h2>
+
+<div class="card">
+<h3><span class="tag tag-strength">STRENGTH</span> Evidence-Grading Discipline</h3>
+<p>The A/B/C grading system is the backbone of the entire workflow. It's not decorative — it's load-bearing. Every variable in the scorecard carries a grade, and the Grade C prohibition prevents narrative contamination. The reconciliation notes (MVRV demotion, funding-rate filter-not-predictor) show you've thought carefully about where practitioner intuition diverges from published evidence.</p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-strength">STRENGTH</span> Fail-Loud Architecture</h3>
+<p>Most trading systems fail silently — a missing data point gets interpolated or ignored, and the resulting score looks clean but isn't. Your fail-loud rule does the opposite: a MISSING Grade A variable blanks the score leg rather than inferring it, and the blank propagates up to block entry. This is the single most important safety feature in the workspace, and it worked correctly on Day 1 (EWY was +3 on paper but blocked because intermediary capital was MISSING).</p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-strength">STRENGTH</span> Audit Trail Completeness</h3>
+<p>The combination of dated .md recs, .html visual reports, Memory.md §8 lessons log, §10 contribution log, and the never-digest retention rule for trade recs creates a full audit trail. Six months from now, the 2026-10-14 review will be able to look back at every day's scorecard to determine whether the three audit additions contributed. This forward-thinking design is rare.</p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-strength">STRENGTH</span> Pre-Entry Checklist as Hard Gate</h3>
+<p>Risk Rules §7's 6-item pre-entry checklist is properly binding — not advisory. Items like "invalidation written, concrete, date-bounded" and "catalyst asymmetry stated" force the trade thesis to be fully specified before capital is deployed. The correlation gate (§5) prevents the common failure mode of taking three correlated positions and thinking they're diversified.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>4. Weaknesses & Recommendations</h2>
+
+<div class="card">
+<h3><span class="tag tag-weakness">GAP #1</span> Audit-Addition Data Pipeline — No Automated Pull Path</h3>
+<p>The three variables added on 2026-04-14 (residual momentum, intermediary capital, basis-momentum) are all Grade A and fail-loud, but none has a working automated pull. Residual momentum requires downloading FF5 factor returns from Kenneth French's library and running a 12-month rolling OLS per stock — this is a compute task, not a web-search closure. Intermediary capital requires parsing NY Fed CSV data and computing a z-score. Basis-momentum requires a historical F1–F2 settlement series. Until these are automated, the entire single-stock book stays T-blocked and the commodity S divergence-cap can't fire.</p>
+<p><span class="tag tag-rec">RECOMMENDATION</span> Build a Python compute skill that runs at 19:50 UTC+8 (before the brief fires at 20:00), pulls/computes these three variables, and writes the results to a staging file the brief and trade-rec skills can consume. This is the #1 priority item — it unblocks more scorecard legs than any other improvement.</p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-weakness">GAP #2</span> Same-Day Rerun Churn</h3>
+<p>On Day 1, the trade-rec reached v8 and the market brief reached v4. Multiple versions per day with no new data between runs is waste — each version is an overwrite that increases Memory.md §8's length without adding decision value. The v6→v7→v8 sequence had identical conclusions ("0 |Sum| ≥ 3 signals, no trade") because no upstream data changed.</p>
+<p><span class="tag tag-rec">RECOMMENDATION</span> Add a "delta check" at the top of the trade-rec skill: before re-running the full 8-step, compare the modification timestamps of the 4 upstream artifacts against the existing rec. If none have changed, append a one-line "no-change revalidation" to §8 and skip the full rewrite. This preserves the audit trail while eliminating wasted compute.</p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-weakness">GAP #3</span> Memory.md §8 Growth Rate</h3>
+<p>§8 (Lessons & Corrections) is already 180+ lines after one day of operations. Each trade-rec run appends a multi-line entry. At this rate, Memory.md will exceed 500 lines within a week, making it expensive to read at session startup. The current retention policy covers dated output files but doesn't address Memory.md internal section growth.</p>
+<p><span class="tag tag-rec">RECOMMENDATION</span> Add a Memory.md condensation rule to the weekly review skill: on Sunday, roll the prior week's §8 entries into a single summary paragraph (regime, signals fired, trades taken, key lessons). Keep only the current week's entries in full detail. Archive the verbose entries to a new file <code>memory-log-YYYY-WNN.md</code> in the archive folder.</p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-weakness">GAP #4</span> Pipeline Scheduling Gaps</h3>
+<p>The brief and news tasks share the same cron minute (<code>0 20 * * *</code>). In practice the jitter values separate them (96s vs 63s), but this is fragile — if both fire simultaneously, they could compete for web-search rate limits. Additionally, all five daily tasks fire every day of the week including Saturday and Sunday, when US markets are closed and most data sources won't have new readings. This creates empty or stale briefs on weekends.</p>
+<p><span class="tag tag-rec">RECOMMENDATION</span> Stagger the cron expressions (brief at 20:00, news at 20:10, rec at 20:25). Restrict the daily brief, news, and rec to Mon–Fri (<code>0 20 * * 1-5</code>). The weekly review already correctly fires Sunday-only. Consider adding a preflight-check run at 20:15 Mon–Fri, between news and rec, to catch missing upstream artifacts before the rec fires.</p>
+</div>
+
+<div class="card">
+<h3><span class="tag tag-weakness">GAP #5</span> Dual Retention Logic</h3>
+<p>The <code>Retention Policy.md</code> defines the master 3-tier archival system, but <code>news-events/README.md</code> defines its own 7-day/30-day retention rules with a separate <code>archive-summary.md</code> mechanism. These two systems overlap and could conflict — the weekly tidy task might try to archive a news file that the README says should be condensed into a different summary file.</p>
+<p><span class="tag tag-rec">RECOMMENDATION</span> Unify: have the weekly tidy task handle news files per the master Retention Policy, and remove the independent retention section from <code>news-events/README.md</code>. Or explicitly exempt news files from the master policy and delegate entirely to the README rules. Either way, one system should own the lifecycle.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2>5. Ranked Recommendations (Priority Order)</h2>
+
+<div class="card">
+<table>
+<thead>
+<tr><th>Priority</th><th>Action</th><th>Impact</th><th>Effort</th><th>Unblocks</th></tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P0</strong></td>
+<td>Build compute skill for residual momentum, intermediary capital, and basis-momentum</td>
+<td><span class="score s10">Critical</span></td>
+<td>High</td>
+<td>12 single-stock T-scores, cross-asset R-overlay, commodity S divergence-cap</td>
+</tr>
+<tr>
+<td><strong>P1</strong></td>
+<td>Add delta-check to trade-rec skill to prevent no-change reruns</td>
+<td><span class="score s8">High</span></td>
+<td>Low</td>
+<td>Eliminates version churn; keeps Memory.md lean</td>
+</tr>
+<tr>
+<td><strong>P2</strong></td>
+<td>Weekly Memory.md §8 condensation in Sunday review</td>
+<td><span class="score s8">High</span></td>
+<td>Low</td>
+<td>Prevents Memory.md from growing unbounded</td>
+</tr>
+<tr>
+<td><strong>P3</strong></td>
+<td>Stagger cron times; restrict daily tasks to Mon–Fri; wire preflight-check into pipeline</td>
+<td><span class="score s7">Medium</span></td>
+<td>Low</td>
+<td>Cleaner scheduling; no weekend waste; catches upstream gaps before rec fires</td>
+</tr>
+<tr>
+<td><strong>P4</strong></td>
+<td>Unify retention logic between Retention Policy and news-events README</td>
+<td><span class="score s7">Medium</span></td>
+<td>Low</td>
+<td>Prevents future conflict between cleanup systems</td>
+</tr>
+<tr>
+<td><strong>P5</strong></td>
+<td>Reduce CLAUDE.md audit-addition section to a pointer (avoid triple-duplication)</td>
+<td><span class="score s6">Low</span></td>
+<td>Trivial</td>
+<td>Less context for session startup reads; single source of truth</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<!-- ============================================================ -->
+<h2>6. Pipeline Flow Diagram</h2>
+<div class="card">
+<p style="text-align:center;color:var(--muted);font-size:.85rem;margin-bottom:8px">Current pipeline sequence (UTC+8 local time)</p>
+<pre style="color:var(--text);font-size:.82rem;line-height:1.7;overflow-x:auto">
+  07:30 Mon–Fri  ──▶  <span style="color:var(--blue)">US Close Snapshot</span>  ──▶  writes us-close-snapshot-YYYY-MM-DD.md
+       │
+  18:00 Sunday   ──▶  <span style="color:var(--purple)">Weekly Regime Review</span>  ──▶  writes weekly-review-YYYY-MM-DD.md
+       │
+  20:00 Daily    ──▶  <span style="color:var(--blue)">Market Brief</span>          ──▶  writes market-brief-YYYY-MM-DD.md
+  20:00 Daily    ──▶  <span style="color:var(--blue)">News Capture</span>          ──▶  writes news-events/news-YYYY-MM-DD.md
+       │                                                ⚠️ same cron minute
+  <span style="color:var(--yellow)">[MISSING]</span>        ──▶  <span style="color:var(--yellow)">Preflight Check</span>       ──▶  validates upstream artifacts
+       │
+  20:30 Daily    ──▶  <span style="color:var(--green)">Trade Rec (8-step)</span>    ──▶  writes trade-rec-YYYY-MM-DD.md
+       │                                            ──▶  writes report-YYYY-MM-DD-trade-rec.html
+       │                                            ──▶  updates Memory.md
+       │
+  21:00 Sunday   ──▶  <span style="color:var(--muted)">Workspace Tidy</span>        ──▶  archives/digests per Retention Policy
+</pre>
+</div>
+
+<!-- ============================================================ -->
+<h2>7. Comparative Radar</h2>
+<div class="card" style="max-width:500px;margin:0 auto 12px">
+<canvas id="radarChart" height="400"></canvas>
+</div>
+<script>
+const ctx2 = document.getElementById('radarChart').getContext('2d');
+new Chart(ctx2, {
+  type: 'radar',
+  data: {
+    labels: ['Methodology\nRigor','Risk\nManagement','Automation','Data\nSourcing','Audit\nTrail','Memory\nSystem','Output\nQuality','Scalability'],
+    datasets: [{
+      label: 'Current State',
+      data: [10, 9.5, 8, 7.5, 9.5, 9, 9, 7],
+      backgroundColor: 'rgba(88,166,255,.15)',
+      borderColor: '#58a6ff',
+      borderWidth: 2,
+      pointBackgroundColor: '#58a6ff',
+      pointRadius: 4
+    },{
+      label: 'Target (after P0–P3)',
+      data: [10, 9.5, 9.5, 9, 9.5, 9.5, 9, 8.5],
+      backgroundColor: 'rgba(63,185,80,.1)',
+      borderColor: '#3fb950',
+      borderWidth: 2,
+      borderDash: [5,5],
+      pointBackgroundColor: '#3fb950',
+      pointRadius: 4
+    }]
+  },
+  options: {
+    scales: {
+      r: {
+        min: 0, max: 10,
+        ticks: { stepSize: 2, color: '#8b949e', backdropColor: 'transparent' },
+        grid: { color: '#30363d' },
+        angleLines: { color: '#30363d' },
+        pointLabels: { color: '#c9d1d9', font: { size: 11 } }
+      }
+    },
+    plugins: {
+      legend: { labels: { color: '#c9d1d9', font: { size: 11 } } },
+      title: { display: true, text: 'Capability Radar — Current vs Target', color: '#f0f6fc', font: { size: 14 } }
+    }
+  }
+});
+</script>
+
+<!-- ============================================================ -->
+<h2>8. Summary Verdict</h2>
+<div class="card">
+<p>This is a remarkably well-built trading workspace for Day 2 of operations. The methodology-first approach — writing the framework, evidence grading, risk rules, and fail-loud architecture <em>before</em> taking any trades — is the right sequencing and it's rare. Most traders build their process retroactively after losses; you've front-loaded discipline.</p>
+
+<p>The 8.4/10 overall score reflects that the intellectual architecture (methodology, risk rules, evidence grading) is essentially complete and production-quality, while the operational infrastructure (data pipelines, scheduling, memory management) has a few gaps that are normal for a system this young.</p>
+
+<p>The single highest-leverage improvement is <strong>P0: building a compute skill for the three audit-addition variables</strong>. Until residual momentum, intermediary capital, and basis-momentum have automated pull paths, the fail-loud rule correctly blocks most of the book — which means the methodology is working as designed, but the workspace can't actually trade. Solving P0 transforms the workspace from "well-designed but gated" to "fully operational."</p>
+</div>
+
+<div class="footer">Workflow Audit — 2026-04-15 — 9 components reviewed, 6 recommendations issued</div>
+
+</body>
+</html>

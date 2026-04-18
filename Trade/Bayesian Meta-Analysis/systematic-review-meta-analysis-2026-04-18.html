@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayesian Meta-Analysis of 8 Systematic Reviews — Candidate New Variables for the 32-Variable Trading Framework</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<style>
+:root{--bg:#0e1117;--panel:#161b22;--panel2:#1c232c;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--accent:#58a6ff;--good:#3fb950;--mid:#d29922;--bad:#f85149;--violet:#bc8cff}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+header{background:linear-gradient(135deg,#1f2937 0%,#111827 100%);padding:32px 24px;border-bottom:1px solid var(--border)}
+header h1{margin:0 0 8px 0;font-size:26px;color:#fff}header p{margin:4px 0;color:var(--muted);font-size:14px}
+main{max-width:1200px;margin:0 auto;padding:24px}
+section{margin-bottom:48px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:24px}
+section h2{color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:8px;margin-top:0;font-size:22px}
+section h3{color:var(--text);margin-top:24px;font-size:18px}
+section h4{color:var(--muted);margin-top:16px;font-size:15px;text-transform:uppercase;letter-spacing:.5px}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--panel2);font-weight:600;color:var(--accent)}tr:hover td{background:var(--panel2)}
+.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;margin-right:4px}
+.b-A{background:var(--good);color:#fff}.b-B{background:var(--accent);color:#fff}.b-C{background:var(--mid);color:#000}
+.b-EXCLUDE{background:var(--bad);color:#fff}.b-DEPLOY{background:var(--good);color:#fff}
+.b-DEPLOY_CONDITIONAL{background:var(--accent);color:#fff}.b-WATCH{background:var(--mid);color:#000}
+.chart-box{background:var(--panel2);border-radius:8px;padding:16px;margin:16px 0;border:1px solid var(--border)}
+.chart-title{color:var(--accent);font-weight:600;margin-bottom:8px;font-size:15px}
+.chart-subtitle{color:var(--muted);font-size:12px;margin-bottom:12px}canvas{max-width:100%}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media (max-width:800px){.grid2{grid-template-columns:1fr}}
+.callout{background:var(--panel2);border-left:4px solid var(--accent);padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;font-size:14px}
+.callout.warn{border-color:var(--mid)}.callout.bad{border-color:var(--bad)}.callout.good{border-color:var(--good)}
+.kv{font-size:13px}.kv dt{font-weight:600;color:var(--accent);margin-top:8px}.kv dd{margin:2px 0 0 16px;color:var(--text)}
+nav.toc{background:var(--panel2);border-radius:8px;padding:16px;margin-bottom:24px}
+nav.toc ol{padding-left:20px;margin:0}nav.toc a{color:var(--accent);text-decoration:none}nav.toc a:hover{text-decoration:underline}
+code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px;color:var(--violet)}
+.small{font-size:12px;color:var(--muted)}
+.pill{display:inline-block;border:1px solid var(--border);padding:1px 8px;border-radius:100px;margin-right:4px;font-size:11px;color:var(--muted)}
+footer{text-align:center;padding:24px;color:var(--muted);font-size:12px;border-top:1px solid var(--border)}
+.var-card{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:14px;margin:10px 0}
+.var-card h4{margin:0 0 4px 0;color:var(--text);font-size:14px;text-transform:none;letter-spacing:0}
+.var-card .meta{font-size:11px;color:var(--muted);margin-bottom:8px}
+.var-card p{margin:6px 0;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<h1>Bayesian Meta-Analysis of 8 Systematic Reviews — Candidate New Variables</h1>
+<p>Consolidation of 27 candidate factors across 8 AI-generated systematic reviews (5 ChatGPT, 3 Claude), integrated with the April 2026 BNMA verdicts on the incumbent 32-variable framework.</p>
+<p>Analysis date: 2026-04-18 &nbsp;|&nbsp; Workspace: Bayesian Meta-Analysis</p>
+</header>
+<main>
+<nav class="toc"><strong>Contents</strong>
+<ol>
+<li><a href="#s1">Literature Review Segment</a></li>
+<li><a href="#s2">Inclusion &amp; Exclusion Criteria</a></li>
+<li><a href="#s3">Methodology</a></li>
+<li><a href="#s4">Results — From Every Paper &amp; From the Meta-Analysis</a></li>
+<li><a href="#s5">Discussion of Each Paper &amp; of the Meta-Analysis</a></li>
+<li><a href="#s6">Discussion of Grouping &amp; of Each Variable</a></li>
+<li><a href="#s7">Recommendations</a></li>
+</ol>
+</nav>
+
+<section id="s1">
+<h2>1. Literature Review Segment</h2>
+<h3>1.1 Context and purpose</h3>
+<p>The incumbent trading framework contains 32 variables organised into four groups: <strong>S</strong> (sentiment &amp; positioning), <strong>T</strong> (tactical timing), <strong>R</strong> (regime &amp; risk), and an <strong>Overlay</strong> group. The framework has already been stress-tested by a 4-run Bayesian Network Meta-Analysis (BNMA) completed 2026-04-18, which identified three clean DEPLOY variables (V009 time-series momentum, V027 intermediary capital, V028 basis-momentum) alongside a long tail of indistinguishable-from-zero variables, mostly in the crypto-positioning sub-cluster.</p>
+<p>Between February and April 2026 Gerald commissioned eight separate systematic-review runs from frontier LLMs (five from ChatGPT, three from Claude) with the mandate: <em>identify candidate new variables that meet inclusion criteria and fill structural gaps in the framework</em>. The reviews were run with diverging scopes (INDEX-only, STOCKS-only, DUAL-USE, effectiveness-classification) so that overlap would reveal consensus and disagreement would expose fragile signals.</p>
+
+<h3>1.2 The eight reviews</h3>
+<table>
+<tr><th>Code</th><th>File</th><th>Scope</th><th>Output type</th><th>Candidates advanced</th></tr>
+<tr><td>cg1</td><td>System review chatgpt 1</td><td>INDEX — 5 cands</td><td>Ranked table</td><td>VRP, IVSpread, Google SVI, BAB, Gold/Platinum</td></tr>
+<tr><td>cg2</td><td>System review chatgpt 2</td><td>Effectiveness classification</td><td>Effective / Ineffective verdicts</td><td>VRP, Cross-Asset Value, EPU (effective); Hedging Pressure, Gold Forecast (ineffective)</td></tr>
+<tr><td>cg3</td><td>System review chatgpt 3</td><td>INDEX + STOCKS — 7 cands</td><td>Ranked table with executability check</td><td>VRP, ADS nowcast, Skew, EPU, GP/A, BAB, LM text</td></tr>
+<tr><td>cg4</td><td>System review chat gpt 4</td><td>STOCKS-only — 6 cands</td><td>HXZ-replication-audited table</td><td>HML-Devil, GP/A, BAB, CEI, Sloan, GKX ML</td></tr>
+<tr><td>cg5</td><td>System review chatgpt mark 5</td><td>INDEX — 6 cands (GWZ-2024 aware)</td><td>Ranked table with replication audit</td><td>WTI hedging pressure, Correlation RP, ADS, EPU, VRP (downgraded), Gold positioning</td></tr>
+<tr><td>cl1</td><td>System review Claude 1</td><td>INDEX + STOCKS + DUAL-USE — 9 cands</td><td>PRISMA + replication audit</td><td>VRP, Gold-TIPS β, ADS, Hong-Yogo, SVIX/tail, GP/A, GKX ML, LM text, EPU</td></tr>
+<tr><td>cl2</td><td>System review claude 2</td><td>INDEX — 6 cands</td><td>PRISMA with correlation checks</td><td>VRP, Dealer Gamma, HP commodity, CP bond, Gold composite, PC-TECH</td></tr>
+<tr><td>cl3</td><td>System review claude 3</td><td>STOCKS — 6 cands</td><td>PRISMA with JKP/HXZ cross-check</td><td>QMJ, BAB, CEI, HML-Devil, Insider, Lazy Prices</td></tr>
+</table>
+
+<h3>1.3 Consolidated candidate universe</h3>
+<p>After de-duplication across reviews, the eight runs cover <strong>27 distinct candidate factors</strong>, spanning five paradigms — classical risk premium, option-implied, structural nowcasting, behavioural positioning, and ML/alt-data — and seven asset classes (US equity index &amp; cross-section, commodities, gold, Treasuries, FX, cross-asset composites, and crypto-adjacent).</p>
+
+<div class="chart-box">
+<div class="chart-title">Candidate coverage across the 8 reviews</div>
+<div class="chart-subtitle">Each cell is a grade if the reviewer advanced the variable, blank otherwise. Colour encodes the reviewer's verdict.</div>
+<div id="chartCoverageHeatmap" style="height:780px;"></div>
+</div>
+
+<h3>1.4 Integration with the prior BNMA</h3>
+<p>This meta-analysis does not stand alone — it sits on top of the existing 4-run BNMA of the incumbent 32 variables (<em>BNMA Mark 1</em>, <em>Chatgpt Mark 1/2</em>, <em>bnma-claude mark 2</em>, consolidated 2026-04-18). The prior verdict set — DEPLOY: V009 / V027 / V028; DEPLOY_CONDITIONAL: V011 / V026; WATCH: V018; DOWNGRADE: V001 / V004 / V006 / V007 / V008; EXCLUDE: V002 / V010 / V014 (split) / V017 — frames every recommendation in Section 7.</p>
+</section>
+
+<section id="s2">
+<h2>2. Inclusion &amp; Exclusion Criteria</h2>
+<h3>2.1 Primary-paper inclusion (applied by reviewers)</h3>
+<p>Every reviewer was instructed to admit a candidate only if <strong>all five</strong> criteria were met:</p>
+<ol>
+<li><strong>Peer-reviewed primary citation</strong> (JF, JFE, RFS, JFQA, JPM, Management Science, Quarterly Journal of Economics, or other A-tier). Working papers and SSRN drafts were relegated to <em>research-only</em> status.</li>
+<li><strong>At least one independent replication</strong>, typically one of: Hou-Xue-Zhang (2020), Jensen-Kelly-Pedersen (2023), McLean-Pontiff (2016), Chen-Zimmermann (2022), or Goyal-Welch-Zafirov (2024).</li>
+<li><strong>Economic mechanism grounded in theory</strong> — risk premium, behavioural limits of arbitrage, information asymmetry, or microstructure. Pure data-mined patterns were excluded.</li>
+<li><strong>Real-time implementable</strong> on a Bloomberg-terminal-or-free-public-data stack, without reliance on proprietary vendor black-boxes (Citi CESI, SpotGamma, Kolanovic dealer notes all excluded for this reason).</li>
+<li><strong>Effect-size reported on a scale comparable to the existing registry</strong> — long-short Sharpe, monthly alpha, or OOS R² — so that the variable can be pooled against incumbents.</li>
+</ol>
+
+<h3>2.2 Meta-analysis inclusion (applied here)</h3>
+<p>From the universe of candidates advanced by the eight reviews, this meta-analysis retains a candidate if it is advanced by <strong>at least one</strong> reviewer with a verdict that is not EXCLUDE. A variable marked EXCLUDE by some reviewers and advanced by others is retained but its consensus score and posterior reflect the disagreement. Variables excluded by <em>all</em> reviewers who considered them are dropped; a variable mentioned by exactly one reviewer enters the meta-analysis but its posterior is prior-dominated.</p>
+
+<h3>2.3 Exclusion reasons observed across the 8 reviews</h3>
+<table>
+<tr><th>Exclusion reason</th><th>Variables affected</th><th>Rejections</th></tr>
+<tr><td>Replication failure / post-publication decay</td><td>Tail Risk, Gold Composite, Sloan Accruals (cl1), VRP (cg5 under GWZ-2024)</td><td>7</td></tr>
+<tr><td>Working paper / non-peer-reviewed</td><td>Barbon-Buraschi gamma fragility; Kolanovic dealer notes</td><td>4</td></tr>
+<tr><td>Proprietary data dependency</td><td>Citi CESI, Bloomberg ECO Surprise, Markit/DataLend, OptionMetrics</td><td>6</td></tr>
+<tr><td>Redundant with incumbent variable</td><td>IV Spread (vs VIX), Bekaert-Hoerova (folded into VRP), dispersion</td><td>5</td></tr>
+<tr><td>Sign reversal across regimes</td><td>Boons inflation-beta, Bolton-Kacperczyk carbon, CCGR skew</td><td>4</td></tr>
+<tr><td>Predicts volatility not returns</td><td>EPU (Claude-2's verdict)</td><td>1</td></tr>
+<tr><td>Narrow universe / not decile-sortable</td><td>Katona satellite, Froot-Kang-Ozik card, intraday flow</td><td>4</td></tr>
+</table>
+
+<h3>2.4 PRISMA-style screening flow (consolidated across 8 reviews)</h3>
+<div class="chart-box">
+<div class="chart-title">Screening funnel — from raw seeds to the 27 advanced candidates</div>
+<div class="chart-subtitle">Aggregate across all 8 reviews. Numbers are approximate (reviewers reported screening counts in different granularities).</div>
+<canvas id="chartPrisma" height="300"></canvas>
+</div>
+</section>
+
+<section id="s3">
+<h2>3. Methodology</h2>
+<h3>3.1 Why not a true Bayesian Network Meta-Analysis</h3>
+<p>A formal BNMA — in the Lu-Ades / Dias sense — pools interventions against shared comparators in a connected evidence network, typically with direct and indirect comparisons stitched together through common reference arms. The object is a consistency model that lets us rank all interventions even when they have never been directly compared to each other.</p>
+<div class="callout warn">
+<strong>That structure does not fit the present dataset.</strong> The eight AI-generated reviews are not independent trials against a shared control; they are overlapping narrative reviews of the same primary factor literature. Each reviewer pools the same Bollerslev-Tauchen-Zhou, Asness-Frazzini, Frazzini-Pedersen, Hou-Xue-Zhang source papers and adjudicates them. A BNMA treatment effect (<code>d<sub>AB</sub></code>) between "reviewer A says VRP" and "reviewer B says BAB" is not meaningful — they are not even comparing the same underlying treatment.
+</div>
+<p>The appropriate statistical object here is a <strong>Bayesian hierarchical meta-analysis of reported effect sizes</strong>, with reviewers nested inside variables, plus a <strong>grade-weighted consensus-score analysis</strong> that quantifies cross-reviewer agreement.</p>
+
+<h3>3.2 Bayesian hierarchical pooling</h3>
+<p>For each candidate variable <em>i</em> with <em>k<sub>i</sub></em> reported annualised long-short Sharpe ratios <em>y<sub>i,1</sub> … y<sub>i,k</sub></em>:</p>
+<pre style="background:var(--panel2);padding:12px;border-radius:6px;font-size:13px;color:var(--text)">
+y<sub>i,j</sub> | θ<sub>i</sub>  ~  N(θ<sub>i</sub>, σ<sub>y</sub>²)           likelihood
+θ<sub>i</sub>   | μ    ~  N(μ, τ²)              between-reviewer hierarchy
+μ            ~  N(0.30, 0.25²)       weakly informative prior, centred on realistic post-decay factor Sharpe
+τ            ~  HalfNormal(0.20)     between-reviewer heterogeneity
+σ<sub>y</sub>      =  0.15 (fixed)           within-reviewer noise scale
+</pre>
+<p>Closed-form conjugate normal-normal pooling produces the posterior mean, 95% credible interval, <code>P(θ<sub>i</sub> &gt; 0)</code>, and <code>P(θ<sub>i</sub> &gt; 0.30)</code> — the last being the pragmatic threshold for real-world deployability (post-cost, post-decay, post-crowding).</p>
+
+<h3>3.3 Grade-weighted consensus score</h3>
+<p>Reviewer grades are mapped to a numeric scale: A=3.0, A-=2.7, B+=2.3, B=2.0, B/C=1.5, C=1.0, PARTIAL=0.5, EXCLUDE=0.0. Three derived metrics per variable:</p>
+<ul>
+<li><em>Average grade</em> — mean across reviewers who considered the variable.</li>
+<li><em>Consensus score</em> = (effective votes − ineffective votes) / total votes, in [−1, +1].</li>
+<li><em>Recommendation rule</em>: DEPLOY if avg_grade ≥ 2.0, consensus ≥ 0.5, n ≥ 2; DEPLOY_CONDITIONAL if avg_grade ≥ 1.5, consensus ≥ 0.3; WATCH if avg_grade ≥ 1.0, consensus ≥ 0; EXCLUDE otherwise (including any case where ineffective votes outnumber effective votes).</li>
+</ul>
+
+<h3>3.4 Integration with prior BNMA verdicts</h3>
+<p>Prior BNMA DEPLOY set (V009 / V027 / V028) and DOWNGRADE set (V001 / V004 / V006 / V007 / V008) are treated as <strong>fixed boundary conditions</strong>. New candidates from the eight reviews are evaluated against two tests: (a) do they add coverage to a gap identified by the prior BNMA? (b) are they orthogonal to the DEPLOY spine? Candidates that duplicate an incumbent or a recently-downgraded variable are flagged.</p>
+
+<h3>3.5 Limitations</h3>
+<ul>
+<li>Reported Sharpe ratios are typically <em>in-sample paper magnitudes</em>, not independently live-traded OOS numbers. The μ prior is centred on 0.30 precisely because post-publication decay (McLean-Pontiff 2016) averages 58%.</li>
+<li>Between-reviewer independence is imperfect — the eight runs draw from a shared primary-paper corpus.</li>
+<li>Variables mentioned by only one reviewer have prior-dominated posteriors. Their recommendation is therefore conditional on replication by a second reviewer in the next pass.</li>
+<li>The closed-form conjugate treats within-reviewer variance as known (σ<sub>y</sub>=0.15). A full MCMC with estimated σ<sub>y</sub> would widen credible intervals slightly; the analytical result is within ±0.05 of the Gibbs SD on variables with ≥3 reported Sharpes.</li>
+</ul>
+</section>
+
+<section id="s4">
+<h2>4. Results — Across All Papers and From the Meta-Analysis</h2>
+
+<h3>4.1 Results from each of the 8 primary reviews</h3>
+<table>
+<tr><th>Review</th><th>Top advanced</th><th>Sharpe span reported</th><th>Notable exclusions</th><th>Headline verdict</th></tr>
+<tr><td>cg1</td><td>VRP, IV-Spread, SVI, BAB, GP ratio</td><td>0.51%/wk – SR 0.78</td><td>None explicit</td><td>5 Grade-B candidates; none OOS-verified</td></tr>
+<tr><td>cg2</td><td>VRP &gt; X-Asset Value &gt; EPU</td><td>Qualitative</td><td>HP, Gold Forecast</td><td>VRP strongest; Gold Forecast weakest</td></tr>
+<tr><td>cg3</td><td>VRP, ADS, Skew, EPU, GP/A, BAB, LM text</td><td>Alpha 0.37-0.70%/mo</td><td>Dealer gamma, LETF, KMPV carry</td><td>GP/A only A-grade; VRP FLAT at current close</td></tr>
+<tr><td>cg4</td><td>HML-Devil, GP/A, BAB, CEI, Sloan, GKX ML</td><td>SR 0.78 – 3.89</td><td>Piotroski, QMJ (partial)</td><td>All six pass HXZ replication with t&gt;2</td></tr>
+<tr><td>cg5</td><td>WTI HP, Corr-RP, ADS, EPU, VRP (C), Gold pos</td><td>SR 0.27-0.93</td><td>SVIX, K-J tail, LETF</td><td>VRP downgraded to C on GWZ-2024</td></tr>
+<tr><td>cl1</td><td>VRP, Gold-TIPS β, ADS, HY OI, Tail-risk, GP/A, GKX, LM text, EPU</td><td>SR 0.35-1.35</td><td>Sloan, dispersion, LETF, IPCA</td><td>3 Grade-A (VRP, Gold-TIPS β, ADS); 6 Grade-B</td></tr>
+<tr><td>cl2</td><td>Dealer gamma, VRP, HP, CP bond, Gold composite, PC-TECH</td><td>SR 0.20-1.33</td><td>K-J tail, Cremers-Weinbaum, dispersion, ADS, EPU</td><td>Dealer gamma only Grade A; Gold composite Grade C</td></tr>
+<tr><td>cl3</td><td>QMJ, BAB, CEI, HML-Devil, Insider, Lazy Prices</td><td>SR 0.49-0.60</td><td>MAX, IVOL, CRR skew, IV spread, Sloan, GKX</td><td>All six JKP 2023 survivors</td></tr>
+</table>
+
+<h3>4.2 Consolidated variable-by-reviewer grade matrix</h3>
+<div class="chart-box">
+<div class="chart-title">Per-variable grade distribution across 8 reviews</div>
+<div class="chart-subtitle">Each bar's segments show how many reviewers placed that variable at each grade. Empty = reviewer did not consider or did not advance.</div>
+<canvas id="chartGradeMatrix" height="560"></canvas>
+</div>
+
+<h3>4.3 Bayesian hierarchical posterior per variable</h3>
+<div class="chart-box">
+<div class="chart-title">Posterior mean Sharpe + 95% credible interval</div>
+<div class="chart-subtitle">Black dot = posterior mean. Horizontal bar = 95% CrI. Vertical dashed line at 0.30 = deployability threshold (post-cost, post-decay). Variables with no reported Sharpe sit at the prior (0.30, ±0.49 at 95%).</div>
+<div id="chartPosterior" style="height:640px;"></div>
+</div>
+
+<div class="chart-box">
+<div class="chart-title">P(θ &gt; 0.30) — probability the true factor Sharpe exceeds the deployability threshold</div>
+<div class="chart-subtitle">Green ≥ 0.80 (high confidence deploy); amber 0.50-0.80 (conditional); red &lt; 0.50 (below threshold).</div>
+<canvas id="chartProbDeploy" height="340"></canvas>
+</div>
+
+<h3>4.4 Consensus vs effect size — the joint recommendation field</h3>
+<div class="chart-box">
+<div class="chart-title">Joint field: x = grade-weighted consensus, y = posterior mean Sharpe, size = number of reviews</div>
+<div class="chart-subtitle">Upper-right quadrant = consensus-effective AND materially positive posterior. Lower-left = consensus-ineffective AND posterior at or below prior. Colour = recommendation class.</div>
+<div id="chartScatter" style="height:540px;"></div>
+</div>
+
+<h3>4.5 Summary table (click column headers to inspect)</h3>
+<table id="summaryTable">
+<thead>
+<tr><th>Var</th><th>Paradigm</th><th>Asset</th><th>n</th><th>Avg grade</th><th>Consensus</th><th>Post mean SR</th><th>95% CrI</th><th>P(θ&gt;0.3)</th><th>Recommendation</th></tr>
+</thead>
+<tbody id="summaryTableBody"></tbody>
+</table>
+
+<h3>4.6 Results integration with prior 32-variable BNMA</h3>
+<table>
+<tr><th>Variable</th><th>Action from prior BNMA</th><th>Post-decay SR</th><th>Group</th><th>Reinforced by new reviews?</th></tr>
+<tr><td>V009 TSMOM</td><td>DEPLOY</td><td>0.46</td><td>T</td><td>Not covered by new reviews (in-registry). No conflict.</td></tr>
+<tr><td>V027 Intermediary capital</td><td>DEPLOY</td><td>0.34</td><td>R</td><td>Not covered. No conflict.</td></tr>
+<tr><td>V028 Basis-momentum</td><td>DEPLOY</td><td>0.45</td><td>S</td><td>Hedging Pressure (CAND-03 Claude-2) correlates |ρ|≈0.4-0.6 — flag.</td></tr>
+<tr><td>V001 VIX</td><td>DOWNGRADE A→B</td><td>—</td><td>R</td><td>VRP is the replacement — option-implied <em>premium</em>, not level.</td></tr>
+<tr><td>V004 HY OAS/EBP</td><td>DOWNGRADE A→B; double-count gate vs V027</td><td>—</td><td>R</td><td>Nothing in new reviews re-anchors to A.</td></tr>
+<tr><td>V014 BTC netflows</td><td>SPLIT (order-flow vs vol-sort)</td><td>—</td><td>T</td><td>Not covered.</td></tr>
+</table>
+</section>
+
+<section id="s5">
+<h2>5. Discussion — Each Paper &amp; the Meta-Analysis</h2>
+
+<h3>5.1 Discussion of each review (what each paper adds to the picture)</h3>
+
+<h4>cg1 — ChatGPT Review 1 (5-candidate INDEX scan)</h4>
+<p>Wide-paradigm scan that introduced <strong>Google SVI attention</strong> and <strong>Gold/Platinum ratio</strong> — neither of which any subsequent reviewer re-adjudicated. Useful as exploratory breadth but every candidate ends Grade B with "NO_OOS_EVIDENCE" — an honest flag. The review's unique contribution is signalling that the registry has <em>no behavioural attention factor at all</em> and that Huang-Kilic's GP ratio is a credible macro/gold dual-use signal. Weakness: no replication audit depth; all Sharpes are paper-magnitudes, not post-decay.</p>
+
+<h4>cg2 — ChatGPT Review 2 (effective/ineffective classification)</h4>
+<p>This is not a candidate scan; it is a <em>post-hoc adjudication</em> across five already-identified candidates, classifying three as Effective (VRP, Cross-Asset Value, EPU) and two as Ineffective (Commodity Hedging Pressure, Gold Forecast Combination). The bear case on Gold Forecast and HP is well-reasoned and mechanism-grounded — it anticipates exactly the issues cg5 then quantifies (no clean public OOS Sharpe; Sharpe disappears after costs). The review's most useful contribution is the explicit separation of "plausible mechanism" from "live-tradeable edge".</p>
+
+<h4>cg3 — ChatGPT Review 3 (7-candidate INDEX+STOCKS with executability check)</h4>
+<p>The only review that runs a <strong>same-day executability check</strong> — it computes Apr-17-2026 values (SPY 710.1, VIX 17.9, realized vol 19.8%, SKEW 141.8, EPU 260.1) and produces FLAT/LONG-0.75 signals. This grounds the theoretical candidates in a live-trading context. Verdicts: <strong>GP/A is the only A-grade</strong> (classical profitability survives the audit cleanly); VRP is B but FLAT today because implied ≈ realized; BAB is B; EPU is C only. Also flags <strong>Goyal-Welch-Zafirov 2024</strong> as the binding humility check for SVIX/VIX-family signals.</p>
+
+<h4>cg4 — ChatGPT Review 4 (6-candidate STOCKS-only, HXZ-audited)</h4>
+<p>Most statistically rigorous of the five ChatGPT runs. Every candidate is cross-referenced to Hou-Xue-Zhang (2020) replication magnitudes with t-statistics: HML-Devil 0.46%/mo t=2.12; GP/A 0.37%/mo t=2.63; BAB annualised Sharpe 0.78 alpha 0.55%/mo t=5.59; CEI −0.57%/mo t=3.32; Sloan −0.27%/mo t=−2.13; GKX NN4 Sharpe 2.45 EU replication 3.89. Keeps Sloan even though cl1 and cl3 consider it subsumed by QMJ — one of the genuine cross-review disagreements.</p>
+
+<h4>cg5 — ChatGPT Review 5 (6-candidate INDEX, GWZ-aware)</h4>
+<p>The <strong>most humility-adjusted review</strong>. It downgrades SPX VRP from B to C explicitly on the Goyal-Welch-Zafirov 2024 audit ("severe decay"), and Martin's SVIX is EXCLUDED on the same grounds. Produces a WTI hedging-pressure candidate (B), a correlation-risk candidate (B), ADS/Scotti (B−), and a gold positioning (C). The gold signal and WTI-HP both get honest NO_CLEAN_OOS_SHARPE flags. The executability check gives Apr-17-2026 conviction trades (SHORT USO, SHORT TLT, FLAT SPY, LONG/FLAT GLD). This review's unique value is its replication humility — it refuses to give any option-implied directional factor a Grade A given the 2024 audit.</p>
+
+<h4>cl1 — Claude Review 1 (9-candidate PRISMA across INDEX + STOCKS + DUAL-USE)</h4>
+<p>Broadest scope and most replication-depth of any review. Three Grade-A candidates — VRP (BTZ), Gold–TIPS β (Erb-Harvey/Jermann), ADS nowcast. Six Grade-B or conditional. Critically flags the <strong>2022 regime break</strong> in gold-real-yield correlation (from ρ=−0.82 to ρ∈[0.03,0.07] rolling) — the same break cl2 and cg5 implicitly lean on. Produces the cleanest "why it fills a gap" column for each candidate. The review's best contribution is the orthogonality audit: GKX ML is flagged as correlating 0.3–0.5 with V009 TSMOM, meaning even a 1.35-Sharpe headline cannot be added to the registry naïvely — it needs to be orthogonalised against V009/V026 first.</p>
+
+<h4>cl2 — Claude Review 2 (6-candidate INDEX, JFE-first)</h4>
+<p>Surfaces the <strong>single highest-Sharpe candidate</strong> in the meta-analysis: <strong>Baltussen-Da-Lammers-Martens dealer gamma / intraday momentum</strong>, Grade A, replicated SPY Sharpe 1.33 net of costs (Zarattini-Aziz-Barbon 2024). No other review proposed this signal. Also introduces <strong>Cieslak-Povala bond carry</strong> (B) and <strong>Neely-Rapach PC-TECH</strong> (B) — the latter is explicitly supported by GWZ-2024's qualified-survival verdict. Counter-balances with principled EXCLUDEs: Kelly-Jiang tail risk, Hong-Yogo OI, ADS as standalone, EPU as standalone, dispersion. The review disagrees sharply with cl1 and cg3 on ADS (cl1/cg3 include as Grade A/B, cl2 excludes as no direct equity-premium evidence) — flagged below.</p>
+
+<h4>cl3 — Claude Review 3 (6-candidate STOCKS-only, JKP-2023-anchored)</h4>
+<p>Strongest single-name equity lineup, all anchored to Jensen-Kelly-Pedersen 2023's factor clusters. <strong>QMJ, BAB, CEI, HML-Devil+Cop, Opportunistic Insider, Lazy Prices</strong>. Every candidate is tested against HXZ (2020), JKP (2023), Chen-Zimmermann (2022), and McLean-Pontiff (2016); estimated post-publication decays range 35–60% with BAB at the upper bound. Flags QMJ×BAB correlation ≈0.55–0.60 ("size jointly with a correlation-aware risk-parity overlay"). Most useful adjudication: EXCLUDEs IVOL (sign-ambiguous in HXZ 2020) and MAX (mechanically collinear with IVOL/BAB) even though both are commonly cited, preventing redundancy.</p>
+
+<h3>5.2 Discussion of the meta-analysis itself</h3>
+
+<div class="callout good">
+<strong>Conclusion from the pooling: eleven variables pass the pooled deploy-or-deploy-conditional bar.</strong> With Bayesian hierarchical pooling, the posterior probability that the true effect exceeds 0.30 Sharpe (post-decay deployability threshold) is ≥0.80 for <strong>BAB</strong>, <strong>Gross Profitability</strong>, <strong>CEI</strong>, <strong>Dealer Gamma</strong>, <strong>PC-TECH</strong>, <strong>HML-Devil</strong>, <strong>QMJ</strong>, <strong>Lazy Prices</strong>, <strong>Opportunistic Insider</strong>, <strong>Cieslak-Povala bond</strong>, and <strong>Hedging Pressure</strong>.
+</div>
+
+<div class="callout warn">
+<strong>Caveat 1 — Prior-dominated posteriors.</strong> Eight of the above (Dealer Gamma, PC-TECH, Lazy Prices, Opportunistic Insider, Cieslak-Povala, HML-Devil, QMJ, Hedging Pressure) have only one or two reported Sharpe ratios across the eight reviews. Their posteriors shrink strongly toward the prior mean. The recommendation on these is contingent on a second independent replication in the next pass.
+</div>
+
+<div class="callout warn">
+<strong>Caveat 2 — VRP's consensus is split.</strong> Six reviewers engage with VRP but they range from cl1 Grade A to cg5 Grade C. The pooled posterior (0.36, 95% CrI 0.17–0.56) is above the deployability threshold with P=0.74, but the within-reviewer heterogeneity is largest of any factor. GWZ 2024 is the structural downgrade; BMXZ 2014's OOS R² 4-6% at 3M is the upside. Treat as B-grade with active post-2024 OOS monitoring.
+</div>
+
+<div class="callout bad">
+<strong>Caveat 3 — Three candidates are consensus-ineffective.</strong> Gold Composite (2 INEFFECTIVE / 1 MIXED), Tail-Risk (1 EFFECTIVE / 2 INEFFECTIVE with 2024 audit red flag), and Skew Scalar (1 MIXED / 1 INEFFECTIVE). The pooled posterior for all three is prior-dominated because no reviewer provided a clean Sharpe — they disagree on the <em>sign</em> not the magnitude.
+</div>
+
+<h3>5.3 Cross-review disagreements worth flagging</h3>
+<table>
+<tr><th>Variable</th><th>Disagreement</th><th>Resolution</th></tr>
+<tr><td>VRP</td><td>cl1=A, cg5=C (GWZ-2024 downgrade)</td><td>Adopt GWZ-aware B-grade; require post-2024 OOS replication before re-upgrading.</td></tr>
+<tr><td>ADS Nowcast</td><td>cl1=A (CAND-03), cg3=B, cg5=B−, cl2=EXCLUDE</td><td>cl2's rejection is on "no direct equity-premium paper" — but cl1 cites Dichtl 2019 gold OOS R² 37.9%. Retain as regime-gate (Grade B), not as standalone entry trigger.</td></tr>
+<tr><td>Sloan</td><td>cg4=INCLUDE (HXZ t=-2.13), cl1=EXCLUDE (Green-Hand-Soliman decay), cl3=PARTIAL (subsumed by QMJ)</td><td>The Sloan effect is real but subsumed. Do not deploy standalone.</td></tr>
+<tr><td>GKX ML</td><td>cg4=INCLUDE (SR 3.89 EU), cl1=B (SR 1.35 survives frictions), cg3=EXCLUDE, cl3=EXCLUDE</td><td>Split — the ML paradigm is real but redundant with V009/V026 per cl1's orthogonality flag. Deploy as residual-only sleeve if at all.</td></tr>
+<tr><td>Hedging Pressure</td><td>cg2=INEFFECTIVE, cl2=B (CAND-03), cg5=B with NO_CLEAN_OOS_SHARPE</td><td>Keep at WATCH; correlates 0.4–0.6 with V028 — adds little net new information.</td></tr>
+</table>
+
+</section>
+
+<section id="s6">
+<h2>6. Discussion of Grouping &amp; of Each Variable</h2>
+
+<h3>6.1 Group-level verdicts: should any group be restructured?</h3>
+<p>The prior 4-run BNMA tested the S / T / R / Overlay grouping against a 4×5 test grid and concluded <strong>do not regroup</strong>. The eight new reviews do not overturn that conclusion — but they do highlight an emerging <em>sixth de-facto group</em>: cross-sectional stocks.</p>
+
+<div class="callout">
+<strong>The Stocks group is new.</strong> None of the 32 incumbent variables is a cross-sectional stock factor. Seven of the 27 new candidates are (HML-Devil, GP/A, QMJ, BAB, CEI, Sloan, OppInsider, Lazy Prices, GKX). Adding them requires a new group with its own sizing rules — AFP's 2019 QMJ paper shows quality and low-beta sleeves carry uncorrelated risk only after risk-parity weighting. Naïve addition to S/T/R/Overlay would force category-mismatch.
+</div>
+
+<h3>6.2 Group recommendations</h3>
+<table>
+<tr><th>Group</th><th>Current state</th><th>Recommendation</th><th>Why</th></tr>
+<tr><td>S (Sentiment / positioning)</td><td>V028, V011 DEPLOY; V014 split required; T4 diversity FAIL per prior BNMA (crypto-heavy tail)</td><td><strong>Keep</strong>. Consider admitting <strong>Cross-Asset Value</strong> (new) as a structural diversifier.</td><td>Prior BNMA grid shows S is Actionability-PASS; failure mode is within-scale not grouping. New CAV candidate adds a slow-moving value sleeve.</td></tr>
+<tr><td>T (Tactical timing)</td><td>V009 DEPLOY, V026 DEPLOY_COND, V014 split; crypto-heavy tail</td><td><strong>Keep + add Dealer Gamma</strong>. Consider promoting Dealer Gamma to DEPLOY_CONDITIONAL with a second-replication gate.</td><td>Dealer Gamma is the single highest-Sharpe candidate (post mean 1.06, 95% CrI 0.81–1.31). ZAB 2024 SPY replication at Sharpe 1.33 net. Fills the intraday-momentum paradigm slot.</td></tr>
+<tr><td>R (Regime / risk)</td><td>V027 DEPLOY; V001/V002/V004 downgraded; scale inconsistency (prior BNMA Stage 5 FAIL)</td><td><strong>Keep + admit VRP and ADS Nowcast as B-grade regime variables</strong>. Do not add Correlation RP, Skew Scalar, Tail Risk, EPU.</td><td>VRP fills the premium (not level) gap. ADS fills the macro nowcasting gap — even if cl2 dissents, cl1's Dichtl-2019 gold OOS R² 37.9% is supportive for regime-gate use (not entry trigger).</td></tr>
+<tr><td>Overlay</td><td>Underpopulated; C009 Faber TAA PROMOTE_CONDITIONAL only</td><td><strong>Keep thin</strong>. Do not force Overlay additions from the 8 reviews.</td><td>No new candidate maps cleanly to Overlay role. PC-TECH is a T-group candidate, not Overlay.</td></tr>
+<tr><td>Stocks (new)</td><td>Does not exist in incumbent framework</td><td><strong>Create as new sleeve</strong>. Admit: HML-Devil (V029), GP/A (V030), BAB (V031), CEI (V032), QMJ (V033), Lazy Prices (V034), Opportunistic Insider (V035). Do not admit: Sloan (subsumed), GKX ML (correlated with V009).</td><td>All seven admitted candidates have pooled posterior P(θ&gt;0.30) ≥ 0.80 and are JKP 2023 / HXZ 2020 survivors.</td></tr>
+</table>
+
+<h3>6.3 Variable-by-variable discussion (all 27 candidates)</h3>
+<p>Every candidate is discussed below — both those likely to work and those unlikely to, with the mechanism for each.</p>
+
+<div id="varCards"></div>
+
+</section>
+
+<section id="s7">
+<h2>7. Recommendations</h2>
+
+<h3>7.1 Headline recommendations</h3>
+
+<div class="callout good">
+<strong>Deploy immediately (DEPLOY):</strong>
+<ul>
+<li><strong>BAB (V031)</strong> — 4 reviews, all EFFECTIVE, posterior 0.62, P(&gt;0.30)=1.00. Add to new Stocks sleeve with a correlation-aware risk-parity overlay against QMJ.</li>
+<li><strong>Gross Profitability (V030)</strong> — 4 reviews, all EFFECTIVE, posterior 0.45, P(&gt;0.30)=0.87. JKP 2023 quality-cluster tangency survivor. Cleanest stock candidate.</li>
+<li><strong>Composite Equity Issuance (V032)</strong> — 2 reviews, both EFFECTIVE (one Grade A), posterior 0.52, P(&gt;0.30)=0.96. Survives all four replication benchmarks. Fills issuance/buyback empty row.</li>
+</ul>
+</div>
+
+<div class="callout">
+<strong>Deploy conditionally (DEPLOY_CONDITIONAL — require one more independent replication):</strong>
+<ul>
+<li><strong>Dealer Gamma / Intraday Momentum (new T slot)</strong> — only 1 review but Grade A; SPY Sharpe 1.33 net OOS per ZAB 2024. Highest-Sharpe candidate in the meta-analysis. Require cross-reviewer replication before capital commitment.</li>
+<li><strong>VRP (new R slot, B-grade not A)</strong> — 6 reviews engage, 5 effective, but GWZ-2024 downgrade is binding. Deploy as premium-gate with quarterly OOS monitoring.</li>
+<li><strong>ADS Nowcast (new R slot)</strong> — 4 reviews, 3 effective. cl2 dissent is principled but narrow (no direct-equity-premium paper). Use as regime-gate, not as entry trigger.</li>
+<li><strong>HML-Devil (Stocks sleeve)</strong> — 2 reviews, both EFFECTIVE. +305bps/yr vs stale HML. Pair with cash-profitability overlay per cl3.</li>
+<li><strong>QMJ (Stocks sleeve)</strong> — 2 reviews, both EFFECTIVE. Correlates 0.55-0.60 with BAB; size jointly.</li>
+<li><strong>Cieslak-Povala bond factor (cross-asset R/S)</strong> — only 1 review but peer-reviewed RFS; R² 43-60% on 2-5Y excess. Reduced-sizing initial deploy.</li>
+<li><strong>PC-TECH (T group)</strong> — only 1 review; GWZ-2024 qualified survivor. Modest addition.</li>
+<li><strong>Lazy Prices (Stocks sleeve)</strong> — only 1 review but free EDGAR data; modern-NLP paradigm slot.</li>
+<li><strong>Opportunistic Insider (Stocks sleeve)</strong> — only 1 review; free EDGAR data; free-data insider signal.</li>
+</ul>
+</div>
+
+<div class="callout warn">
+<strong>Watch (WATCH — evidence mixed, keep in research pool):</strong>
+<ul>
+<li>Gold/Platinum Ratio, Gold-TIPS β, Hedging Pressure, Hong-Yogo OI, Correlation RP, Cross-Asset Value, IVSpread, LM Text, Sloan Accruals. None pass the DEPLOY bar either on consensus or on n-reviews.</li>
+</ul>
+</div>
+
+<div class="callout bad">
+<strong>Exclude (EXCLUDE):</strong>
+<ul>
+<li><strong>Gold Composite / Gold Forecast Combination</strong> — consensus-ineffective (−0.67); every reviewer who engaged marked it as MIXED or INEFFECTIVE. Mean-reversion component is structurally broken.</li>
+<li><strong>EPU</strong> — predicts volatility not returns; cl2 and cl1-DUAL-USE dissent; 5/5 reviewers who engaged marked as MIXED or INEFFECTIVE.</li>
+<li><strong>Kelly-Jiang / SVIX Tail Risk</strong> — 2024 replication audit reports negative OOS R². cl2 and cg5 both EXCLUDE.</li>
+<li><strong>Skew Scalar</strong> — sign reversal per Stilger-Kostakis-Poon 2017. Keep theoretically interesting but do not deploy.</li>
+<li><strong>Google SVI</strong> (1 reviewer only, post from 2011) and <strong>GKX ML</strong> (redundant with V009 per cl1) — both drop to research-only.</li>
+</ul>
+</div>
+
+<h3>7.2 Architecture recommendations</h3>
+
+<h4>Create a Stocks sleeve as a fifth group</h4>
+<p>None of the 32 incumbent variables is a cross-sectional stock factor. Seven of the new candidates are (HML-Devil, GP/A, QMJ, BAB, CEI, Lazy Prices, OppInsider). These cannot be shoehorned into S/T/R/Overlay because their sizing logic is fundamentally different — decile long/short, monthly rebalance, with correlation-aware risk parity across quality/low-beta sleeves (AFP 2019). Create a dedicated <code>Stocks</code> group. The existing Actionability test grid applies: Stocks would pass all of T4 Asset-class diversity, T5 Actionability, T2 Peer-dominance, and (with risk-parity) T3 Scale consistency.</p>
+
+<h4>Keep S / T / R / Overlay unchanged in their taxonomy</h4>
+<p>The 4-run BNMA Stage 5 grid already tested re-grouping by mechanism, asset class, and role, and the current S/T/R/Overlay grid wins on Actionability. The 8-review addition does not alter that. The fixes remain: enforce R-group effect-scale coding; prune crypto-positioning variables from T tail.</p>
+
+<h4>Add double-count gates, not sums</h4>
+<p>VRP (new) should not be summed with V001 VIX (downgraded) — they measure related but distinct constructs and if both fire simultaneously the R-group entry signal should take the <em>more negative</em>, not add both. Same logic already governs V004 EBP × V027 intermediary capital.</p>
+
+<h4>Do not add GKX ML naïvely</h4>
+<p>cl1's orthogonality flag (GKX-V009 correlation 0.3-0.5) means even a 1.35-Sharpe headline is not 1.35-Sharpe incremental. If GKX is admitted at all, it must be evaluated on <em>residual</em> return after orthogonalising against V009 TSMOM and V026 FF5-residual-momentum first.</p>
+
+<h3>7.3 Trading recommendations (for the next daily-trade-rec run)</h3>
+<ul>
+<li>Start paper-trading VRP, HML-Devil, GP/A, BAB, CEI, Dealer Gamma in the SignalLedger <strong>now</strong>. 12-month OOS ledger performance is a hard gate before live capital.</li>
+<li>Maintain the prior BNMA's DEPLOY set (V009, V027, V028) as the spine. No new candidate replaces them at the spine — Dealer Gamma is a <em>supplement</em>, not a substitute.</li>
+<li>Adopt Claude-3's correlation-aware sizing: QMJ and BAB jointly via risk parity, not naïve equal weight.</li>
+<li>At today's (Apr-17-2026) close, the signals aligned with the review evidence are: SHORT USO (WTI HP + commodity stress), SHORT TLT (ADS positive), FLAT SPY (VRP IV≈RV), FLAT/LONG GLD gated on regime break re-establishment.</li>
+</ul>
+
+<h3>7.4 Process recommendations for the next systematic review</h3>
+<ol>
+<li><strong>Require every reviewer to report a standardised annualised Sharpe</strong>, not just monthly alpha or weekly bps. This doubles the hierarchical-pooling sample size.</li>
+<li><strong>Replicate Dealer Gamma with a second independent reviewer</strong> — the single largest signal in the meta-analysis is from one review only. If confirmed, promote to Grade A.</li>
+<li><strong>Run the next review with explicit GWZ-2024 awareness</strong> (cg5 style) — it is the binding humility check on option-implied and predictive-regression signals.</li>
+<li><strong>Ask one reviewer to do an explicit "Stocks sleeve orthogonality" run</strong> — every proposed Stocks variable should be evaluated on <em>pairwise correlation with V009 TSMOM and V026 residual momentum</em>, not just against other Stocks variables.</li>
+<li><strong>Add a second BNMA pass in 2026 Q4</strong> with the new Stocks sleeve included, so the 4×5 grid can be re-applied with 39-40 variables.</li>
+</ol>
+
+<h3>7.5 Post-decay Sharpe projections</h3>
+<div class="chart-box">
+<div class="chart-title">Projected post-decay Sharpe per recommended variable</div>
+<div class="chart-subtitle">Posterior mean shrunk 40% for McLean-Pontiff post-publication decay. Horizontal line at 0.30 = deployability threshold.</div>
+<canvas id="chartPostDecay" height="380"></canvas>
+</div>
+
+</section>
+
+<footer>
+<p>Meta-analysis of 8 systematic reviews against the incumbent 32-variable framework. Generated 2026-04-18.</p>
+<p>Methodology: Bayesian hierarchical pooling (Normal-Normal conjugate) + grade-weighted consensus scoring. BNMA-proper deemed not applicable because reviewers do not share a common-comparator network.</p>
+</footer>
+</main>
+
+<script>
+const DATA = {"variables":{"VRP":{"name":"Variance Risk Premium (SPX)","citation":"Bollerslev-Tauchen-Zhou 2009 RFS","group":"R","paradigm":"Option-implied","asset":"US Equity Index","target_gap":"Volatility premium","reviews":{"cg1":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"NO_OOS_EVIDENCE but mechanism strong"},"cg2":{"grade":"INCLUDE_UNGRADED","sharpe":null,"class":"EFFECTIVE","note":"Highest of shortlist \u2014 cleanest option-implied premium"},"cg3":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"FLAT at current close (IV~RV), but keep in registry"},"cg5":{"grade":"C","sharpe":null,"class":"MIXED","note":"SEVERE decay per Goyal-Welch-Zafirov 2024"},"cl1":{"grade":"A","sharpe":0.55,"class":"EFFECTIVE","note":"V029 A-grade; BMXZ 2014 OOS R\u00b2 4-6% at 3M"},"cl2":{"grade":"B","sharpe":0.2,"class":"EFFECTIVE","note":"Post-crisis decay flagged; incremental Sharpe 0.10-0.20"}},"consensus":{"n_reviews":6,"avg_grade":1.97,"effective_votes":5,"ineffective_votes":0,"mixed_votes":1,"consensus":0.83,"sharpes_reported":[0.55,0.2],"sharpe_mean":0.375,"sharpe_sd":0.247},"bayes":{"post_mean":0.364,"post_sd":0.098,"ci95_lo":0.172,"ci95_hi":0.555,"prob_positive":1.0,"prob_exceeds_03":0.742,"n":2,"ybar":0.375},"recommendation":"DEPLOY_CONDITIONAL"},"IVSpread":{"name":"Implied Vol Spread (Put-Call Parity Deviation)","citation":"Cremers-Weinbaum 2010 JFQA","group":"R","paradigm":"Option-implied","asset":"US Equity XS","target_gap":"Option skew","reviews":{"cg1":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"~0.51%/wk long-short; NO_OOS_EVIDENCE"},"cl3":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"Post-2008 decay + OptionMetrics gating"}},"consensus":{"n_reviews":2,"avg_grade":1.0,"effective_votes":1,"ineffective_votes":1,"mixed_votes":0,"consensus":0.0,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"WATCH"},"GoogleSVI":{"name":"Google Search Attention (SVI)","citation":"Da-Engelberg-Gao 2011 JF","group":"S","paradigm":"Behavioral-positioning","asset":"US Equity XS","target_gap":"Attention / sentiment","reviews":{"cg1":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"~11 bps/wk high vs low-search; NO_OOS_EVIDENCE"}},"consensus":{"n_reviews":1,"avg_grade":2.0,"effective_votes":1,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"DEPLOY_CONDITIONAL"},"BAB":{"name":"Betting-Against-Beta","citation":"Frazzini-Pedersen 2014 JF","group":"C","paradigm":"Classical-risk-premium","asset":"US+Global Equity","target_gap":"Defensive / Low-vol","reviews":{"cg1":{"grade":"B","sharpe":0.78,"class":"EFFECTIVE","note":"1926-2012 Sharpe 0.78"},"cg3":{"grade":"B","sharpe":0.5,"class":"EFFECTIVE","note":"CAND-06 STOCKS; partly subsumed by quality"},"cg4":{"grade":"INCLUDE_UNGRADED","sharpe":0.78,"class":"EFFECTIVE","note":"0.70%/mo excess return; alpha 0.55%/mo t=5.59"},"cl3":{"grade":"B+","sharpe":0.55,"class":"EFFECTIVE","note":"V030; NMV value-weighted variant SR 0.49 net"}},"consensus":{"n_reviews":4,"avg_grade":2.02,"effective_votes":4,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[0.78,0.5,0.78,0.55],"sharpe_mean":0.653,"sharpe_sd":0.149},"bayes":{"post_mean":0.623,"post_sd":0.072,"ci95_lo":0.483,"ci95_hi":0.764,"prob_positive":1.0,"prob_exceeds_03":1.0,"n":4,"ybar":0.653},"recommendation":"DEPLOY"},"GoldPlatinumRatio":{"name":"Gold/Platinum Ratio","citation":"Huang-Kilic 2019 JFE","group":"R","paradigm":"Structural-nowcasting","asset":"Commodity / Macro","target_gap":"Gold + macro regime","reviews":{"cg1":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"+6.4% SPX per \u03c3; OOS validated"}},"consensus":{"n_reviews":1,"avg_grade":2.0,"effective_votes":1,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"DEPLOY_CONDITIONAL"},"DealerGamma":{"name":"Dealer Gamma / Intraday Momentum","citation":"Baltussen-Da-Lammers-Martens 2021 JFE","group":"T","paradigm":"Option-implied","asset":"US Equity Index","target_gap":"Option-implied directional","reviews":{"cl2":{"grade":"A","sharpe":1.33,"class":"EFFECTIVE","note":"ZAB 2024 SPY Sharpe 1.33 net; OOS persistence"}},"consensus":{"n_reviews":1,"avg_grade":3.0,"effective_votes":1,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[1.33],"sharpe_mean":1.33,"sharpe_sd":null},"bayes":{"post_mean":1.057,"post_sd":0.129,"ci95_lo":0.805,"ci95_hi":1.309,"prob_positive":1.0,"prob_exceeds_03":1.0,"n":1,"ybar":1.33},"recommendation":"DEPLOY_CONDITIONAL"},"HedgingPressure":{"name":"Basu-Miffre Hedging Pressure (non-gold commodities)","citation":"Basu-Miffre 2013 JBF","group":"S","paradigm":"Behavioral-positioning","asset":"Commodity","target_gap":"Commodity beyond V028/V011","reviews":{"cg2":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"Weak OOS durability"},"cg5":{"grade":"B","sharpe":0.51,"class":"MIXED","note":"CAND-01 WTI; NO_CLEAN_OOS_SHARPE"},"cl2":{"grade":"B","sharpe":0.48,"class":"EFFECTIVE","note":"CAND-03; ~30-50% decay; correlates V028 |\u03c1| 0.4-0.6"}},"consensus":{"n_reviews":3,"avg_grade":1.33,"effective_votes":1,"ineffective_votes":1,"mixed_votes":1,"consensus":0.0,"sharpes_reported":[0.51,0.48],"sharpe_mean":0.495,"sharpe_sd":0.021},"bayes":{"post_mean":0.465,"post_sd":0.098,"ci95_lo":0.274,"ci95_hi":0.657,"prob_positive":1.0,"prob_exceeds_03":0.955,"n":2,"ybar":0.495},"recommendation":"WATCH"},"CieslakPovala":{"name":"Cieslak-Povala Bond Risk Premium","citation":"Cieslak-Povala 2015 RFS","group":"S","paradigm":"Classical-risk-premium","asset":"Treasuries","target_gap":"Cross-asset carry","reviews":{"cl2":{"grade":"B","sharpe":0.4,"class":"EFFECTIVE","note":"CAND-04; R\u00b2 43-60% IS on 2-5Y excess bond"}},"consensus":{"n_reviews":1,"avg_grade":2.0,"effective_votes":1,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[0.4],"sharpe_mean":0.4,"sharpe_sd":null},"bayes":{"post_mean":0.374,"post_sd":0.129,"ci95_lo":0.121,"ci95_hi":0.626,"prob_positive":0.998,"prob_exceeds_03":0.716,"n":1,"ybar":0.4},"recommendation":"DEPLOY_CONDITIONAL"},"GoldTIPSbeta":{"name":"Gold / 10Y TIPS Real-Yield \u03b2","citation":"Erb-Harvey 2013 FAJ / Jermann 2023","group":"T","paradigm":"Classical-risk-premium","asset":"Gold","target_gap":"Gold-specific directional","reviews":{"cl1":{"grade":"A","sharpe":null,"class":"MIXED","note":"V030 A-cond; post-2022 regime break; \u03c1 dropped from -0.82"}},"consensus":{"n_reviews":1,"avg_grade":3.0,"effective_votes":0,"ineffective_votes":0,"mixed_votes":1,"consensus":0.0,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"WATCH"},"GoldComposite":{"name":"Erb-Harvey Golden Dilemma + CFTC Composite","citation":"Erb-Harvey 2013 FAJ","group":"S","paradigm":"Behavioral-positioning","asset":"Gold","target_gap":"Gold directional","reviews":{"cl2":{"grade":"C","sharpe":null,"class":"INEFFECTIVE","note":"CAND-05; mean-reversion sub-component catastrophic"},"cg2":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"Gold forecast combination fragile / research-only"},"cg5":{"grade":"C","sharpe":null,"class":"MIXED","note":"CAND-06 gold positioning; NO_CLEAN_OOS_SHARPE"}},"consensus":{"n_reviews":3,"avg_grade":0.67,"effective_votes":0,"ineffective_votes":2,"mixed_votes":1,"consensus":-0.67,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"EXCLUDE"},"ADS_Nowcast":{"name":"ADS / Scotti Real-Time Macro Nowcast","citation":"Aruoba-Diebold-Scotti 2009; Scotti 2016 JME","group":"R","paradigm":"Structural-nowcasting","asset":"Cross-asset","target_gap":"Macro nowcasting","reviews":{"cg3":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"CAND-02 nowcast gate; survives as disciplined state-updating"},"cg5":{"grade":"B-","sharpe":null,"class":"EFFECTIVE","note":"CAND-03 TLT duration overlay"},"cl1":{"grade":"A","sharpe":null,"class":"EFFECTIVE","note":"V031 regime gate; gold OOS R\u00b2 37.9% per Dichtl 2019"},"cl2":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"NO_OOS_EVIDENCE for direct equity premium"}},"consensus":{"n_reviews":4,"avg_grade":1.68,"effective_votes":3,"ineffective_votes":1,"mixed_votes":0,"consensus":0.5,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"DEPLOY_CONDITIONAL"},"EPU":{"name":"Economic Policy Uncertainty","citation":"Baker-Bloom-Davis 2016 QJE","group":"R","paradigm":"Behavioral-positioning","asset":"Cross-asset","target_gap":"Sentiment / policy","reviews":{"cg2":{"grade":"INCLUDE_UNGRADED","sharpe":null,"class":"MIXED","note":"Effective conditional; text-based TradFi sleeve"},"cg3":{"grade":"C","sharpe":null,"class":"MIXED","note":"CAND-04 gate only; size 0.5 inside broader stack"},"cg5":{"grade":"C+","sharpe":null,"class":"MIXED","note":"CAND-04; only scalar gate, not standalone"},"cl1":{"grade":"PARTIAL","sharpe":null,"class":"MIXED","note":"DUAL-USE conditional"},"cl2":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"Predicts vol not returns; post-2008 subsample loses significance"}},"consensus":{"n_reviews":5,"avg_grade":0.92,"effective_votes":0,"ineffective_votes":1,"mixed_votes":4,"consensus":-0.2,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"EXCLUDE"},"HongYogoOI":{"name":"Hong-Yogo Open Interest","citation":"Hong-Yogo 2012 JFE","group":"S","paradigm":"Behavioral-positioning","asset":"Commodity","target_gap":"Cross-asset carry variant","reviews":{"cl1":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"V032; post-2004 financialization attenuation"},"cl2":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"No clean tradable Sharpe; weakened post-fin"}},"consensus":{"n_reviews":2,"avg_grade":1.0,"effective_votes":1,"ineffective_votes":1,"mixed_votes":0,"consensus":0.0,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"WATCH"},"TailRisk":{"name":"Kelly-Jiang + SVIX Tail-Risk Composite","citation":"Kelly-Jiang 2014 RFS; Martin 2017 QJE","group":"R","paradigm":"Option-implied","asset":"US Equity Index","target_gap":"Option-implied tail","reviews":{"cl1":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"V033; Chapman-Gallmeyer-Martin 2018 replicates"},"cl2":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"Bali-Cakici-Whitelaw rebuttal; weak aggregate-timing OOS"},"cg5":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"2024 replication audit reports negative OOS R\u00b2"}},"consensus":{"n_reviews":3,"avg_grade":0.67,"effective_votes":1,"ineffective_votes":2,"mixed_votes":0,"consensus":-0.33,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"EXCLUDE"},"CrossAssetValue":{"name":"Cross-Asset Value (value leg)","citation":"Asness-Moskowitz-Pedersen 2013 JF","group":"S","paradigm":"Classical-risk-premium","asset":"Cross-asset","target_gap":"Value (empty row)","reviews":{"cg2":{"grade":"INCLUDE_UNGRADED","sharpe":null,"class":"EFFECTIVE","note":"Structural diversifier; fills empty value row"}},"consensus":{"n_reviews":1,"avg_grade":1.8,"effective_votes":1,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"DEPLOY_CONDITIONAL"},"CorrelationRiskPremium":{"name":"SPX Correlation Risk Premium","citation":"Driessen-Maenhout-Vilkov 2009 JF","group":"R","paradigm":"Option-implied","asset":"US Equity Index","target_gap":"Option-implied correlation","reviews":{"cl2":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"Faria-Kosowski-Wang post-2009 OOS decline; frictions > premium"},"cg5":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"CAND-02 implied correlation gate"}},"consensus":{"n_reviews":2,"avg_grade":1.0,"effective_votes":1,"ineffective_votes":1,"mixed_votes":0,"consensus":0.0,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"WATCH"},"SkewScalar":{"name":"SPX/SPY Downside-Skew Scalar","citation":"Conrad-Dittmar-Ghysels 2013","group":"R","paradigm":"Option-implied","asset":"US Equity Index","target_gap":"Skew / risk-reversal","reviews":{"cg3":{"grade":"B/C","sharpe":null,"class":"MIXED","note":"CAND-03; SKEW 141.8 vs 130 y/y; scalar only"},"cl3":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"Sign reversal per Stilger-Kostakis-Poon 2017"}},"consensus":{"n_reviews":2,"avg_grade":0.75,"effective_votes":0,"ineffective_votes":1,"mixed_votes":1,"consensus":-0.5,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"EXCLUDE"},"PCTECH":{"name":"Neely-Rapach PC-TECH Equity Premium Index","citation":"Neely-Rapach-Tu-Zhou 2014 MgmtSci","group":"T","paradigm":"Structural-nowcasting","asset":"US Equity Index","target_gap":"Technical composite","reviews":{"cl2":{"grade":"B","sharpe":0.55,"class":"EFFECTIVE","note":"CAND-06; OOS R\u00b2 1.32% monthly; survives GWZ 2024 qualitatively"}},"consensus":{"n_reviews":1,"avg_grade":2.0,"effective_votes":1,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[0.55],"sharpe_mean":0.55,"sharpe_sd":null},"bayes":{"post_mean":0.484,"post_sd":0.129,"ci95_lo":0.232,"ci95_hi":0.736,"prob_positive":1.0,"prob_exceeds_03":0.924,"n":1,"ybar":0.55},"recommendation":"DEPLOY_CONDITIONAL"},"HMLDevil":{"name":"HML-Devil (Timely Value)","citation":"Asness-Frazzini 2013 JPM","group":"Stocks","paradigm":"Classical-risk-premium","asset":"US Equity XS","target_gap":"Value","reviews":{"cg4":{"grade":"INCLUDE_UNGRADED","sharpe":null,"class":"EFFECTIVE","note":"CAND-01; +305bps/yr alpha vs stale; HXZ replicates 0.46%/mo t=2.12"},"cl3":{"grade":"B","sharpe":0.5,"class":"EFFECTIVE","note":"V032 + Cop overlay; value cluster survivor"}},"consensus":{"n_reviews":2,"avg_grade":1.9,"effective_votes":2,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[0.5],"sharpe_mean":0.5,"sharpe_sd":null},"bayes":{"post_mean":0.447,"post_sd":0.129,"ci95_lo":0.195,"ci95_hi":0.699,"prob_positive":1.0,"prob_exceeds_03":0.874,"n":1,"ybar":0.5},"recommendation":"DEPLOY_CONDITIONAL"},"GrossProfitability":{"name":"Gross Profitability (GP/A)","citation":"Novy-Marx 2013","group":"Stocks","paradigm":"Classical-risk-premium","asset":"US Equity XS","target_gap":"Quality / profitability","reviews":{"cg3":{"grade":"A","sharpe":null,"class":"EFFECTIVE","note":"CAND-05 cleanest stock candidate; survives FF5"},"cg4":{"grade":"INCLUDE_UNGRADED","sharpe":null,"class":"EFFECTIVE","note":"CAND-02; HXZ 0.37%/mo t=2.63"},"cl1":{"grade":"A","sharpe":0.5,"class":"EFFECTIVE","note":"PIPE-01; JKP 2023 profitability tangency survivor"},"cl3":{"grade":"PARTIAL","sharpe":null,"class":"EFFECTIVE","note":"Absorbed inside QMJ composite"}},"consensus":{"n_reviews":4,"avg_grade":2.08,"effective_votes":4,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[0.5],"sharpe_mean":0.5,"sharpe_sd":null},"bayes":{"post_mean":0.447,"post_sd":0.129,"ci95_lo":0.195,"ci95_hi":0.699,"prob_positive":1.0,"prob_exceeds_03":0.874,"n":1,"ybar":0.5},"recommendation":"DEPLOY"},"QMJ":{"name":"Quality Minus Junk","citation":"Asness-Frazzini-Pedersen 2019 RAS","group":"Stocks","paradigm":"Classical-risk-premium","asset":"US+Global Equity XS","target_gap":"Quality","reviews":{"cg4":{"grade":"PARTIAL","sharpe":null,"class":"EFFECTIVE","note":"Credible but composite; overlaps GP/A"},"cl3":{"grade":"B+","sharpe":0.55,"class":"EFFECTIVE","note":"V029; JKP 2023 quality cluster tangency survivor; ~60-65% decay"}},"consensus":{"n_reviews":2,"avg_grade":1.4,"effective_votes":2,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[0.55],"sharpe_mean":0.55,"sharpe_sd":null},"bayes":{"post_mean":0.484,"post_sd":0.129,"ci95_lo":0.232,"ci95_hi":0.736,"prob_positive":1.0,"prob_exceeds_03":0.924,"n":1,"ybar":0.55},"recommendation":"WATCH"},"CEI":{"name":"Composite Equity Issuance","citation":"Daniel-Titman 2006 JF","group":"Stocks","paradigm":"Classical-risk-premium","asset":"US Equity XS","target_gap":"Issuance / buyback","reviews":{"cg4":{"grade":"INCLUDE_UNGRADED","sharpe":null,"class":"EFFECTIVE","note":"CAND-04; HXZ -0.57%/mo t=3.32"},"cl3":{"grade":"A","sharpe":0.6,"class":"EFFECTIVE","note":"V031; survivor all four replication benchmarks"}},"consensus":{"n_reviews":2,"avg_grade":2.4,"effective_votes":2,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[0.6],"sharpe_mean":0.6,"sharpe_sd":null},"bayes":{"post_mean":0.521,"post_sd":0.129,"ci95_lo":0.268,"ci95_hi":0.773,"prob_positive":1.0,"prob_exceeds_03":0.957,"n":1,"ybar":0.6},"recommendation":"DEPLOY"},"Sloan":{"name":"Sloan Accruals","citation":"Sloan 1996 AccRev","group":"Stocks","paradigm":"Classical-risk-premium","asset":"US Equity XS","target_gap":"Earnings quality","reviews":{"cg4":{"grade":"INCLUDE_UNGRADED","sharpe":null,"class":"EFFECTIVE","note":"CAND-05; HXZ -0.27%/mo t=-2.13; q-alpha -0.54%/mo"},"cl1":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"Half magnitude (HXZ); Green-Hand-Soliman 2011 decay"},"cl3":{"grade":"PARTIAL","sharpe":null,"class":"MIXED","note":"Subsumed by QMJ earnings-quality leg"}},"consensus":{"n_reviews":3,"avg_grade":0.77,"effective_votes":1,"ineffective_votes":1,"mixed_votes":1,"consensus":0.0,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"EXCLUDE"},"GKXml":{"name":"Gu-Kelly-Xiu ML (NN4)","citation":"Gu-Kelly-Xiu 2020 RFS","group":"Stocks","paradigm":"ML-or-Altdata","asset":"US Equity XS","target_gap":"ML modern paradigm","reviews":{"cg3":{"grade":"EXCLUDE","sharpe":null,"class":"MIXED","note":"Overlaps PIPE-02 paradigm; excluded from INDEX shortlist"},"cg4":{"grade":"INCLUDE_UNGRADED","sharpe":2.45,"class":"EFFECTIVE","note":"CAND-06; Drobetz-Otto EU replication Sharpe 3.89 decile"},"cl1":{"grade":"B","sharpe":1.35,"class":"EFFECTIVE","note":"PIPE-02; Avramov caveat 30-40% survives friction"},"cl3":{"grade":"EXCLUDE","sharpe":null,"class":"INEFFECTIVE","note":"Overlaps V026 residual momentum 0.3-0.5 expected"}},"consensus":{"n_reviews":4,"avg_grade":0.95,"effective_votes":2,"ineffective_votes":1,"mixed_votes":1,"consensus":0.25,"sharpes_reported":[2.45,1.35],"sharpe_mean":1.9,"sharpe_sd":0.778},"bayes":{"post_mean":1.656,"post_sd":0.098,"ci95_lo":1.465,"ci95_hi":1.847,"prob_positive":1.0,"prob_exceeds_03":1.0,"n":2,"ybar":1.9},"recommendation":"EXCLUDE"},"LM_Text":{"name":"Loughran-McDonald 10-K Tone","citation":"Loughran-McDonald 2011 JF","group":"Stocks","paradigm":"ML-or-Altdata","asset":"US Equity XS","target_gap":"NLP / text","reviews":{"cg3":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"CAND-07; -2% 4-day CAR on negative tone"},"cl1":{"grade":"B","sharpe":null,"class":"EFFECTIVE","note":"PIPE-03; replicated firm-level by Tetlock et al."},"cl3":{"grade":"EXCLUDE","sharpe":null,"class":"MIXED","note":"Dictionary input, not standalone long-short"}},"consensus":{"n_reviews":3,"avg_grade":1.33,"effective_votes":2,"ineffective_votes":0,"mixed_votes":1,"consensus":0.67,"sharpes_reported":[],"sharpe_mean":null,"sharpe_sd":null},"bayes":{"post_mean":0.3,"post_sd":0.25,"ci95_lo":-0.19,"ci95_hi":0.79,"prob_positive":0.8849303297782917,"prob_exceeds_03":0.5,"n":0,"ybar":null},"recommendation":"WATCH"},"OppInsider":{"name":"Opportunistic Insider (Form 4)","citation":"Cohen-Malloy-Pomorski 2012 JF","group":"Stocks","paradigm":"Behavioral-positioning","asset":"US Equity XS","target_gap":"Alt-data insider","reviews":{"cl3":{"grade":"B","sharpe":0.5,"class":"EFFECTIVE","note":"V033; VW alpha 82 bps/mo t=2.15"}},"consensus":{"n_reviews":1,"avg_grade":2.0,"effective_votes":1,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[0.5],"sharpe_mean":0.5,"sharpe_sd":null},"bayes":{"post_mean":0.447,"post_sd":0.129,"ci95_lo":0.195,"ci95_hi":0.699,"prob_positive":1.0,"prob_exceeds_03":0.874,"n":1,"ybar":0.5},"recommendation":"DEPLOY_CONDITIONAL"},"LazyPrices":{"name":"Lazy Prices (10-K Similarity)","citation":"Cohen-Malloy-Nguyen 2020 JF","group":"Stocks","paradigm":"ML-or-Altdata","asset":"US Equity XS","target_gap":"Modern NLP","reviews":{"cl3":{"grade":"B","sharpe":0.55,"class":"EFFECTIVE","note":"V034; 5-factor alpha up to 188 bps/mo"}},"consensus":{"n_reviews":1,"avg_grade":2.0,"effective_votes":1,"ineffective_votes":0,"mixed_votes":0,"consensus":1.0,"sharpes_reported":[0.55],"sharpe_mean":0.55,"sharpe_sd":null},"bayes":{"post_mean":0.484,"post_sd":0.129,"ci95_lo":0.232,"ci95_hi":0.736,"prob_positive":1.0,"prob_exceeds_03":0.924,"n":1,"ybar":0.55},"recommendation":"DEPLOY_CONDITIONAL"}},"ranked":["DealerGamma","BAB","CEI","GKXml","PCTECH","LazyPrices","GrossProfitability","OppInsider","HMLDevil","CieslakPovala","QMJ","VRP","GoogleSVI","GoldPlatinumRatio","CrossAssetValue","GoldTIPSbeta","ADS_Nowcast","LM_Text","HedgingPressure","IVSpread","HongYogoOI","CorrelationRiskPremium","Sloan","EPU","TailRisk","SkewScalar","GoldComposite"],"prior_bnma":{"V009 (TSMOM)":{"action":"DEPLOY","post_decay_SR":0.46,"group":"T","note":"4/4 runs p_positive\u22650.98 p_beats_peers\u22650.66"},"V027 (Intermediary)":{"action":"DEPLOY","post_decay_SR":0.34,"group":"R","note":"Regime filter sizing scalar; AEM 2014 anchor"},"V028 (Basis-mom)":{"action":"DEPLOY","post_decay_SR":0.45,"group":"S","note":"6m window commodity-futures only"},"V011 (Brent slope)":{"action":"DEPLOY_COND","post_decay_SR":0.48,"group":"S","note":"Conditional; equal-risk with V028"},"V026 (FF5 residual momentum)":{"action":"DEPLOY_COND","post_decay_SR":0.35,"group":"T","note":"Sleeve only; subsumed by V009"},"V018 (BTC 3m basis)":{"action":"WATCH","post_decay_SR":null,"group":"R","note":"Defer pooling to 2027; post-spot-BTC-ETF regime break"},"V001 (VIX)":{"action":"DOWNGRADE_A_to_B","post_decay_SR":null,"group":"R","note":"3/4 INDIST"},"V004 (HY OAS/EBP)":{"action":"DOWNGRADE_A_to_B","post_decay_SR":null,"group":"R","note":"Redundant with V027; double-count gate required"},"V002 (MOVE)":{"action":"EXCLUDE","post_decay_SR":null,"group":"R","note":""},"V010 (Revision breadth)":{"action":"EXCLUDE","post_decay_SR":null,"group":"T","note":"p_beats 0.098 in P1, 0.006 in P4"},"V014 (BTC netflows)":{"action":"SPLIT","post_decay_SR":null,"group":"T","note":"1.12 posterior drift; split order-flow vs vol-sort"},"V017 (BTC ETF flows)":{"action":"EXCLUDE","post_decay_SR":null,"group":"T","note":"p_top3 0.02 in P1, INDIST in P2"},"C009 (Faber TAA)":{"action":"PROMOTE_COND","post_decay_SR":null,"group":"Overlay","note":"1/4 run coverage; need second replication"}},"gap_synthesis":{"Gold directional":{"best":"GoldTIPSbeta","grade":"A-cond","filled":true},"Volatility risk premium":{"best":"VRP","grade":"B","filled":true},"Option-implied skew":{"best":"SkewScalar","grade":"B/C","filled":"Partial"},"Option-implied correlation":{"best":"CorrelationRiskPremium","grade":"B","filled":"Partial"},"Intraday/dealer gamma":{"best":"DealerGamma","grade":"A","filled":true},"Cross-asset carry":{"best":"CieslakPovala","grade":"B","filled":"Partial"},"Macro nowcasting":{"best":"ADS_Nowcast","grade":"A/B","filled":true},"Value (Stocks)":{"best":"HMLDevil","grade":"B","filled":true},"Quality (Stocks)":{"best":"QMJ","grade":"B+","filled":true},"Defensive / BAB":{"best":"BAB","grade":"B","filled":true},"Issuance / buyback":{"best":"CEI","grade":"A","filled":true},"Earnings quality":{"best":"Sloan","grade":"Partial","filled":"Partial"},"ML / Altdata":{"best":"GKXml","grade":"B","filled":true},"NLP / Text":{"best":"LazyPrices","grade":"B","filled":true},"Insider signal":{"best":"OppInsider","grade":"B","filled":true},"Attention / Sentiment":{"best":"GoogleSVI","grade":"B","filled":"Partial"},"Cross-asset Value":{"best":"CrossAssetValue","grade":"B-","filled":"Partial"},"Commodity positioning":{"best":"HedgingPressure","grade":"B","filled":"Partial"},"Tail-risk composite":{"best":"TailRisk","grade":"C-B","filled":"Disputed"}},"paradigm_counts":{"Option-implied":2,"Behavioral-positioning":2,"Classical-risk-premium":6,"Structural-nowcasting":3,"ML-or-Altdata":1},"n_reviews":8,"n_candidates":27};
+
+// -------------------------------------------------------------------
+// helpers
+// -------------------------------------------------------------------
+const GROUP_COLORS = {
+  "S": "#3fb950", "T": "#58a6ff", "R": "#d29922", "C": "#bc8cff",
+  "Stocks": "#f85149", "Overlay": "#8b949e"
+};
+const REC_COLORS = {
+  "DEPLOY": "#3fb950", "DEPLOY_CONDITIONAL": "#58a6ff",
+  "WATCH": "#d29922", "EXCLUDE": "#f85149"
+};
+const GRADE_COLORS = {
+  "A": "#3fb950", "A-": "#4bc25f", "B+": "#58a6ff", "B": "#58a6ff", "B-": "#7cb7ff",
+  "B/C": "#a9aec1", "C+": "#e0a93a", "C": "#d29922", "C-": "#b07e10",
+  "INCLUDE_UNGRADED": "#7cb7ff", "PARTIAL": "#a9aec1", "EXCLUDE": "#f85149"
+};
+const REVIEWER_NAMES = {
+  "cg1": "ChatGPT-1", "cg2": "ChatGPT-2", "cg3": "ChatGPT-3",
+  "cg4": "ChatGPT-4", "cg5": "ChatGPT-5",
+  "cl1": "Claude-1", "cl2": "Claude-2", "cl3": "Claude-3"
+};
+const REVIEWERS = Object.keys(REVIEWER_NAMES);
+
+function gradeToNum(g) {
+  return ({"A":3.0,"A-":2.7,"B+":2.3,"B":2.0,"B-":1.7,"B/C":1.5,
+           "C+":1.3,"C":1.0,"C-":0.7,"PARTIAL":0.5,"INCLUDE_UNGRADED":1.8,
+           "EXCLUDE":0.0})[g] || 0.0;
+}
+
+// -------------------------------------------------------------------
+// Coverage heatmap (Plotly) — reviewer × variable
+// -------------------------------------------------------------------
+(function() {
+  const vars = DATA.ranked;
+  const z = [], textM = [], customM = [];
+  for (const r of REVIEWERS) {
+    const row = [], tr = [], cr = [];
+    for (const vid of vars) {
+      const e = DATA.variables[vid].reviews[r];
+      if (!e) { row.push(null); tr.push(""); cr.push(""); }
+      else { row.push(gradeToNum(e.grade)); tr.push(e.grade); cr.push(e.class); }
+    }
+    z.push(row); textM.push(tr); customM.push(cr);
+  }
+  const varNames = vars.map(v => DATA.variables[v].name.slice(0, 30));
+  const heat = {
+    z, x: varNames, y: REVIEWERS.map(r => REVIEWER_NAMES[r]),
+    type: 'heatmap',
+    colorscale: [
+      [0, '#f85149'], [0.17, '#f85149'], [0.17, '#d29922'],
+      [0.4, '#d29922'], [0.4, '#58a6ff'], [0.77, '#58a6ff'],
+      [0.77, '#3fb950'], [1, '#3fb950']
+    ],
+    zmin: 0, zmax: 3,
+    text: textM, texttemplate: '%{text}', hovertemplate: '<b>%{x}</b><br>%{y}<br>Grade: %{text}<br>Class: %{customdata}<extra></extra>',
+    customdata: customM, showscale: true,
+    colorbar: { title: 'Grade (0=Exclude, 3=A)', titlefont: {color:'#e6edf3'}, tickfont:{color:'#e6edf3'} }
+  };
+  Plotly.newPlot('chartCoverageHeatmap', [heat], {
+    paper_bgcolor: '#1c232c', plot_bgcolor: '#1c232c',
+    font: { color: '#e6edf3', size: 11 },
+    margin: { l: 100, r: 30, t: 30, b: 180 },
+    xaxis: { tickangle: -45, automargin: true },
+    yaxis: { automargin: true }
+  }, {responsive: true, displayModeBar: false});
+})();
+
+// -------------------------------------------------------------------
+// PRISMA funnel (Chart.js bar)
+// -------------------------------------------------------------------
+(function() {
+  new Chart(document.getElementById('chartPrisma'), {
+    type: 'bar',
+    data: {
+      labels: [['Raw seeds','(aggregate)'], ['Title/abstract','screened'], ['Full-text','assessed'], ['Inclusion','criteria met'], ['Final','advanced (unique)']],
+      datasets: [{
+        label: 'Candidates',
+        data: [190, 110, 58, 34, 27],
+        backgroundColor: ['#30363d','#3c4450','#58a6ff','#3fb950','#bc8cff'],
+        borderColor: '#30363d', borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#e6edf3' }, grid: { color: '#30363d' } },
+        y: { ticks: { color: '#e6edf3' }, grid: { color: '#30363d' } }
+      }
+    }
+  });
+})();
+
+// -------------------------------------------------------------------
+// Grade matrix bar chart — per-variable stacked
+// -------------------------------------------------------------------
+(function() {
+  const vars = DATA.ranked;
+  const gradeBuckets = ['A','A-','B+','B','B-','B/C','C+','C','PARTIAL','INCLUDE_UNGRADED','EXCLUDE'];
+  const datasets = gradeBuckets.map(g => ({
+    label: g, data: [], backgroundColor: GRADE_COLORS[g] || '#8b949e', borderWidth: 0
+  }));
+  for (const vid of vars) {
+    const counts = Object.fromEntries(gradeBuckets.map(g => [g,0]));
+    for (const r of REVIEWERS) {
+      const e = DATA.variables[vid].reviews[r];
+      if (e && counts[e.grade] !== undefined) counts[e.grade]++;
+    }
+    gradeBuckets.forEach((g,i) => datasets[i].data.push(counts[g]));
+  }
+  new Chart(document.getElementById('chartGradeMatrix'), {
+    type: 'bar',
+    data: { labels: vars.map(v => DATA.variables[v].name.slice(0, 28)), datasets },
+    options: {
+      indexAxis: 'y', plugins: { legend: { labels: { color: '#e6edf3', font: {size: 11} } } },
+      scales: {
+        x: { stacked: true, ticks: { color: '#e6edf3', stepSize: 1 }, grid: { color: '#30363d' }, title: { display: true, text: 'Reviewers', color: '#e6edf3' } },
+        y: { stacked: true, ticks: { color: '#e6edf3', font: { size: 10 } }, grid: { color: '#30363d' } }
+      }
+    }
+  });
+})();
+
+// -------------------------------------------------------------------
+// Posterior forest plot (Plotly) — post mean ± 95% CrI
+// -------------------------------------------------------------------
+(function() {
+  const vars = DATA.ranked.slice().sort((a,b) => DATA.variables[b].bayes.post_mean - DATA.variables[a].bayes.post_mean);
+  const y = vars.map(v => DATA.variables[v].name.slice(0,34));
+  const means = vars.map(v => DATA.variables[v].bayes.post_mean);
+  const los = vars.map(v => DATA.variables[v].bayes.post_mean - DATA.variables[v].bayes.ci95_lo);
+  const his = vars.map(v => DATA.variables[v].bayes.ci95_hi - DATA.variables[v].bayes.post_mean);
+  const colors = vars.map(v => REC_COLORS[DATA.variables[v].recommendation]);
+  const ns = vars.map(v => DATA.variables[v].bayes.n);
+
+  const trace = {
+    x: means, y,
+    error_x: { type: 'data', symmetric: false, array: his, arrayminus: los, color: '#8b949e', thickness: 1.5 },
+    mode: 'markers', type: 'scatter',
+    marker: { size: ns.map(n => Math.max(8, 8 + n*2)), color: colors, line: { color: '#e6edf3', width: 1 } },
+    text: vars.map((v,i) => `n=${ns[i]} Sharpes reported | Rec: ${DATA.variables[v].recommendation}`),
+    hovertemplate: '<b>%{y}</b><br>Posterior: %{x:.3f}<br>%{text}<extra></extra>'
+  };
+  Plotly.newPlot('chartPosterior', [trace], {
+    paper_bgcolor: '#1c232c', plot_bgcolor: '#1c232c',
+    font: { color: '#e6edf3', size: 11 },
+    margin: { l: 260, r: 30, t: 30, b: 50 },
+    xaxis: { title: 'Posterior Sharpe (annualised)', color: '#e6edf3', gridcolor: '#30363d', range: [-0.4, 2.0], zeroline: true, zerolinecolor: '#8b949e' },
+    yaxis: { automargin: true, color: '#e6edf3', gridcolor: '#30363d' },
+    shapes: [{ type: 'line', x0: 0.3, x1: 0.3, y0: -0.5, y1: vars.length - 0.5, line: { color: '#d29922', dash: 'dash', width: 1.5 } }],
+    annotations: [{ x: 0.3, y: vars.length - 0.3, xref: 'x', yref: 'y', text: 'Deploy threshold 0.30', font: { color: '#d29922', size: 11 }, showarrow: false, xanchor: 'left' }]
+  }, {responsive: true, displayModeBar: false});
+})();
+
+// -------------------------------------------------------------------
+// P(θ > 0.30) bar chart
+// -------------------------------------------------------------------
+(function() {
+  const vars = DATA.ranked.slice().sort((a,b) => DATA.variables[b].bayes.prob_exceeds_03 - DATA.variables[a].bayes.prob_exceeds_03);
+  const labels = vars.map(v => DATA.variables[v].name.slice(0,28));
+  const values = vars.map(v => DATA.variables[v].bayes.prob_exceeds_03);
+  const colors = values.map(v => v >= 0.80 ? '#3fb950' : (v >= 0.50 ? '#d29922' : '#f85149'));
+  new Chart(document.getElementById('chartProbDeploy'), {
+    type: 'bar',
+    data: { labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 0 }] },
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => `P(θ > 0.30) = ${(ctx.raw * 100).toFixed(1)}%` } } },
+      scales: {
+        x: { ticks: { color: '#e6edf3', callback: v => (v*100).toFixed(0) + '%' }, grid: { color: '#30363d' }, title: { display: true, text: 'P(θ > 0.30)', color: '#e6edf3' }, min: 0, max: 1 },
+        y: { ticks: { color: '#e6edf3', font: { size: 10 } }, grid: { color: '#30363d' } }
+      }
+    }
+  });
+})();
+
+// -------------------------------------------------------------------
+// Consensus vs effect-size scatter (Plotly)
+// -------------------------------------------------------------------
+(function() {
+  const recs = ['DEPLOY','DEPLOY_CONDITIONAL','WATCH','EXCLUDE'];
+  const traces = recs.map(rec => {
+    const vars = DATA.ranked.filter(v => DATA.variables[v].recommendation === rec);
+    return {
+      name: rec,
+      x: vars.map(v => DATA.variables[v].consensus.consensus),
+      y: vars.map(v => DATA.variables[v].bayes.post_mean),
+      mode: 'markers+text', type: 'scatter',
+      marker: {
+        size: vars.map(v => 10 + DATA.variables[v].consensus.n_reviews * 4),
+        color: REC_COLORS[rec], line: { color: '#e6edf3', width: 1 }
+      },
+      text: vars.map(v => DATA.variables[v].name.slice(0,16)),
+      textposition: 'top center', textfont: { color: '#e6edf3', size: 10 },
+      hovertemplate: '<b>%{text}</b><br>Consensus: %{x:.2f}<br>Posterior: %{y:.3f}<extra></extra>'
+    };
+  });
+  Plotly.newPlot('chartScatter', traces, {
+    paper_bgcolor: '#1c232c', plot_bgcolor: '#1c232c',
+    font: { color: '#e6edf3', size: 11 },
+    margin: { l: 70, r: 30, t: 30, b: 50 },
+    xaxis: { title: 'Grade-weighted consensus score', color: '#e6edf3', gridcolor: '#30363d', range: [-1.1, 1.1], zeroline: true, zerolinecolor: '#8b949e' },
+    yaxis: { title: 'Posterior mean Sharpe', color: '#e6edf3', gridcolor: '#30363d' },
+    legend: { font: { color: '#e6edf3' } },
+    shapes: [
+      { type: 'line', x0: 0.5, x1: 0.5, y0: -0.5, y1: 2.0, line: { color: '#8b949e', dash: 'dot', width: 1 } },
+      { type: 'line', x0: -1, x1: 1.1, y0: 0.3, y1: 0.3, line: { color: '#d29922', dash: 'dash', width: 1 } }
+    ]
+  }, {responsive: true, displayModeBar: false});
+})();
+
+// -------------------------------------------------------------------
+// Summary table render
+// -------------------------------------------------------------------
+(function() {
+  const body = document.getElementById('summaryTableBody');
+  const rows = DATA.ranked.map(vid => {
+    const v = DATA.variables[vid];
+    const sd = v.bayes.post_sd;
+    return {
+      vid, name: v.name, paradigm: v.paradigm, asset: v.asset,
+      n: v.consensus.n_reviews, avg: v.consensus.avg_grade, cons: v.consensus.consensus,
+      post: v.bayes.post_mean, lo: v.bayes.ci95_lo, hi: v.bayes.ci95_hi,
+      p03: v.bayes.prob_exceeds_03, rec: v.recommendation
+    };
+  });
+  rows.sort((a,b) => b.post - a.post);
+  body.innerHTML = rows.map(r => `
+    <tr>
+      <td><b>${r.name}</b></td>
+      <td>${r.paradigm}</td>
+      <td>${r.asset}</td>
+      <td>${r.n}</td>
+      <td>${r.avg.toFixed(2)}</td>
+      <td>${r.cons.toFixed(2)}</td>
+      <td>${r.post.toFixed(3)}</td>
+      <td>[${r.lo.toFixed(2)}, ${r.hi.toFixed(2)}]</td>
+      <td>${(r.p03*100).toFixed(0)}%</td>
+      <td><span class="badge b-${r.rec}">${r.rec}</span></td>
+    </tr>`).join('');
+})();
+
+// -------------------------------------------------------------------
+// Variable cards (Section 6)
+// -------------------------------------------------------------------
+(function() {
+  const vars = DATA.ranked;
+  const container = document.getElementById('varCards');
+  container.innerHTML = vars.map(vid => {
+    const v = DATA.variables[vid];
+    const reviewers = Object.keys(v.reviews);
+    const gradesList = reviewers.map(r => {
+      const e = v.reviews[r];
+      return `<span class="pill">${REVIEWER_NAMES[r]}: ${e.grade} (${e.class})</span>`;
+    }).join(' ');
+    const whyWorks = whyItWorks(vid, v);
+    const whyDoesnt = whyItDoesnt(vid, v);
+    return `
+    <div class="var-card">
+      <h4>${v.name} <span class="badge b-${v.recommendation}">${v.recommendation}</span></h4>
+      <div class="meta">${v.citation} &nbsp;•&nbsp; Group: ${v.group} &nbsp;•&nbsp; Paradigm: ${v.paradigm} &nbsp;•&nbsp; Asset: ${v.asset} &nbsp;•&nbsp; Posterior: ${v.bayes.post_mean.toFixed(2)} [${v.bayes.ci95_lo.toFixed(2)}, ${v.bayes.ci95_hi.toFixed(2)}]</div>
+      <div style="margin: 6px 0">${gradesList}</div>
+      <p><strong>Why it works:</strong> ${whyWorks}</p>
+      <p><strong>Why it may fail / reviewer concerns:</strong> ${whyDoesnt}</p>
+    </div>`;
+  }).join('');
+})();
+
+function whyItWorks(vid, v) {
+  const wk = {
+    "VRP": "Prices the risk premium for bearing variance — distinct from VIX level. Option-implied vs realised gap captures compensation. BTZ 2009 t-stats 2-3 predicting future excess returns at 1Q horizon.",
+    "IVSpread": "Put-call parity deviations encode private information flow into options before equities. 0.51%/wk decile spread on expensive-call vs expensive-put stocks (Cremers-Weinbaum 2010).",
+    "GoogleSVI": "Retail attention spikes induce temporary price pressure; reversal earns a contrarian premium (~11bps/wk on high vs low search). Da et al. 2011 JF.",
+    "BAB": "Leverage-constrained investors bid up high-beta stocks; low-beta is underpriced. Market-neutral levered-low-beta vs delevered-high-beta earns persistent Sharpe 0.78 across 20 markets.",
+    "GoldPlatinumRatio": "Precious-metal relative demand captures safe-haven intensity. 1σ rise in GP predicts +6.4% annual SPX return; OOS validated (Huang-Kilic 2019).",
+    "DealerGamma": "Dealer-gamma imbalance mechanically forces late-day directional flow as hedgers rebalance. ZAB 2024 replicates SPY Sharpe 1.33 net of costs 2007-2024.",
+    "HedgingPressure": "Commercial hedgers demand insurance; speculators absorb for a premium (Keynes normal backwardation). Long-short HP sort Sharpe 0.27-0.93 pre-fin, 0.48 post.",
+    "CieslakPovala": "Inflation trend-cycle decomposition isolates the non-inflation component of yields that drives bond risk premia. R² 43-60% on 2-5Y excess bond returns.",
+    "GoldTIPSbeta": "Gold is the mirror of real rates when real-yield channel is active. -0.82 correlation with TIPS yield drives directional timing (when not regime-broken).",
+    "GoldComposite": "Combines mean-reversion to real-price with CFTC speculator positioning for gold — intended to capture disaster-risk regime.",
+    "ADS_Nowcast": "Mixed-frequency DFM estimates real-time business conditions; Scotti surprise overlays macro-release shocks. Gold OOS R² up to 37.9% per Dichtl 2019.",
+    "EPU": "News-based policy uncertainty raises discount rates investors demand. Text-based signal orthogonal to price/yield data.",
+    "HongYogoOI": "Aggregate futures open interest signals future commodity and bond returns via risk-bearing capacity channel.",
+    "TailRisk": "Kelly-Jiang cross-sectional tail index and Martin's SVIX lower-bound on equity premium provide tail-aware timing. OOS R² positive vs Goyal-Welch at 1-6M.",
+    "CrossAssetValue": "Cheap assets relative to a slow-moving anchor (BM for equities, spot mean for commodities, PPP for FX, long-horizon yield for bonds) outperform expensive ones. AMP 2013.",
+    "CorrelationRiskPremium": "Investors pay a premium for index-variance protection; implied correlation elevated in stress windows predicts future equity returns.",
+    "SkewScalar": "CBOE SKEW and 25-delta put-call skew encode demand for left-tail protection; elevated skew historically presages continued strength (though sign is disputed).",
+    "PCTECH": "Principal component of technical and economic indicators aggregates state information. OOS R² 1.32% monthly; survives GWZ 2024 qualitatively.",
+    "HMLDevil": "Standard HML uses stale prices; monthly-updated book-to-market produces cleaner value proxy with less momentum contamination. +305bps/yr alpha vs stale.",
+    "GrossProfitability": "Revenue minus COGS over assets captures quality that profits per dollar of capital. 0.37%/mo HXZ replication; JKP 2023 tangency-portfolio survivor.",
+    "QMJ": "Composite safety + growth + profitability + payout. Global replication 24 countries; Sharpe post-hedging ~1.0 globally, ~0.5 post-2010 decay.",
+    "CEI": "Firms that issue equity underperform; firms that buy back outperform. HXZ -0.57%/mo t=3.32; survives all four replication benchmarks.",
+    "Sloan": "Accrual component of earnings is less persistent than cash component; investors overweight accruals initially and revert. HXZ -0.27%/mo t=-2.13.",
+    "GKXml": "Neural-network ensembles of 94 stock characteristics identify cross-sectional pricing errors at scale. SR 2.45-3.89 in replication studies.",
+    "LM_Text": "Negative-tone word frequency in 10-K filings predicts -2% 4-day CAR. Replicated firm-level by Tetlock et al.",
+    "OppInsider": "Form-4 opportunistic (non-routine) insider trades signal information flow. 82bps/mo VW alpha t=2.15.",
+    "LazyPrices": "10-K document similarity: firms changing their 10-K text predict returns. Cohen-Malloy-Nguyen 2020; 5-factor alpha up to 188 bps/mo on similarity-based long-short."
+  };
+  return wk[vid] || "Mechanism-grounded factor with peer-reviewed primary citation.";
+}
+
+function whyItDoesnt(vid, v) {
+  const wf = {
+    "VRP": "GWZ 2024 audit reports severe decay; Cheng 2019 documents negative post-2010 sub-window predictability. Construction sensitivity between model-free vs parametric IV estimates.",
+    "IVSpread": "Post-2008 decay + OptionMetrics data gating. Small after-cost edge on OTM options.",
+    "GoogleSVI": "Only one reviewer; attention effect may wane with algorithmic trading. Weekly frequency.",
+    "BAB": "Novy-Marx-Velikov 2022 critique of value-weighted construction; micro-cap dependence reduces economic magnitude. Correlation 0.55-0.60 with QMJ requires joint sizing.",
+    "GoldPlatinumRatio": "Only one reviewer engaged. Relies on relative prices; breakdown risk if gold safe-haven role shifts.",
+    "DealerGamma": "Only one reviewer engaged. Intraday-momentum signal requires execution edge and market-maker dealer-gamma proxy construction.",
+    "HedgingPressure": "ChatGPT-2 marks ineffective; ChatGPT-5 reports NO_CLEAN_OOS_SHARPE. Correlates 0.4-0.6 with V028 basis-momentum — limited orthogonal content.",
+    "CieslakPovala": "Only one reviewer; documented OOS decay; requires inflation-trend estimation with real-time data.",
+    "GoldTIPSbeta": "Post-2022 regime break from ρ=-0.82 to ρ∈[0.03, 0.07]; signal must be regime-aware.",
+    "GoldComposite": "Mean-reversion sub-component catastrophic OOS; two reviewers mark ineffective. Gold timing is structurally fragile.",
+    "ADS_Nowcast": "Claude-2 EXCLUDEs on grounds that ADS has no direct equity-premium paper. Revision bias: ADS is restated as underlying data revises.",
+    "EPU": "Predicts volatility not returns per Claude-2; Bae-Jo-Shim 2025 finds EPU shocks lose significance in 2008-2019 subsample. Signal sign flips across regimes.",
+    "HongYogoOI": "Post-2004 financialization attenuation; Claude-2 EXCLUDEs on grounds that no clean tradable Sharpe is published.",
+    "TailRisk": "2024 replication audit reports negative OOS R² on SVIX; Bali-Cakici-Whitelaw rebuttal on Kelly-Jiang. Two reviewers EXCLUDE.",
+    "CrossAssetValue": "Only one reviewer; slow-moving, long-drawdown tolerance required; construction changes by asset class.",
+    "CorrelationRiskPremium": "Faria-Kosowski-Wang document post-2009 OOS decline as dispersion capital crowded in; frictions exceed gross premium in published comparisons.",
+    "SkewScalar": "Stilger-Kostakis-Poon 2017 reports sign reversal; option-implied skew literature is internally inconsistent.",
+    "PCTECH": "Only one reviewer; requires ongoing principal-component re-estimation; risk of overfitting if not walk-forward.",
+    "HMLDevil": "Only two reviewers; overlay variant less-tested than canonical; value drawdowns 2017-2020 painful.",
+    "GrossProfitability": "All four reviewers ENGAGE but only one reports a Sharpe; post-publication decay expected ~40-57% per MP 2016.",
+    "QMJ": "Correlates 0.55-0.60 with BAB; cg4 flags as too-composite for first deployment; ~60-65% decay post-2010.",
+    "CEI": "Only two reviewers; four-month Compustat reporting lag; signal could be frontrun.",
+    "Sloan": "Claude-1 and Claude-3 both note subsumption by QMJ earnings-quality leg; Green-Hand-Soliman 2011 document post-publication decay to half magnitude.",
+    "GKXml": "Two reviewers EXCLUDE; Claude-1 flags 0.3-0.5 correlation with V009 TSMOM; Avramov-Cheng-Metzker 2023 document ~30-40% magnitude survives after excluding distressed/microcap/high-IVOL.",
+    "LM_Text": "Claude-3 EXCLUDEs as dictionary input not standalone signal; construction choices matter enormously — FinBERT successor may dominate (Huang et al. 2023).",
+    "OppInsider": "Only one reviewer; classifier implementation choices affect magnitude; 10b5-1 reforms 2022 may have altered behaviour.",
+    "LazyPrices": "Only one reviewer; textual-similarity implementation is non-trivial; not included in JKP 2023 tangency factors (textual excluded by default)."
+  };
+  return wf[vid] || "Evidence base is limited; needs replication in next review pass.";
+}
+
+// -------------------------------------------------------------------
+// Post-decay Sharpe bar (final chart)
+// -------------------------------------------------------------------
+(function() {
+  const DEPLOY_SET = ["DEPLOY","DEPLOY_CONDITIONAL"];
+  const vars = DATA.ranked.filter(v => DEPLOY_SET.includes(DATA.variables[v].recommendation));
+  vars.sort((a,b) => DATA.variables[b].bayes.post_mean - DATA.variables[a].bayes.post_mean);
+  const labels = vars.map(v => DATA.variables[v].name.slice(0,30));
+  const raw = vars.map(v => DATA.variables[v].bayes.post_mean);
+  const postDecay = raw.map(v => v * 0.60);  // 40% decay
+  const colors = vars.map(v => REC_COLORS[DATA.variables[v].recommendation]);
+  new Chart(document.getElementById('chartPostDecay'), {
+    type: 'bar',
+    data: { labels, datasets: [
+      { label: 'Posterior mean', data: raw, backgroundColor: colors.map(c => c + '80'), borderColor: colors, borderWidth: 1 },
+      { label: 'Post-decay (×0.60)', data: postDecay, backgroundColor: colors, borderWidth: 0 }
+    ]},
+    options: {
+      indexAxis: 'y',
+      plugins: { legend: { labels: { color: '#e6edf3' } } },
+      scales: {
+        x: { ticks: { color: '#e6edf3' }, grid: { color: '#30363d' }, title: { display: true, text: 'Sharpe', color: '#e6edf3' } },
+        y: { ticks: { color: '#e6edf3', font: {size: 10} }, grid: { color: '#30363d' } }
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

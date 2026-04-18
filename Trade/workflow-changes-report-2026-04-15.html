@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Workflow Changes Report — 2026-04-15</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#c9d1d9;--head:#f0f6fc;--green:#3fb950;--red:#f85149;--yellow:#d29922;--blue:#58a6ff;--muted:#8b949e;--purple:#bc8cff}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);padding:32px;max-width:900px;margin:auto;line-height:1.65}
+h1{color:var(--head);font-size:1.5rem;margin-bottom:4px}
+h2{color:var(--blue);font-size:1.15rem;margin:32px 0 12px;border-bottom:1px solid var(--border);padding-bottom:6px}
+h3{color:var(--head);font-size:.95rem;margin:18px 0 6px}
+.subtitle{color:var(--muted);font-size:.85rem;margin-bottom:24px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:14px}
+p{margin:6px 0 12px;font-size:.92rem}
+.tag{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:10px;font-weight:600;margin-right:4px;vertical-align:middle}
+.tag-problem{background:#1c0e14;color:var(--red);border:1px solid var(--red)}
+.tag-solution{background:#0d1f0d;color:var(--green);border:1px solid var(--green)}
+.tag-impact{background:#0d1a2d;color:var(--blue);border:1px solid var(--blue)}
+.tag-change{background:#1a0d2e;color:var(--purple);border:1px solid var(--purple)}
+table{width:100%;border-collapse:collapse;font-size:.85rem;margin:10px 0}
+th{background:#21262d;color:var(--head);text-align:left;padding:6px 10px;border-bottom:2px solid var(--border)}
+td{padding:6px 10px;border-bottom:1px solid var(--border)}
+tr:hover td{background:#1c2128}
+.pipeline{background:#161b22;border:1px solid var(--border);border-radius:8px;padding:16px;margin:12px 0;font-family:monospace;font-size:.82rem;line-height:1.8}
+.time{color:var(--yellow);font-weight:700}
+.task{color:var(--blue)}
+.new{color:var(--green);font-weight:700}
+.disabled{color:var(--red);text-decoration:line-through}
+.arrow{color:var(--muted)}
+.footer{text-align:center;color:var(--muted);font-size:.75rem;margin-top:28px;padding-top:12px;border-top:1px solid var(--border)}
+.summary-box{background:#0d1a2d;border:2px solid var(--blue);border-radius:8px;padding:18px;margin:16px 0;font-size:.95rem}
+</style>
+</head>
+<body>
+
+<h1>Workflow Changes Report</h1>
+<div class="subtitle">2026-04-15 &nbsp;|&nbsp; What changed, why, and what it means for your trading</div>
+
+<div class="summary-box">
+<strong style="color:var(--head)">Bottom line:</strong> Your workspace was well-designed but operationally gated — the methodology correctly blocked trades because data couldn't flow into the scorecard. These six changes fix the plumbing so the system can actually fire when signals align, while also cutting waste (no more 8 versions per day) and keeping your files manageable over time.
+</div>
+
+<!-- ======================================== -->
+<h2>1. Audit-Addition Data Pipeline</h2>
+<div class="card">
+<h3><span class="tag tag-problem">PROBLEM</span> Your book was frozen</h3>
+<p>On 2026-04-14, you added three Grade A variables to the methodology (residual momentum, intermediary capital, basis-momentum). These are powerful signals — residual momentum alone would unblock 12 single-stock T-scores, and intermediary capital would resolve the EWY fail-loud caveat. But none of the three had an automated way to get data. The trade-rec tried web searches during its run, couldn't find usable values, and correctly marked them MISSING. The fail-loud rule then blocked every candidate: EWY at +3 was treated as a near-miss, TSM/AMZN/META couldn't be scored at all. The methodology was working as designed — but with no data flowing in, you had a perfectly disciplined system that could never trade.</p>
+
+<h3><span class="tag tag-solution">SOLUTION</span> Dedicated compute task</h3>
+<p>Created <code>audit-data-compute-750pm</code> — a scheduled task that fires at 19:50 UTC+8 every weekday, 10 minutes before the daily brief. It uses web search to fetch source data (Fama-French 5-factor returns from Kenneth French's library, NY Fed primary dealer statistics, commodity front-curve settlement data), then runs a Python script (<code>scripts/compute_audit_additions.py</code>) that does the actual math: 12-month rolling OLS regressions for residual momentum, z-score computation for intermediary capital, and 4-week/12-week slope changes for basis-momentum. Results are written to <code>audit-data-staging-YYYY-MM-DD.md</code> — a staging file that the brief and trade-rec read at startup.</p>
+
+<h3><span class="tag tag-impact">IMPACT ON YOU</span></h3>
+<p>This is the single most consequential change. Once the compute task starts producing non-MISSING values, the entire single-stock book becomes scorable (12 names get T-scores), the EWY intermediary-capital caveat can be resolved, and the commodity S divergence-cap can actually fire. Near-misses like TSM, AMZN, and META at S+1/C+1 become promotable to |Sum|=+3 if residual momentum reads positive. The system goes from "correctly frozen" to "fully operational."</p>
+</div>
+
+<!-- ======================================== -->
+<h2>2. Delta-Check Gate on Trade Rec</h2>
+<div class="card">
+<h3><span class="tag tag-problem">PROBLEM</span> Eight identical versions on Day 1</h3>
+<p>On 2026-04-14, the trade rec reached v8 — each version running the full 8-step methodology, producing a new HTML report, appending several lines to Memory.md §8, and reaching the same conclusion: "0 actionable signals, no trade." Between v5 and v8, no upstream data changed. Each rerun was pure waste: more compute, more Memory.md bloat, more version noise in the audit trail. When you look back in a month, v6/v7/v8 contain zero incremental information.</p>
+
+<h3><span class="tag tag-solution">SOLUTION</span> Timestamp comparison before rerun</h3>
+<p>Updated the trade-rec task prompt with a delta-check gate. Before running the full 8-step, it now compares the modification timestamps of all five upstream artifacts (brief, news, US close snapshot, weekly review, audit-data staging) against the existing trade-rec file. If nothing is newer, it logs a one-line "no-change revalidation" note and exits. The full 8-step only runs when there's actually new data to score.</p>
+
+<h3><span class="tag tag-impact">IMPACT ON YOU</span></h3>
+<p>You'll see one or two trade-rec versions per day instead of eight. Memory.md §8 stays concise. The audit trail is cleaner — every version represents a genuine data update, not a redundant rerun. And each evening's pipeline finishes faster because the rec doesn't re-score unchanged data.</p>
+</div>
+
+<!-- ======================================== -->
+<h2>3. Weekly Memory Condensation</h2>
+<div class="card">
+<h3><span class="tag tag-problem">PROBLEM</span> Memory.md was growing unsustainably</h3>
+<p>Memory.md §8 (Lessons &amp; Corrections) hit 180+ lines after one day. Every trade-rec version, every brief refresh, every audit-review fire added a multi-line entry. At that rate, §8 would exceed 1,000 lines within a week. Since every session startup must read Memory.md in full, this creates a concrete cost: longer load times, more context consumed on the startup reads, higher chance of hitting context limits on complex analysis sessions.</p>
+
+<h3><span class="tag tag-solution">SOLUTION</span> Sunday condensation in the weekly review</h3>
+<p>Created <code>weekly-regime-review-sunday-6pm-v2</code> (replacing v1, which is now disabled). After writing the weekly review, it runs a new condensation step: takes all of the prior week's individual §8 entries, rolls them into a 3-5 sentence summary paragraph, and archives the verbose originals to <code>archive/memory-log-YYYY-WNN.md</code>. The full detail is preserved in the archive — it just moves out of the hot startup path.</p>
+
+<h3><span class="tag tag-impact">IMPACT ON YOU</span></h3>
+<p>Memory.md stays lean week over week. Session startups read a concise summary for each past week instead of dozens of individual log entries. If you ever need the verbose detail (for a methodology review, an audit, or debugging), it's in the archive with the ISO week number. The 2026-10-14 six-month review will still have full evidence — just filed efficiently.</p>
+</div>
+
+<!-- ======================================== -->
+<h2>4. Pipeline Scheduling Overhaul</h2>
+<div class="card">
+<h3><span class="tag tag-problem">PROBLEM</span> Collision risk and weekend waste</h3>
+<p>The brief and news tasks both fired at the exact same cron minute (20:00). In practice, jitter separated them, but this was fragile — if both hit web search simultaneously, they'd compete for rate limits. Additionally, all five daily tasks fired every day including Saturday and Sunday, when US markets are closed and most data sources return stale readings. This produced empty or recycled briefs on weekends that added noise without value.</p>
+
+<h3><span class="tag tag-solution">SOLUTION</span> Staggered times, weekday-only, plus preflight check</h3>
+<p>Restructured the entire pipeline with proper sequencing and a new preflight validation step:</p>
+
+<div class="pipeline">
+<span class="time">19:50</span> <span class="arrow">──▶</span> <span class="task new">audit-data-compute</span> <span style="color:var(--green)">(NEW)</span> &nbsp; fetches &amp; computes audit-addition variables<br>
+<span class="time">20:00</span> <span class="arrow">──▶</span> <span class="task">market brief</span> &nbsp; reads audit-data staging + all Grade A pulls<br>
+<span class="time">20:10</span> <span class="arrow">──▶</span> <span class="task">news capture</span> &nbsp; geopolitics, macro, corporate, crypto, flash events<br>
+<span class="time">20:15</span> <span class="arrow">──▶</span> <span class="task new">preflight check</span> <span style="color:var(--green)">(NEW)</span> &nbsp; validates all upstream artifacts exist<br>
+<span class="time">20:25</span> <span class="arrow">──▶</span> <span class="task">trade rec</span> &nbsp; delta-check → full 8-step if new data<br>
+<br>
+<span style="color:var(--muted)">All Mon-Fri only. Weekend tasks: weekly review (Sun 18:00), workspace tidy (Sun 21:00).</span>
+</div>
+
+<h3><span class="tag tag-impact">IMPACT ON YOU</span></h3>
+<p>No more wasted runs on weekends. Each task fires in a clean sequence with no collision risk. The new preflight check at 20:15 catches missing upstream files before the trade rec runs — so if the brief failed silently, you get a clear diagnostic instead of a trade rec with unexplained data gaps. The audit-data compute at 19:50 means the brief at 20:00 can read pre-computed audit-addition values instead of trying (and failing) to web-search them mid-run.</p>
+</div>
+
+<!-- ======================================== -->
+<h2>5. Unified Retention Logic</h2>
+<div class="card">
+<h3><span class="tag tag-problem">PROBLEM</span> Two systems, one set of files</h3>
+<p>The master <code>Retention Policy.md</code> defined a 3-tier archival system (live → archive → digest), and the <code>news-events/README.md</code> defined its own independent 7-day/30-day rules with a separate <code>archive-summary.md</code> mechanism. These overlapped on the same news files. The Sunday workspace-tidy task follows the master policy; if someone later built a news-specific cleanup task following the README rules, news files could be moved, condensed, or deleted inconsistently.</p>
+
+<h3><span class="tag tag-solution">SOLUTION</span> Single owner</h3>
+<p>Rewrote the retention section in <code>news-events/README.md</code> to explicitly defer to the master <code>Retention Policy.md</code>. Added a corresponding news-file clause to the master policy so there's no ambiguity. One system, one cleanup task, one set of rules.</p>
+
+<h3><span class="tag tag-impact">IMPACT ON YOU</span></h3>
+<p>Minimal day-to-day impact — this is a preventive fix. It ensures that as your workspace ages and the tidy task starts actually archiving files (from week 2 onward), news files won't be caught between conflicting rules. You won't have to debug a situation where a news file was deleted by one system but expected by another.</p>
+</div>
+
+<!-- ======================================== -->
+<h2>6. CLAUDE.md Deduplication</h2>
+<div class="card">
+<h3><span class="tag tag-problem">PROBLEM</span> Same information in three places</h3>
+<p>The audit-addition rules were written in full in three locations: <code>CLAUDE.md</code> (8 lines), <code>Methodology Prompt.md</code> (the authoritative source, with reconciliation notes and Top-25 entries 26-28), and <code>Data Sources.md</code> (pull paths). The CLAUDE.md copy duplicated the mechanism description, the divergence-cap rule, the double-counting gate, and the fail-loud rule — all of which are already definitive in the Methodology Prompt. Triple-duplication means triple the maintenance cost when a rule changes, and triple the risk of drift between copies.</p>
+
+<h3><span class="tag tag-solution">SOLUTION</span> Pointer instead of copy</h3>
+<p>Reduced the CLAUDE.md audit-addition section from 8 lines of duplicated rules to a 3-line pointer: names the three variables, points to the Methodology Prompt entries and Data Sources for the full rules, and references the new <code>audit-data-staging</code> file. Also added the staging file and the compute script to the CLAUDE.md file index so future sessions know they exist.</p>
+
+<h3><span class="tag tag-impact">IMPACT ON YOU</span></h3>
+<p>Session startup reads are slightly faster (less text to process). More importantly, when you eventually refine a rule — say, adjusting the divergence-cap threshold or the double-counting gate — you only need to edit it in one place (the Methodology Prompt), not three. Single source of truth.</p>
+</div>
+
+<!-- ======================================== -->
+<h2>Complete Change Inventory</h2>
+<div class="card">
+<table>
+<thead><tr><th>What Changed</th><th>Type</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>audit-data-compute-750pm</code> scheduled task</td><td><span class="tag tag-change">NEW</span></td><td>Created, Mon-Fri 19:50</td></tr>
+<tr><td><code>scripts/compute_audit_additions.py</code></td><td><span class="tag tag-change">NEW</span></td><td>Created in Trade/scripts/</td></tr>
+<tr><td><code>preflight-check-815pm</code> scheduled task</td><td><span class="tag tag-change">NEW</span></td><td>Created, Mon-Fri 20:15</td></tr>
+<tr><td><code>weekly-regime-review-sunday-6pm-v2</code> scheduled task</td><td><span class="tag tag-change">NEW</span></td><td>Created, replaces v1</td></tr>
+<tr><td><code>daily-market-brief-8pm-v2</code> cron</td><td><span class="tag tag-change">UPDATED</span></td><td>Mon-Fri only (was daily)</td></tr>
+<tr><td><code>daily-news-events-810pm-v2</code> cron</td><td><span class="tag tag-change">UPDATED</span></td><td>20:10 Mon-Fri (was 20:00 daily)</td></tr>
+<tr><td><code>daily-trade-recommendation-820pm-v2</code> cron + prompt</td><td><span class="tag tag-change">UPDATED</span></td><td>20:25 Mon-Fri + delta-check gate</td></tr>
+<tr><td><code>weekly-regime-review-sunday-6pm</code></td><td><span class="tag tag-change">DISABLED</span></td><td>Replaced by v2</td></tr>
+<tr><td><code>Retention Policy.md</code></td><td><span class="tag tag-change">EDITED</span></td><td>Added news-file clause + changelog entry</td></tr>
+<tr><td><code>news-events/README.md</code></td><td><span class="tag tag-change">EDITED</span></td><td>Retention section replaced with policy pointer</td></tr>
+<tr><td><code>CLAUDE.md</code></td><td><span class="tag tag-change">EDITED</span></td><td>Audit section condensed; file index expanded</td></tr>
+<tr><td><code>Data Sources.md</code></td><td><span class="tag tag-change">EDITED</span></td><td>Automated pipeline references added</td></tr>
+<tr><td><code>Memory.md</code> §8 + §10</td><td><span class="tag tag-change">EDITED</span></td><td>Full change log appended</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ======================================== -->
+<h2>What to Watch For</h2>
+<div class="card">
+<p><strong>Tonight's first automated run (19:50 UTC+8):</strong> The <code>audit-data-compute-750pm</code> task will fire for the first time. It will attempt to fetch FF5 factors, NY Fed PD data, and commodity curve data via web search. Some sources may be blocked or return unusable formats — if so, the staging file will correctly show MISSING for those variables. This is expected for the first few runs as the search queries get refined. The brief and trade-rec will still work — they'll just read MISSING from the staging file instead of trying their own web searches.</p>
+
+<p><strong>The preflight check:</strong> At 20:15, the new preflight task will validate that the brief, news, staging file, and snapshot all exist before the trade rec fires at 20:25. If anything is missing, it'll produce a clear diagnostic. You may want to run it manually once to pre-approve the tool permissions it needs.</p>
+
+<p><strong>Sunday's weekly review:</strong> The new v2 task will run the standard weekly review plus the Memory §8 condensation. Since this is the first real weekly review (last Sunday was a bootstrap with only one day of data), there should be a meaningful amount of §8 content to condense.</p>
+</div>
+
+<div class="footer">Workflow Changes Report — 2026-04-15 — 6 recommendations executed across 13 files and tasks</div>
+
+</body>
+</html>

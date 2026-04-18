@@ -1,0 +1,20 @@
+# Ephemeral cache dirs (rebuilt each pipeline run)
+Trade/.data-cache/
+Trade/.catalysts-cache/
+Trade/.skill-stage/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Local Claude Code session state (not for routines)
+.claude/settings.local.json
+.claude/worktrees/
+
+# Temp files (Cowork zip stage artifacts)
+Trade/zi[A-Za-z0-9]*/
+
+# OS
+Thumbs.db
+.DS_Store

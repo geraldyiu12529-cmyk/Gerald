@@ -1,0 +1,31 @@
+flowchart TD
+    subgraph T1945["19:45 UTC+8"]
+        P[preflight-audit-data-1945pm]
+    end
+
+    subgraph T2000["20:00 UTC+8"]
+        B[daily-market-brief-8pm-v2]
+        N[daily-news-events-810pm-v2]
+    end
+
+    subgraph T2100["21:00 UTC+8 — downstream consumer"]
+        R[daily-trade-recommendation-820pm-v2]
+    end
+
+    P -->|audit-data-staging.md<br/>.pipeline-health.json| B
+    P -.->|health check only| N
+    B -->|market-brief.md| R
+    N -->|news-YYYY-MM-DD.md| R
+
+    classDef hard fill:#ffe0e0,stroke:#c0392b,stroke-width:2px,color:#000
+    classDef soft fill:#e0f0ff,stroke:#2980b9,stroke-width:1px,color:#000
+    classDef consumer fill:#e8f5e9,stroke:#27ae60,stroke-width:1px,color:#000
+
+    class P,B hard
+    class N soft
+    class R consumer
+
+    %% Legend
+    L1[HARD dependency: brief fail-louds without preflight]:::hard
+    L2[Independent: news-events runs in parallel]:::soft
+    L3[Downstream: trade-rec consumes both]:::consumer
