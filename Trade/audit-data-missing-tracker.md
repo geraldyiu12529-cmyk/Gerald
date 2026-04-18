@@ -37,3 +37,4 @@ then re-measure over the NEXT window.
 | Date | ResidMom | ResidMom_OK_stocks | InterCap | BasisMom | BasisMom_OK_cmdty | Notes |
 |------|----------|---------------------|----------|----------|-------------------|-------|
 | 2026-04-17 | LIVE | 12/12 | LIVE | LIVE | 5/5 |  |
+| 2026-04-19 | LIVE | 12/12 | LIVE | LIVE | 5/5 | weekend-test; Tier 3 cache; InterCap STALE-WARN (data through 2026-04-04) |
