@@ -1,0 +1,10 @@
+{
+  "variable": "NVDA",
+  "value": 200.83,
+  "unit": "",
+  "timestamp": "2026-04-17T23:06:42+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (NVDA)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"NVDA\",\"exchangeName\":\"NMS\",\"fullExchangeName\":\"NasdaqGS\",\"instrumentType\":\"EQUITY\",\"firstTradeDate\":917015400,\"regularMarketTime\":1776438402,\"ha"
+}

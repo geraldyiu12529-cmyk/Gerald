@@ -1,0 +1,10 @@
+{
+  "variable": "NDX",
+  "value": 26204.58,
+  "unit": "",
+  "timestamp": "2026-04-16T05:15:59+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (^NDX)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"^NDX\",\"exchangeName\":\"NIM\",\"fullExchangeName\":\"Nasdaq GIDS\",\"instrumentType\":\"INDEX\",\"firstTradeDate\":497021400,\"regularMarketTime\":1776287759,\""
+}

@@ -1,0 +1,10 @@
+{
+  "variable": "TSM",
+  "value": 368.92,
+  "unit": "",
+  "timestamp": "2026-04-17T23:06:53+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (TSM)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"TSM\",\"exchangeName\":\"NYQ\",\"fullExchangeName\":\"NYSE\",\"instrumentType\":\"EQUITY\",\"firstTradeDate\":876403800,\"regularMarketTime\":1776438413,\"hasPreP"
+}

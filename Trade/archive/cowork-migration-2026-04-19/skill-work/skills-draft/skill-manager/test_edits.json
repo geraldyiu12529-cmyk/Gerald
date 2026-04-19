@@ -1,0 +1,17 @@
+{
+  "skill_name": "positions-monitor",
+  "summary": "Smoke test — add a demo `model:` line to positions-monitor to exercise patch_skill.py. Do NOT apply this Windows-side; it's for generating the patch file only.",
+  "files": [
+    {
+      "path": "SKILL.md",
+      "mode": "edits",
+      "edits": [
+        {
+          "old_string": "name: positions-monitor\ndescription:",
+          "new_string": "name: positions-monitor\nmodel: sonnet\ndescription:",
+          "reason": "Test insert before description"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+# Global Instructions — Gerald's Trading Research Workspace
+
+## Session Startup Protocol (MANDATORY)
+
+At the start of EVERY session, before doing any analysis or responding to any trading question, Claude MUST:
+
+1. **Read auto-memory:** `/mnt/.auto-memory/MEMORY.md` — scan the index, then read any linked memory files relevant to the current request
+2. **Read the Methodology Prompt:** `/mnt/Trade/Methodology Prompt.md` — the 8-step trading framework. This is the master document. Follow it exactly.
+3. **Read the latest market brief:** Find and read the most recent `market-brief-*.md` in `/mnt/Trade/`
+4. **Read Trade Memory.md:** `/mnt/Trade/Memory.md` — open positions, regime state, key variables, watchlist, corrections
+
+Only after completing all four reads should Claude begin analysis or respond to trading questions.
+
+## Authoritative Documents
+
+All substantive trading rules live in these files — consult them directly, do not rely on summaries:
+
+| Document | Authority over |
+|----------|---------------|
+| `Methodology Prompt.md` | 8-step framework, evidence grades, scoring rules, audit additions, reconciliation notes |
+| `Risk Rules.md` | Pre-entry checklist, sizing, stops, circuit breakers, correlation gate |
+| `Data Sources.md` | Variable → source mapping, fail-loud rule, audit-addition pull paths |
+| `Coin core.md` / `Trad core.md` | Evidence-graded variables and research |
+| `Retention Policy.md` | File tiering, archival, pin rules |
+
+When a rule in CLAUDE.md conflicts with the authoritative document, the authoritative document wins.
+
+## Memory Update Rules
+
+- **Update immediately** — don't batch to end of session. When a trade is entered/exited, a regime shifts, or a key variable changes, update the relevant memory file right away.
+- **Two memory systems exist and both must be maintained:**
+  - `/mnt/Trade/Memory.md` — the trader's working memory
+  - `/mnt/.auto-memory/` — Claude's persistent memory across sessions
+- **Use absolute dates** (YYYY-MM-DD), never relative dates
+
+## Workspace File Map
+
+**Framework (always live at root, never archived):**
+`Methodology Prompt.md`, `Risk Rules.md`, `Data Sources.md`, `Coin core.md`, `Trad core.md`, `Memory.md`, `Retention Policy.md`
+
+**Dated producer outputs (tiered per Retention Policy):**
+`market-brief-YYYY-MM-DD.md`, `trade-rec-YYYY-MM-DD.md`, `report-YYYY-MM-DD-trade-rec.html`, `us-close-snapshot-YYYY-MM-DD.md`, `weekly-review-YYYY-MM-DD.md`, `news-events/news-YYYY-MM-DD.md`, `audit-data-staging-YYYY-MM-DD.md`
+
+**Performance tracking:**
+`hypo-ledger-2026.md` (append-only signal ledger), `signal-review-YYYY-MM-DD.md`, `audit-data-missing-tracker.md`
+
+**Compute:** `scripts/compute_audit_additions.py`
+
+**Skills (installed):**
+- *Production (scheduled):* `market-brief`, `news-events`, `daily-trade-rec`, `pipeline-recovery`, `positions-monitor`, `signal-review`, `literature-review`, `quarterly-methodology-review`, `system-review`
+- *On-demand (event-triggered):* `trade-update`
+- *Utility (file formats):* `docx`, `pdf`, `pptx`, `xlsx`
+- *Meta:* `schedule`, `setup-cowork`, `skill-creator`
+
+## Scheduled Pipeline (all times UTC+8 local)
+
+Authoritative task IDs, crons, and dependency order live in `/mnt/.auto-memory/reference_pipeline.md`. Summary:
+
+| Time | Task ID | Produces |
+|------|---------|----------|
+| 07:30 Mon–Fri | `us-close-snapshot-730am-v2` | `us-close-snapshot-YYYY-MM-DD.md` |
+| 09:00 Mon–Fri | `positions-monitor-intraday-9am` | `positions-monitor-YYYY-MM-DD.md` (silent-when-OK) |
+| 19:45 Mon–Fri | `preflight-audit-data-1945pm` | `.pipeline-health.json` + `audit-data-staging-YYYY-MM-DD.md` |
+| 20:00 Mon–Fri | `daily-market-brief-8pm-v2` | `market-brief-YYYY-MM-DD.md` |
+| 20:00 Mon–Fri | `daily-news-events-810pm-v2` | `news-events/news-YYYY-MM-DD.md` |
+| 21:00 Mon–Fri | `daily-trade-recommendation-820pm-v2` | `trade-rec-YYYY-MM-DD.md` + HTML + SignalLedger append |
+| 22:00 Mon–Fri | `pipeline-recovery-830pm` | Recovery/skeleton files only if upstream failed |
+| 18:00 Sun | `weekly-regime-signal-review-6pm` | `weekly-review-YYYY-MM-DD.md` + `signal-review-YYYY-MM-DD.md` + ledger mark-to-market |
+| 21:00 Sun | `workspace-tidy-sunday-9pm` | Archive moves + memory consolidation + diagnostics |
+| 19:00, 1st of Jan/Apr/Jul/Oct | `quarterly-methodology-review` | Quarterly meta-review + VariableRegistry updates |
+| 15:00, 1st of Jan/Jul | `semi-annual-literature-review` | Academic factor scan → candidate pipeline |
+| 19:00, 1st Sun of May/Nov | `system-review-semi-annual` | Strategic architecture + efficiency audit |
+
+## Key Behavioral Rules
+
+- Follow the 8-step methodology sequence. Do not skip steps.
+- Cite evidence grades (A/B/C) when referencing signals.
+- "No trade" is always a valid output. Do not force trades when evidence is mixed.
+- Every sentence in a briefing must either inform a decision or manage a risk. No padding.
+- Do not pad with Grade C variables unless asked. Do not use stock-to-flow or halving narratives as timing tools.
+- Do not expand the trading universe without permission.
+- Do not present ungrounded assertions as evidence.
+- Fail-loud on MISSING Grade A variables — never silently infer.

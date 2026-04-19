@@ -1,0 +1,10 @@
+{
+  "variable": "VIX_TEST2",
+  "value": 18.5,
+  "unit": "index",
+  "timestamp": "2026-04-16T10:39:35.972534+08:00",
+  "source_tier": 1,
+  "source_name": "test",
+  "staleness_window_days": 1,
+  "raw_response_snippet": ""
+}

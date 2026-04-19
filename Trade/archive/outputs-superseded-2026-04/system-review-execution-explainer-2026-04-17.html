@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>System Review Execution — What Was Fixed & Why</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1419;
+    --panel: #1a1f26;
+    --text: #e6e9ef;
+    --muted: #9aa3b0;
+    --accent: #5eead4;
+    --warn: #f87171;
+    --good: #4ade80;
+    --border: #2a313c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 40px 20px;
+    line-height: 1.6;
+  }
+  .container { max-width: 980px; margin: 0 auto; }
+  h1 {
+    font-size: 28px;
+    margin: 0 0 6px;
+    color: var(--accent);
+  }
+  h2 {
+    font-size: 20px;
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  h3 {
+    font-size: 16px;
+    margin: 22px 0 8px;
+    color: var(--accent);
+  }
+  .subtitle { color: var(--muted); margin: 0 0 24px; }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+  }
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .status-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--good);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+  .status-card .label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .status-card .value { font-size: 20px; font-weight: 600; margin-top: 4px; }
+  .status-card.pending { border-left-color: #fbbf24; }
+  .chart-wrap { position: relative; height: 360px; margin: 16px 0 8px; }
+  .chart-wrap.tall { height: 420px; }
+  .caption { font-size: 13px; color: var(--muted); margin-top: 8px; font-style: italic; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--accent); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .pill.done { background: rgba(74, 222, 128, 0.15); color: var(--good); border: 1px solid rgba(74, 222, 128, 0.3); }
+  .pill.pending { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
+  .callout {
+    background: rgba(94, 234, 212, 0.08);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    margin: 14px 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+  }
+  .callout.warn {
+    background: rgba(248, 113, 113, 0.08);
+    border-left-color: var(--warn);
+  }
+  .big-number {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px 0;
+  }
+  .big-number .item .v { font-size: 34px; font-weight: 700; color: var(--accent); }
+  .big-number .item .v.warn { color: var(--warn); }
+  .big-number .item .v.good { color: var(--good); }
+  .big-number .item .l { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .arrow { font-size: 28px; color: var(--muted); }
+  code { background: #000; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: var(--accent); }
+  .footnote { font-size: 12px; color: var(--muted); margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>System Review Execution — What Was Fixed & Why</h1>
+<p class="subtitle">2026-04-17 — all ten execution items applied. Here is what it actually did to your token budget.</p>
+
+<h2>1. Status — all ten done</h2>
+
+<div class="status-grid">
+  <div class="status-card"><div class="label">Execution items applied</div><div class="value">10 / 10</div></div>
+  <div class="status-card"><div class="label">Skills folder</div><div class="value">18 &rarr; 17</div></div>
+  <div class="status-card pending"><div class="label">Passive verification</div><div class="value">Sun 21:00 &amp; Mon 07:30</div></div>
+  <div class="status-card"><div class="label">Next audit</div><div class="value">Sun 2026-05-03</div></div>
+</div>
+
+<table>
+  <thead><tr><th>Item</th><th>What it did</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td><b>E1</b> &mdash; us-close-snapshot prepend</td><td>Stops the task from reading the full framework every fire</td><td><span class="pill done">DONE</span></td></tr>
+    <tr><td><b>E1</b> &mdash; workspace-tidy prepend</td><td>Same fix applied to the Sunday housekeeping task</td><td><span class="pill done">DONE</span></td></tr>
+    <tr><td><b>A1</b> &mdash; positions-monitor cron</td><td>New 09:00 Mon&ndash;Fri watchdog over open positions</td><td><span class="pill done">LIVE</span></td></tr>
+    <tr><td><b>A1</b> &mdash; positions-monitor skill</td><td>Enables on-demand invocation ("check positions")</td><td><span class="pill done">INSTALLED</span></td></tr>
+    <tr><td><b>E4</b> &mdash; catalysts_cache helper</td><td>Shared JSON cache for catalyst calendar</td><td><span class="pill done">LIVE</span></td></tr>
+    <tr><td><b>E4</b> &mdash; news-events writer</td><td>news-events now writes the cache</td><td><span class="pill done">INSTALLED</span></td></tr>
+    <tr><td><b>E4</b> &mdash; market-brief reader</td><td>brief reads the cache instead of re-deriving</td><td><span class="pill done">INSTALLED</span></td></tr>
+    <tr><td><b>E4</b> &mdash; daily-trade-rec reader</td><td>trade-rec reads the cache too</td><td><span class="pill done">INSTALLED</span></td></tr>
+    <tr><td><b>Cleanup</b> &mdash; system-review.skill</td><td>Drops references to deleted consolidate-memory</td><td><span class="pill done">INSTALLED</span></td></tr>
+    <tr><td><b>Cleanup</b> &mdash; consolidate-memory folder</td><td>Stale skill directory deleted</td><td><span class="pill done">DONE</span></td></tr>
+  </tbody>
+</table>
+
+<h2>2. The core problem &mdash; the "boilerplate leak"</h2>
+
+<div class="panel">
+<p>Every scheduled task in your trading workspace is required by <code>CLAUDE.md</code> to run a <b>Session Startup Protocol</b> before doing any work: read the 8-step Methodology Prompt, Risk Rules, Data Sources, Coin Core, Trad Core, Memory.md, and the latest market brief. That is roughly <b>30&ndash;50K tokens of reading</b> before the task even starts.</p>
+
+<p>For the <b>trade recommendation</b> task, that is correct &mdash; the rec is a live trading decision and it must see the full methodology. For <b>utility tasks</b> it is pure waste:</p>
+
+<ul>
+  <li><b>us-close-snapshot</b> just records what US markets did between 16:00 and 07:30 local. It doesn't need Risk Rules or the Trad Core to do that.</li>
+  <li><b>workspace-tidy</b> archives old files and compacts memory. It doesn't need to know the 8-step framework to move a file from <code>/Trade/</code> to <code>/archive/</code>.</li>
+</ul>
+
+<p>Both tasks were reading the whole framework anyway, because the CLAUDE.md rule is global. That's the leak.</p>
+</div>
+
+<h3>How big was the leak?</h3>
+
+<div class="chart-wrap">
+  <canvas id="chartLeak"></canvas>
+</div>
+<p class="caption">Each bar is the token count of a single scheduled run. For us-close-snapshot, about 40K of the 52K it burned was the framework it didn't need. For workspace-tidy, about 35K of 43K. The "useful work" portion (the actual snapshot / archival logic) is small &mdash; everything above it was boilerplate.</p>
+
+<h2>3. The fix &mdash; read-override prepend</h2>
+
+<div class="panel">
+<p>The fix is a short block pasted at the top of each task's SKILL.md that says, in effect:</p>
+<p style="margin-left:20px; font-style: italic; color: var(--accent);">"You are a utility task. Skip the Session Startup Protocol. Here are the three specific files you need &mdash; read those and proceed."</p>
+<p>Because the task prompt is read <i>before</i> the global CLAUDE.md rule triggers, this prepend wins. The global rule still applies to every other task &mdash; only these two utility tasks are carved out.</p>
+<p>This is zero-risk: if it doesn't work, the task just does its old behaviour. A timestamped <code>.bak-*</code> copy of the original file sits next to each modified file until passive verification confirms nothing regressed.</p>
+</div>
+
+<h2>4. Monthly token burn &mdash; before vs after</h2>
+
+<div class="chart-wrap tall">
+  <canvas id="chartMonthly"></canvas>
+</div>
+<p class="caption">Monthly tokens burned by each scheduled task. us-close-snapshot was 29% of total burn (~1.15M/month); after E1 it drops to roughly 0.3M. workspace-tidy drops similarly. E4 shaves a smaller amount off news-events, brief, and trade-rec because each stops re-deriving the same catalyst ledger. A1 (positions-monitor) adds ~220K of new spend, but it's spend on coverage that used to be zero.</p>
+
+<h2>5. Net effect on your budget</h2>
+
+<div class="panel">
+<div class="big-number">
+  <div class="item"><div class="v warn">~3.94M</div><div class="l">before &mdash; tokens / month</div></div>
+  <div class="arrow">&rarr;</div>
+  <div class="item"><div class="v good">~2.7&ndash;3.3M</div><div class="l">after &mdash; tokens / month</div></div>
+  <div class="arrow">=</div>
+  <div class="item"><div class="v">+640K to +1.2M</div><div class="l">freed for trade-rec context</div></div>
+</div>
+</div>
+
+<div class="chart-wrap">
+  <canvas id="chartNet"></canvas>
+</div>
+<p class="caption">Everything above the dashed line is pure savings. Everything below (the red A1 bar) is new spend on the positions-monitor gap that used to be uncovered. The point of the efficiency work was <i>not</i> to minimise tokens &mdash; it was to free enough headroom to fund coverage you were missing.</p>
+
+<h2>6. Why the non-token fixes matter</h2>
+
+<h3>A1 &mdash; positions-monitor (the monitoring gap)</h3>
+<p>Before today, nothing scheduled ever watched your open positions intraday. INTC, Gold, and QQQ were being held with no automated check on stop buffer, time-to-invalidation, earnings-window proximity, or portfolio-heat drift. If a thesis broke mid-session, only your own vigilance would catch it. The new cron runs every weekday at 09:00 UTC+8 and writes a flag report <i>only if something is off</i> &mdash; silent when OK.</p>
+
+<h3>E4 &mdash; shared catalysts cache</h3>
+<p>news-events, market-brief, and daily-trade-rec were each independently re-deriving the same catalyst calendar (Fed meetings, CPI prints, earnings dates, etc.). Three times the work, and with the added risk that one task's catalyst view could silently disagree with another's. Now news-events writes a canonical JSON cache, and brief + rec read it. Saves ~80&ndash;120K tokens/month and eliminates the cross-file-inconsistency class of bug.</p>
+
+<h3>consolidate-memory folder</h3>
+<p>That skill had been removed from references but its files remained on disk. Cosmetic cleanup, no behavioural effect &mdash; but if it reappears after a plugin update, that's an Anthropic-side default being pushed, and the fix is thumbs-down feedback, not another local delete.</p>
+
+<h2>7. What happens next</h2>
+
+<div class="callout">
+The E1 fix is live but <b>not yet verified</b>. The confirmation is passive: the next time each task fires, its token count drops into the projected range.
+<ul>
+  <li><b>Sun 2026-04-19 21:00</b> &mdash; workspace-tidy fires. Expect ~8&ndash;14K tokens (was ~43K).</li>
+  <li><b>Mon 2026-04-20 07:30</b> &mdash; us-close-snapshot fires. Expect ~12&ndash;20K tokens (was ~52K).</li>
+</ul>
+If those drop as expected, delete the <code>.bak-YYYYMMDD-HHMMSS</code> backup files sitting next to each modified SKILL.md. If they don't, the backups restore the prior behaviour instantly.
+</div>
+
+<div class="callout warn">
+<b>Residual risk.</b> The <code>consolidate-memory</code> folder lives inside a plugin-managed AppData bundle. If a future plugin update re-syncs the default skills list, the folder can reappear. Root cause would be an Anthropic-side default &mdash; resolution is the thumbs-down feedback loop, not another manual delete.
+</div>
+
+<p class="footnote">
+Sources: <code>patches/README.md</code>, <code>.auto-memory/project_system_review_execution_2026-04-17.md</code>, <code>system-review-2026-04-17.md</code>.
+Next architecture checkpoint: <code>system-review-semi-annual</code> task, Sunday 2026-05-03 at 19:00 UTC+8.
+</p>
+
+</div>
+
+<script>
+Chart.defaults.color = '#9aa3b0';
+Chart.defaults.borderColor = '#2a313c';
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+
+// Chart 1: Per-fire token leak
+new Chart(document.getElementById('chartLeak'), {
+  type: 'bar',
+  data: {
+    labels: ['us-close-snapshot (per fire)', 'workspace-tidy (per fire)'],
+    datasets: [
+      { label: 'Useful work', data: [12, 8], backgroundColor: '#4ade80' },
+      { label: 'Boilerplate leak (framework reads it didn\'t need)', data: [40, 35], backgroundColor: '#f87171' }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: 'Tokens per single scheduled fire (thousands, K)', color: '#e6e9ef', font: { size: 14 } },
+      legend: { position: 'bottom' },
+      tooltip: { callbacks: { label: (c) => c.dataset.label + ': ~' + c.raw + 'K tokens' } }
+    },
+    scales: {
+      x: { stacked: true, title: { display: true, text: 'Tokens (K)' } },
+      y: { stacked: true }
+    }
+  }
+});
+
+// Chart 2: Monthly burn before/after per task
+const tasks = ['us-close-snapshot', 'daily-trade-rec', 'market-brief', 'preflight-audit', 'news-events', 'workspace-tidy', 'weekly-review', 'pipeline-recovery', 'positions-monitor (new)', 'other'];
+const before = [1155, 990, 528, 484, 330, 172, 156, 66, 0, 60];
+const after  = [ 300, 990, 480, 484, 290,  40, 156, 66, 220, 60];
+
+new Chart(document.getElementById('chartMonthly'), {
+  type: 'bar',
+  data: {
+    labels: tasks,
+    datasets: [
+      { label: 'Before (K tokens/month)', data: before, backgroundColor: '#f87171' },
+      { label: 'After  (K tokens/month)', data: after,  backgroundColor: '#5eead4' }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: 'Monthly token burn by task — before vs after (thousands, K)', color: '#e6e9ef', font: { size: 14 } },
+      legend: { position: 'bottom' },
+      tooltip: { callbacks: { label: (c) => c.dataset.label + ': ~' + c.raw + 'K' } }
+    },
+    scales: {
+      x: { ticks: { maxRotation: 45, minRotation: 30 } },
+      y: { title: { display: true, text: 'Tokens per month (K)' } }
+    }
+  }
+});
+
+// Chart 3: Net savings breakdown
+new Chart(document.getElementById('chartNet'), {
+  type: 'bar',
+  data: {
+    labels: ['E1 — us-close\n(boilerplate)', 'E1 — workspace-tidy\n(boilerplate)', 'E4 — shared catalysts\ncache', 'A1 — positions-monitor\n(new spend)'],
+    datasets: [{
+      label: 'Monthly token delta (K)',
+      data: [880, 130, 100, -220],
+      backgroundColor: (ctx) => ctx.raw >= 0 ? '#5eead4' : '#f87171'
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: { display: true, text: 'Monthly token delta — savings (green) vs new coverage spend (red)', color: '#e6e9ef', font: { size: 14 } },
+      legend: { display: false },
+      tooltip: { callbacks: { label: (c) => (c.raw >= 0 ? '+' : '') + c.raw + 'K tokens/month' } }
+    },
+    scales: {
+      y: { title: { display: true, text: 'Tokens per month (K)' }, grid: { color: (ctx) => ctx.tick.value === 0 ? '#5eead4' : '#2a313c' } }
+    }
+  }
+});
+</script>
+</body>
+</html>

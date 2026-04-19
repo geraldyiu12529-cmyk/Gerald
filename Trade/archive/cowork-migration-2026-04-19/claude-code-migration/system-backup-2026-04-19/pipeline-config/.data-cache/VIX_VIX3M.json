@@ -1,0 +1,10 @@
+{
+  "variable": "VIX_VIX3M",
+  "value": 0.8744,
+  "unit": "ratio",
+  "timestamp": "2026-04-16T10:22:40.424631+08:00",
+  "source_tier": 1,
+  "source_name": "derived from cached VIX and VIX3M",
+  "staleness_window_days": 1,
+  "raw_response_snippet": ""
+}

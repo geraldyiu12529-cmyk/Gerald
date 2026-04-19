@@ -1,0 +1,10 @@
+{
+  "variable": "Gold",
+  "value": 4897.9,
+  "unit": "USD/oz",
+  "timestamp": "2026-04-17T22:57:03+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (GC=F)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"GC=F\",\"exchangeName\":\"CMX\",\"fullExchangeName\":\"COMEX\",\"instrumentType\":\"FUTURE\",\"firstTradeDate\":967608000,\"regularMarketTime\":1776437823,\"hasPr"
+}

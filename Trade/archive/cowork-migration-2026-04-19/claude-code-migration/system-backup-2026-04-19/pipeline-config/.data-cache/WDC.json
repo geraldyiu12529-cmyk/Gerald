@@ -1,0 +1,10 @@
+{
+  "variable": "WDC",
+  "value": 371.0,
+  "unit": "",
+  "timestamp": "2026-04-17T23:06:52+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (WDC)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"WDC\",\"exchangeName\":\"NMS\",\"fullExchangeName\":\"NasdaqGS\",\"instrumentType\":\"EQUITY\",\"firstTradeDate\":278692200,\"regularMarketTime\":1776438412,\"has"
+}

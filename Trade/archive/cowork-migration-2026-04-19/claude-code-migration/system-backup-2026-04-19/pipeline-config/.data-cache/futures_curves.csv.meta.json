@@ -1,0 +1,9 @@
+{
+  "file": "futures_curves.csv",
+  "rows": 80,
+  "latest_date": "",
+  "timestamp": "2026-04-17T20:35:52.713866+08:00",
+  "source_tier": 1,
+  "source_name": "working_dir",
+  "staleness_window_days": 2
+}

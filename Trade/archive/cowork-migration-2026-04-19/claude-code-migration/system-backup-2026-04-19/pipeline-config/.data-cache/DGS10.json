@@ -1,0 +1,10 @@
+{
+  "variable": "DGS10",
+  "value": 4.228,
+  "unit": "percent",
+  "timestamp": "2026-04-17T22:51:24+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (^TNX)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"^TNX\",\"exchangeName\":\"CGI\",\"fullExchangeName\":\"Cboe Indices\",\"instrumentType\":\"INDEX\",\"firstTradeDate\":-252326400,\"regularMarketTime\":1776437484"
+}

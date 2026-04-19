@@ -1,0 +1,10 @@
+{
+  "variable": "USDJPY",
+  "value": 157.924,
+  "unit": "",
+  "timestamp": "2026-04-17T23:07:10+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (JPY=X)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"JPY\",\"symbol\":\"JPY=X\",\"exchangeName\":\"CCY\",\"fullExchangeName\":\"CCY\",\"instrumentType\":\"CURRENCY\",\"firstTradeDate\":846633600,\"regularMarketTime\":1776438430,\"hasP"
+}

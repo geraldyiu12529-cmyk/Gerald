@@ -1,0 +1,62 @@
+{
+  "preflight": {
+    "date": "2026-04-17",
+    "status": "OK",
+    "consecutive_failures": 0,
+    "timestamp": "2026-04-17T20:18:34.176620+08:00",
+    "details": "health.json=OK, staging=OK"
+  },
+  "market-brief": {
+    "date": "2026-04-17",
+    "status": "OK",
+    "consecutive_failures": 0,
+    "timestamp": "2026-04-17T20:45:00+08:00",
+    "file": "market-brief-2026-04-17.md",
+    "version": "v3",
+    "missing_grade_a_count": 0,
+    "notes": "v3 \u2014 residual momentum RESOLVED (all 12 LIVE). INTC Sum +3 confirmed. GOOGL downgraded to +2 (T=0). Grade A MISSING = 0. Oil crash Brent -9.7%. Fresh prices: SPY 710.82, QQQ 649.13, Gold 4897.90."
+  },
+  "news-events": {
+    "date": "2026-04-17",
+    "status": "OK",
+    "consecutive_failures": 0,
+    "timestamp": "2026-04-17T20:20:28+08:00",
+    "file": "news-events/news-2026-04-17.md"
+  },
+  "trade-rec": {
+    "date": "2026-04-17",
+    "status": "OK",
+    "consecutive_failures": 0,
+    "timestamp": "2026-04-17T23:45:00+08:00",
+    "file": "trade-rec-2026-04-17.md",
+    "version": "v1",
+    "signals_logged": 10,
+    "promoted": 0,
+    "near_miss": 10,
+    "missing_grade_a_count": 0,
+    "notes": "v1 \u2014 NO new trade. All four |Sum|>=3 candidates blocked: INTC/Gold/QQQ already OPEN; SPY correlation-blocked by open QQQ. 10 near-misses appended to SignalLedger. Residual-mom moved 5 scorecard legs (GOOGL/INTC/TSLA/PLTR/NVDA). IntCap z=+0.18 and basis-mom non-moving today."
+  },
+  "positions-monitor": {
+    "date": "2026-04-17",
+    "status": "FLAGGED",
+    "flags": [
+      "F1_INTC_stop_buffer",
+      "F5_QQQ_opex_today"
+    ],
+    "critical": false,
+    "consecutive_failures": 0,
+    "timestamp": "2026-04-17T09:00:00+08:00",
+    "file": "positions-monitor-2026-04-17.md"
+  },
+  "recovery": {
+    "date": "2026-04-17",
+    "timestamp": "2026-04-17T23:44:31.927523+08:00",
+    "finished": "2026-04-17T23:44:31.927523+08:00",
+    "in_progress": false,
+    "status": "OK",
+    "actions_taken": [],
+    "recoveries_succeeded": 0,
+    "recoveries_failed": 0,
+    "healthy_short_circuit": true
+  }
+}
