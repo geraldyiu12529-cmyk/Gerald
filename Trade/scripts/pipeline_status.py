@@ -49,14 +49,14 @@ def _resolve_trade_dir() -> Path:
             return p
     # 4. CWD-relative (Claude Code — skill runs from inside workspace)
     cwd = Path('.')
-    if (cwd / 'Memory.md').exists():
+    if (cwd / 'master-data-log.xlsx').exists():
         return cwd
     # 5. Fallback to the original path (will fail loudly if nothing works)
     return direct
 
 TRADE_DIR = _resolve_trade_dir()
-STATUS_PATH = TRADE_DIR / '.pipeline-status.json'
-HEALTH_PATH = TRADE_DIR / '.pipeline-health.json'
+STATUS_PATH = TRADE_DIR / 'pipeline' / '.pipeline-status.json'
+HEALTH_PATH = TRADE_DIR / 'pipeline' / '.pipeline-health.json'
 
 # Task schedule (hour, minute) in UTC+8
 TASK_SCHEDULE = {
@@ -76,7 +76,7 @@ GRACE_MINUTES = 20
 
 # Expected output files per task (relative to TRADE_DIR)
 TASK_OUTPUTS = {
-    'preflight': ['.pipeline-health.json', 'audit-data-staging-{date}.md'],
+    'preflight': ['pipeline/.pipeline-health.json', 'audit-data-staging-{date}.md'],
     'market-brief': ['market-brief-{date}.md'],
     'news-events': ['news-events/news-{date}.md'],
     'trade-rec': ['trade-rec-{date}.md', 'report-{date}-trade-rec.html'],
@@ -85,7 +85,7 @@ TASK_OUTPUTS = {
 # Minimum file sizes (bytes) below which a file is presumed truncated.
 # Single source of truth — tasks and recovery both reference this.
 MIN_SIZES = {
-    '.pipeline-health.json': 100,
+    'pipeline/.pipeline-health.json': 100,
     'audit-data-staging-{date}.md': 200,
     'market-brief-{date}.md': 1500,
     'news-events/news-{date}.md': 300,
@@ -192,7 +192,7 @@ def _file_valid(path: Path, min_size: int, patterns: list) -> tuple:
 class PipelineStatus:
     def __init__(self, trade_dir: Optional[Path] = None):
         self.trade_dir = trade_dir or TRADE_DIR
-        self.status_path = self.trade_dir / '.pipeline-status.json'
+        self.status_path = self.trade_dir / 'pipeline' / '.pipeline-status.json'
         self.now = datetime.now(UTC8)
         self.today = self.now.strftime('%Y-%m-%d')
         self.status, self.load_note = _safe_load_status(self.status_path)
@@ -463,7 +463,7 @@ class PipelineStatus:
                     'task': task,
                     'level': 'CRITICAL',
                     'consecutive': consec,
-                    'action': 'Write to Memory.md',
+                    'action': 'Write to framework/Memory.md',
                 })
             elif consec >= ESCALATION_THRESHOLD:
                 escalations.append({

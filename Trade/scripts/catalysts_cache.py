@@ -27,7 +27,7 @@ def _resolve_trade_dir() -> Path:
     if os.environ.get("TRADE_DIR"):
         return Path(os.environ["TRADE_DIR"])
     for candidate in [Path("/mnt/Trade"), Path(".")]:
-        if (candidate / "Memory.md").exists():
+        if (candidate / "master-data-log.xlsx").exists():
             return candidate
     return Path("/mnt/Trade")
 

@@ -12,14 +12,14 @@ Three questions the weekly review can't answer: (1) Is the signal review asking 
 ## Step 1 — Reads
 
 1. `master-data-log.xlsx` — SignalLedger (all), PerformanceStats, RegimeHistory, AuditAdditionLog
-2. `Methodology Prompt.md` — Top-28 variables, 8-step framework
-3. `Risk Rules.md` — binding constraints
-4. `Data Sources.md` — variable-to-source mapping
-5. `Trad core.md` + `Coin core.md` — research evidence
-6. `Memory.md` — §9 research questions
-7. `memory-lessons.md` — full lessons log
-8. All `signal-review-*.md` files — §7 improvement candidates
-9. Prior `quarterly-methodology-review-*.md` — pending actions
+2. `framework/Methodology Prompt.md` — Top-28 variables, 8-step framework
+3. `framework/Risk Rules.md` — binding constraints
+4. `framework/Data Sources.md` — variable-to-source mapping
+5. `framework/Trad core.md` + `framework/Coin core.md` — research evidence
+6. `framework/Memory.md` — §9 research questions
+7. `framework/memory-lessons.md` — full lessons log
+8. All `*/signal-review-*.md` files (date-folder convention) — §7 improvement candidates
+9. Prior `*/quarterly-methodology-review-*.md` — pending actions
 
 If <30 closed signals: add "Early-stage review" banner.
 
@@ -46,4 +46,4 @@ QR-prefixed proposals. All require Gerald sign-off.
 Weekly review token cost. Are any dimensions burning context for zero insight?
 
 ## Output
-Dated review file + VariableRegistry updates + methodology change proposals.
+Dated review file at `{YYYY-MM-DD}/quarterly-methodology-review-{YYYY-MM-DD}.md` (create folder first: `mkdir -p {YYYY-MM-DD}`) + VariableRegistry updates + methodology change proposals.

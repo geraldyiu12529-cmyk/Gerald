@@ -32,7 +32,7 @@ Every skill, task, and file must pass: (1) Value — moves/protects money or pro
 
 **Phase 6 — Self-audit:** What happened to prior cycle's proposals?
 
-**Phase 7 — Output:** Patch file with concrete changes, Gerald reviews. If skill-creator chaining is enabled, write one patch per MODIFY target to `patches/`.
+**Phase 7 — Output:** Patch file with concrete changes at `{YYYY-MM-DD}/system-review-{YYYY-MM-DD}.md` (+`.html`) — Gerald reviews. Create folder first: `mkdir -p {YYYY-MM-DD}`. If skill-creator chaining is enabled, write one patch per MODIFY target to `patches/`.
 
 ## Scope boundaries
 Does NOT audit: methodology dimensions (quarterly-review), signal marking (signal-review), file retention (retention policy), pipeline failures (pipeline-recovery), variable pipeline (literature-review).

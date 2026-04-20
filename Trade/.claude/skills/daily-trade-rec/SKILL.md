@@ -7,7 +7,7 @@ allowed-tools: Bash(python3 *) Read Write Edit WebSearch Grep Glob
 
 # Daily Trade Recommendation
 
-Decision document, not commentary. Every section either promotes a trade or explains why it didn't. Local timezone UTC+8, canonical slot 20:20. Filename: `trade-rec-{YYYY-MM-DD}.md`.
+Decision document, not commentary. Every section either promotes a trade or explains why it didn't. Local timezone UTC+8, canonical slot 20:20. Path: `{YYYY-MM-DD}/trade-rec-{YYYY-MM-DD}.md`. Create the date folder first: `mkdir -p {YYYY-MM-DD}`.
 
 ---
 
@@ -22,14 +22,16 @@ trade_dir = Path('.')
 utc8 = timezone(timedelta(hours=8))
 today = datetime.now(utc8).strftime('%Y-%m-%d')
 
-prior_recs = sorted(trade_dir.glob('trade-rec-*.md'))
+# Prior recs live under any past YYYY-MM-DD/ folder (new convention) or root (legacy).
+prior_recs = sorted(list(trade_dir.glob('*/trade-rec-*.md')) + list(trade_dir.glob('trade-rec-*.md')))
 last_rec_mtime = os.path.getmtime(prior_recs[-1]) if prior_recs else 0
 
 upstream = [
-    trade_dir / f'market-brief-{today}.md',
-    trade_dir / f'news-events/news-{today}.md',
+    trade_dir / today / f'market-brief-{today}.md',
+    trade_dir / today / f'news-{today}.md',
 ]
-close_snaps = sorted(trade_dir.glob('us-close-snapshot-*.md'))
+# latest us-close-snapshot under any date folder (new) or root (legacy)
+close_snaps = sorted(list(trade_dir.glob('*/us-close-snapshot-*.md')) + list(trade_dir.glob('us-close-snapshot-*.md')))
 if close_snaps:
     upstream.append(close_snaps[-1])
 
@@ -40,14 +42,14 @@ If `changed=False`: append no-change comment to rec file and exit. If True: proc
 
 ## Step 1 — Reads
 
-**Framework:** Memory.md, Methodology Prompt.md, Risk Rules.md, master-data-log.xlsx (RegimeHistory latest row, DailyVariables latest row, SignalLedger OPEN rows for dedup).
+**Framework:** framework/Memory.md, framework/Methodology Prompt.md, framework/Risk Rules.md, master-data-log.xlsx (RegimeHistory latest row, DailyVariables latest row, SignalLedger OPEN rows for dedup).
 
-**Upstream artifacts (today's date):**
-- `market-brief-{today}.md` — regime, scorecard, levels, catalysts
-- `news-events/news-{today}.md` — headlines, geopolitics, surprises
-- `us-close-snapshot-{today}.md` (or most recent prior day)
-- `weekly-review-{most-recent-Sunday}.md` — regime trajectory
-- *(optional)* Latest `signal-review-*.md` §8 Escalation Flags
+**Upstream artifacts (today's date folder `{today}/`):**
+- `{today}/market-brief-{today}.md` — regime, scorecard, levels, catalysts
+- `{today}/news-{today}.md` — headlines, geopolitics, surprises
+- `{today}/us-close-snapshot-{today}.md` (or most recent prior day under `*/us-close-snapshot-*.md`)
+- `{most-recent-Sunday}/weekly-review-{most-recent-Sunday}.md` — regime trajectory
+- *(optional)* Latest `*/signal-review-*.md` §8 Escalation Flags
 
 Missing framework file → stop. Missing upstream → log under Data Gaps, proceed.
 
@@ -105,7 +107,7 @@ Every item must pass or no trade:
 
 ## Step 6 — Write output
 
-Path: `trade-rec-{YYYY-MM-DD}.md`. Section order:
+Path: `{YYYY-MM-DD}/trade-rec-{YYYY-MM-DD}.md`. Create folder first: `mkdir -p {YYYY-MM-DD}`. Section order:
 
 ```
 # Trade Recommendations — YYYY-MM-DD (20:20 UTC+8) — vN
@@ -132,15 +134,15 @@ Path: `trade-rec-{YYYY-MM-DD}.md`. Section order:
 
 ## Step 7 — Apply Memory updates
 
-Memory.md §5 (Watchlist), §2 (Open Positions if entry taken). Append to `memory-lessons.md`. Do not batch.
+framework/Memory.md §5 (Watchlist), §2 (Open Positions if entry taken). Append to `framework/memory-lessons.md`. Do not batch.
 
 ## Step 8 — Append to SignalLedger
 
-Per `Excel-Sync-Protocol.md` §2. Promoted (P###, Type=Promoted, full score fields, Status=OPEN). Near-miss (N###, Type=Near-Miss, blocking leg, Status=OPEN). Dedup against existing OPEN rows. Append-only.
+Per `framework/Excel-Sync-Protocol.md` §2. Promoted (P###, Type=Promoted, full score fields, Status=OPEN). Near-miss (N###, Type=Near-Miss, blocking leg, Status=OPEN). Dedup against existing OPEN rows. Append-only.
 
 ## Step 9.5 — Sync AuditAdditionLog + CatalystLog
 
-Per `Excel-Sync-Protocol.md` §2.
+Per `framework/Excel-Sync-Protocol.md` §2.
 
 ## Step 10 — HTML report
 
@@ -151,4 +153,4 @@ Full report sections: Executive Summary, Data Collected (incl. audit-additions s
 
 Charts: cross-asset risk dashboard, yield curve, real-yield decomposition, Brent curve, BTC addresses, score bars, score stacking, catalyst calendar, gap-closure doughnut, audit-addition status panel.
 
-Path: `report-{YYYY-MM-DD}-trade-rec.html`. Single file, no external CSS.
+Path: `{YYYY-MM-DD}/report-{YYYY-MM-DD}-trade-rec.html`. Single file, no external CSS.

@@ -10,7 +10,7 @@ If a source is flagged as down, the audit-data-compute task
 skips Tier 1 for that source (saving timeout delays) and goes
 straight to Tier 2.
 
-Output: ./.pipeline-health.json
+Output: ./pipeline/.pipeline-health.json
 """
 
 import json
@@ -22,7 +22,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from pipeline_status import TRADE_DIR as _TRADE_DIR
-OUTPUT_PATH = str(_TRADE_DIR / ".pipeline-health.json")
+OUTPUT_PATH = str(_TRADE_DIR / "pipeline" / ".pipeline-health.json")
 
 # Derive cache dir from cache_manager so tests and prod agree on path.
 try:

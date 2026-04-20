@@ -4,7 +4,7 @@ globs: ["trade-rec-*.md", "report-*-trade-rec.html"]
 
 # Risk Rules — Pre-Entry Checklist (binding)
 
-Full rules in `Risk Rules.md`. Summary for quick reference:
+Full rules in `framework/Risk Rules.md`. Summary for quick reference:
 
 **Pre-entry — ALL must pass or no trade:**
 1. |Sum| ≥ 3 with C scored (not blank)

@@ -7,18 +7,18 @@ allowed-tools: Bash(python3 *) Read Write Edit WebSearch Grep Glob
 
 # Daily News & Events Capture
 
-Produces structured news log for `news-events/news-{YYYY-MM-DD}.md`. Consumed by trade-rec upstream synthesis. Local timezone UTC+8, canonical slot 20:10.
+Produces structured news log at `{YYYY-MM-DD}/news-{YYYY-MM-DD}.md` (create folder: `mkdir -p {YYYY-MM-DD}`). Consumed by trade-rec upstream synthesis. Local timezone UTC+8, canonical slot 20:10. `news-events/README.md` (format spec) stays in `news-events/`.
 
 ---
 
 ## Step 1 — Reads
 
-1. `Memory.md` — §2 Open Positions (what's live), §6 Catalysts (48h active tickers)
+1. `framework/Memory.md` — §2 Open Positions (what's live), §6 Catalysts (48h active tickers)
 2. `master-data-log.xlsx` — latest RegimeHistory row via openpyxl
 3. `news-events/README.md` — format spec, hotspot list, source hierarchy, noise filters, political-communication filter
-4. Prior day's `news-{YYYY-MM-DD}.md` — for delta detection
+4. Prior day's `{YYYY-MM-DD}/news-{YYYY-MM-DD}.md` — for delta detection
 
-Do NOT read Methodology Prompt, Risk Rules, or research cores. This skill does not score.
+Do NOT read framework/Methodology Prompt.md, framework/Risk Rules.md, or research cores. This skill does not score.
 
 ## Step 1.5 — Non-overlap check
 
@@ -57,7 +57,7 @@ For FOMC: rate, dot-plot delta, 2Y/10Y reaction, fed-funds-futures surprise bps.
 Universe: INTC, TSM, NVDA, TSLA, AAPL, GOOGL, AMZN, META, PYPL, PLTR, MU, WDC, SPY, QQQ, EWY, XLE.
 
 **Catalyst-filtered strategy:**
-1. Active tickers (from Memory §6 48h list): run `{TICKER} earnings today` + `{TICKER} news today`
+1. Active tickers (from framework/Memory.md §6 48h list): run `{TICKER} earnings today` + `{TICKER} news today`
 2. Catch-all: `tech earnings today`, `semiconductor earnings today` if relevant
 3. Do NOT run individual searches for tickers with no scheduled catalyst.
 
@@ -75,13 +75,13 @@ Universe: INTC, TSM, NVDA, TSLA, AAPL, GOOGL, AMZN, META, PYPL, PLTR, MU, WDC, S
 
 ## Step 8 — Write output
 
-Path: `news-events/news-{YYYY-MM-DD}.md`
+Path: `{YYYY-MM-DD}/news-{YYYY-MM-DD}.md`. Create the folder first: `mkdir -p {YYYY-MM-DD}`.
 
 Sections: 1. Geopolitics & Political Risk | 2. Macro Data Releases (actual vs expected ONLY) | 3. Economic Calendar 48h | 4. Corporate & Tech | 5. Crypto & Regulatory | 6. Central Bank & Policy Communications | 7. Credit & Sovereign | 8. Flash Events (omit if none) | 9. Regime Implications (≤3 lines, signal vs noise handoff to brief)
 
 Every item cites source + date. Apply 3-tier source hierarchy and 10-rule noise filter per README.
 
-## Step 9 — Update Memory.md §6 Catalysts
+## Step 9 — Update framework/Memory.md §6 Catalysts
 
 Rescheduled events, new catalysts, expired catalysts. Do not batch.
 

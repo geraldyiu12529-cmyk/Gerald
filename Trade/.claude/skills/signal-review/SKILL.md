@@ -12,10 +12,10 @@ OOS record: signals logged at rec time with market price, review measures what h
 ## Step 1 — Reads
 
 1. `master-data-log.xlsx` — SignalLedger (all rows), RegimeHistory (latest), PerformanceStats (prior stats), AuditAdditionLog
-2. `Methodology Prompt.md` — score component definitions
-3. `Memory.md` — §2 open positions, §5 watchlist
-4. `memory-lessons.md` — full lessons log
-5. Latest `signal-review-*.md` — carry forward pending observations
+2. `framework/Methodology Prompt.md` — score component definitions
+3. `framework/Memory.md` — §2 open positions, §5 watchlist
+4. `framework/memory-lessons.md` — full lessons log
+5. Latest `*/signal-review-*.md` (date-folder convention; any prior dates) — carry forward pending observations
 
 If SignalLedger empty: stop with message.
 
@@ -59,8 +59,8 @@ Surface 1–3 concrete proposals from the statistical evidence. Each: observatio
 
 ## Step 7 — Write output
 
-Path: `signal-review-{YYYY-MM-DD}.md` + update PerformanceStats sheet + VariableRegistry maintenance.
+Path: `{YYYY-MM-DD}/signal-review-{YYYY-MM-DD}.md` (create folder first: `mkdir -p {YYYY-MM-DD}`) + update PerformanceStats sheet + VariableRegistry maintenance.
 
-## Step 8 — Update Memory.md
+## Step 8 — Update framework/Memory.md
 
-Append to `memory-lessons.md`: date, signal count, win rates, escalation flags, improvement candidates.
+Append to `framework/memory-lessons.md`: date, signal count, win rates, escalation flags, improvement candidates.

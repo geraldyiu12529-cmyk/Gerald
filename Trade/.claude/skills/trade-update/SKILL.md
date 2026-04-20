@@ -10,8 +10,8 @@ allowed-tools: Bash(python3 *) Read Write Edit Grep Glob
 One event = four layers updated in order, no batching. Interactive only (no schedule).
 
 ## Step 1 — Reads
-1. `Trade-Execution-Protocol.md` — authoritative procedure
-2. `Memory.md` — §2 Open Positions, §5 Watchlist, §7 Closed Trades
+1. `framework/Trade-Execution-Protocol.md` — authoritative procedure
+2. `framework/Memory.md` — §2 Open Positions, §5 Watchlist, §7 Closed Trades
 3. `master-data-log.xlsx` → SignalLedger sheet (find rows to update)
 
 ## Step 2 — Classify event
@@ -33,7 +33,7 @@ Confirm all five: Asset, Side, Price, Time (UTC+8 absolute), SignalLedger linkag
 
 ## Step 4 — Four layers, in order
 
-**Layer 1 — Memory.md:** §2 add/remove/edit row. §7 append for exits. Recompute portfolio heat. Update header timestamp.
+**Layer 1 — framework/Memory.md:** §2 add/remove/edit row. §7 append for exits. Recompute portfolio heat. Update header timestamp.
 
 **Layer 2 — SignalLedger (openpyxl):**
 - Fresh entry: Taken=YES on today's Promoted row. Don't overwrite Entry_Price if set.
@@ -42,7 +42,7 @@ Confirm all five: Asset, Side, Price, Time (UTC+8 absolute), SignalLedger linkag
 - Exit: Status (HIT_STOP/HIT_TARGET/EXPIRED/DISCRETIONARY_CLOSE), Exit_Price, Exit_Date, Days_to_Exit, Hypo_PnL_Pct.
 - Stop move: don't edit ATR_Stop, append to Notes.
 
-**Layer 3 — memory-lessons.md:** Append one factual line. Non-routine adjustments only.
+**Layer 3 — framework/memory-lessons.md:** Append one factual line. Non-routine adjustments only.
 
 **Layer 4 — auto-memory (conditional):** Only for repeated/novel patterns.
 
@@ -51,4 +51,4 @@ Confirm all five: Asset, Side, Price, Time (UTC+8 absolute), SignalLedger linkag
 Report: event recorded, signal ID, new portfolio heat, follow-up if any.
 
 ## Reconciliation mode
-Triggered by "reconcile the ledger": diff Memory §2 vs SignalLedger OPEN rows, fix gaps oldest-first, save after each event.
+Triggered by "reconcile the ledger": diff framework/Memory.md §2 vs SignalLedger OPEN rows, fix gaps oldest-first, save after each event.

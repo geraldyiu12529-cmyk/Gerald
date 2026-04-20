@@ -11,19 +11,19 @@ Systematic scan for new variables that could strengthen the framework. Runs semi
 
 ## Step 1 — Reads
 
-1. `Methodology Prompt.md` — current Top-28 variables, framework gaps
-2. `Trad core.md` — cross-asset factors already covered
-3. `Coin core.md` — crypto predictors already covered
-4. `Data Sources.md` — current variable-to-source mapping
-5. `Memory.md` — §9 research questions
-6. `memory-lessons.md` — repeated patterns
+1. `framework/Methodology Prompt.md` — current Top-28 variables, framework gaps
+2. `framework/Trad core.md` — cross-asset factors already covered
+3. `framework/Coin core.md` — crypto predictors already covered
+4. `framework/Data Sources.md` — current variable-to-source mapping
+5. `framework/Memory.md` — §9 research questions
+6. `framework/memory-lessons.md` — repeated patterns
 7. `master-data-log.xlsx` — RegimeHistory, AuditAdditionLog, PerformanceStats
-8. Latest `quarterly-methodology-review-*.md` — variable candidate pipeline
-9. Recent `signal-review-*.md` files — §7 improvement candidates
+8. Latest `*/quarterly-methodology-review-*.md` (date-folder convention) — variable candidate pipeline
+9. Recent `*/signal-review-*.md` files — §7 improvement candidates
 
 ## Step 2 — Identify framework gaps
 
-Analyze: scoring gaps (which S/T/C/R components fail to discriminate?), asset class gaps, regime gaps, temporal gaps, Memory §9 open questions. Produce 3–7 gap list before searching.
+Analyze: scoring gaps (which S/T/C/R components fail to discriminate?), asset class gaps, regime gaps, temporal gaps, framework/Memory.md §9 open questions. Produce 3–7 gap list before searching.
 
 ## Step 3 — Systematic search
 
@@ -48,4 +48,4 @@ Per candidate: component feed (S/T/C/R), asset scope, double-counting gates, dat
 
 ## Step 7 — Write output + VariableRegistry sync
 
-Output: structured review file. Sync Candidate rows to VariableRegistry in master-data-log.xlsx.
+Output: structured review file at `{YYYY-MM-DD}/literature-review-{YYYY-MM-DD}[-scope].md` (create folder first: `mkdir -p {YYYY-MM-DD}`). Sync Candidate rows to VariableRegistry in master-data-log.xlsx.

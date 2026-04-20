@@ -7,14 +7,14 @@ allowed-tools: Bash(python3 *) Read Write Edit WebSearch Grep Glob
 
 # Positions Monitor — Live Book Watchdog
 
-Silent-when-OK. Writes `positions-monitor-YYYY-MM-DD.md` ONLY if flags fire.
+Silent-when-OK. Writes `{YYYY-MM-DD}/positions-monitor-{YYYY-MM-DD}.md` ONLY if flags fire. Create folder first: `mkdir -p {YYYY-MM-DD}`.
 
 ## Reads (and nothing else)
-1. `Memory.md` — §2 Open Positions, §7 Closed Trades
-2. `.pipeline-status.json` (if present)
-3. Latest `us-close-snapshot-*.md`
+1. `framework/Memory.md` — §2 Open Positions, §7 Closed Trades
+2. `pipeline/.pipeline-status.json` (if present)
+3. Latest `*/us-close-snapshot-*.md` (date-folder convention; falls back to root `us-close-snapshot-*.md` if none)
 
-Do NOT read Methodology Prompt, Risk Rules, cores, Data Sources. Overrides startup protocol.
+Do NOT read framework/Methodology Prompt.md, framework/Risk Rules.md, cores, framework/Data Sources.md. Overrides startup protocol.
 
 ## Flag Panel
 
@@ -32,13 +32,13 @@ Do NOT read Methodology Prompt, Risk Rules, cores, Data Sources. Overrides start
 | F10 correlation_gate | pairwise |ρ_60d| > 0.7 | MED |
 
 ## Workflow
-1. Inventory positions from Memory.md §2
+1. Inventory positions from framework/Memory.md §2
 2. Price pull — batched WebSearch per ticker
 3. Compute all 10 flags
-4. If all green: update `.pipeline-status.json` with OK, exit silently
-5. If flags: write `positions-monitor-YYYY-MM-DD.md` with flag table + per-position detail
-6. Update `.pipeline-status.json`
+4. If all green: update `pipeline/.pipeline-status.json` with OK, exit silently
+5. If flags: write `{YYYY-MM-DD}/positions-monitor-{YYYY-MM-DD}.md` (mkdir -p first) with flag table + per-position detail
+6. Update `pipeline/.pipeline-status.json`
 7. Escalate CRITICAL flags to auto-memory
 
 ## Scope
-Read-only observer. Does NOT modify Memory.md, place orders, produce trade recs, or mark signals.
+Read-only observer. Does NOT modify framework/Memory.md, place orders, produce trade recs, or mark signals.

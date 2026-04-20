@@ -480,7 +480,7 @@ def _append_missing_tracker(residmom_primary_ok, residmom_fallback_ok,
                              tracker_path=None):
     if tracker_path is None:
         from pipeline_status import TRADE_DIR
-        tracker_path = str(TRADE_DIR / "audit-data-missing-tracker.md")
+        tracker_path = str(TRADE_DIR / "pipeline" / "audit-data-missing-tracker.md")
     """
     Append a one-row uptime record to the tracker. Feeds the 2026-10-14
     audit-addition demote decision with a normalized denominator (days LIVE,

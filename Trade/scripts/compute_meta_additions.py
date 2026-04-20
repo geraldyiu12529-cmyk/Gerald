@@ -25,7 +25,7 @@ Usage:
 Fail-loud discipline:
   Every Grade A row must print LIVE value OR MISSING with chain-attempt trace.
   Grade B V030 prints MISSING (subscription pending) — not fail-loud yet
-  because the row is explicitly flagged subscription-pending in Data Sources.md.
+  because the row is explicitly flagged subscription-pending in framework/Data Sources.md.
 """
 
 import argparse
@@ -266,7 +266,7 @@ def write_staging_file(output_path, faber, bab, dealer, gpa, cei):
     lines.append(f"")
     lines.append(f"**Computed:** {datetime.now().strftime('%Y-%m-%d %H:%M')} UTC+8")
     lines.append(f"**Consumer:** SHADOW MODE — brief/rec do not consume this file until Phase 3 live_date set.")
-    lines.append(f"**Reference:** `meta-analysis-integration-plan-2026-04-18.md`, `Methodology Prompt.md §Step 1.5`, `Risk Rules.md §1.B, §4.B, §5.A, §8`.")
+    lines.append(f"**Reference:** `meta-analysis-integration-plan-2026-04-18.md`, `framework/Methodology Prompt.md §Step 1.5`, `framework/Risk Rules.md §1.B, §4.B, §5.A, §8`.")
     lines.append(f"")
     lines.append(f"---")
     lines.append(f"")

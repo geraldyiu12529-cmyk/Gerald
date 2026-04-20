@@ -9,21 +9,21 @@ allowed-tools: Bash(python3 *) Read Write Edit WebSearch Grep Glob
 
 Produces the day's US pre-open market brief. Output: regime snapshot, full variable table with Grade A/B readings, asset scorecard. Consumed by trade-rec 25 minutes later.
 
-Local timezone UTC+8. Canonical slot 20:00 UTC+8 = 08:00 ET. Filename: `market-brief-{YYYY-MM-DD}.md`. Overwrite same-day with version bump.
+Local timezone UTC+8. Canonical slot 20:00 UTC+8 = 08:00 ET. Path: `{YYYY-MM-DD}/market-brief-{YYYY-MM-DD}.md`. Create the date folder (`mkdir -p {YYYY-MM-DD}`) before writing. Overwrite same-day with version bump.
 
 ---
 
 ## Step 1 — Reads
 
-1. `Memory.md` — §2 Open Positions, §5 Watchlist, §6 Catalysts. Skip §8.
-2. `Methodology Prompt.md` — 8-step framework, Top-28 variables, evidence grading
+1. `framework/Memory.md` — §2 Open Positions, §5 Watchlist, §6 Catalysts. Skip §8.
+2. `framework/Methodology Prompt.md` — 8-step framework, Top-28 variables, evidence grading
 3. `master-data-log.xlsx` — latest row of `RegimeHistory` (prior regime) and `DailyVariables` (prior readings) via openpyxl
-4. `Data Sources.md` — variable-to-source mapping, fail-loud rule
-5. `Risk Rules.md` — scan for active circuit breaker or heat constraint
+4. `framework/Data Sources.md` — variable-to-source mapping, fail-loud rule
+5. `framework/Risk Rules.md` — scan for active circuit breaker or heat constraint
 
 ## Step 2 — Read audit-data staging
 
-Check `audit-data-staging-{YYYY-MM-DD}.md`. If present: extract residual momentum, intermediary capital z-score, basis-momentum values. If absent: mark all three MISSING (fail-loud).
+Check `{YYYY-MM-DD}/audit-data-staging-{YYYY-MM-DD}.md` (date-folder convention; fall back to root `audit-data-staging-{YYYY-MM-DD}.md` only if the folder form is absent). If present: extract residual momentum, intermediary capital z-score, basis-momentum values. If absent: mark all three MISSING (fail-loud).
 
 ## Step 3 — Pull Grade A variables (batch)
 
@@ -84,20 +84,20 @@ If a repeating observation is noticed (3+ times across briefs): write a Candidat
 
 ## Step 7 — Write output
 
-Path: `market-brief-{YYYY-MM-DD}.md`
+Path: `{YYYY-MM-DD}/market-brief-{YYYY-MM-DD}.md`. Create the folder first: `mkdir -p {YYYY-MM-DD}`.
 
 Sections in order:
 1. **Regime Snapshot** — table: Dimension|State|Change. Three watch variables.
 2. **Key Variable Readings** — table: Bucket|Variable|Reading|Grade|Source. MISSING count + which legs blocked.
 3. **Asset Scorecard** — table: Asset|S|T|C|R|Sum|Notes. Flag |Sum|≥3.
-4. **Watchlist Updates** — changes to Memory.md §5.
+4. **Watchlist Updates** — changes to framework/Memory.md §5.
 5. **Catalyst Calendar** — from cache (Step 5.5).
 6. **Variable Discovery Notes** — per Step 6.
 
-## Step 8 — Update Memory.md
+## Step 8 — Update framework/Memory.md
 
-§5 Watchlist, §6 Catalysts. Append one line to `memory-lessons.md`. Do not batch.
+§5 Watchlist, §6 Catalysts. Append one line to `framework/memory-lessons.md`. Do not batch.
 
 ## Step 9 — Sync to master-data-log.xlsx
 
-Per `Excel-Sync-Protocol.md` §1. Update sheets: DailyVariables, RegimeHistory, DataQuality, CatalystLog.
+Per `framework/Excel-Sync-Protocol.md` §1. Update sheets: DailyVariables, RegimeHistory, DataQuality, CatalystLog.

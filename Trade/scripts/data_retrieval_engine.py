@@ -915,7 +915,7 @@ def _sources_to_variables(down_sources: list) -> list:
 def write_preflight_status(status: dict, output_path: str = None):
     if output_path is None:
         from pipeline_status import TRADE_DIR
-        output_path = str(TRADE_DIR / ".pipeline-health.json")
+        output_path = str(TRADE_DIR / "pipeline" / ".pipeline-health.json")
     """Write preflight status to a JSON file for downstream tasks."""
     with open(output_path, 'w') as f:
         json.dump(status, f, indent=2)
