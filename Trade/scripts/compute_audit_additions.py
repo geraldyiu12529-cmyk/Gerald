@@ -41,7 +41,17 @@ try:
     import numpy as np
     HAS_NUMPY = True
 except ImportError:
-    HAS_NUMPY = False
+    try:
+        import subprocess
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "install", "numpy", "--quiet"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
+        import numpy as np
+        HAS_NUMPY = True
+        print("  [setup] numpy auto-installed successfully")
+    except Exception:
+        HAS_NUMPY = False
 
 SINGLE_STOCK_UNIVERSE = [
     "NVDA", "TSLA", "AAPL", "GOOGL", "AMZN", "META",

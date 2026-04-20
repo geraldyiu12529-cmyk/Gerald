@@ -76,7 +76,7 @@ def _check_data_contract() -> list:
             n_cols = len([c for c in header.split(",") if c.strip()])
             if n_cols < 6:
                 issues.append(
-                    f"ff5_factors.csv has {n_cols} cols, need ≥6 "
+                    f"ff5_factors.csv has {n_cols} cols, need >=6 "
                     f"(Date + 5 factors)"
                 )
         except Exception as e:
@@ -183,9 +183,9 @@ def run_preflight() -> dict:
     if schema_issues:
         print("\n  Schema canary — DATA CONTRACT VIOLATIONS:")
         for issue in schema_issues:
-            print(f"    ✗ {issue}")
+            print(f"    [FAIL] {issue}")
     else:
-        print("\n  Schema canary — OK (stock_returns has SPY, ff5 has ≥6 cols)")
+        print("\n  Schema canary -- OK (stock_returns has SPY, ff5 has >=6 cols)")
 
     # Build skip list — variables whose Tier 1 source is down
     skip_tier1 = []
@@ -250,7 +250,7 @@ def run_preflight() -> dict:
     }
 
     # Write status file
-    with open(OUTPUT_PATH, 'w') as f:
+    with open(OUTPUT_PATH, 'w', encoding='utf-8') as f:
         json.dump(status, f, indent=2)
     print(f"\n  Status written to: {OUTPUT_PATH}")
 
