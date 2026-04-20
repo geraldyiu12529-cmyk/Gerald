@@ -10,12 +10,12 @@
     "date": "2026-04-20",
     "status": "PARTIAL",
     "consecutive_failures": 0,
-    "timestamp": "2026-04-20T20:00:00+08:00",
+    "timestamp": "2026-04-20T20:46:44.455979+08:00",
     "file": "2026-04-20/market-brief-2026-04-20.md",
-    "version": "v1",
-    "missing_grade_a_count": 2,
-    "excel_sync": "SKIPPED",
-    "notes": "v1 \u00e2\u20ac\u201d PARTIAL: 2 MISSING Grade A (NFCI, ACM_TP_10Y). Basis-mom caps clear (WTI cap cancelled post-Hormuz). IntCap z=+1.38 (no R downgrade). MOCK TEST RUN."
+    "version": "v2",
+    "missing_grade_a_count": 3,
+    "excel_sync": "OK",
+    "notes": "v2 \u2014 PARTIAL: 3 MISSING Grade A (residual-mom/IC-z/basis-mom-4of5; numpy compute failure). SPY |Sum|=+3 signal active. P007 stop at risk. All price variables T1/T2 retrieved."
   },
   "news-events": {
     "date": "2026-04-20",
