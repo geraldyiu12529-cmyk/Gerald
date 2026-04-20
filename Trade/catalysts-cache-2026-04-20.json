@@ -1,0 +1,175 @@
+{
+  "date": "2026-04-20",
+  "generated_by": "news-events",
+  "generated_at": "2026-04-20T20:07:54+08:00",
+  "horizon_days": 30,
+  "count": 12,
+  "catalysts": [
+    {
+      "date": "2026-04-20",
+      "event": "USS Spruance seizure of Touska / Iran retaliation vow — Hormuz escalation",
+      "asset_impact": [
+        "Brent",
+        "WTI",
+        "Gold",
+        "VIX",
+        "QQQ",
+        "SPY"
+      ],
+      "severity": "critical",
+      "direction_hint": "bullish_safe_haven",
+      "source": "CNN, NavyTimes, NPR — Tier 2",
+      "notes": "Propulsion disabled; crew evacuated. Iran vowed retaliation; Islamabad talks in doubt."
+    },
+    {
+      "date": "2026-04-22",
+      "event": "Iran-US ceasefire expiry — 3 nuclear sticking points unresolved, Iran FM no talks planned",
+      "asset_impact": [
+        "Brent",
+        "WTI",
+        "Gold",
+        "VIX",
+        "QQQ",
+        "SPY",
+        "USDJPY"
+      ],
+      "severity": "critical",
+      "direction_hint": "binary",
+      "source": "Al Jazeera, Memory.md",
+      "notes": "Binary: deal or resumption of hostilities. Houthi activation risk if no deal."
+    },
+    {
+      "date": "2026-04-22",
+      "event": "TSLA Q1 earnings after close — consensus EPS $0.37/Rev $22.71B; Smart Est $0.30/-21% surprise",
+      "asset_impact": [
+        "TSLA",
+        "QQQ"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "MarketBeat, IG AE, Yahoo Finance",
+      "notes": "Margin pressure + below-consensus deliveries already logged. Terafab capex commentary key."
+    },
+    {
+      "date": "2026-04-23",
+      "event": "INTC Q1 earnings after close — Rev $12.3B / EPS non-GAAP $0.00; options 11-12% swing",
+      "asset_impact": [
+        "INTC",
+        "QQQ"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "Tradingkey, Capital.com, StockTitan",
+      "notes": "Open position. 18A external customer / Terafab = thesis validation. Stock +74% YTD vs $51 consensus PT."
+    },
+    {
+      "date": "2026-04-23",
+      "event": "AMZN Q1 earnings after close",
+      "asset_impact": [
+        "AMZN",
+        "QQQ"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "Memory.md",
+      "notes": "Retail + cloud read."
+    },
+    {
+      "date": "2026-04-28",
+      "event": "FOMC meeting begins (decision + statement Apr 29)",
+      "asset_impact": [
+        "SPY",
+        "QQQ",
+        "Gold",
+        "BTC",
+        "EURUSD",
+        "USDJPY"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "federalreserve.gov",
+      "notes": "March dot-plot: 1 cut in 2026. Rates currently steady. Iran war = uncertainty factor."
+    },
+    {
+      "date": "2026-04-29",
+      "event": "GOOGL Q1 earnings after close (date corrected from Apr 22)",
+      "asset_impact": [
+        "GOOGL",
+        "QQQ"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "Alphabet IR abc.xyz — Tier 1",
+      "notes": "Rev forecast $107B (+19% YoY). Cloud Next Apr 22-24 pre-catalyst. Sum +2 watchlist — needs C+1."
+    },
+    {
+      "date": "2026-04-29",
+      "event": "META Q1 earnings — same day as FOMC decision",
+      "asset_impact": [
+        "META",
+        "QQQ"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "Memory.md",
+      "notes": "Ad rev vs GOOGL. Dual event risk with FOMC."
+    },
+    {
+      "date": "2026-05-12",
+      "event": "April CPI release (BLS)",
+      "asset_impact": [
+        "SPY",
+        "QQQ",
+        "Gold",
+        "BTC",
+        "EURUSD",
+        "USDJPY"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "BLS schedule",
+      "notes": "Inflation follow-through post-energy shock. Key for FOMC path repricing."
+    },
+    {
+      "date": "2026-05-14",
+      "event": "Xi-Trump summit Beijing — tariff de-escalation / Board of Trade mechanism",
+      "asset_impact": [
+        "QQQ",
+        "SPY",
+        "EWY",
+        "INTC",
+        "TSM",
+        "EURUSD"
+      ],
+      "severity": "high",
+      "direction_hint": "bullish_risk",
+      "source": "CNBC, Memory.md",
+      "notes": "Current regime: 30%/10% tariff truce. Deal probability: medium. EWY most leveraged."
+    },
+    {
+      "date": "2026-04-21",
+      "event": "Advance Retail Sales March (8:30am ET) — Chicago Fed proj +0.9% ex-auto, -1.1% real",
+      "asset_impact": [
+        "SPY",
+        "QQQ",
+        "USDJPY"
+      ],
+      "severity": "med",
+      "direction_hint": "neutral",
+      "source": "Census Bureau / Chicago Fed",
+      "notes": "First post-energy-shock demand-side read. Reschedule from Apr 16."
+    },
+    {
+      "date": "2026-04-30",
+      "event": "CLARITY Act Senate committee markup — late April critical window",
+      "asset_impact": [
+        "BTC",
+        "ETH"
+      ],
+      "severity": "med",
+      "direction_hint": "bullish_risk",
+      "source": "Gate.com, Paul Hastings, Galaxy Research",
+      "notes": "Miss this window = near-zero 2026 passage odds per Galaxy Research."
+    }
+  ]
+}

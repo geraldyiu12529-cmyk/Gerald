@@ -18,11 +18,14 @@
     "notes": "v1 \u2014 Sunday weekend run, Tier 3 cache active. PARTIAL: 5 MISSING Grade A (NFCI, ACM_TP_10Y, BTC_3mBasis, Revision_Breadth, Pct_Above_200DMA). WTI basis-cap reversed vs Apr-17 (Hormuz re-closure). Crypto sleeve OFF (Faber). Iran sanctions waiver expired today. Ceasefire expires Apr-22 with talks collapsed."
   },
   "news-events": {
-    "date": "2026-04-17",
+    "date": "2026-04-20",
     "status": "OK",
     "consecutive_failures": 0,
-    "timestamp": "2026-04-17T20:20:28+08:00",
-    "file": "news-events/news-2026-04-17.md"
+    "timestamp": "2026-04-20T20:10:00+08:00",
+    "file": "2026-04-20/news-2026-04-20.md",
+    "catalysts_cached": 12,
+    "categories_covered": 12,
+    "notes": "12 categories covered. Key events: Touska seizure (Hormuz escalation), Iran ceasefire expires Apr-22, INTC/TSLA/GOOGL/AMZN earnings week. GOOGL date corrected to Apr-29 in Memory.md."
   },
   "trade-rec": {
     "date": "2026-04-17",

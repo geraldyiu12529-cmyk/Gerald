@@ -79,7 +79,7 @@ This file is the trader's working memory. Keep it operationally current — it s
 | 2026-04-24 | UMich final April sentiment (10am ET) | SPY/QQQ, DXY | Prelim was 47.6 record low; 98% surveyed pre-ceasefire — potential partial recovery |
 | 2026-04-21 | Advance Retail Sales March | SPY, QQQ, consumer | Demand-side read post-energy shock |
 | 2026-04-22 | TSLA Q1 earnings (after close) | TSLA, QQQ | Consensus EPS $0.38, rev $22.6B |
-| 2026-04-22 | GOOGL Q1 earnings | GOOGL, QQQ | Ad revenue + cloud; could push Sum to +3 |
+| 2026-04-29 | GOOGL Q1 earnings | GOOGL, QQQ | Ad revenue + cloud; could push Sum to +3. **Date corrected 2026-04-20 — confirmed Apr 29 (Alphabet IR abc.xyz), not Apr 22 as previously logged.** |
 | 2026-04-23 | **INTC Q1 earnings (after close)** | **INTC, QQQ** | **Sum = +3 catalyst.** Guided rev $11.7–$12.7B; Terafab validation |
 | 2026-04-23 | AMZN earnings | AMZN, QQQ | Retail/cloud read |
 | 2026-04-28–29 | FOMC | All | Statement + dots; path repricing risk |
