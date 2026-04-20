@@ -14,7 +14,7 @@
     "file": "market-brief-2026-04-19.md",
     "version": "v1",
     "missing_grade_a_count": 5,
-    "excel_sync": "SKIPPED — Python not available in bash env; deferred to next weekday live run",
+    "excel_sync": "SKIPPED \u2014 Python not available in bash env; deferred to next weekday live run",
     "notes": "v1 \u2014 Sunday weekend run, Tier 3 cache active. PARTIAL: 5 MISSING Grade A (NFCI, ACM_TP_10Y, BTC_3mBasis, Revision_Breadth, Pct_Above_200DMA). WTI basis-cap reversed vs Apr-17 (Hormuz re-closure). Crypto sleeve OFF (Faber). Iran sanctions waiver expired today. Ceasefire expires Apr-22 with talks collapsed."
   },
   "news-events": {
@@ -28,17 +28,18 @@
     "notes": "12 categories covered. Key events: Touska seizure (Hormuz escalation), Iran ceasefire expires Apr-22, INTC/TSLA/GOOGL/AMZN earnings week. GOOGL date corrected to Apr-29 in Memory.md."
   },
   "trade-rec": {
-    "date": "2026-04-17",
-    "status": "OK",
-    "consecutive_failures": 0,
-    "timestamp": "2026-04-17T23:45:00+08:00",
-    "file": "trade-rec-2026-04-17.md",
-    "version": "v1",
-    "signals_logged": 10,
+    "date": "2026-04-20",
+    "status": "ABORT",
+    "consecutive_failures": 1,
+    "timestamp": "2026-04-20T21:12:43+08:00",
+    "file": "2026-04-20/trade-rec-2026-04-20.md",
+    "version": "v1-abort",
+    "signals_logged": 0,
     "promoted": 0,
-    "near_miss": 10,
-    "missing_grade_a_count": 0,
-    "notes": "v1 \u2014 NO new trade. All four |Sum|>=3 candidates blocked: INTC/Gold/QQQ already OPEN; SPY correlation-blocked by open QQQ. 10 near-misses appended to SignalLedger. Residual-mom moved 5 scorecard legs (GOOGL/INTC/TSLA/PLTR/NVDA). IntCap z=+0.18 and basis-mom non-moving today."
+    "near_miss": 0,
+    "missing_grade_a_count": null,
+    "cloud_ingested": 3,
+    "notes": "HARD ABORT via pipeline integrity pre-check \u2014 market-brief-2026-04-20.md missing. Skill not loaded. No SignalLedger/Memory writes. 3 cloud supplementary files ingested. Prior consecutive_failures=0 -> 1."
   },
   "positions-monitor": {
     "date": "2026-04-17",
