@@ -1,0 +1,10 @@
+{
+  "variable": "QQQ",
+  "value": 648.85,
+  "unit": "",
+  "timestamp": "2026-04-18T04:00:00+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (QQQ)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"QQQ\",\"exchangeName\":\"NGM\",\"fullExchangeName\":\"NasdaqGM\",\"instrumentType\":\"ETF\",\"firstTradeDate\":921076200,\"regularMarketTime\":1776456000,\"hasPre"
+}

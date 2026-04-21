@@ -1,0 +1,32 @@
+{
+  "file": "stock_returns.csv",
+  "rows": 13,
+  "latest_date": "",
+  "timestamp": "2026-04-20T20:03:13.260789+08:00",
+  "source_tier": 1,
+  "source_name": "audit_data_compute",
+  "staleness_window_days": 30,
+  "schema": {
+    "contract_version": 1,
+    "schema_version": 2,
+    "header_cols": [
+      "DATE",
+      "SPY",
+      "NVDA",
+      "TSLA",
+      "AAPL",
+      "GOOGL",
+      "AMZN",
+      "META",
+      "TSM",
+      "INTC",
+      "MU",
+      "PYPL",
+      "PLTR",
+      "WDC"
+    ],
+    "cols_hash": "f33c25f3116c",
+    "has_required": true,
+    "missing_cols": []
+  }
+}

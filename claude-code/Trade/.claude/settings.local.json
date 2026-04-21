@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__fa60a538-6fb1-4c90-8c9b-8db7cba53dbc__search_files",
+      "mcp__fa60a538-6fb1-4c90-8c9b-8db7cba53dbc__read_file_content",
+      "Bash(python -c ' *)",
+      "Bash(python scripts/pack_daily.py --section F --source 2026-04-20/trade-rec-2026-04-20.md --status ABORT)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(python scripts/pack_daily.py --section F --source 2026-04-20/trade-rec-2026-04-20.md --status \"ABORT\")",
+      "Read(//c/Users/Lokis/OneDrive/Desktop/T.system/Trade/**)",
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:v.get\\('date','?'\\) + ' / ' + v.get\\('status','?'\\) for k,v in d.items\\(\\) if isinstance\\(v,dict\\)}, indent=2\\)\\)\")",
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d['trade-rec'], indent=2\\)\\)\")",
+      "PowerShell($today = \"2026-04-21\"; $base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; if \\(-not \\(Test-Path \"$base\\\\$today\"\\)\\) { New-Item -ItemType Directory -Path \"$base\\\\$today\" -Force | Out-Null; \"CREATED $today\" } else { \"EXISTS $today\"; Get-ChildItem \"$base\\\\$today\" -Name })",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; $today = \"2026-04-21\"; $brief = \"$base\\\\$today\\\\market-brief-$today.md\"; $news = \"$base\\\\$today\\\\news-$today.md\"; $staging = \"$base\\\\$today\\\\audit-data-staging-$today.md\"; $missing = @\\(\\); if \\(-not \\(Test-Path $brief\\)\\) { $missing += \"market-brief-$today.md\" }; if \\(-not \\(Test-Path $news\\)\\) { $missing += \"news-$today.md\" }; if \\(-not \\(Test-Path $staging\\)\\) { $missing += \"audit-data-staging-$today.md\" }; \"MISSING: $\\($missing -join ', '\\)\"; \"BRIEF EXISTS: $\\(Test-Path $brief\\)\")",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; if \\(Test-Path \"$base\\\\scripts\\\\pack_daily.py\"\\) { \"PACK_SCRIPT EXISTS\" } else { \"PACK_SCRIPT MISSING\" }; if \\(Get-Command python -ErrorAction SilentlyContinue\\) { python --version } else { \"PYTHON MISSING\" })",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; $today = \"2026-04-21\"; & python \"$base\\\\scripts\\\\pack_daily.py\" --section F --source \"$base\\\\$today\\\\trade-rec-$today.md\" --status \"ABORT\" 2>&1 | Out-String)",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; if \\(Test-Path \"$base\\\\.git\"\\) { \"GIT REPO\" } else { \"NOT A REPO\"; if \\(Test-Path \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\.git\"\\) { \"PARENT IS REPO\" } })",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; Get-ChildItem \"$base\\\\2026-04-20\" -Name 2>&1)",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; Get-ChildItem \"$base\\\\2026-04-19\" -Name 2>&1)",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\T.system\\\\Trade\"; Get-ChildItem \"$base\\\\2026-04-20\" -Name; \"---\"; if \\(Test-Path \"$base\\\\pipeline\\\\.pipeline-status.json\"\\) { Get-Content \"$base\\\\pipeline\\\\.pipeline-status.json\" -Raw })",
+      "PowerShell($src = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\T.system\\\\Trade\\\\2026-04-20\"; $dst = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\\\\2026-04-20\"; Copy-Item \"$src\\\\market-brief-2026-04-20.md\" \"$dst\\\\market-brief-2026-04-20.md\" -Force; Copy-Item \"$src\\\\audit-data-staging-2026-04-20.md\" \"$dst\\\\audit-data-staging-2026-04-20.md\" -Force; Get-ChildItem $dst -Name)",
+      "Bash(python scripts/pack_daily.py --section G --source 2026-04-21/positions-monitor-2026-04-21.md --status \"flags\")",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; & python \"$base\\\\scripts\\\\pack_daily.py\" --section F --source \"$base\\\\2026-04-20\\\\trade-rec-2026-04-20.md\" --status \"RECOVERED\" 2>&1 | Out-String)",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; & python \"$base\\\\scripts\\\\pack_daily.py\" --section F --source \"$base\\\\2026-04-20\\\\trade-rec-2026-04-20.md\" --status \"RECOVERED\" --date 2026-04-20 2>&1 | Out-String)",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; Get-Content \"$base\\\\2026-04-21\\\\daily-2026-04-21.md\" -TotalCount 30)",
+      "PowerShell($base = \"C:\\\\Users\\\\Lokis\\\\OneDrive\\\\Desktop\\\\Trade\\\\Gerald\\\\Trade\"; & python \"$base\\\\scripts\\\\pack_daily.py\" --section F --source \"$base\\\\2026-04-21\\\\trade-rec-2026-04-21.md\" --status \"ABORT\" --date 2026-04-21 2>&1 | Out-String)"
+    ]
+  }
+}

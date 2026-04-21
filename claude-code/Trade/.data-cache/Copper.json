@@ -1,0 +1,10 @@
+{
+  "variable": "Copper",
+  "value": 6.036,
+  "unit": "USD/lb",
+  "timestamp": "2026-04-20T20:00:28+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (HG=F)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"HG=F\",\"exchangeName\":\"CMX\",\"fullExchangeName\":\"COMEX\",\"instrumentType\":\"FUTURE\",\"firstTradeDate\":967608000,\"regularMarketTime\":1776686428,\"hasPr"
+}

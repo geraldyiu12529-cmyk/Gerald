@@ -1,0 +1,10 @@
+{
+  "variable": "EWJ",
+  "value": 90.19,
+  "unit": "",
+  "timestamp": "2026-04-18T04:00:00+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (EWJ)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"EWJ\",\"exchangeName\":\"PCX\",\"fullExchangeName\":\"NYSEArca\",\"instrumentType\":\"ETF\",\"firstTradeDate\":827159400,\"regularMarketTime\":1776456000,\"hasPre"
+}

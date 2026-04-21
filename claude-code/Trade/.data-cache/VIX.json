@@ -1,0 +1,10 @@
+{
+  "variable": "VIX",
+  "value": 19.36,
+  "unit": "index",
+  "timestamp": "2026-04-20T19:55:16+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (^VIX)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"^VIX\",\"exchangeName\":\"CXI\",\"fullExchangeName\":\"Cboe Indices\",\"instrumentType\":\"INDEX\",\"firstTradeDate\":631267200,\"regularMarketTime\":1776686116,"
+}

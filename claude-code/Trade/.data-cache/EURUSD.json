@@ -1,0 +1,10 @@
+{
+  "variable": "EURUSD",
+  "value": 1.1763,
+  "unit": "",
+  "timestamp": "2026-04-20T20:09:40+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (EURUSD=X)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"EURUSD=X\",\"exchangeName\":\"CCY\",\"fullExchangeName\":\"CCY\",\"instrumentType\":\"CURRENCY\",\"firstTradeDate\":1070236800,\"regularMarketTime\":1776686980,\""
+}

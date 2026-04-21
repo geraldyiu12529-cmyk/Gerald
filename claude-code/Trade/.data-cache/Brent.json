@@ -1,0 +1,10 @@
+{
+  "variable": "Brent",
+  "value": 94.83,
+  "unit": "USD/bbl",
+  "timestamp": "2026-04-20T20:00:27+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (BZ=F)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"BZ=F\",\"exchangeName\":\"NYM\",\"fullExchangeName\":\"NY Mercantile\",\"instrumentType\":\"FUTURE\",\"firstTradeDate\":1185768000,\"regularMarketTime\":17766864"
+}

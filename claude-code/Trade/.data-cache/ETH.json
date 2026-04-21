@@ -1,0 +1,10 @@
+{
+  "variable": "ETH",
+  "value": 2313.3,
+  "unit": "USD",
+  "timestamp": "2026-04-20T20:10:31+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (ETH-USD)",
+  "staleness_window_days": 0.17,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"ETH-USD\",\"exchangeName\":\"CCC\",\"fullExchangeName\":\"CCC\",\"instrumentType\":\"CRYPTOCURRENCY\",\"firstTradeDate\":1510185600,\"regularMarketTime\":1776687"
+}

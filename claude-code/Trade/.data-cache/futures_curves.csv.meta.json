@@ -1,0 +1,22 @@
+{
+  "file": "futures_curves.csv",
+  "rows": 80,
+  "latest_date": "",
+  "timestamp": "2026-04-20T20:03:13.314231+08:00",
+  "source_tier": 1,
+  "source_name": "audit_data_compute",
+  "staleness_window_days": 2,
+  "schema": {
+    "contract_version": 1,
+    "schema_version": 0,
+    "header_cols": [
+      "DATE",
+      "COMMODITY",
+      "F1",
+      "F2"
+    ],
+    "cols_hash": "980dd1a96845",
+    "has_required": true,
+    "missing_cols": []
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variable": "VIX3M",
+  "value": 20.51,
+  "unit": "index",
+  "timestamp": "2026-04-18T04:15:01+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (^VIX3M)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"^VIX3M\",\"exchangeName\":\"WCB\",\"fullExchangeName\":\"Chicago Options\",\"instrumentType\":\"INDEX\",\"firstTradeDate\":1153143000,\"regularMarketTime\":17764"
+}

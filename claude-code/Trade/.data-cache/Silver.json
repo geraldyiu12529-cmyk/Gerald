@@ -1,0 +1,10 @@
+{
+  "variable": "Silver",
+  "value": 79.915,
+  "unit": "USD/oz",
+  "timestamp": "2026-04-20T20:00:29+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (SI=F)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"SI=F\",\"exchangeName\":\"CMX\",\"fullExchangeName\":\"COMEX\",\"instrumentType\":\"FUTURE\",\"firstTradeDate\":967608000,\"regularMarketTime\":1776686429,\"hasPr"
+}

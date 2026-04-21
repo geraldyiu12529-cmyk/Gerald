@@ -1,0 +1,10 @@
+{
+  "variable": "ResidMom_INTC",
+  "value": 13.89,
+  "unit": "percent",
+  "timestamp": "2026-04-17T20:35:17.372112+08:00",
+  "source_tier": 1,
+  "source_name": "compute_audit_additions",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "t_score=1"
+}
