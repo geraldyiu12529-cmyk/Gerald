@@ -28,18 +28,18 @@
     "notes": "12 categories covered. Key events: Touska seizure (Hormuz escalation), Iran ceasefire expires Apr-22, INTC/TSLA/GOOGL/AMZN earnings week. GOOGL date corrected to Apr-29 in Memory.md."
   },
   "trade-rec": {
-    "date": "2026-04-20",
+    "date": "2026-04-21",
     "status": "ABORT",
-    "consecutive_failures": 2,
-    "timestamp": "2026-04-20T21:46:12+08:00",
-    "file": "2026-04-20/trade-rec-2026-04-20.md",
-    "version": "v2-abort",
+    "consecutive_failures": 3,
+    "timestamp": "2026-04-21T20:00:00+08:00",
+    "file": "2026-04-21/trade-rec-2026-04-21.md",
+    "version": "v1-abort",
     "signals_logged": 0,
     "promoted": 0,
     "near_miss": 0,
     "missing_grade_a_count": null,
-    "cloud_ingested": 3,
-    "notes": "HARD ABORT via pipeline integrity pre-check (re-run #2) \u2014 market-brief-2026-04-20.md STILL missing at 21:45. Skill not loaded. No SignalLedger/Memory writes. Cloud files already present from prior 21:12 run. Prior consecutive_failures=1 -> 2."
+    "cloud_ingested": 0,
+    "notes": "HARD ABORT \u2014 market-brief-2026-04-21.md MISSING (also news + audit-staging missing). Cloud ingest 0/3 \u2014 no T.system-cloud files for 2026-04-21. Skill not loaded. No SignalLedger/Memory writes. Third consecutive failure: upstream pipeline appears broken (market-brief-daily and news-events-daily both did not produce 2026-04-21 outputs). Recommend pipeline-recovery Phase B."
   },
   "positions-monitor": {
     "date": "2026-04-17",
