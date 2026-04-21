@@ -18,11 +18,13 @@
     "notes": "v2 \u2014 PARTIAL: 3 MISSING Grade A (residual-mom/IC-z/basis-mom-4of5; numpy compute failure). SPY |Sum|=+3 signal active. P007 stop at risk. All price variables T1/T2 retrieved."
   },
   "news-events": {
-    "date": "2026-04-20",
+    "date": "2026-04-21",
     "status": "OK",
     "consecutive_failures": 0,
-    "timestamp": "2026-04-20T20:10:00+08:00",
-    "file": "2026-04-20/news-2026-04-20.md"
+    "timestamp": "2026-04-21T21:00:00+08:00",
+    "file": "2026-04-21/news-2026-04-21.md",
+    "catalysts_cached": 4,
+    "categories_covered": 12
   },
   "trade-rec": {
     "date": "2026-04-20",
