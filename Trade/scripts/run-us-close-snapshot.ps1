@@ -1,7 +1,7 @@
 # US Close Snapshot — runs daily at 09:00 (07:30 UTC+8 = 19:30 ET prev day)
 # Invoked by Windows Task Scheduler task "Trade\US-Close-Snapshot"
 
-$tradeRoot = "C:\Users\Lokis\OneDrive\Desktop\T.system\claude-code\Trade"
+$tradeRoot = "C:\Users\Lokis\OneDrive\Desktop\T.system\Trade"
 $logDir    = Join-Path $tradeRoot "scripts\logs"
 $date      = (Get-Date).ToString("yyyy-MM-dd")
 $logFile   = Join-Path $logDir "us-close-snapshot-$date.log"

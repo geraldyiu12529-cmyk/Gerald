@@ -7,9 +7,10 @@ This is the master document. It synthesizes the two research cores (`Trad core.m
 ## 0. Asset Universe (fixed unless explicitly expanded)
 
 **Crypto:** BTC, ETH (+ named alt coins when provided)
-**Equities:** INTC, TSM, NVDA, TSLA, AAPL, GOOGL, AMZN, META, PYPL, PLTR, MU, WDC
+**Equities:** INTC, TSM, NVDA, TSLA, AAPL, GOOGL, AMZN, META, PYPL, PLTR, MU, WDC, AVGO, BABA, MSFT
 **ETFs / Indices:** QQQ, SPY, EWJ, EWY
 **Commodities / Metals:** Brent, WTI, Gold, Silver, Copper, Palladium, Platinum
+**FX:** EURUSD, USDJPY
 
 Do not expand without being asked.
 

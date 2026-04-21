@@ -8,7 +8,7 @@ Run once from the Trade/ directory.
 from openpyxl import load_workbook
 from datetime import date
 
-WB_PATH = "C:/Users/Lokis/OneDrive/Desktop/T.system/claude-code/Trade/master-data-log.xlsx"
+WB_PATH = "C:/Users/Lokis/OneDrive/Desktop/T.system/Trade/master-data-log.xlsx"
 
 wb = load_workbook(WB_PATH)
 ws = wb["SignalLedger"]

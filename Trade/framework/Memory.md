@@ -21,6 +21,7 @@ This file is the trader's working memory. Keep it operationally current — it s
 **Equities:** INTC, TSM, NVDA, TSLA, AAPL, GOOGL, AMZN, META, PYPL, PLTR, MU, WDC, AVGO, BABA, MSFT
 **ETFs / Indices:** QQQ, SPY, EWJ, EWY
 **Commodities / Metals:** Brent, WTI, Gold, Silver, Copper, Palladium, Platinum
+**FX:** EURUSD, USDJPY
 
 ---
 
