@@ -10,12 +10,12 @@
     "date": "2026-04-21",
     "status": "OK",
     "consecutive_failures": 0,
-    "timestamp": "2026-04-21T20:13:45.159516+08:00",
+    "timestamp": "2026-04-21T20:31:33.705755+08:00",
     "file": "2026-04-21/market-brief-2026-04-21.md",
     "version": "v1",
     "missing_grade_a_count": 1,
-    "excel_sync": "FAILED \u2014 file locked (PermissionError); manual sync required",
-    "notes": "v1 \u2014 OK: 1 MISSING Grade A (GSCI gate V034). 4 STALE FALLBACK T3 (basis-mom WTI/Gold/Silver/Copper, Apr17). T-scores all resolved (V026 all 12 tickers). IC z+1.65 (V027 OK). MOVE 67.90 (fresh). New signals: INTC+4, AAPL+3, GOOGL+3 confirmed. Excel locked, sync deferred."
+    "excel_sync": "OK",
+    "notes": "v1 \u2014 OK: 1 MISSING Grade A (GSCI gate V034). 4 STALE FALLBACK T3 (basis-mom WTI/Gold/Silver/Copper, Apr17). T-scores all resolved (V026 all 12 tickers). IC z+1.65 (V027 OK). MOVE 67.90 (fresh). New signals: INTC+4, AAPL+3, GOOGL+3 confirmed. Excel synced OK on v2 run (DailyVariables/RegimeHistory/DataQuality/CatalystLog +8 new)."
   },
   "news-events": {
     "date": "2026-04-21",
