@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Rec — 2026-04-21 (Cloud 7pm)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --muted: #7d8590; --green: #3fb950;
+    --red: #f85149; --yellow: #d29922; --blue: #58a6ff;
+    --orange: #d97706; --purple: #bc8cff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.6; padding: 24px; }
+  h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+  h2 { font-size: 15px; font-weight: 600; color: var(--blue); margin: 20px 0 10px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+  h3 { font-size: 13px; font-weight: 600; color: var(--muted); margin: 14px 0 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .meta { color: var(--muted); font-size: 12px; margin-bottom: 20px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin: 0 2px; }
+  .badge-green { background: rgba(63,185,80,.15); color: var(--green); border: 1px solid rgba(63,185,80,.3); }
+  .badge-red { background: rgba(248,81,73,.15); color: var(--red); border: 1px solid rgba(248,81,73,.3); }
+  .badge-yellow { background: rgba(210,153,34,.15); color: var(--yellow); border: 1px solid rgba(210,153,34,.3); }
+  .badge-blue { background: rgba(88,166,255,.15); color: var(--blue); border: 1px solid rgba(88,166,255,.3); }
+  .badge-orange { background: rgba(217,119,6,.15); color: var(--orange); border: 1px solid rgba(217,119,6,.3); }
+  .badge-gray { background: rgba(125,133,144,.15); color: var(--muted); border: 1px solid var(--border); }
+  .grid { display: grid; gap: 16px; }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .card-promoted { border-color: var(--green); }
+  .card-blocked { border-color: var(--yellow); }
+  .card-gate-off { border-color: var(--orange); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { background: var(--surface); color: var(--muted); padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
+  td { padding: 6px 10px; border-bottom: 1px solid rgba(48,54,61,.5); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(88,166,255,.05); }
+  .score-pos { color: var(--green); font-weight: 700; }
+  .score-neg { color: var(--red); font-weight: 700; }
+  .score-zero { color: var(--muted); }
+  .score-blocked { color: var(--yellow); }
+  .missing { color: var(--red); font-size: 11px; font-style: italic; }
+  .chart-wrap { position: relative; height: 220px; }
+  .gate-panel { display: flex; gap: 12px; flex-wrap: wrap; margin: 10px 0; }
+  .gate-item { flex: 1; min-width: 120px; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--border); text-align: center; }
+  .gate-on { border-color: var(--green); background: rgba(63,185,80,.08); }
+  .gate-off { border-color: var(--orange); background: rgba(217,119,6,.08); }
+  .gate-item .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+  .gate-item .state { font-size: 15px; font-weight: 700; margin-top: 4px; }
+  .gate-on .state { color: var(--green); }
+  .gate-off .state { color: var(--orange); }
+  .heat-bar-wrap { background: var(--border); border-radius: 99px; height: 8px; overflow: hidden; margin: 6px 0; }
+  .heat-bar { height: 100%; border-radius: 99px; background: var(--green); }
+  .alert { padding: 10px 14px; border-radius: 6px; border-left: 3px solid; margin: 8px 0; font-size: 12px; }
+  .alert-warn { border-color: var(--yellow); background: rgba(210,153,34,.08); }
+  .alert-info { border-color: var(--blue); background: rgba(88,166,255,.08); }
+  .alert-gap { border-color: var(--red); background: rgba(248,81,73,.08); }
+  .sep { border-color: var(--border); margin: 20px 0; }
+  .cloud-label { font-size: 11px; color: var(--orange); font-weight: 600; }
+  .stack-bar { display: flex; height: 20px; border-radius: 4px; overflow: hidden; margin: 4px 0; }
+  .stack-seg { display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff; }
+</style>
+</head>
+<body>
+
+<div style="display:flex; align-items:baseline; gap:12px; margin-bottom:6px;">
+  <h1>Trade Recommendations — 2026-04-21</h1>
+  <span class="cloud-label">☁ CLOUD 7PM (Grade B supplementary)</span>
+</div>
+<div class="meta">
+  Generated: 2026-04-21 19:00 UTC+8 &nbsp;|&nbsp; Task: cloud-trade-rec-7pm &nbsp;|&nbsp;
+  <span class="badge badge-green">2 PROMOTED</span>
+  <span class="badge badge-orange">2 GATE-BLOCKED</span>
+  <span class="badge badge-yellow">6 T-BLOCKED</span>
+  <span class="badge badge-red">7 Grade A MISSING</span>
+  &nbsp;|&nbsp; Local 20:20 run is authoritative
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<h2>Executive Summary</h2>
+<div class="grid grid-3">
+  <div class="card card-promoted">
+    <h3>Promoted — P009 (re-confirm)</h3>
+    <div style="font-size:20px; font-weight:700; color:var(--green); margin:8px 0;">SPY LONG</div>
+    <div style="font-size:12px;">Entry $710.14 | Stop $696 | Target $720/$730</div>
+    <div style="font-size:12px; margin-top:4px;">Size: 1.0% risk (half-size)</div>
+    <div style="margin-top:10px;">
+      <span class="badge badge-green">S+1</span>
+      <span class="badge badge-green">T+1</span>
+      <span class="badge badge-gray">C=0</span>
+      <span class="badge badge-blue">R+1*</span>
+      <span class="badge badge-green">Sum+3</span>
+    </div>
+    <div style="font-size:11px; color:var(--muted); margin-top:8px;">*R conditional — V027 MISSING. Raw TSMOM applies (ETF). Equity sleeve ON.</div>
+  </div>
+  <div class="card card-promoted">
+    <h3>Promoted — P010 (new)</h3>
+    <div style="font-size:20px; font-weight:700; color:var(--green); margin:8px 0;">EWJ LONG</div>
+    <div style="font-size:12px;">Entry ~$90.24 | Stop $86.00 | Target $95/$98</div>
+    <div style="font-size:12px; margin-top:4px;">Size: 0.75% risk</div>
+    <div style="margin-top:10px;">
+      <span class="badge badge-green">S+1</span>
+      <span class="badge badge-green">T+1</span>
+      <span class="badge badge-gray">C=0</span>
+      <span class="badge badge-blue">R+1*</span>
+      <span class="badge badge-green">Sum+3</span>
+    </div>
+    <div style="font-size:11px; color:var(--muted); margin-top:8px;">*R conditional. JPY carry compression + Nikkei +1.21%. Time-stop 2026-06-30.</div>
+  </div>
+  <div class="card">
+    <h3>Portfolio State</h3>
+    <div style="font-size:12px; margin: 8px 0;">P008 CLUSDT Long: entry 88.250, stop 85.300</div>
+    <div style="font-size:12px;">Current WTI: ~$86.55–$88.26 → stop not hit ✓</div>
+    <div style="margin-top:14px; font-size:12px; color:var(--muted);">Portfolio Heat</div>
+    <div class="heat-bar-wrap">
+      <div class="heat-bar" style="width:26%;"></div>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--muted);">
+      <span>P008: 0.33%</span><span>+SPY: 1.0%</span><span>+EWJ: 0.75%</span><span>Cap: 8%</span>
+    </div>
+    <div style="font-size:13px; font-weight:600; color:var(--green); margin-top:8px;">Post-entry heat: ~2.08% / 8% cap</div>
+  </div>
+</div>
+
+<!-- OVERLAY GATE STATUS -->
+<h2>Overlay Gate Status (Faber TAA — V033–V035)</h2>
+<div class="alert alert-warn">
+  ⚠ Cloud run: 10m-SMA not computed from live series. Commodity and Crypto gate states are best-estimates. Local 20:20 brief is authoritative for execution on commodity/crypto sleeves.
+</div>
+<div class="gate-panel">
+  <div class="gate-item gate-on">
+    <div class="label">Equity</div>
+    <div class="state">ON</div>
+    <div style="font-size:11px; color:var(--muted); margin-top:4px;">SPY ~$710 above 10m-SMA ~$660–680</div>
+  </div>
+  <div class="gate-item gate-off">
+    <div class="label">Commodity (GSCI)</div>
+    <div class="state">OFF ⚠ tentative</div>
+    <div style="font-size:11px; color:var(--muted); margin-top:4px;">GSCI MISSING — inferred WTI −16% wk</div>
+  </div>
+  <div class="gate-item gate-off">
+    <div class="label">Crypto (BTC)</div>
+    <div class="state">OFF ⚠ tentative</div>
+    <div style="font-size:11px; color:var(--muted); margin-top:4px;">BTC $75,657 vs 10m-SMA ~$80–85K plausible</div>
+  </div>
+  <div class="gate-item gate-on">
+    <div class="label">Intl Equity (EWJ)</div>
+    <div class="state">ON</div>
+    <div style="font-size:11px; color:var(--muted); margin-top:4px;">EWJ uptrend intact; Nikkei +1.21%</div>
+  </div>
+</div>
+
+<!-- REGIME -->
+<h2>Regime Snapshot</h2>
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Label</h3>
+    <div style="font-size:16px; font-weight:700; color:var(--yellow); margin:8px 0;">RISK-ON / GEOPOLITICAL-FRAGILE</div>
+    <div style="font-size:14px; color:var(--red); font-weight:600;">CEASEFIRE BINARY T-0</div>
+    <div style="font-size:12px; color:var(--muted); margin-top:8px;">Iran ceasefire expiration IMMINENT. Peace talks ongoing; sticking points unresolved (nuclear stockpile, Hormuz control). Symmetric binary outcome.</div>
+    <table style="margin-top:14px;">
+      <tr><th>Watch Variable</th><th>Reading</th><th>Grade</th><th>Signal</th></tr>
+      <tr><td>WTI $88/$95</td><td>$86.55–$88.26</td><td><span class="badge badge-green">A</span></td><td>Hold &lt;$90 = deal-hope priced</td></tr>
+      <tr><td>VIX 17/20</td><td>17.48 (stale)</td><td><span class="badge badge-yellow">B↓</span></td><td>~20.0 intraday Apr-20 = warning</td></tr>
+      <tr><td>BTC $75K/$71.2K</td><td>$75,657 → $76K+</td><td><span class="badge badge-green">A</span></td><td>3rd test; hold = potential base</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Key Variables</h3>
+    <table>
+      <tr><th>Variable</th><th>Reading</th><th>Grade</th><th>Status</th></tr>
+      <tr><td>VIX</td><td>17.48</td><td><span class="badge badge-yellow">B↓</span></td><td>Stale Apr-17; ~20 intraday Apr-20</td></tr>
+      <tr><td>MOVE</td><td class="missing">MISSING</td><td><span class="badge badge-red">A</span></td><td>Persistent gap (6+ sessions)</td></tr>
+      <tr><td>US 10Y</td><td>4.27% (+2bp)</td><td><span class="badge badge-green">A</span></td><td>Live Apr-20; rising</td></tr>
+      <tr><td>HY OAS</td><td>2.85%</td><td><span class="badge badge-yellow">B↓</span></td><td>Tight; non-stressed</td></tr>
+      <tr><td>DXY</td><td>98.31 (+0.21%)</td><td><span class="badge badge-green">A</span></td><td>Intraday recovery; structural below 100</td></tr>
+      <tr><td>NFCI</td><td>−0.47</td><td><span class="badge badge-green">A</span></td><td>Loose; Apr-22 release pending</td></tr>
+      <tr><td>IC z-score V027</td><td class="missing">MISSING</td><td><span class="badge badge-red">A</span></td><td>NY Fed PD not web-accessible</td></tr>
+      <tr><td>EURUSD</td><td>1.1834</td><td><span class="badge badge-green">A</span></td><td>ECB hawkish pivot confirmed (cloud news)</td></tr>
+      <tr><td>USDJPY</td><td>159.06</td><td><span class="badge badge-green">A</span></td><td>FM intervention threshold: 160.00</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- SCORE CHART -->
+<h2>Asset Scorecard</h2>
+<div class="alert alert-info">
+  Methodology correction applied: ETF T-scores use raw TSMOM (not V026 residual momentum). SPY, QQQ, EWJ T = +1 based on 12m+ uptrend / Asia session confirmation. V026 MISSING only blocks single-stock equity T-scores (12 assets).
+</div>
+
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Score Bars — Promoted &amp; Near-Miss</h3>
+    <div class="chart-wrap">
+      <canvas id="scoreChart"></canvas>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Score Stacking Detail</h3>
+    <table>
+      <tr><th>Asset</th><th>S</th><th>T</th><th>C</th><th>R</th><th>Sum</th><th>Gate</th><th>Status</th></tr>
+      <tr><td><b>SPY</b></td><td class="score-pos">+1</td><td class="score-pos">+1</td><td class="score-zero">0</td><td class="score-pos">+1*</td><td class="score-pos">+3</td><td>ON</td><td><span class="badge badge-green">PROMOTED P009</span></td></tr>
+      <tr><td><b>EWJ</b></td><td class="score-pos">+1</td><td class="score-pos">+1</td><td class="score-zero">0</td><td class="score-pos">+1*</td><td class="score-pos">+3</td><td>ON</td><td><span class="badge badge-green">PROMOTED P010</span></td></tr>
+      <tr><td>Gold</td><td class="score-pos">+1</td><td class="score-pos">+1</td><td class="score-zero">0</td><td class="score-pos">+1</td><td class="score-pos">+3</td><td style="color:var(--orange)">OFF⚠</td><td><span class="badge badge-orange">P011 Taken=NO</span></td></tr>
+      <tr><td>Silver</td><td class="score-pos">+1</td><td class="score-pos">+1</td><td class="score-zero">0</td><td class="score-pos">+1</td><td class="score-pos">+3</td><td style="color:var(--orange)">OFF⚠</td><td><span class="badge badge-orange">P012 Taken=NO</span></td></tr>
+      <tr><td>QQQ</td><td class="score-pos">+1</td><td class="score-pos">+1</td><td class="score-zero">0</td><td class="score-pos">+1*</td><td class="score-pos">+3</td><td>ON</td><td><span class="badge badge-yellow">Corr-blocked</span></td></tr>
+      <tr><td>NVDA</td><td class="score-pos">+1</td><td class="score-blocked">†</td><td class="score-pos">+1</td><td class="score-pos">+1*</td><td class="score-blocked">3†</td><td>ON</td><td><span class="badge badge-yellow">T-blocked V026</span></td></tr>
+      <tr><td>AAPL</td><td class="score-pos">+1</td><td class="score-blocked">†</td><td class="score-pos">+1</td><td class="score-pos">+1*</td><td class="score-blocked">3†</td><td>ON</td><td><span class="badge badge-yellow">T-blocked V026</span></td></tr>
+      <tr><td>GOOGL</td><td class="score-pos">+1</td><td class="score-blocked">†</td><td class="score-pos">+1</td><td class="score-pos">+1*</td><td class="score-blocked">3†</td><td>ON</td><td><span class="badge badge-yellow">T-blocked; <b>TONIGHT</b></span></td></tr>
+      <tr><td>AMZN</td><td class="score-pos">+1</td><td class="score-blocked">†</td><td class="score-pos">+1</td><td class="score-pos">+1*</td><td class="score-blocked">3†</td><td>ON</td><td><span class="badge badge-yellow">T-blocked V026</span></td></tr>
+      <tr><td>META</td><td class="score-pos">+1</td><td class="score-blocked">†</td><td class="score-pos">+1</td><td class="score-pos">+1*</td><td class="score-blocked">3†</td><td>ON</td><td><span class="badge badge-yellow">T-blocked V026</span></td></tr>
+      <tr><td>PLTR</td><td class="score-pos">+1</td><td class="score-blocked">†</td><td class="score-pos">+1</td><td class="score-pos">+1*</td><td class="score-blocked">3†</td><td>ON</td><td><span class="badge badge-yellow">T-blocked V026</span></td></tr>
+      <tr><td>EURUSD</td><td class="score-pos">+1</td><td class="score-zero">0</td><td class="score-pos">+1</td><td class="score-zero">0</td><td style="color:var(--muted)">+2</td><td>ON</td><td><span class="badge badge-gray">Near-miss N033</span></td></tr>
+      <tr><td>Brent</td><td class="score-pos">+1</td><td class="score-zero">0</td><td class="score-zero">0</td><td class="score-pos">+1</td><td style="color:var(--muted)">+2</td><td style="color:var(--orange)">OFF⚠</td><td><span class="badge badge-gray">Near-miss N035</span></td></tr>
+      <tr><td>TSLA</td><td class="score-zero">0</td><td class="score-blocked">†</td><td class="score-neg">−1</td><td class="score-zero">0</td><td class="score-neg">−1†</td><td>ON</td><td><span class="badge badge-gray">Avoid</span></td></tr>
+      <tr><td>ETH</td><td class="score-neg">−1</td><td class="score-zero">0</td><td class="score-zero">0</td><td class="score-neg">−1</td><td class="score-neg">−2</td><td style="color:var(--orange)">OFF⚠</td><td><span class="badge badge-red">Avoid</span></td></tr>
+    </table>
+    <div style="font-size:11px; color:var(--muted); margin-top:8px;">† = T blocked (V026 single-stock only). * = R conditional on proxies (V027 MISSING).</div>
+  </div>
+</div>
+
+<!-- DATA COLLECTED -->
+<h2>Data Collected — Upstream Artifacts</h2>
+<div class="grid grid-2">
+  <!-- Audit additions panel -->
+  <div class="card">
+    <h3>Audit Additions (V026–V028 · 2026-10-14 review)</h3>
+    <table>
+      <tr><th>Variable</th><th>Status</th><th>Score Leg</th><th>Impact</th></tr>
+      <tr>
+        <td>V026 Residual Momentum</td>
+        <td><span class="badge badge-red">MISSING</span></td>
+        <td>Single-stock T</td>
+        <td>12 single-stock T-scores blocked (3rd+ consecutive run)</td>
+      </tr>
+      <tr>
+        <td>V027 IC z-score</td>
+        <td><span class="badge badge-red">MISSING</span></td>
+        <td>Cross-asset R</td>
+        <td>R=+1 conditional on proxies only; sizing restricted</td>
+      </tr>
+      <tr>
+        <td>V028 Brent basis-mom</td>
+        <td><span class="badge badge-green">+0.95 / +2.95</span></td>
+        <td>Commodity S</td>
+        <td>Steepening confirmed; no divergence cap fires</td>
+      </tr>
+      <tr>
+        <td>V028 WTI/Gold/Silver/Copper</td>
+        <td><span class="badge badge-red">MISSING</span></td>
+        <td>Commodity S</td>
+        <td>Score from static slope only; divergence cap unconfirmable</td>
+      </tr>
+    </table>
+  </div>
+  <!-- Meta additions panel -->
+  <div class="card">
+    <h3>Meta-Additions (V029–V032 · 2026-10-14 review)</h3>
+    <table>
+      <tr><th>Variable</th><th>Status</th><th>Grade</th><th>Impact</th></tr>
+      <tr><td>V029 BAB</td><td><span class="badge badge-red">MISSING</span></td><td>A</td><td>Structural tilt not applied</td></tr>
+      <tr><td>V030 DealerGamma</td><td><span class="badge badge-red">MISSING</span></td><td>B (1-paper)</td><td>R-stop modifier not applied; standard ATR stops used</td></tr>
+      <tr><td>V031 GP/A</td><td><span class="badge badge-red">MISSING</span></td><td>A</td><td>Profitability screening not applied</td></tr>
+      <tr><td>V032 CEI</td><td><span class="badge badge-red">MISSING</span></td><td>A</td><td>Issuance headwind check not applied</td></tr>
+    </table>
+    <div class="alert alert-warn" style="margin-top:10px;">All 4 meta-additions MISSING. This is expected in cloud runs (no local staging). Local 20:20 run may have access if scripts are functional.</div>
+  </div>
+</div>
+
+<!-- CATALYST CALENDAR CHART -->
+<h2>Catalyst Calendar (Next 10 Days)</h2>
+<div class="card">
+  <div class="chart-wrap" style="height:180px;">
+    <canvas id="catalystChart"></canvas>
+  </div>
+</div>
+
+<!-- DISCUSSION -->
+<h2>Discussion</h2>
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Why SPY + EWJ: Methodological Correction</h3>
+    <p style="font-size:12px; line-height:1.7;">
+      The cloud brief applied V026 (residual momentum) to ETF T-scores — this is an error. Per Methodology Prompt.md §2 Step 3, raw TSMOM is the T-input for indices and ETFs; V026 only applies to single-stock equities (NVDA, TSLA, AAPL, GOOGL, AMZN, META, TSM, INTC, MU, PYPL, PLTR, WDC). After correcting this, SPY and EWJ have T=+1 (raw TSMOM: both in clear 12m+ uptrends confirmed by Asia session strength — Nikkei +1.21%, Kospi at record high). Both clear the pre-entry checklist with all 8 items passing.
+    </p>
+    <p style="font-size:12px; line-height:1.7; margin-top:10px;">
+      <b>EWJ distinct driver:</b> JPY carry compression (USDJPY 159 → BOJ April hike risk → JPY strengthens → unhedged USD holders of EWJ see AUM appreciation) + Asia rotation (Kospi record = semiconductor/tech demand read). Sized at 0.75% (vs SPY 1.0%) to respect the ~0.70 correlation and retain combined heat well below cap.
+    </p>
+  </div>
+  <div class="card">
+    <h3>GOOGL Earnings — Tonight's Critical Event</h3>
+    <p style="font-size:12px; line-height:1.7;">
+      GOOGL reports Q1 2026 earnings after US close (Apr-22, ~Apr-23 01:00 UTC+8). The thesis is already at Sum=+3† with T=blocked as the only obstacle. If:
+    </p>
+    <ul style="font-size:12px; line-height:1.8; margin: 8px 0 0 16px;">
+      <li><b>Earnings beat</b> (88% Q1 season beat rate, Mag7 +22.8% bar): C confirmed at +1 ✓</li>
+      <li><b>V026 residual momentum resolves</b> at local 20:20 run: T unblocks</li>
+      <li><b>Both conditions met</b> → GOOGL Sum=+3 confirmed → potential entry Apr-23 morning</li>
+    </ul>
+    <p style="font-size:12px; line-height:1.7; margin-top:10px;">
+      This is the highest-priority monitoring event from this rec. TSLA also reports tonight (consensus $0.38 EPS) but Sum is −1 (delivery miss thesis intact). TSLA short would need Sum ≤ −3 which requires T=-1 resolved — not actionable.
+    </p>
+  </div>
+</div>
+
+<!-- CEASEFIRE BINARY -->
+<div class="card" style="margin-top:16px; border-color: var(--red);">
+  <h3 style="color:var(--red);">⚠ Ceasefire Binary — Active Risk (T-0)</h3>
+  <div class="grid grid-2" style="margin-top:10px;">
+    <div>
+      <div style="font-size:12px; font-weight:600; color:var(--green); margin-bottom:4px;">Scenario A: Ceasefire Extended / Deal Progress</div>
+      <ul style="font-size:12px; line-height:1.8; margin-left:16px;">
+        <li>WTI −5 to −10% → P008 CL Long stop risk</li>
+        <li>Gold −3 to −5% (safe-haven unwind)</li>
+        <li>SPY +1 to +2% (risk-on relief)</li>
+        <li>DXY −0.5 to −1% (safe-haven unwind)</li>
+        <li>EURUSD +0.5 to +1%</li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-size:12px; font-weight:600; color:var(--red); margin-bottom:4px;">Scenario B: No Deal / Escalation</div>
+      <ul style="font-size:12px; line-height:1.8; margin-left:16px;">
+        <li>WTI +5 to +10% → P008 CL Long profit</li>
+        <li>Gold +3 to +5% (safe-haven bid)</li>
+        <li>SPY −2 to −4% → P009 stop buffer reduced</li>
+        <li>VIX spike to 22–25 (below circuit breaker 25)</li>
+        <li>EURUSD −0.5 to −1% (USD safe-haven)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="alert alert-warn" style="margin-top:10px;">
+    <b>P008 CLUSDT Long:</b> Stop 85.300. Current WTI ~$86.55–$88.26. Scenario B oil spike = no issue. Scenario A oil −10% = WTI ~$79 = stop hit. Off-methodology position; no Sum score. Monitor closely. P009 SPY: Stop $696. Scenario B SPY −4% from $710 = ~$682 — stop not hit (buffer $14). Scenario B is manageable. Scenario A is SPY-positive (risk-on). SPY thesis robust to both ceasefire outcomes from a stop perspective.
+  </div>
+</div>
+
+<!-- DATA GAPS -->
+<h2>Data Gaps</h2>
+<div class="grid grid-2">
+  <div class="card">
+    <h3>Grade A MISSING (7 items)</h3>
+    <table>
+      <tr><th>Variable</th><th>Blocks</th><th>Last Known</th></tr>
+      <tr><td>MOVE (bond vol)</td><td>R-confidence</td><td>~74 est (multiple runs failed)</td></tr>
+      <tr><td>VIX3M</td><td>Vol regime confirmation</td><td>N/A</td></tr>
+      <tr><td>V027 IC z-score</td><td>R-overlay, sizing</td><td>+1.86 (2026-04-15; stale 6d)</td></tr>
+      <tr><td>V026 Residual Momentum</td><td>All 12 single-stock T</td><td>MISSING (numpy 3+ runs)</td></tr>
+      <tr><td>BTC Active Addresses</td><td>BTC S-score</td><td>396,267 (stale; S=0 binding)</td></tr>
+      <tr><td>BTC Hash Rate</td><td>BTC S-context</td><td>N/A</td></tr>
+      <tr><td>V028 WTI/Gold/Silver/Copper</td><td>Commodity S divergence-cap</td><td>Last: 2026-04-16 staging</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h3>Gap-Closure Doughnut</h3>
+    <div class="chart-wrap" style="height:180px;">
+      <canvas id="gapChart"></canvas>
+    </div>
+    <div class="alert alert-gap" style="margin-top:10px; font-size:11px;">
+      <b>V026 numpy failure is the highest-impact gap.</b> 3+ consecutive runs MISSING. Infrastructure fix (numpy reinstall in compute environment) would unlock 6 T-blocked equity signals including GOOGL, NVDA, AAPL, AMZN, META, PLTR.
+    </div>
+  </div>
+</div>
+
+<!-- RECOMMENDATIONS (FULL) -->
+<h2>Results — Recommendations</h2>
+<div class="grid grid-2">
+  <div class="card card-promoted">
+    <h3>P009 SPY LONG — Re-confirmation</h3>
+    <table>
+      <tr><td>Entry</td><td><b>$710.14</b> (limit) or ≤$712 open print</td></tr>
+      <tr><td>Stop</td><td><b>$696.00</b> (2× ATR ~$14 = 2.0% buffer)</td></tr>
+      <tr><td>TP1 / TP2</td><td>$720 / $730</td></tr>
+      <tr><td>Size</td><td>1.0% risk (half-size)</td></tr>
+      <tr><td>Time-stop</td><td>2026-05-13</td></tr>
+      <tr><td>Invalidation</td><td>VIX &gt;25; SPY &lt;$696; HY OAS &gt;4.50%; FOMC hawkish surprise Apr-28 → exit if SPY &lt;$700 into print</td></tr>
+    </table>
+    <h3 style="margin-top:12px;">Pre-Entry Checklist</h3>
+    <table>
+      <tr><td>1. |Sum| ≥ 3</td><td class="score-pos">✓ PASS</td></tr>
+      <tr><td>2. Invalidation written</td><td class="score-pos">✓ PASS</td></tr>
+      <tr><td>3. Correlation gate</td><td class="score-pos">✓ PASS (P008 CL = commodity)</td></tr>
+      <tr><td>4. Risk ≤ 2%, heat ≤ 8%</td><td class="score-pos">✓ PASS (1.33% post-entry)</td></tr>
+      <tr><td>5. ATR stop set</td><td class="score-pos">✓ PASS (2× ATR = $14)</td></tr>
+      <tr><td>6. Catalyst asymmetry</td><td class="score-pos">✓ PASS (C=0 structural)</td></tr>
+      <tr><td>7. Overlay Gate ON</td><td class="score-pos">✓ PASS (Equity ON)</td></tr>
+      <tr><td>8. Digest clearance</td><td class="score-pos">✓ PASS (P007 closed, P008 ≠ equity)</td></tr>
+      <tr><td style="color:var(--yellow);">V027 caveat</td><td style="color:var(--yellow);">⚠ MISSING → half-size maintained</td></tr>
+    </table>
+    <div class="badge badge-green" style="margin-top:12px; font-size:13px; padding:6px 16px;">ALL PASS — proceed at half-size</div>
+  </div>
+  <div class="card card-promoted">
+    <h3>P010 EWJ LONG — New Promotion</h3>
+    <table>
+      <tr><td>Entry</td><td><b>~$90.24</b> (at-market or limit)</td></tr>
+      <tr><td>Stop</td><td><b>$86.00</b> (2× ATR ~$4.4 = 4.7% buffer)</td></tr>
+      <tr><td>TP1 / TP2</td><td>$95 / $98</td></tr>
+      <tr><td>Size</td><td>0.75% risk</td></tr>
+      <tr><td>Time-stop</td><td>2026-06-30</td></tr>
+      <tr><td>Invalidation</td><td>USDJPY &lt;150; Nikkei −5%; BOJ emergency hike ≥50bp; US-China trade war escalation</td></tr>
+    </table>
+    <h3 style="margin-top:12px;">Pre-Entry Checklist</h3>
+    <table>
+      <tr><td>1. |Sum| ≥ 3</td><td class="score-pos">✓ PASS (S+1/T+1/C0/R+1)</td></tr>
+      <tr><td>2. Invalidation written</td><td class="score-pos">✓ PASS</td></tr>
+      <tr><td>3. Correlation gate</td><td class="score-pos">✓ PASS (SPY +EWJ 1.75% combined, distinct driver)</td></tr>
+      <tr><td>4. Risk ≤ 2%, heat ≤ 8%</td><td class="score-pos">✓ PASS (2.08% post-entry)</td></tr>
+      <tr><td>5. ATR stop set</td><td class="score-pos">✓ PASS (2× ATR = $4.4)</td></tr>
+      <tr><td>6. Catalyst asymmetry</td><td class="score-pos">✓ PASS (C=0; BOJ binary known risk)</td></tr>
+      <tr><td>7. Overlay Gate ON</td><td class="score-pos">✓ PASS (Intl Equity ON)</td></tr>
+      <tr><td>8. Digest clearance</td><td class="score-pos">✓ PASS (no EWJ alerts)</td></tr>
+      <tr><td style="color:var(--yellow);">V027 caveat</td><td style="color:var(--yellow);">⚠ MISSING → 0.75% (reduced)</td></tr>
+    </table>
+    <div class="badge badge-green" style="margin-top:12px; font-size:13px; padding:6px 16px;">ALL PASS — proceed at 0.75%</div>
+  </div>
+</div>
+
+<!-- GATE-BLOCKED -->
+<div class="card card-gate-off" style="margin-top:16px;">
+  <h3 style="color:var(--orange);">Gate-Blocked Signals (Commodity Sleeve OFF — Tentative)</h3>
+  <div class="grid grid-2" style="margin-top:10px;">
+    <div>
+      <b>P011 — Gold LONG</b> <span class="badge badge-orange">Taken=NO</span><br>
+      <div style="font-size:12px; margin-top:4px;">Sum=+3 (S+1/T+1/C0/R+1). Price $4,784. Commodity sleeve OFF (tentative). If local 20:20 confirms GSCI sleeve ON → re-enters pre-entry checklist. Invalidation: ceasefire deal (gold safe-haven unwind); real yields >2.5%; DXY >102.</div>
+    </div>
+    <div>
+      <b>P012 — Silver LONG</b> <span class="badge badge-orange">Taken=NO</span><br>
+      <div style="font-size:12px; margin-top:4px;">Sum=+3 (S+1/T+1/C0/R+1). Price $80.25. Same gate block as Gold. Basis-momentum MISSING for Silver — S from static slope only (steepening; prior basis-mom confirmed 2026-04-16 run). Industrial + precious dual thesis.</div>
+    </div>
+  </div>
+</div>
+
+<!-- SIGNAL LEDGER NOTE -->
+<h2>SignalLedger — Append Status</h2>
+<div class="alert alert-gap">
+  <b>Excel locked at run time (PermissionError on master-data-log.xlsx).</b> The following appends are deferred to the next Excel-accessible session (expected: local 20:20 run):
+  <ul style="margin: 8px 0 0 16px; font-size:12px; line-height:1.8;">
+    <li>P010 EWJ Long — new row (Type=Promoted, Entry=90.24, Stop=86.00, Target=95/98, Taken=YES pending fill, Status=OPEN)</li>
+    <li>P011 Gold Long — new row (Type=Promoted, Taken=NO, Block_Reason=OverlayGateOff, Status=OPEN)</li>
+    <li>P012 Silver Long — new row (same as P011 structure)</li>
+    <li>N033 EURUSD — near-miss row (Sum+2, R leg missing; Block_Reason=DXY recovery)</li>
+    <li>N034 QQQ — near-miss row (Sum+3 correlation-blocked; Block_Reason=SPY preferred)</li>
+    <li>N035 Brent — near-miss row (Sum+2 + gate blocked)</li>
+    <li>AuditAdditionLog: V026 MISSING (3rd run), V027 MISSING, V028 Brent computed (2nd run)</li>
+    <li>CatalystLog: Update outcome for Iran ceasefire Apr-22 once resolved</li>
+  </ul>
+</div>
+
+<hr class="sep">
+<div style="font-size:11px; color:var(--muted); text-align:center; padding:8px 0;">
+  Cloud 7pm Grade B supplementary — 2026-04-21 19:00 UTC+8 — cloud-trade-rec-7pm scheduled task<br>
+  Local 20:20 run is authoritative. This rec uses the cloud market-brief (10m-SMA estimated, not computed). Confirm overlay gate states at local brief before execution.
+</div>
+
+<script>
+// Score bars chart
+const scoreCtx = document.getElementById('scoreChart').getContext('2d');
+new Chart(scoreCtx, {
+  type: 'bar',
+  data: {
+    labels: ['SPY', 'EWJ', 'Gold', 'Silver', 'QQQ', 'GOOGL†', 'NVDA†', 'EURUSD', 'Brent'],
+    datasets: [{
+      label: 'Sum Score',
+      data: [3, 3, 3, 3, 3, 3, 3, 2, 2],
+      backgroundColor: [
+        'rgba(63,185,80,.7)', 'rgba(63,185,80,.7)',
+        'rgba(217,119,6,.5)', 'rgba(217,119,6,.5)',
+        'rgba(210,153,34,.5)',
+        'rgba(210,153,34,.4)', 'rgba(210,153,34,.4)',
+        'rgba(125,133,144,.4)', 'rgba(125,133,144,.4)'
+      ],
+      borderColor: [
+        '#3fb950', '#3fb950',
+        '#d97706', '#d97706',
+        '#d29922',
+        '#d29922', '#d29922',
+        '#7d8590', '#7d8590'
+      ],
+      borderWidth: 1,
+      borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      tooltip: { callbacks: { label: (ctx) => {
+        const labels = ['PROMOTED', 'PROMOTED', 'GATE-BLOCKED', 'GATE-BLOCKED', 'CORR-BLOCKED', 'T-BLOCKED', 'T-BLOCKED', 'Near-miss', 'Near-miss'];
+        return labels[ctx.dataIndex] + ' — Sum ' + ctx.raw;
+      }}}
+    },
+    scales: {
+      y: { grid: { color: 'rgba(48,54,61,.5)' }, ticks: { color: '#7d8590' }, min: 0, max: 4 },
+      x: { grid: { display: false }, ticks: { color: '#e6edf3' } }
+    }
+  }
+});
+
+// Catalyst timeline
+const catCtx = document.getElementById('catalystChart').getContext('2d');
+new Chart(catCtx, {
+  type: 'bar',
+  data: {
+    labels: ['Apr-21 Retail Sales', 'Apr-22 Iran Binary', 'Apr-22 GOOGL AC', 'Apr-22 TSLA AC', 'Apr-23 INTC AC', 'Apr-23 AMZN AC', 'Apr-24 UMich', 'Apr-28-29 FOMC'],
+    datasets: [{
+      label: 'Severity',
+      data: [2, 5, 4, 3, 3, 4, 2, 5],
+      backgroundColor: ['rgba(88,166,255,.5)', 'rgba(248,81,73,.7)', 'rgba(63,185,80,.6)', 'rgba(217,119,6,.6)', 'rgba(88,166,255,.5)', 'rgba(63,185,80,.6)', 'rgba(125,133,144,.4)', 'rgba(248,81,73,.7)'],
+      borderColor: ['#58a6ff', '#f85149', '#3fb950', '#d97706', '#58a6ff', '#3fb950', '#7d8590', '#f85149'],
+      borderWidth: 1, borderRadius: 4
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(48,54,61,.5)' }, ticks: { color: '#7d8590' }, min: 0, max: 5,
+        title: { display: true, text: 'Severity (1=Low → 5=Critical)', color: '#7d8590' } },
+      y: { grid: { display: false }, ticks: { color: '#e6edf3', font: { size: 11 } } }
+    }
+  }
+});
+
+// Gap doughnut
+const gapCtx = document.getElementById('gapChart').getContext('2d');
+new Chart(gapCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['V026 (blocks 6 equity T)', 'V027 IC z-score (R overlay)', 'MOVE (R confidence)', 'V028 4/5 missing (commodity S)', 'BTC Active Addr', 'Other (VIX3M, Hash Rate)'],
+    datasets: [{
+      data: [35, 25, 15, 12, 8, 5],
+      backgroundColor: ['rgba(248,81,73,.7)', 'rgba(217,119,6,.7)', 'rgba(210,153,34,.6)', 'rgba(88,166,255,.5)', 'rgba(125,133,144,.5)', 'rgba(48,54,61,.8)'],
+      borderWidth: 1,
+      borderColor: ['#f85149', '#d97706', '#d29922', '#58a6ff', '#7d8590', '#30363d']
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'right', labels: { color: '#7d8590', font: { size: 10 }, boxWidth: 12 } } }
+  }
+});
+</script>
+</body>
+</html>

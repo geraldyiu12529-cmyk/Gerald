@@ -1,10 +1,10 @@
 {
   "preflight": {
-    "date": "2026-04-20",
+    "date": "2026-04-21",
     "status": "OK",
     "consecutive_failures": 0,
-    "timestamp": "2026-04-20T20:04:55.736527+08:00",
-    "details": "health.json=OK, staging=OK (audit-data-staging-2026-04-20.md), sources=ALL_UP, cache_coverage=19.7%"
+    "timestamp": "2026-04-21T19:49:41.838459+08:00",
+    "details": "health.json=OK, staging=OK (2026-04-21/audit-data-staging-2026-04-21.md), sources=ALL_UP, cache_coverage=53.5%, residmom=FALLBACK(mkt-model)"
   },
   "market-brief": {
     "date": "2026-04-20",
@@ -36,7 +36,7 @@
     "near_miss": 7,
     "missing_grade_a_count": 3,
     "cloud_ingested": 3,
-    "notes": "v3 production run (requested 2026-04-21 as 'yesterday's trade rec'). Promoted: SPY Long +3 half-size 1.0% (stop 696, target 730). Near-misses: QQQ +3 correlation-blocked; BTC/Silver/Gold/Brent/Copper/EWY at +2. T-blocked (residual-mom numpy failure): 11 single stocks. IC z MISSING → R conditional on proxies. P007 TSLA short stop-at-risk flagged (not blocking SPY entry, different sleeve). Cloud files (3) all ingested; cloud EURUSD +3 downgraded to qualitative watchlist."
+    "notes": "v3 production run (requested 2026-04-21 as 'yesterday's trade rec'). Promoted: SPY Long +3 half-size 1.0% (stop 696, target 730). Near-misses: QQQ +3 correlation-blocked; BTC/Silver/Gold/Brent/Copper/EWY at +2. T-blocked (residual-mom numpy failure): 11 single stocks. IC z MISSING \u00e2\u2020\u2019 R conditional on proxies. P007 TSLA short stop-at-risk flagged (not blocking SPY entry, different sleeve). Cloud files (3) all ingested; cloud EURUSD +3 downgraded to qualitative watchlist."
   },
   "positions-monitor": {
     "date": "2026-04-20",

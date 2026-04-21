@@ -47,27 +47,30 @@ Confirm all five: Asset, Side, Price, Time (UTC+8 absolute), SignalLedger linkag
 **Layer 4 — auto-memory (conditional):** Only for repeated/novel patterns.
 
 **Layer 5 — Slack POSITION STATE SNAPSHOT (every event):**
-After Layers 1–4 complete, post an updated snapshot to `#trading-scheduled-updates` so the cloud scheduled agent has current position context on its next fire. This is a single message, not a thread.
+After Layers 1–4 complete, post an updated snapshot to `#trading-scheduled-updates` so the cloud scheduled agent has current position context on its next fire. Single message, not a thread.
 
-1. Resolve channel: `slack_search_channels(query="trading-scheduled-updates")` → pick exact-name match. Not found → log missing in rec, skip layer (do not fail the whole update).
-2. Compose message. Lead tag `[POSITION-STATE]`. Compact format — this is machine-read by the cloud agent:
+1. Resolve channel: Channel ID: C0AUCTQSC65 (#trading-scheduled-updates, private). If the ID fails, re-resolve via slack_search_channels(query="trading-scheduled-updates", channel_types="public_channel,private_channel"). Not found → log missing in rec, skip layer (do not fail the whole update).
+
+2. Compose message. Lead tag `[POSITION-STATE]`. Use **plain text only** — no markdown tables (pipe-separator rows cause `invalid_blocks`). Format each position as a single pipe-delimited line:
 
 ```
 [POSITION-STATE] {YYYY-MM-DD HH:MM UTC+8}
 
-Open positions (N):
-| Sig | Asset | Side | Entry | Stop | Target | ATR | Size% | Thesis | Invalidation |
-|-----|-------|------|-------|------|--------|-----|-------|--------|--------------|
-| P001 | ... | long | ... | ... | ... | ... | 1.5% | ... | ... |
+Open positions ({N}):
+{Sig} | {Asset} | {Side} | Entry {price} | Stop {price} | Target {price or —} | Heat {X.X%} | {Thesis one-liner} | Invalidation: {condition}
+(repeat one line per position)
 
-Portfolio heat: X.X%  |  Sector exposure: {tech X%, crypto Y%, ...}
+Portfolio heat: {X.X%} | Sector exposure: {tech X%, crypto Y%, ...}
 Circuit breaker: {none | reduced | defensive}
-Watchlist promotions since last snapshot: [tickers or "none"]
+Watchlist promotions since last snapshot: {tickers or "none"}
 Last closed trade: {asset, exit type, hypo_pnl or "none this week"}
 ```
 
 3. Send: `slack_send_message(channel_id=<id>, message=<body>)`. Pull content directly from the post-update state of `framework/Memory.md §2 §5 §7` — don't recompute from scratch.
-4. If the event type was *Exit*: append a one-line epitaph below the table: `Exit: {asset} {HIT_STOP|HIT_TARGET|DISCRETIONARY} @ {price} — {hypo_pnl}`.
+
+4. **Rate-limit retry:** If `slack_send_message` returns a rate-limit error, wait and call it once more. If the second attempt also fails, log "Slack Layer 5 skipped — rate limited" in the Step 5 report and continue.
+
+5. If the event type was *Exit*: append a one-line epitaph after the positions block: `Exit: {asset} {HIT_STOP|HIT_TARGET|DISCRETIONARY} @ {price} — {hypo_pnl}`.
 
 Purpose: cloud scheduled agent reads the most recent `[POSITION-STATE]` message on each fire (8am / 12pm / 4pm / 12am UTC+8) so it can produce position-aware intraday updates without local file access.
 
