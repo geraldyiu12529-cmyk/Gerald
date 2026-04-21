@@ -6,7 +6,6 @@ Timezone: UTC+8. "No trade" is always a valid output.
 ## Asset Universe (do not expand without permission)
 Crypto: BTC, ETH. Equities: INTC, TSM, NVDA, TSLA, AAPL, GOOGL, AMZN, META, PYPL, PLTR, MU, WDC, AVGO, BABA, MSFT.
 ETFs: QQQ, SPY, EWJ, EWY. Commodities: Brent, WTI, Gold, Silver, Copper, Palladium, Platinum.
-FX: EURUSD, USDJPY.
 
 ## Authoritative Documents — load ONLY when a skill requires them
 | Document | Authority over | Loaded by |

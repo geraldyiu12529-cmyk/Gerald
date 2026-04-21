@@ -54,7 +54,7 @@ For FOMC: rate, dot-plot delta, 2Y/10Y reaction, fed-funds-futures surprise bps.
 
 ## Step 5 — Corporate & tech (universe only)
 
-Universe: INTC, TSM, NVDA, TSLA, AAPL, GOOGL, AMZN, META, PYPL, PLTR, MU, WDC, SPY, QQQ, EWY, XLE.
+Universe: INTC, TSM, NVDA, TSLA, AAPL, GOOGL, AMZN, META, PYPL, PLTR, MU, WDC, AVGO, BABA, MSFT, SPY, QQQ, EWY, XLE.
 
 **Catalyst-filtered strategy:**
 1. Active tickers (from framework/Memory.md §6 48h list): run `{TICKER} earnings today` + `{TICKER} news today`

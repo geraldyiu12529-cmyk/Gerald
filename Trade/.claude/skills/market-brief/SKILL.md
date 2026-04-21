@@ -41,9 +41,8 @@ variables = [
     'DGS2', 'DGS10', 'DFII10', 'T10YIE',
     'SPY', 'QQQ', 'EWJ', 'EWY',
     'NVDA', 'TSLA', 'AAPL', 'GOOGL', 'AMZN', 'META',
-    'INTC', 'TSM', 'MU', 'WDC', 'PLTR', 'PYPL',
+    'INTC', 'TSM', 'MU', 'WDC', 'PLTR', 'PYPL', 'AVGO', 'BABA', 'MSFT',
     'Brent', 'WTI', 'Gold', 'Silver', 'Copper', 'Palladium', 'Platinum',
-    'EURUSD', 'USDJPY',
     'BTC', 'ETH', 'BTC_ActiveAddr', 'BTC_HashRate',
 ]
 results = fetch_many(variables, web_search_fn=WebSearch)

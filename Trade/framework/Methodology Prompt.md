@@ -10,7 +10,6 @@ This is the master document. It synthesizes the two research cores (`Trad core.m
 **Equities:** INTC, TSM, NVDA, TSLA, AAPL, GOOGL, AMZN, META, PYPL, PLTR, MU, WDC, AVGO, BABA, MSFT
 **ETFs / Indices:** QQQ, SPY, EWJ, EWY
 **Commodities / Metals:** Brent, WTI, Gold, Silver, Copper, Palladium, Platinum
-**FX:** EURUSD, USDJPY
 
 Do not expand without being asked.
 
@@ -134,7 +133,6 @@ If no concrete invalidation exists → thesis is narrative, not research-backed 
 **Equities:** Valuation spread, revision breadth, profitability basket, 1m/3m/12m trend, breadth
 **Bonds:** 2s10s, forward-rate factor, ACM term premium, breakevens, real yields, credit spreads, rate-option skew
 **Commodities:** Front-back curve, inventory change, China/global demand, real rates, trend
-**FX:** Carry, REER/PPP gap, trend, CFTC positioning, risk reversals
 **Crypto (BTC/ETH):** Price trend, realized vol & jumps, order imbalance proxy, funding rate, futures basis, options IV/skew, ETF flows, stablecoin issuance, active addresses, hash rate, exchange netflows, MVRV/SOPR (regime context only)
 
 ---

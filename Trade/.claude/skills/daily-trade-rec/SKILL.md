@@ -150,7 +150,7 @@ Read `audit_path` for computed values:
 
 - **Equity T (single-stock):** use residual momentum (12m FF5-residualized, V026). Prefer over raw TSMOM. When they conflict, trust residual (Blitz-Huij-Martens 2011, Grade A). `audit_path` None or value MISSING → fail-loud §6, leave T blank.
 - **Commodity S:** use basis-momentum (4w/12w F1–F2 slope change, V028). Divergence-cap rule: static slope = backwardation but basis-momentum flattening → cap S at 0 regardless of static slope (Boons-Prado 2019, Grade A). `audit_path` None or MISSING → note in §6, score static slope only.
-- **Cross-asset R:** intermediary capital z-score (V027). If z < −1σ → downgrade R one notch across equities, commodities, FX longs. Do not double-count with HY OAS — take the more negative, not the sum (He-Kelly-Manela 2017, Grade A). `audit_path` None or MISSING → fail-loud §6.
+- **Cross-asset R:** intermediary capital z-score (V027). If z < −1σ → downgrade R one notch across equities, commodities, FX longs. Do not double-count with HY OAS — take the more negative, not the sum (Adrian-Etula-Muir 2014 JF 69(6) [primary anchor]; He-Kelly-Manela 2017 JFE [secondary], Grade A). `audit_path` None or MISSING → fail-loud §6.
 
 ### Meta-integration additions (binding — 2026-04-18, review 2026-10-14)
 
