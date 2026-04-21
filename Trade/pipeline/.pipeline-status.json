@@ -7,15 +7,15 @@
     "details": "health.json=OK, staging=OK"
   },
   "market-brief": {
-    "date": "2026-04-19",
+    "date": "2026-04-20",
     "status": "PARTIAL",
     "consecutive_failures": 0,
-    "timestamp": "2026-04-19T20:00:00+08:00",
-    "file": "market-brief-2026-04-19.md",
-    "version": "v1",
-    "missing_grade_a_count": 5,
-    "excel_sync": "SKIPPED \u2014 Python not available in bash env; deferred to next weekday live run",
-    "notes": "v1 \u2014 Sunday weekend run, Tier 3 cache active. PARTIAL: 5 MISSING Grade A (NFCI, ACM_TP_10Y, BTC_3mBasis, Revision_Breadth, Pct_Above_200DMA). WTI basis-cap reversed vs Apr-17 (Hormuz re-closure). Crypto sleeve OFF (Faber). Iran sanctions waiver expired today. Ceasefire expires Apr-22 with talks collapsed."
+    "timestamp": "2026-04-21T00:00:00+08:00",
+    "file": "2026-04-20/market-brief-2026-04-20.md",
+    "version": "v2-replicated",
+    "missing_grade_a_count": 3,
+    "excel_sync": "OK (T.system canonical)",
+    "notes": "v2 \u2014 PARTIAL: 3 MISSING Grade A (residual-mom/IC-z/basis-mom-4of5; numpy compute failure). SPY |Sum|=+3 active (C=0). Brief replicated from T.system\\Trade workspace into Gerald\\Trade on 2026-04-21 as part of Apr-20 routine recovery."
   },
   "news-events": {
     "date": "2026-04-20",
@@ -30,7 +30,7 @@
   "trade-rec": {
     "date": "2026-04-21",
     "status": "ABORT",
-    "consecutive_failures": 3,
+    "consecutive_failures": 1,
     "timestamp": "2026-04-21T20:00:00+08:00",
     "file": "2026-04-21/trade-rec-2026-04-21.md",
     "version": "v1-abort",
@@ -39,7 +39,21 @@
     "near_miss": 0,
     "missing_grade_a_count": null,
     "cloud_ingested": 0,
-    "notes": "HARD ABORT \u2014 market-brief-2026-04-21.md MISSING (also news + audit-staging missing). Cloud ingest 0/3 \u2014 no T.system-cloud files for 2026-04-21. Skill not loaded. No SignalLedger/Memory writes. Third consecutive failure: upstream pipeline appears broken (market-brief-daily and news-events-daily both did not produce 2026-04-21 outputs). Recommend pipeline-recovery Phase B."
+    "notes": "HARD ABORT \u2014 market-brief-2026-04-21.md MISSING in Gerald\\Trade workspace. Cloud ingest 0/3. Skill not loaded. 2026-04-20 trade-rec recovered manually 2026-04-21 from T.system local brief; consecutive_failures reset from 3 to 1 after that recovery (today's abort is the only outstanding failure). See 2026-04-20/trade-rec-2026-04-20.md \u00a7Appendix A for Apr-20 recovery details."
+  },
+  "trade-rec-recovery": {
+    "date": "2026-04-20",
+    "status": "RECOVERED",
+    "consecutive_failures": 0,
+    "timestamp": "2026-04-21T00:00:00+08:00",
+    "file": "2026-04-20/trade-rec-2026-04-20.md",
+    "version": "v2-recovered",
+    "signals_logged": 0,
+    "promoted": 0,
+    "near_miss": 6,
+    "missing_grade_a_count": 3,
+    "cloud_ingested": 3,
+    "notes": "Manual recovery 2026-04-21 of yesterday's missed routine. Replicated market-brief + audit-data-staging from T.system\\Trade. Decision: NO NEW ENTRIES \u2014 sole |Sum|=3 (SPY) fails C-gate; week dominated by binary catalysts. SignalLedger writes SKIPPED to avoid duplicating T.system rows or corrupting OOS stats. Memory.md in Gerald\\Trade is stale \u2014 needs replication from T.system."
   },
   "positions-monitor": {
     "date": "2026-04-17",
