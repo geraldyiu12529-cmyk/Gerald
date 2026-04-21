@@ -64,7 +64,6 @@ Score each candidate asset on its slow variables:
 - Equities: valuation spread, profitability/quality, revision breadth
 - Bonds: term premium, forward-rate factor, real yields, breakevens
 - Commodities: inventories, curve slope, convenience yield, real rates, **basis-momentum (4w and 12w change in front-curve slope; Boons-Prado 2019 JF, Grade A)**
-- FX: carry, REER/PPP gap
 - BTC/ETH: active addresses, hash rate (BTC), transaction activity, MVRV regime
 
 Score: +1 supportive / 0 mixed / -1 hostile.
@@ -72,7 +71,7 @@ Score: +1 supportive / 0 mixed / -1 hostile.
 **Commodity S-score integration:** basis-momentum is a dynamic complement to static F1–F2 slope. Rule: if static slope and basis-momentum align (e.g., deep backwardation *and* steepening further), S can stay at +1; if they diverge (deep backwardation but flattening), cap S at 0 even when static slope alone would read +1. This catches curve-shape exhaustion that static slope misses.
 
 ### Step 3 — Tactical Confirmation
-- Trend (1m / 3m / 12m; or BTC daily/weekly trend). **For single-stock equities (NVDA/TSLA/AAPL/GOOGL/AMZN/META/TSM/INTC/MU/PYPL/PLTR/WDC), prefer residual momentum (12m return residualized against Fama-French 5-factor model; Blitz-Huij-Martens 2011 JEF, Asness-Moskowitz-Pedersen 2013 JF, Grade A) over raw TSMOM.** Raw TSMOM remains the T-input for indices/ETFs, commodities, FX, and crypto.
+- Trend (1m / 3m / 12m; or BTC daily/weekly trend). **For single-stock equities (NVDA/TSLA/AAPL/GOOGL/AMZN/META/TSM/INTC/MU/PYPL/PLTR/WDC), prefer residual momentum (12m return residualized against Fama-French 5-factor model; Blitz-Huij-Martens 2011 JEF, Asness-Moskowitz-Pedersen 2013 JF, Grade A) over raw TSMOM.** Raw TSMOM remains the T-input for indices/ETFs, commodities, and crypto.
 - Revisions / surprise flow (equities) or funding/basis direction (crypto)
 - Order flow / positioning (CFTC, ETF flows, BTC order imbalance)
 
@@ -88,7 +87,7 @@ Name the next 1–3 catalysts likely to reprice the asset (earnings, CPI, FOMC, 
 - Skew / risk reversals / MOVE / VIX
 - Crowding: positioning, funding rate, open interest, ETF one-directional flow
 - Liquidity: spreads, depth, cross-venue fragmentation
-- **Intermediary capital capacity (NY Fed primary-dealer equity / total-capital ratio, z-score vs 3y rolling mean; Adrian-Etula-Muir 2014 JF 69(6) [primary anchor, re-confirmed per BNMA audit]; He-Kelly-Manela 2017 JFE [secondary], Grade A).** Weekly pull, ~1-week lag. Z < −1σ tightens the risk overlay by one notch across equities, commodities, and FX longs (downgrade R from +1 → 0, or 0 → −1); captures dealer balance-sheet constraint *before* HY OAS widens, so it's a leading — not confirmatory — R input. PL-NMA rank 4/54, θ=+1.71, P(top-5)=0.51; P(V027 > V004 HY OAS)=1.000 — V027 is the *leading* leg of the double-count gate.
+- **Intermediary capital capacity (NY Fed primary-dealer equity / total-capital ratio, z-score vs 3y rolling mean; Adrian-Etula-Muir 2014 JF 69(6) [primary anchor, re-confirmed per BNMA audit]; He-Kelly-Manela 2017 JFE [secondary], Grade A).** Weekly pull, ~1-week lag. Z < −1σ tightens the risk overlay by one notch across equities and commodities (downgrade R from +1 → 0, or 0 → −1); captures dealer balance-sheet constraint *before* HY OAS widens, so it's a leading — not confirmatory — R input. PL-NMA rank 4/54, θ=+1.71, P(top-5)=0.51; P(V027 > V004 HY OAS)=1.000 — V027 is the *leading* leg of the double-count gate.
 
 Score: +1 favorable / 0 neutral / -1 crowded or crash-prone.
 
@@ -137,7 +136,9 @@ If no concrete invalidation exists → thesis is narrative, not research-backed 
 
 ---
 
-## 4. Top-33 Variables to Monitor (ranked, from Trad core + audit + meta-integration)
+## 4. Top-31 Variables to Monitor (ranked, from Trad core + audit + meta-integration)
+
+*(V015 FX carry and V016 FX PPP removed 2026-04-21 — FX not in trading universe. Numbering resequenced.)*
 
 1. 12-month time-series momentum (A)
 2. Carry / roll yield (A)
@@ -153,17 +154,15 @@ If no concrete invalidation exists → thesis is narrative, not research-backed 
 12. Real yields (A)
 13. Commodity inventories (A)
 14. Commodity front-back curve slope (A)
-15. FX interest-rate differential (A)
-16. FX real valuation / PPP gap (B at short horizons, A at long)
-17. CFTC speculative positioning (B)
-18. Dealer/customer order flow proxy (B public / A proprietary)
-19. Options-implied skew / risk reversals (B)
-20. Variance risk premium / IV-RV gap (B)
-21. News-based text sentiment (B)
-22. Cross-asset correlation / beta regime (A as filter)
-23. Net supply / issuance / duration supply (A in rates)
-24. Buyback / net payout signal (B)
-25. Insider net buying (B)
+15. CFTC speculative positioning (B)
+16. Dealer/customer order flow proxy (B public / A proprietary)
+17. Options-implied skew / risk reversals (B)
+18. Variance risk premium / IV-RV gap (B)
+19. News-based text sentiment (B)
+20. Cross-asset correlation / beta regime (A as filter)
+21. Net supply / issuance / duration supply (A in rates)
+22. Buyback / net payout signal (B)
+23. Insider net buying (B)
 26. **Residual momentum (equities, 12m FF5-residualized) — A** — Blitz-Huij-Martens (2011) JEF 18(3), 506–521; Asness-Moskowitz-Pedersen (2013) JF 68(3), 929–985. Single-stock T-input; see Step 3. Post-decay projected Sharpe 0.6–0.9. **BNMA verdict: DEPLOY_CONDITIONAL — operationally subsumed by V009 (p_beats_peers 0.009–0.053 across 4 runs).** PL-NMA rank 53/54, P(V009>V026)=1.000. Use as sleeve-only input: V026 scores the single-stock T leg but receives zero independent sizing allocation vs. V009. Six-month review 2026-10-14 may result in demotion to T-overlay only.
 27. **Intermediary capital ratio (NY Fed primary-dealer equity/total, z-score) — A** — He-Kelly-Manela (2017) JFE 124(2), 264–279; Adrian-Etula-Muir (2014) JF 69(6), 2557–2596. Cross-asset R-overlay input; see Step 5. Post-decay projected Sharpe 0.4–0.7.
 28. **Basis-momentum (commodities, 4w/12w change in front-curve slope) — A** — Boons-Prado (2019) JF 74(1), 239–279. Commodity S-input; see Step 2. Post-decay projected Sharpe 0.35–0.47 (BNMA 4-run consensus; P4 posterior 0.39–0.47). PL-NMA rank 10/54, θ=+1.30, P(top-5)=0.13. P(V028>V011)=0.887 — basis-momentum edges Brent slope; size V028 ≥ V011.
@@ -199,7 +198,7 @@ Use MVRV and funding as crowding/regime signals and size overlays, never as the 
 
 Three Grade A variables added to the scoring framework after peer-reviewed audit (see `auto-memory/project_methodology_audit_2026-04-14.md` and this Prompt's Top-25 entries 26–28):
 
-1. **Residual momentum** refines equity T-scores only; raw TSMOM remains authoritative for indices/commodities/FX/crypto. When residual and raw conflict on a single stock, trust residual.
+1. **Residual momentum** refines equity T-scores only; raw TSMOM remains authoritative for indices/commodities/crypto. When residual and raw conflict on a single stock, trust residual.
 2. **Intermediary capital ratio** is a leading cross-asset R-overlay. Do not double-count with HY OAS — take the more negative signal, not the sum.
 3. **Basis-momentum** supplements (does not replace) static F1–F2 slope in commodity S-scores. When they diverge, cap S at 0.
 
@@ -263,7 +262,7 @@ When a meta-analysis posterior is cited in analysis or in the deployment memo, d
 - **Buy/sell outright** is for when structural + tactical + regime align.
 - **Long/short relative value** is usually stronger than outright for valuation, carry, term structure, revisions — these rank better than they forecast.
 - **Trend and event surprise** signals are more useful for outright direction.
-- In FX, commodities, and crypto, combine directional signal with volatility filter — carry and momentum are crash-prone without a vol overlay.
+- In commodities and crypto, combine directional signal with volatility filter — carry and momentum are crash-prone without a vol overlay.
 
 ---
 
