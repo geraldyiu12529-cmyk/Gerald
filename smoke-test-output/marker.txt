@@ -1,3 +1,0 @@
-cwd=/c/Users/Lokis/OneDrive/Desktop/T.system
-has_framework=NO
-has_masterlog=NO
