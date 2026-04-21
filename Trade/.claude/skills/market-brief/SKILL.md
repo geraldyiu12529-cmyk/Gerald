@@ -48,7 +48,7 @@ variables = [
 results = fetch_many(variables, web_search_fn=WebSearch)
 ```
 
-Tier 2-only variables (use WebSearch directly): BTC exchange netflows, ETF flows, perp funding, 3m basis, ETH ETF flows, stablecoin supply, revision breadth, CFTC positioning.
+Tier 2-only variables (use WebSearch directly): BTC exchange netflows, ETF flows, perp funding, 3m basis, ETH ETF flows, stablecoin supply, revision breadth, CFTC positioning. **FX carry direction (V015, Grade A — context only, no scorecard rows):** G10 rate differential direction; carry-unwind = cross-asset risk-off signal. **FX real valuation (V016, Grade B/A — context only):** DXY vs PPP; extreme overvaluation = commodity/equity headwind.
 
 Staleness: LIVE/STALE-OK display normally. STALE-WARN → warning flag on score leg. MISSING (Tier 4) → fail-loud, leave score leg blank.
 
