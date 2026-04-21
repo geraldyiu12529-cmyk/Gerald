@@ -1,7 +1,31 @@
-# T.system Architecture
-**Last updated:** 2026-04-21  
-**Maintained by:** `methodology-sync` skill — patch this file whenever skill wiring, file paths, or task scheduling changes.  
-**Source of truth for wiring:** each skill's `Trade/.claude/skills/{skill}/SKILL.md`. When they conflict, SKILL.md wins; update this file to match.
+# T.system Architecture — v2
+**Version:** 2  
+**Dated:** 2026-04-21  
+**Prior version:** `architecture-v1-2026-04-21.md`  
+**Supersedes:** v1 (for consumer reads)
+
+**Changes from v1:**
+- **Added §10 Current Variable Registry** — full Top-33 variable list with IDs, grades, buckets, sources, scoring legs, and 2026-04-18 A→B downgrades applied
+- **Added §11 Grade Distribution Summary** — count by grade, review-date cohorts, double-count gates
+- No changes to §1–§9 wiring, file paths, or governance rules
+
+---
+
+## ⚠️ GOVERNANCE — THIS IS THE HEART OF THE OPERATION
+
+1. **This file is IMMUTABLE.** Never edit in place. Never patch. Never append to §Changelog of a sealed version. Once dated and committed, a version is frozen.
+2. **All changes ship as a new version file** in `Trade/pipeline/architecture/` named `architecture-v{N}-{YYYY-MM-DD}.md`. Increment N monotonically.
+3. **Every new version MUST include at the top:**
+   - `**Prior version:**` → filename of the immediately previous version
+   - `**Changes from v{N-1}:**` → bulleted diff listing every addition, modification, removal with section reference
+4. **Source of truth for wiring** remains each skill's `Trade/.claude/skills/{skill}/SKILL.md`. When SKILL.md and this file conflict, SKILL.md wins — and a new architecture version must be cut to reconcile.
+5. **Do not delete prior versions.** The folder is append-only history.
+6. **Consumers read the latest version** — resolve via `ls Trade/pipeline/architecture/ | sort` and take the highest `v{N}`.
+
+---
+
+**Maintained by:** `methodology-sync` skill — cuts a new version when skill wiring, file paths, or task scheduling changes.  
+**Source of truth for wiring:** each skill's `Trade/.claude/skills/{skill}/SKILL.md`.
 
 ---
 
@@ -54,6 +78,10 @@ All under `Trade/framework/` unless noted.
 | PL-NMA Meta-Analysis | `Trade/bnma/meta-analysis/PL-NMA-meta-analysis-2026-04-18.md` | PL-NMA 54-variable ranking (θ, P(top-k), pairwise dominance) | quarterly-review, literature-review, methodology-audit only |
 | News Events Taxonomy | `Trade/news-events/README.md` | 12-category taxonomy, 3-tier source hierarchy, 10-rule noise filter, political-comm filter | news-events skill |
 | Master Data Log | `Trade/master-data-log.xlsx` | 10 sheets: SignalLedger, PerformanceStats, RegimeHistory, DailyVariables, AuditAdditionLog, DataQuality, VariableRegistry, MethodologyNotes, CatalystLog, README | 7+ skills read or write |
+| Evidence Grade Rules | `Trade/.claude/rules/evidence-grades.md` | A/B/C grading discipline, fail-loud on MISSING Grade A, stock-to-flow prohibition | All analysis skills (auto-loaded via .claude/rules/) |
+| Risk Rules Summary | `Trade/.claude/rules/risk-rules-summary.md` | Quick-ref pre-entry checklist (6 gates), sizing, heat limits, drawdown breakers | All analysis skills (auto-loaded via .claude/rules/) |
+| Project CLAUDE.md | `Trade/.claude/CLAUDE.md` | Asset universe (fixed), memory protocol, pipeline file conventions, 2026-04-14 audit additions | Every session in Trade/ |
+| Global CLAUDE.md | `~/.claude/CLAUDE.md` | Skill-editing workflow — full folder ZIP (folder as root) + present_files + 3-line handoff; never diffs, never Settings-only edits | Every session globally |
 
 ---
 
@@ -269,6 +297,22 @@ All under `Trade/.claude/skills/{skill-name}/SKILL.md`.
 | ← reads | Memory, memory-lessons | `Trade/framework/` |
 | → writes | System review | `Trade/{YYYY-MM-DD}/system-review-{YYYY-MM-DD}.md` + `.html` |
 | → produces | Patch proposals | `Trade/{YYYY-MM-DD}/system-review-patches-{YYYY-MM-DD}.md` |
+
+### `asset-universe-update` (on-demand)
+| Direction | File | Path |
+|---|---|---|
+| ← reads | Project CLAUDE.md (current universe) | `Trade/.claude/CLAUDE.md` |
+| ← reads | All SKILL.md files | `Trade/.claude/skills/*/SKILL.md` |
+| ← reads | Framework docs referencing universe | `Trade/framework/` |
+| → patches | CLAUDE.md, affected SKILL.md, framework files, scheduled-task definitions | Multi-file |
+
+### `pipeline-smoketest` (on-demand, read-only)
+| Direction | File | Path |
+|---|---|---|
+| ← reads | Scheduled task registry | via `mcp__scheduled-tasks__list_scheduled_tasks` |
+| ← reads | All SKILL.md files | `Trade/.claude/skills/*/SKILL.md` |
+| ← reads | All upstream/downstream file paths | `Trade/**/*` |
+| → writes | Single health report (on-demand) | stdout / ephemeral |
 
 ### `methodology-sync`
 | Direction | File | Path |
@@ -516,10 +560,35 @@ graph TD
 
 ---
 
-## 8. Changelog
+## 8. Auto-Memory & Workspace State
+
+Cross-session context that lives outside `Trade/` but materially shapes every session.
+
+### Auto-memory (global, cross-conversation)
+| Path | Contents | Written by | Read by |
+|---|---|---|---|
+| `~/.claude/projects/C--Users-Lokis-OneDrive-Desktop-T-system/memory/MEMORY.md` | Index of persistent memories (≤150 chars/line, truncated after 200 lines) | Claude (auto-memory protocol) | Every session (auto-loaded) |
+| `~/.claude/projects/.../memory/user_*.md` | User profile (role, preferences, goals) | Claude | Every session |
+| `~/.claude/projects/.../memory/feedback_*.md` | Corrections + validated approaches (rule + Why + How to apply) | Claude | Every session |
+| `~/.claude/projects/.../memory/project_*.md` | Ongoing work state (positions, workspace canonicalization, deadlines) | Claude | Every session |
+| `~/.claude/projects/.../memory/reference_*.md` | Pointers to external systems (pipeline task IDs, SKILL.md char limits) | Claude | Every session |
+| `Trade/.auto-memory/` | CRITICAL flag escalations from positions-monitor (F2, F8) | positions-monitor | Next session startup |
+
+Auto-memory is distinct from `framework/Memory.md`: auto-memory is Claude's cross-conversation memory (user prefs, feedback, project state), while `framework/Memory.md` is the trader's working state (§1 Universe, §2 Positions, §5 Watchlist, §6 Catalysts, §7 Closed).
+
+### Workspace canonicalization (effective 2026-04-21)
+- **Canonical workspace:** `C:\Users\Lokis\OneDrive\Desktop\T.system\Trade\`
+- **Dormant mirror:** `T.system\cowork\Gerald\cloud-sync\` (renamed from `Trade` 2026-04-21; not read or written)
+- **`.claude` directories:** only 2 remain (`Trade/.claude/` for trading skills, `~/.claude/` global); 21 worktrees pruned 2026-04-21
+- **Plugin skills (non-trading):** anthropic-skills, cowork-plugin-management, init, review, security-review — available via Skill tool but not part of the trading pipeline
+
+---
+
+## 9. Changelog
 
 | Date | Change | Triggered by |
 |---|---|---|
+| 2026-04-21 | Added §5 entries for `asset-universe-update` and `pipeline-smoketest`; added §2 entries for `.claude/rules/` and CLAUDE.md files; added §8 auto-memory + workspace canonicalization | Architecture completeness audit |
 | 2026-04-21 | File created — supersedes `pipeline-dependency-graph.mermaid` and `routine-output-map.md` | Manual (architecture review session) |
 | 2026-04-21 | Added V029–V035, Overlay Gate, meta-additions-staging to all skill wiring | HIGH-3 meta-integration commit |
 | 2026-04-21 | Added cloud agents (cloud-market-brief-6pm, cloud-news-events-630pm, cloud-trade-rec-7pm) | Existing tasks, first documented here |
@@ -528,3 +597,87 @@ graph TD
 | 2026-04-15 | master-data-log.xlsx 10-sheet structure established | Excel data layer creation |
 
 *Append a row here whenever this file is patched.*
+
+---
+
+## 10. Current Variable Registry
+
+**Authority:** `Trade/framework/Methodology Prompt.md` §4 Top-33 Variables. This table is a snapshot as of 2026-04-21; the Methodology Prompt is canonical if they diverge.
+
+**Grade legend:** A = replicated, coherent mechanism, long history. B = regime-dependent or thinner coverage. C = weak/narrative (not used in scorecards). A→B = audit-downgraded 2026-04-18 (BNMA).
+
+### Core Top-25 (pre-audit)
+| ID | Variable | Grade | Scoring leg | Bucket | Notes |
+|---|---|---|---|---|---|
+| V001 | VIX | ~~A~~ **B** | R-overlay | Cross-asset | Downgraded 2026-04-18 — regime-sensitive |
+| V002 | MOVE (rates vol) | A | R-overlay | Cross-asset | |
+| V003 | 12m TSMOM | A | T (trend) | All assets | Raw TSMOM for indices/ETFs/commodities/crypto |
+| V004 | HY OAS / credit spreads | ~~A~~ **B** | R-overlay | Cross-asset | Downgraded — 0.65–0.75 corr with V027 post-2008; double-count gate with V027 |
+| V005 | Policy-path surprise sensitivity | A | C (catalyst) | Cross-asset | |
+| V006 | 2s10s yield curve | ~~A~~ **B** | S (structural) | Bonds | Downgraded — lead-lag unstable post-QE |
+| V007 | Real yields | ~~A~~ **B** | S | Bonds | Downgraded — inflation-regime dependent |
+| V008 | ACM term premium | ~~A~~ **B** | S | Bonds | Downgraded — single-model dependency |
+| V009 | Carry / roll yield | A | T | All assets | Spine factor — V026/V029/V030 sleeves sized vs. V009 budget |
+| V010 | Equity valuation spread | A | S | Equities | |
+| V011 | Commodity front-back curve | A | S | Commodities | See V028 basis-momentum supplement |
+| V012 | Earnings revision breadth | A | S | Equities | |
+| V013 | Commodity inventories | A | S | Commodities | |
+| V014 | Inflation breakevens | A | S | Bonds | |
+| V015 | FX interest-rate differential | A | *(context only)* | FX | Not scored — regime identification |
+| V016 | FX real valuation / PPP | B short / A long | *(context only)* | FX | Not scored — regime reference |
+| V017 | CFTC speculative positioning | B | S | Cross-asset | |
+| V018 | Dealer/customer order flow | B public / A proprietary | T | Cross-asset | |
+| V019 | Options-implied skew | B | R | Equities | |
+| V020 | Variance risk premium | B | R | Equities | |
+| V021 | News-based sentiment | B | C | Cross-asset | |
+| V022 | Cross-asset correlation regime | A (as filter) | Filter | Cross-asset | |
+| V023 | Net supply / duration issuance | A (rates) | S | Bonds | |
+| V024 | Buyback / net payout | B | S | Equities | |
+| V025 | Insider net buying | B | S | Equities | |
+
+### Audit additions 2026-04-14 (review due 2026-10-14)
+| ID | Variable | Grade | Scoring leg | Bucket | Notes |
+|---|---|---|---|---|---|
+| V026 | Residual momentum (12m FF5-residualized) | A | T (single-stock) | Equities | DEPLOY_CONDITIONAL — peer-dominated by V009 (PL-NMA rank 53/54). Score only; zero independent sizing vs V009. **V009+V026 same ticker → score V026 only, no sum.** |
+| V027 | Intermediary capital ratio (NY Fed PD z-score) | A | R-overlay | Cross-asset | Leading indicator for V004. **Double-count gate with V004 — take more-negative, not sum.** |
+| V028 | Basis-momentum (4w/12w curve slope Δ) | A | S | Commodities | Supplements V011. P(V028>V011)=0.887. Divergence-cap: if static slope backwardation but basis-momentum flattening, cap S at 0. |
+
+### Meta-analysis additions 2026-04-18 (review due 2026-10-14)
+| ID | Variable | Grade | Scoring leg | Bucket | Notes |
+|---|---|---|---|---|---|
+| V029 | BAB — Betting-Against-Beta | A | S (sleeve) | Equities + ETF | Independent factor sleeve, capped at 1/3 V009 budget. ETF proxy USMV/SPLV. |
+| V030 | DealerGamma (options dealer gamma) | **B** | R-overlay | Equities + Index | WATCH — single-paper (Barbon-Buraschi 2021). Flag in every trade rec. **Double-count gate with V001 VIX.** Source: SqueezeMetrics GEX → SpotGamma → MISSING. |
+| V031 | GP/A — Gross Profitability / Assets | A | S | Equities | Quarterly rebalance; FF5 component. |
+| V032 | CEI — Composite Equity Issuance | A | S (negative sign) | Equities | Self-compute CRSP + Compustat quarterly. |
+| V033 | Faber TAA — SPY sleeve | A | **Step 1.5 Overlay Gate** | Equities | Non-additive to Sum — drawdown circuit-breaker. Monthly SPY vs. 10m-SMA. |
+| V034 | Faber TAA — GSCI sleeve | A | **Step 1.5 Overlay Gate** | Commodities | Non-additive to Sum. Monthly GSCI vs. 10m-SMA. |
+| V035 | Faber TAA — BTC sleeve | A | **Step 1.5 Overlay Gate** | Crypto | Non-additive to Sum. Monthly BTC vs. 10m-SMA. |
+
+---
+
+## 11. Grade Distribution & Review Cohorts
+
+### Distribution (33 variables; V015/V016 context-only)
+| Grade | Count | Variables |
+|---|---|---|
+| A | 22 | V002, V003, V005, V009, V010, V011, V012, V013, V014, V018(proprietary), V022, V023, V026, V027, V028, V029, V031, V032, V033, V034, V035 + V015(long-horizon) |
+| B | 10 | V001↓, V004↓, V006↓, V007↓, V008↓, V017, V019, V020, V021, V024, V025, V030 |
+| Context-only (not scored) | 2 | V015, V016 |
+
+*↓ = audit-downgraded 2026-04-18 (BNMA)*
+
+### Review cohorts
+- **2026-10-14 six-month review** (8 variables): V026, V027, V028, V029, V030, V031, V032, V033/V034/V035 (Faber TAA)
+- **2026-04-18 BNMA downgrades** (permanent until next audit reverses): V001, V004, V006, V007, V008
+
+### Active double-count gates
+| Gate | Rule |
+|---|---|
+| V009 × V026 | Same ticker → score V026 only, zero sizing vs V009 |
+| V004 × V027 | Simultaneous stress → more-negative, not sum. V027 leads V004 by design |
+| V001 × V030 | Simultaneous stress → more-negative, not sum |
+| V011 × V028 | Basis-momentum supplements slope; divergence caps S at 0 |
+| V029, V030 sleeves × V009 spine | Each capped at 1/3 V009 risk budget; independent of spine sizing |
+
+### Step 1.5 Overlay Gate (V033–V035)
+Non-additive to Sum but binding on execution. Sleeve OFF → post-Sum position × 0 regardless of signal. Logged as `Taken=NO, Block_Reason=OverlayGateOff`. Read from previous month-end close only; no intraday recompute.

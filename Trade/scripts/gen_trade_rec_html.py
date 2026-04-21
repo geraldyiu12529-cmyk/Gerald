@@ -1,37 +1,53 @@
-<!DOCTYPE html>
+"""Generate HTML report for trade-rec."""
+import sys, re
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+
+utc8 = timezone(timedelta(hours=8))
+today = datetime.now(utc8).strftime('%Y-%m-%d')
+src = Path(f"{today}/trade-rec-{today}.md")
+out = Path(f"{today}/report-{today}-trade-rec.html")
+
+md = src.read_text(encoding="utf-8")
+
+# Pull header fields
+gen_line = next((l for l in md.splitlines() if l.startswith("**Generated:")), "")
+status_line = next((l for l in md.splitlines() if l.startswith("**Status:")), "")
+
+html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trade Rec 2026-04-21 (v2 Local Authoritative)</title>
+<title>Trade Rec {today} (v2 Local Authoritative)</title>
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:1100px;margin:0 auto;padding:20px;background:#0f1117;color:#e1e4e8}
-h1{color:#58a6ff;border-bottom:2px solid #21262d;padding-bottom:10px}
-h2{color:#79c0ff;margin-top:28px}
-h3{color:#d2a8ff}
-table{border-collapse:collapse;width:100%;margin:14px 0;font-size:.88em}
-th{background:#161b22;color:#8b949e;text-align:left;padding:8px 10px;border:1px solid #30363d}
-td{padding:7px 10px;border:1px solid #21262d}
-tr:hover{background:#161b22}
-.sum4{color:#3fb950;font-weight:bold}
-.sum3{color:#58a6ff;font-weight:bold}
-.sum2{color:#e3b341}
-.neg{color:#f85149}
-.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.8em;font-weight:600;margin-left:6px}
-.new{background:#0d3d0d;color:#3fb950;border:1px solid #238636}
-.pend{background:#2d2000;color:#e3b341;border:1px solid #d29922}
-.blk{background:#2d0d0d;color:#f85149;border:1px solid #da3633}
-.conf{background:#1a1a2d;color:#79c0ff;border:1px solid #1f6feb}
-.warn{background:#2d2000;border-left:4px solid #d29922;padding:8px 12px;margin:10px 0;border-radius:4px}
-.info{background:#0d1117;border-left:4px solid #1f6feb;padding:8px 12px;margin:10px 0;border-radius:4px}
-.delta{background:#0d1a2e;border:1px solid #1f6feb;border-radius:6px;padding:12px 16px;margin:12px 0}
-.regime{background:#1a1a2d;padding:10px 16px;border-radius:6px;border-left:4px solid #58a6ff;font-family:monospace;font-size:1.05em;color:#79c0ff;margin:12px 0}
-code{background:#161b22;padding:1px 6px;border-radius:4px;font-family:monospace;color:#a5d6ff}
-.meta{color:#8b949e;font-size:.9em;margin-top:-8px;margin-bottom:20px}
+body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:1100px;margin:0 auto;padding:20px;background:#0f1117;color:#e1e4e8}}
+h1{{color:#58a6ff;border-bottom:2px solid #21262d;padding-bottom:10px}}
+h2{{color:#79c0ff;margin-top:28px}}
+h3{{color:#d2a8ff}}
+table{{border-collapse:collapse;width:100%;margin:14px 0;font-size:.88em}}
+th{{background:#161b22;color:#8b949e;text-align:left;padding:8px 10px;border:1px solid #30363d}}
+td{{padding:7px 10px;border:1px solid #21262d}}
+tr:hover{{background:#161b22}}
+.sum4{{color:#3fb950;font-weight:bold}}
+.sum3{{color:#58a6ff;font-weight:bold}}
+.sum2{{color:#e3b341}}
+.neg{{color:#f85149}}
+.badge{{display:inline-block;padding:2px 8px;border-radius:12px;font-size:.8em;font-weight:600;margin-left:6px}}
+.new{{background:#0d3d0d;color:#3fb950;border:1px solid #238636}}
+.pend{{background:#2d2000;color:#e3b341;border:1px solid #d29922}}
+.blk{{background:#2d0d0d;color:#f85149;border:1px solid #da3633}}
+.conf{{background:#1a1a2d;color:#79c0ff;border:1px solid #1f6feb}}
+.warn{{background:#2d2000;border-left:4px solid #d29922;padding:8px 12px;margin:10px 0;border-radius:4px}}
+.info{{background:#0d1117;border-left:4px solid #1f6feb;padding:8px 12px;margin:10px 0;border-radius:4px}}
+.delta{{background:#0d1a2e;border:1px solid #1f6feb;border-radius:6px;padding:12px 16px;margin:12px 0}}
+.regime{{background:#1a1a2d;padding:10px 16px;border-radius:6px;border-left:4px solid #58a6ff;font-family:monospace;font-size:1.05em;color:#79c0ff;margin:12px 0}}
+code{{background:#161b22;padding:1px 6px;border-radius:4px;font-family:monospace;color:#a5d6ff}}
+.meta{{color:#8b949e;font-size:.9em;margin-top:-8px;margin-bottom:20px}}
 </style>
 </head>
 <body>
-<h1>Trade Recommendations — 2026-04-21</h1>
+<h1>Trade Recommendations — {today}</h1>
 <div class="meta">
   <strong>v2 — Local Authoritative</strong> &nbsp;|&nbsp; Generated: 2026-04-21 20:20 UTC+8 &nbsp;|&nbsp;
   Supersedes: v1 cloud-7pm (Grade B) &nbsp;|&nbsp;
@@ -156,4 +172,9 @@ code{background:#161b22;padding:1px 6px;border-radius:4px;font-family:monospace;
 Local authoritative v2 — supersedes cloud-7pm v1 (Grade B) — generated 2026-04-21 20:20 UTC+8
 </div>
 </body>
-</html>
+</html>"""
+
+with open(out, "w", encoding="utf-8") as f:
+    f.write(html)
+
+print(f"HTML written: {out}")

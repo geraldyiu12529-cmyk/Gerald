@@ -27,18 +27,18 @@
     "categories_covered": 12
   },
   "trade-rec": {
-    "date": "2026-04-20",
+    "date": "2026-04-21",
     "status": "OK",
     "consecutive_failures": 0,
-    "timestamp": "2026-04-21T11:30:00+08:00",
-    "file": "2026-04-20/trade-rec-2026-04-20.md",
-    "version": "v3",
+    "timestamp": "2026-04-21T21:12:00.325056+08:00",
+    "file": "2026-04-21/trade-rec-2026-04-21.md",
+    "version": "v2",
     "signals_logged": 8,
-    "promoted": 1,
-    "near_miss": 7,
-    "missing_grade_a_count": 3,
-    "cloud_ingested": 3,
-    "notes": "v3 production run (requested 2026-04-21 as 'yesterday's trade rec'). Promoted: SPY Long +3 half-size 1.0% (stop 696, target 730). Near-misses: QQQ +3 correlation-blocked; BTC/Silver/Gold/Brent/Copper/EWY at +2. T-blocked (residual-mom numpy failure): 11 single stocks. IC z MISSING \u00e2\u2020\u2019 R conditional on proxies. P007 TSLA short stop-at-risk flagged (not blocking SPY entry, different sleeve). Cloud files (3) all ingested; cloud EURUSD +3 downgraded to qualitative watchlist."
+    "promoted": 5,
+    "near_miss": 4,
+    "missing_grade_a_count": 1,
+    "cloud_ingested": 2,
+    "notes": "v2 local authoritative. New promotions: INTC P013 Sum+4, AAPL P014 Sum+3 (both T-unblocked by V026 resolution). GOOGL P015 contingent on Apr-23 beat. SPY P009 + EWJ P010 re-confirmed. Silver P012 gate-blocked. Downgraded: PLTR T=-1 (residual -35.62%). Near-miss: MU N040, NVDA N041, QQQ N034, Copper. V026 ALL 12 resolved, V027 z+1.65 fresh, MOVE 67.90 fresh. Cloud ingested 2/3 (no cloud trade-rec on Drive)."
   },
   "positions-monitor": {
     "date": "2026-04-20",
