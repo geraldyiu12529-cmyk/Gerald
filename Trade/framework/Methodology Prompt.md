@@ -89,11 +89,11 @@ Name the next 1–3 catalysts likely to reprice the asset (earnings, CPI, FOMC, 
 - Skew / risk reversals / MOVE / VIX
 - Crowding: positioning, funding rate, open interest, ETF one-directional flow
 - Liquidity: spreads, depth, cross-venue fragmentation
-- **Intermediary capital capacity (NY Fed primary-dealer equity / total-capital ratio, z-score vs 3y rolling mean; He-Kelly-Manela 2017 JFE, Grade A).** Weekly pull, ~1-week lag. Z < −1σ tightens the risk overlay by one notch across equities, commodities, and FX longs (downgrade R from +1 → 0, or 0 → −1); captures dealer balance-sheet constraint *before* HY OAS widens, so it's a leading — not confirmatory — R input.
+- **Intermediary capital capacity (NY Fed primary-dealer equity / total-capital ratio, z-score vs 3y rolling mean; Adrian-Etula-Muir 2014 JF 69(6) [primary anchor, re-confirmed per BNMA audit]; He-Kelly-Manela 2017 JFE [secondary], Grade A).** Weekly pull, ~1-week lag. Z < −1σ tightens the risk overlay by one notch across equities, commodities, and FX longs (downgrade R from +1 → 0, or 0 → −1); captures dealer balance-sheet constraint *before* HY OAS widens, so it's a leading — not confirmatory — R input. PL-NMA rank 4/54, θ=+1.71, P(top-5)=0.51; P(V027 > V004 HY OAS)=1.000 — V027 is the *leading* leg of the double-count gate.
 
 Score: +1 favorable / 0 neutral / -1 crowded or crash-prone.
 
-**Double-counting gate:** intermediary capital z-score correlates ~0.65–0.75 with HY OAS changes post-2008. If both flag stress simultaneously, count once (take the more negative of the two, not their sum). If intermediary z turns negative *before* HY OAS moves, that's the early-warning case — apply the notch.
+**Double-counting gate:** intermediary capital z-score correlates ~0.65–0.75 with HY OAS changes post-2008. If both flag stress simultaneously, count once (take the more negative of the two, not their sum). If intermediary z turns negative *before* HY OAS moves, that's the early-warning case — apply the notch. P(V027>V004)=1.000 in PL-NMA all-vs-all ranking: V027 is the dominant leg. When V027 fires, the V004 reading is confirmatory, not additive.
 
 ### Step 6 — Score Aggregation
 Sum of Steps 2 + 3 + 4 + 5 (catalyst asymmetry scored +1/0/-1):
@@ -166,14 +166,14 @@ If no concrete invalidation exists → thesis is narrative, not research-backed 
 23. Net supply / issuance / duration supply (A in rates)
 24. Buyback / net payout signal (B)
 25. Insider net buying (B)
-26. **Residual momentum (equities, 12m FF5-residualized) — A** — Blitz-Huij-Martens (2011) JEF 18(3), 506–521; Asness-Moskowitz-Pedersen (2013) JF 68(3), 929–985. Single-stock T-input; see Step 3. Post-decay projected Sharpe 0.6–0.9.
+26. **Residual momentum (equities, 12m FF5-residualized) — A** — Blitz-Huij-Martens (2011) JEF 18(3), 506–521; Asness-Moskowitz-Pedersen (2013) JF 68(3), 929–985. Single-stock T-input; see Step 3. Post-decay projected Sharpe 0.6–0.9. **BNMA verdict: DEPLOY_CONDITIONAL — operationally subsumed by V009 (p_beats_peers 0.009–0.053 across 4 runs).** PL-NMA rank 53/54, P(V009>V026)=1.000. Use as sleeve-only input: V026 scores the single-stock T leg but receives zero independent sizing allocation vs. V009. Six-month review 2026-10-14 may result in demotion to T-overlay only.
 27. **Intermediary capital ratio (NY Fed primary-dealer equity/total, z-score) — A** — He-Kelly-Manela (2017) JFE 124(2), 264–279; Adrian-Etula-Muir (2014) JF 69(6), 2557–2596. Cross-asset R-overlay input; see Step 5. Post-decay projected Sharpe 0.4–0.7.
-28. **Basis-momentum (commodities, 4w/12w change in front-curve slope) — A** — Boons-Prado (2019) JF 74(1), 239–279. Commodity S-input; see Step 2. Post-decay projected Sharpe 0.6–1.0.
-29. **V029 BAB — Betting-Against-Beta — A** (review 2026-10-14) — Frazzini, A., & Pedersen, L. (2014). *Betting Against Beta.* JFE 111(1), 1–25. Step 2 — single-stock + ETF sleeve. Long low-β / short high-β. Independent factor sleeve, capped at 1/3 of V009's risk budget. ETF proxy: USMV/SPLV spread (tactical); canonical AQR BAB / Ken French library for grading. Meta 2026-04-18 PL-NMA rank 6/54, θ=+1.60.
-30. **V030 DealerGamma — options dealer gamma positioning — B** (single-paper; second replication required before Grade A; review 2026-10-14) — Barbon, A., & Buraschi, A. (2021). *Gamma Fragility.* Working Paper. Step 5 — single-stock + index R-overlay. Short-gamma dealer regimes amplify intraday vol (widen R stop); long-gamma damps it (tighten). Source: SqueezeMetrics GEX (subscription-dependent) → SpotGamma → MISSING. Independent factor sleeve, capped at 1/3 of V009's risk budget. Meta 2026-04-18 PL-NMA rank 5/54 primary and S2; θ=+1.68.
+28. **Basis-momentum (commodities, 4w/12w change in front-curve slope) — A** — Boons-Prado (2019) JF 74(1), 239–279. Commodity S-input; see Step 2. Post-decay projected Sharpe 0.35–0.47 (BNMA 4-run consensus; P4 posterior 0.39–0.47). PL-NMA rank 10/54, θ=+1.30, P(top-5)=0.13. P(V028>V011)=0.887 — basis-momentum edges Brent slope; size V028 ≥ V011.
+29. **V029 BAB — Betting-Against-Beta — A** (review 2026-10-14) — Frazzini, A., & Pedersen, L. (2014). *Betting Against Beta.* JFE 111(1), 1–25. Step 2 — single-stock + ETF sleeve. Long low-β / short high-β. Independent factor sleeve, capped at 1/3 of V009's risk budget. ETF proxy: USMV/SPLV spread (tactical); canonical AQR BAB / Ken French library for grading. BNMA verdict: DEPLOY_CONDITIONAL — 4-paper support, robust primary+S2. PL-NMA rank 6/54, θ=+1.60, P(top-5)=0.38.
+30. **V030 DealerGamma — options dealer gamma positioning — B** (single-paper; second replication required before Grade A; review 2026-10-14) — Barbon, A., & Buraschi, A. (2021). *Gamma Fragility.* Working Paper. Step 5 — single-stock + index R-overlay. Short-gamma dealer regimes amplify intraday vol (widen R stop); long-gamma damps it (tighten). Source: SqueezeMetrics GEX (subscription-dependent) → SpotGamma → MISSING. Independent factor sleeve, capped at 1/3 of V009's risk budget. BNMA verdict: WATCH — 1 paper, pending second replication. PL-NMA rank 5/54 primary (rank 2 S2); θ=+1.68. Flag single-paper status in every trade rec that references it.
 31. **V031 GP/A — Gross Profitability / Assets — A** (review 2026-10-14) — Novy-Marx, R. (2013). *The Other Side of Value: The Gross Profitability Premium.* JFE 108(1), 1–28. Step 2 — single-stock. Canonical Fama-French 5F component. JKP-tangency implementation intended when HMLDevil/QMJ later promoted. Monthly rebalance of ranked basket from quarterly financials. Meta 2026-04-18 PL-NMA rank 15, θ=+0.63.
-32. **V032 CEI — Composite Equity Issuance — A** (review 2026-10-14) — Daniel, K., & Titman, S. (2006). *Market Reactions to Tangible and Intangible Information.* JF 61(4), 1605–1643. Step 2 — single-stock. Negative sign: high net issuance is a structural headwind signal. Self-compute from CRSP + Compustat (quarterly, with reporting lag). Meta 2026-04-18 PL-NMA rank 7, θ=+1.33.
-33. **V033/V034/V035 C009 Faber TAA — 10-month SMA sleeve gate — A** (review 2026-10-14) — Faber, M. (2007). *A Quantitative Approach to Tactical Asset Allocation.* J. Wealth Mgmt. **Step 1.5 Overlay Gate only — non-additive to Sum.** Three asset instantiations: V033 SPY, V034 GSCI, V035 BTC. Monthly Yahoo closes → Stooq → MISSING. Drawdown circuit-breaker, not alpha sizer. Meta 2026-04-18 PL-NMA rank 2/54, θ=+2.26; multi-review DEPLOY.
+32. **V032 CEI — Composite Equity Issuance — A** (review 2026-10-14) — Daniel, K., & Titman, S. (2006). *Market Reactions to Tangible and Intangible Information.* JF 61(4), 1605–1643. Step 2 — single-stock. Negative sign: high net issuance is a structural headwind signal. Self-compute from CRSP + Compustat (quarterly, with reporting lag). BNMA verdict: DEPLOY — 2-paper support, robust primary+S2. PL-NMA rank 7/54, θ=+1.33.
+33. **V033/V034/V035 C009 Faber TAA — 10-month SMA sleeve gate — A** (review 2026-10-14) — Faber, M. (2007). *A Quantitative Approach to Tactical Asset Allocation.* J. Wealth Mgmt. **Step 1.5 Overlay Gate only — non-additive to Sum.** Three asset instantiations: V033 SPY, V034 GSCI, V035 BTC. Monthly Yahoo closes → Stooq → MISSING. Drawdown circuit-breaker, not alpha sizer. Meta 2026-04-18 PL-NMA rank 2/54 primary (rank 18 S2 — artefact from small Overlay peer-set in S2 spec; does not change DEPLOY verdict), θ=+2.26; multi-review DEPLOY.
 
 ---
 
@@ -219,6 +219,22 @@ Five new variables entered the framework after the 2026-04-18 meta-analysis (see
 6. **V030 DealerGamma double-count gate**: do not double-count with V001 VIX when both flag stress. Take the more-negative read.
 
 All five meta additions obey the fail-loud rule on MISSING pulls. Post-decay projections per meta PL-NMA: V029 Sharpe 0.4–0.8, V030 0.4–0.7, V031 0.3–0.5, V032 0.4–0.6, V033–V035 as gate (no alpha, drawdown reduction instead).
+
+### Reconciliation note — 2026-04-18 BNMA grade downgrades (binding)
+
+The BNMA 4-paper cross-run audit (2026-04-18) found evidence inconsistency or regime-sensitivity in five previously Grade A macro variables. All five are **downgraded A→B** effective immediately. They remain in the scorecard but carry the lower grade until a future audit reverses the call.
+
+| Variable | Code | Previous | New | BNMA finding |
+|---|---|---|---|---|
+| VIX | V001 | A | **B** | Regime-sensitive; predictive only in specific vol-regime clusters |
+| HY OAS / credit spreads | V004 | A | **B** | Correlates 0.65–0.75 with V027 post-2008; loses independent signal in high-V027-correlation windows |
+| 2s10s yield curve | V006 | A | **B** | Lead-lag structure unstable across rate cycles; inversion signal inconsistent post-QE |
+| Real yields | V007 | A | **B** | Cross-asset correlation with equity E/P varies by inflation regime; not unconditionally Grade A |
+| ACM term premium | V008 | A | **B** | Methodology-sensitive (ACM vs. Kim-Wright diverge post-2020); 1-model dependency |
+
+**How to apply:** In scorecards, mark these variables as **(B)** not **(A)**. When one of these fires against a Grade A variable pointing the other way, treat the Grade B reading as confirmatory context, not an independent signal leg. Do not double-count V004 with V027 (existing gate still applies).
+
+---
 
 ### Appendix — Meta-analysis group ↔ Gerald bucket crosswalk (added 2026-04-18)
 
@@ -277,5 +293,7 @@ Every sentence in a briefing must either (a) inform a decision or (b) manage a r
 - `Coin core.md` — BTC predictor families, long/short signal hierarchy, master variable table, research gaps.
 - `Risk Rules.md` — binding sizing, heat, stop, and correlation-gate policy. Reference at every entry.
 - `Data Sources.md` — explicit Grade A/B variable → source mapping with fail-loud rule.
+- `bnma/meta-analysis/BNMA-meta-analysis-2026-04-18.md` — highest-evidence synthesis: 4-paper cross-run MCMC analysis; DEPLOY/WATCH/EXCLUDE verdicts per variable; V001/V004/V006/V007/V008 A→B downgrades; primary evidence basis for Top-33 entries V026–V035.
+- `bnma/meta-analysis/PL-NMA-meta-analysis-2026-04-18.md` — Plackett-Luce NMA all-vs-all ranking of 54 variables across 12 papers (Bradley-Terry model); provides θ (log-odds), P(top-k), and pairwise dominance probabilities cited in Top-33 entries.
 
-All live in `/Trade/` and should be consulted directly when a variable's definition, evidence, or direction is uncertain.
+All live in `/Trade/framework/` (or `/Trade/bnma/meta-analysis/` for the BNMA files) and should be consulted directly when a variable's definition, evidence, or direction is uncertain.

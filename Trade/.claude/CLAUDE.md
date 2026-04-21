@@ -18,6 +18,8 @@ FX: EURUSD, USDJPY.
 | `framework/Memory.md` | Open positions, watchlist, catalysts, closed trades | Most skills (see SKILL.md) |
 | `framework/Retention Policy.md` | File tiering, archival | workspace-tidy ONLY |
 | `framework/Excel-Sync-Protocol.md` | Column mappings for master-data-log.xlsx | brief, trade-rec, signal-review, trade-update |
+| `bnma/meta-analysis/BNMA-meta-analysis-2026-04-18.md` | DEPLOY/WATCH/EXCLUDE verdicts, A→B grade downgrades for V001/V004/V006/V007/V008 | quarterly-review, literature-review, methodology-audit ONLY |
+| `bnma/meta-analysis/PL-NMA-meta-analysis-2026-04-18.md` | PL-NMA 54-variable ranking (θ, P(top-k), pairwise dominance) | quarterly-review, literature-review, methodology-audit ONLY |
 
 **CRITICAL: Do NOT load all documents at session start. Each skill specifies its own reads. This is the primary token-saving mechanism.**
 

@@ -50,6 +50,8 @@ changed  = any(os.path.getmtime(p) > last_rec_mtime for p in upstream)
 
 If `changed=False`: append no-change comment to rec file and exit. If `True`: proceed.
 
+> **Note on brief staleness:** If the calling task (trade-rec-daily) passed a stale brief (yesterday's or older), the upstream synthesis step must label all brief-derived variable readings `[STALE — {age}h]` inline and add a prominent §6 Data Gaps entry: "Market brief is STALE ({age}h). All brief-derived variable readings are from {brief_date}. Run /market-brief before actioning any promoted signal." The pre-entry checklist rule 7 (overlay gate clearance) uses the stale brief's sleeve status — acceptable if age < 36h, block new entries if ≥ 36h.
+
 ---
 
 ## Step 1 — Reads
@@ -77,7 +79,8 @@ meta_path         = _newest([f'{today}/meta-additions-staging-{today}.md', '*/me
 close_path        = _newest(['*/us-close-snapshot-*.md', 'us-close-snapshot-*.md'])
 ```
 
-If `brief_path` is None → **stop**. Brief is a required upstream. Log under §6 Data Gaps and exit — do not proceed without it.
+If `brief_path` is None (no brief anywhere in workspace) → **stop**. Log under §6 Data Gaps and exit.
+If `brief_path` points to a file older than today → label all brief-derived values `[STALE]` throughout the output. Block new entries if brief age ≥ 36h (overlay gate state may be stale). See staleness note at Step 0.
 
 ### 1b — Cloud data (Grade B — always read alongside local, never a substitute)
 
