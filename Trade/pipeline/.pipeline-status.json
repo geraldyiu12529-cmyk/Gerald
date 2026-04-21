@@ -28,14 +28,15 @@
     "date": "2026-04-20",
     "status": "OK",
     "consecutive_failures": 0,
-    "timestamp": "2026-04-20T20:20:00+08:00",
+    "timestamp": "2026-04-21T11:30:00+08:00",
     "file": "2026-04-20/trade-rec-2026-04-20.md",
-    "version": "v1",
-    "signals_logged": 6,
-    "promoted": 0,
-    "near_miss": 3,
-    "missing_grade_a_count": 0,
-    "notes": "v1 \u00e2\u20ac\u201d NO new trade. INTC/Gold/QQQ HOLD; SPY correlation-blocked. BTC/Brent/Silver below threshold. SignalLedger N033\u00e2\u20ac\u201cN038 logged. MOCK TEST RUN."
+    "version": "v3",
+    "signals_logged": 8,
+    "promoted": 1,
+    "near_miss": 7,
+    "missing_grade_a_count": 3,
+    "cloud_ingested": 3,
+    "notes": "v3 production run (requested 2026-04-21 as 'yesterday's trade rec'). Promoted: SPY Long +3 half-size 1.0% (stop 696, target 730). Near-misses: QQQ +3 correlation-blocked; BTC/Silver/Gold/Brent/Copper/EWY at +2. T-blocked (residual-mom numpy failure): 11 single stocks. IC z MISSING → R conditional on proxies. P007 TSLA short stop-at-risk flagged (not blocking SPY entry, different sleeve). Cloud files (3) all ingested; cloud EURUSD +3 downgraded to qualitative watchlist."
   },
   "positions-monitor": {
     "date": "2026-04-20",

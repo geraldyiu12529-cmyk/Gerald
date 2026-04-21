@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Trade Rec — 2026-04-20 v3</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root { --bg:#0f1115; --card:#171a21; --muted:#8a93a6; --fg:#e5e9f0; --accent:#5b9bff; --green:#4ade80; --red:#f87171; --yellow:#facc15; --border:#262b35; }
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--fg);line-height:1.5}
+.container{max-width:1180px;margin:0 auto;padding:32px 24px}
+h1{font-size:26px;margin:0 0 4px} h2{font-size:18px;margin:24px 0 10px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:6px}
+h3{font-size:15px;margin:16px 0 8px;color:#b5bccc}
+.sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+.grid{display:grid;gap:12px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-3{grid-template-columns:1fr 1fr 1fr}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.card .label{color:var(--muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.card .val{font-size:20px;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{color:var(--muted);font-weight:500;background:#12151c}
+tr:hover td{background:#1a1e27}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}
+.pill.green{background:rgba(74,222,128,.15);color:var(--green)} .pill.red{background:rgba(248,113,113,.15);color:var(--red)} .pill.yellow{background:rgba(250,204,21,.15);color:var(--yellow)} .pill.blue{background:rgba(91,155,255,.15);color:var(--accent)} .pill.gray{background:#262b35;color:var(--muted)}
+.chart-wrap{position:relative;height:260px}
+.ok{color:var(--green)} .warn{color:var(--yellow)} .bad{color:var(--red)} .mute{color:var(--muted)}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:13px}
+.kv .k{color:var(--muted)}
+.footer{color:var(--muted);font-size:12px;margin-top:24px;border-top:1px solid var(--border);padding-top:12px}
+ul{margin:6px 0;padding-left:20px} li{margin:3px 0}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Trade Recommendation — 2026-04-20 <span class="pill blue">v3</span></h1>
+<div class="sub">Generated 2026-04-20 20:20 UTC+8 (08:20 ET pre-open) — production run. Status: <span class="warn">PARTIAL</span> — Grade A MISSING: 3 (residual mom, IC z, basis-mom 4/5).</div>
+
+<h2>Executive Summary</h2>
+<div class="grid grid-4">
+  <div class="card"><div class="label">Signal Promoted</div><div class="val">SPY Long <span class="pill green">+3</span></div><div class="mute" style="font-size:12px;margin-top:4px">half-size 1.0%</div></div>
+  <div class="card"><div class="label">Near-Miss</div><div class="val">QQQ <span class="pill yellow">+3 (corr.)</span></div><div class="mute" style="font-size:12px;margin-top:4px">+ 6 assets at |Sum|=2</div></div>
+  <div class="card"><div class="label">Regime</div><div class="val">Risk-on / Reflation</div><div class="mute" style="font-size:12px;margin-top:4px">Geo-fragile; ceasefire Apr-22</div></div>
+  <div class="card"><div class="label">Heat Post-Entry</div><div class="val">~1.9%</div><div class="mute" style="font-size:12px;margin-top:4px">≤ 8% cap</div></div>
+</div>
+
+<h2>Overlay Gate — Faber TAA (C009)</h2>
+<table>
+<tr><th>Sleeve</th><th>Asset</th><th>Mar-31 vs 10m-SMA</th><th>Gate</th></tr>
+<tr><td>Equity (V033)</td><td>SPY</td><td>ABOVE</td><td><span class="pill green">ON</span></td></tr>
+<tr><td>Commodity (V034)</td><td>GSCI</td><td>ABOVE</td><td><span class="pill green">ON</span></td></tr>
+<tr><td>Crypto (V035)</td><td>BTC</td><td>ABOVE</td><td><span class="pill green">ON</span></td></tr>
+<tr><td>Intl Equity</td><td>EFA</td><td>ABOVE</td><td><span class="pill green">ON</span></td></tr>
+</table>
+<div class="mute" style="font-size:12px;margin-top:6px">Next read: Apr-30 month-end. No position-size multipliers triggered.</div>
+
+<h2>Data Collected — Key Variables</h2>
+<table>
+<tr><th>Variable</th><th>Reading</th><th>Grade</th><th>Status</th><th>Score Impact</th></tr>
+<tr><td>VIX</td><td>19.36</td><td>A</td><td>LIVE</td><td>R favorable (<25)</td></tr>
+<tr><td>VIX3M</td><td>20.51</td><td>A</td><td>LIVE</td><td>Term contango benign</td></tr>
+<tr><td>MOVE</td><td>65.70</td><td>A</td><td>LIVE</td><td>Bond vol compressed</td></tr>
+<tr><td>DXY</td><td>98.22</td><td>A</td><td>LIVE</td><td>Commodity tailwind</td></tr>
+<tr><td>HY OAS</td><td>2.85%</td><td>A</td><td>STALE-OK</td><td>R contained</td></tr>
+<tr><td>NFCI</td><td>−0.47</td><td>A</td><td>LIVE</td><td>Loose conditions</td></tr>
+<tr><td>DGS10</td><td>4.246%</td><td>A</td><td>LIVE</td><td>2s10s 53.6bps moderate steep</td></tr>
+<tr><td>DFII10</td><td>1.89%</td><td>A</td><td>STALE-WARN</td><td>Growth ambiguous</td></tr>
+<tr><td>Brent</td><td>$94.83</td><td>A</td><td>LIVE</td><td>Iran escalation ~+5-7%</td></tr>
+<tr><td>Gold</td><td>$4,830.70</td><td>A</td><td>LIVE</td><td>Near ATH; DXY-corr</td></tr>
+<tr><td>BTC / ETH</td><td>$75,370 / $2,313</td><td>A</td><td>LIVE</td><td>3rd test $75K support</td></tr>
+</table>
+
+<h3>Audit Additions (2026-04-14 binding, 2026-10-14 review)</h3>
+<table>
+<tr><th>ID</th><th>Variable</th><th>Status</th><th>Decision-Moving?</th></tr>
+<tr><td>V026</td><td>Residual momentum (FF5 12m)</td><td><span class="pill red">MISSING</span> — numpy failure</td><td><span class="pill yellow">YES (blocked 11 single-stock T)</span></td></tr>
+<tr><td>V027</td><td>Intermediary capital z-score</td><td><span class="pill red">MISSING</span> — numpy failure</td><td><span class="pill yellow">YES (R conditional via proxies)</span></td></tr>
+<tr><td>V028</td><td>Basis-momentum (4w/12w)</td><td><span class="pill yellow">PARTIAL</span> — Brent only</td><td><span class="pill gray">NO (Brent below threshold)</span></td></tr>
+</table>
+
+<h3>Meta Additions (2026-04-18 binding)</h3>
+<table>
+<tr><th>ID</th><th>Variable</th><th>Status</th><th>Decision-Moving?</th></tr>
+<tr><td>V029</td><td>BAB (USMV/SPLV)</td><td><span class="pill gray">Not computed</span></td><td>NO</td></tr>
+<tr><td>V030</td><td>DealerGamma (Grade B)</td><td><span class="pill gray">Not computed</span></td><td>NO</td></tr>
+<tr><td>V031</td><td>GP/A (Gross Profitability)</td><td><span class="pill gray">Not computed</span></td><td>NO</td></tr>
+<tr><td>V032</td><td>CEI (Composite Issuance)</td><td><span class="pill gray">Not computed</span></td><td>NO</td></tr>
+</table>
+
+<h2>Score Stacking — Top Theses</h2>
+<div class="grid grid-2">
+<div class="card"><h3 style="margin-top:0">|Sum| ≥ 3</h3>
+<div class="chart-wrap"><canvas id="scoreBar"></canvas></div></div>
+<div class="card"><h3 style="margin-top:0">|Sum| = 2 Near-Misses</h3>
+<div class="chart-wrap"><canvas id="nearMissBar"></canvas></div></div>
+</div>
+
+<h2>Recommendations</h2>
+<table>
+<tr><th>Asset</th><th>Dir</th><th>Entry</th><th>Stop</th><th>Target</th><th>Size</th><th>Catalyst</th><th>Grade</th><th>Sleeve</th></tr>
+<tr>
+<td><b>SPY</b></td>
+<td><span class="pill green">LONG</span></td>
+<td>$710.14</td>
+<td>$696.00 (2× ATR)</td>
+<td>$720 / $730</td>
+<td>1.0% (half)</td>
+<td>C=0: FOMC Apr-28 path risk; structural S+T+R edge</td>
+<td>S+1(A), T+1(A), C0, R+1(A)*</td>
+<td>Equity ON</td>
+</tr>
+</table>
+<div class="mute" style="font-size:12px;margin-top:6px">*R=+1 conditional on IC proxies (HY OAS 2.85%, NFCI −0.47, VIX 19.36, MOVE 65.7 — all non-stressed). IC z-score itself MISSING (numpy failure).</div>
+
+<h2>Pre-Entry Checklist — SPY Long</h2>
+<table>
+<tr><th>#</th><th>Item</th><th>Status</th><th>Detail</th></tr>
+<tr><td>1</td><td>|Sum|≥3 with C scored</td><td class="ok">✅ PASS</td><td>Sum +3; C=0 scored</td></tr>
+<tr><td>2</td><td>Invalidation written, concrete, date-bounded</td><td class="ok">✅ PASS</td><td>Price $696 / VIX>25 / HY>4.50% / reassess 2026-05-13</td></tr>
+<tr><td>3</td><td>Correlation gate clean</td><td class="ok">✅ PASS</td><td>Standalone; no concurrent equity methodology position</td></tr>
+<tr><td>4</td><td>Per-position ≤2% / heat ≤8%</td><td class="ok">✅ PASS</td><td>1.0% sized; heat 1.9%</td></tr>
+<tr><td>5</td><td>ATR stop set</td><td class="ok">✅ PASS</td><td>$696 = 2× daily ATR ~$7 below $710</td></tr>
+<tr><td>6</td><td>Catalyst asymmetry stated</td><td class="warn">⚠ PARTIAL</td><td>C=0; structural edge not catalyst-driven. FOMC tail = downside asymmetric near-term → half-size</td></tr>
+<tr><td>7</td><td>Overlay Gate clearance</td><td class="ok">✅ PASS</td><td>Equity sleeve ON</td></tr>
+<tr><td>8</td><td>Cloud digest clearance</td><td class="ok">✅ PASS</td><td>No POSITION-ALERT on equity sleeve</td></tr>
+</table>
+
+<h2>Catalyst Calendar (rolling 2 weeks)</h2>
+<div class="chart-wrap" style="height:190px"><canvas id="catCal"></canvas></div>
+<table style="margin-top:10px">
+<tr><th>Date</th><th>Event</th><th>Assets</th><th>Priority</th></tr>
+<tr><td>Apr-21</td><td>Advance Retail Sales Mar</td><td>SPY, QQQ, consumer</td><td><span class="pill yellow">MED</span></td></tr>
+<tr><td>Apr-22</td><td><b>Iran ceasefire expires</b></td><td>Brent, Gold, VIX, all</td><td><span class="pill red">CRITICAL</span></td></tr>
+<tr><td>Apr-22</td><td>TSLA + GOOGL Q1 AC</td><td>TSLA, GOOGL, QQQ</td><td><span class="pill red">HIGH</span></td></tr>
+<tr><td>Apr-23</td><td>INTC + AMZN Q1 AC</td><td>INTC, AMZN, QQQ</td><td><span class="pill red">HIGH</span></td></tr>
+<tr><td>Apr-24</td><td>ECB meeting (25bp cut expected)</td><td>EUR/USD, DXY</td><td><span class="pill yellow">MED</span></td></tr>
+<tr><td>Apr-28-29</td><td><b>FOMC</b></td><td>All — SPY primary</td><td><span class="pill red">HIGH</span></td></tr>
+<tr><td>Apr-29</td><td>META Q1 AC (same day as FOMC)</td><td>META, QQQ</td><td><span class="pill red">HIGH</span></td></tr>
+<tr><td>May-12</td><td>April CPI</td><td>Rates, Gold, BTC</td><td><span class="pill yellow">MED</span></td></tr>
+<tr><td>May-14-15</td><td>Xi-Trump Beijing summit</td><td>DXY, EWY, tariffs</td><td><span class="pill yellow">MED</span></td></tr>
+</table>
+
+<h2>Open Positions (off-methodology)</h2>
+<table>
+<tr><th>ID</th><th>Asset</th><th>Side</th><th>Entry</th><th>Stop</th><th>Live</th><th>Buffer</th><th>Flag</th></tr>
+<tr><td>P006</td><td>AAVEUSDT</td><td>Short</td><td>$90.58</td><td>$95.00</td><td>~$91</td><td>~4.4%</td><td class="ok">OK</td></tr>
+<tr><td>P007</td><td>TSLAUSDT</td><td>Short</td><td>$395.56</td><td>$400.00</td><td><b>$400.62</b></td><td class="bad">−0.16%</td><td class="bad">⚠ STOP AT RISK</td></tr>
+<tr><td>P008</td><td>CLUSDT</td><td>Long</td><td>$88.25</td><td>$85.30</td><td>~$87-88</td><td>~$2-3</td><td class="ok">OK</td></tr>
+</table>
+
+<h2>Data Gap Closure</h2>
+<div class="grid grid-2">
+<div class="card"><h3 style="margin-top:0">Grade A Gaps</h3>
+<div class="chart-wrap"><canvas id="gapDoughnut"></canvas></div></div>
+<div class="card"><h3 style="margin-top:0">Upstream Coverage</h3>
+<ul>
+<li>Local market-brief v2 ✅</li>
+<li>Local news ✅</li>
+<li>Local audit-staging (1/3 legs) ⚠</li>
+<li>Local us-close-snapshot ✅ (MOCK label)</li>
+<li>Local positions-monitor ✅ (stale)</li>
+<li>Local meta-additions ✅</li>
+<li>Cloud market-brief ✅ (B)</li>
+<li>Cloud news ✅ (B)</li>
+<li>Cloud trade-rec ✅ (B)</li>
+</ul></div>
+</div>
+
+<h2>Discussion</h2>
+<div class="card">
+<p><b>Primary thesis (SPY Long, half-size).</b> Faber equity sleeve ON, VIX 19.36, 10Y 4.246%, HY OAS 2.85% — non-stressed backdrop. QQQ correlation block lifted (closed Apr-19 at +1.13%). Structural S+T+R edge without near-term catalyst tailwind. FOMC Apr-28-29 is the primary tail; Powell likely hawkish on energy-driven inflation re-acceleration.</p>
+<p><b>Why half-size (1.0% vs full 2%).</b> Four independent risk haircuts compound: (a) IC z-score MISSING → R conditional on proxies; (b) FOMC hawkish-surprise tail 8 days out; (c) C=0 means no favorable near-term catalyst; (d) ceasefire Apr-22 cross-asset tail risk spills to equities if escalation.</p>
+<p><b>Why not full equity basket.</b> Residual-momentum numpy failure blocks 11 single-stock T-scores (NVDA/AAPL/AMZN/META/GOOGL/INTC/TSM/WDC/MU/PLTR/PYPL). GOOGL Sum would be +3 if T recovered — earnings Apr-22 AC is the trigger event but T-block is blocking. No single-stock promotion possible until staging fix.</p>
+<p><b>Cloud file reconciliation.</b> Cloud-trade-rec promoted EURUSD +3 (only non-T-blocked asset in cloud scoring); local scorecard did not explicitly pull EURUSD full S/T/C/R. Treating cloud EURUSD as Grade B qualitative bias. Cloud had no portfolio state (missed P006/P007/P008). Local authoritative.</p>
+</div>
+
+<h2>Memory Updates</h2>
+<ul>
+<li>Memory.md §2: add SPY long row on fill (entry $710.14, stop $696, size 1.0%, time-stop 2026-05-13)</li>
+<li>Memory.md §5: flip SPY → PROMOTED; QQQ → NEAR-MISS (correlation); refresh BTC/Silver/Gold/Brent/Copper/EWY triggers</li>
+<li>memory-lessons.md: "2026-04-20: residual-mom numpy failure blocked all single-stock T for first time; SPY de-risked to half-size"</li>
+<li>SignalLedger: P009 (SPY) pending; N033–N039 near-misses</li>
+<li>AuditAdditionLog: V026/V027 decision-moving today (via NON-trades); V028 Brent neutral</li>
+<li>CatalystLog: Apr-19 Iran waiver → NOT RENEWED outcome</li>
+</ul>
+
+<div class="footer">
+Sources: market-brief-2026-04-20.md v2 (A) · news-2026-04-20.md (A) · audit-data-staging-2026-04-20.md (A, partial) · us-close-snapshot (A) · meta-additions-staging (A) · positions-monitor (A) · slack-digest (B) · framework/{Memory,Risk Rules,Methodology Prompt}.md · cloud-market-brief/news/trade-rec-2026-04-20.md (B, Google Drive)
+</div>
+</div>
+
+<script>
+const cfg = {
+  indexAxis:'y',
+  responsive:true, maintainAspectRatio:false,
+  plugins:{legend:{labels:{color:'#e5e9f0'}}},
+  scales:{x:{ticks:{color:'#8a93a6'},grid:{color:'#262b35'}},y:{ticks:{color:'#e5e9f0'},grid:{color:'#262b35'}}}
+};
+
+new Chart(document.getElementById('scoreBar'),{
+  type:'bar',
+  data:{labels:['SPY','QQQ (corr. blocked)'],
+        datasets:[
+          {label:'S',data:[1,1],backgroundColor:'#4ade80'},
+          {label:'T',data:[1,1],backgroundColor:'#5b9bff'},
+          {label:'C',data:[0,0],backgroundColor:'#facc15'},
+          {label:'R',data:[1,1],backgroundColor:'#a78bfa'}
+        ]},
+  options:{...cfg, scales:{...cfg.scales, x:{...cfg.scales.x,stacked:true,min:0,max:4},y:{...cfg.scales.y,stacked:true}}}
+});
+
+new Chart(document.getElementById('nearMissBar'),{
+  type:'bar',
+  data:{labels:['BTC','Silver','Gold','Brent','Copper','EWY'],
+        datasets:[
+          {label:'S',data:[0,1,1,1,1,1],backgroundColor:'#4ade80'},
+          {label:'T',data:[1,1,1,0,1,1],backgroundColor:'#5b9bff'},
+          {label:'C',data:[1,0,0,0,0,0],backgroundColor:'#facc15'},
+          {label:'R',data:[0,0,0,1,0,0],backgroundColor:'#a78bfa'}
+        ]},
+  options:{...cfg, scales:{...cfg.scales, x:{...cfg.scales.x,stacked:true,min:0,max:3},y:{...cfg.scales.y,stacked:true}}}
+});
+
+new Chart(document.getElementById('catCal'),{
+  type:'bar',
+  data:{labels:['Apr-21','Apr-22','Apr-22','Apr-23','Apr-24','Apr-28-29','Apr-29','May-12','May-14-15'],
+        datasets:[{label:'Priority (1=MED, 2=HIGH, 3=CRITICAL)',
+                   data:[1,3,2,2,1,2,2,1,1],
+                   backgroundColor:['#facc15','#f87171','#f87171','#f87171','#facc15','#f87171','#f87171','#facc15','#facc15']}]},
+  options:{responsive:true,maintainAspectRatio:false,
+           plugins:{legend:{display:false}},
+           scales:{x:{ticks:{color:'#8a93a6'},grid:{color:'#262b35'}},y:{ticks:{color:'#8a93a6'},grid:{color:'#262b35'},min:0,max:3}}}
+});
+
+new Chart(document.getElementById('gapDoughnut'),{
+  type:'doughnut',
+  data:{labels:['Grade A LIVE','Grade A STALE-WARN','Grade A MISSING'],
+        datasets:[{data:[22,4,3],backgroundColor:['#4ade80','#facc15','#f87171'],borderColor:'#171a21',borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,
+           plugins:{legend:{labels:{color:'#e5e9f0'}}}}
+});
+</script>
+</body>
+</html>
