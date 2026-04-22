@@ -8,59 +8,59 @@ from pathlib import Path
 # PER-RUN DATA — update these for every date
 # ══════════════════════════════════════════════════════════════════════════════
 
-TODAY      = "2026-04-21"
-VERSION    = "v2 Local"
-GEN_TIME   = "2026-04-21 20:20 UTC+8"
-SUPERSEDES = "Supersedes cloud-7pm v1 (Grade B). "
-STATUS_CLS = "ok"       # ok / warn / bad
+TODAY      = "2026-04-22"
+VERSION    = "v1 Local"
+GEN_TIME   = "2026-04-22 20:30 UTC+8"
+SUPERSEDES = "Local primary — cloud files absent from Drive at run time. "
+STATUS_CLS = "ok"
 STATUS_TXT = "OK"
-MISS_COUNT = "1 (GSCI gate)"
-V026_ST    = "ALL 12 LIVE ✓"
-V027_ST    = "z+1.65 ✓"
-MOVE_ST    = "67.90 ✓"
+MISS_COUNT = "0 (T3 fallbacks applied)"
+V026_ST    = "ALL 12 LIVE \u2713"
+V027_ST    = "z+1.65 \u2713"
+MOVE_ST    = "STALE Apr-21"
 
 # Executive summary cards: (label, val_text, val_css_class, sub_text)
 # val_css_class: "ok" / "warn" / "bad" / ""
-EXEC_PROMOTED = ("Promoted This Run",   "5 signals", "ok",   "INTC +4 · AAPL +3 · GOOGL +3 · SPY · EWJ")
-EXEC_NEARMISS = ("Near-Miss / Blocked", "4 + 1",     "warn", "MU, QQQ, NVDA, Copper · Silver gate-blocked")
-EXEC_REGIME   = ("Regime",              "Risk-On / Geo-Binary", "", "Ceasefire EXPIRED · VIX 19.04 at threshold")
-EXEC_HEAT     = ("Heat (if all filled)","4.58%",     "",     "≤ 8% cap · room for MU post-FOMC")
+EXEC_PROMOTED = ("Promoted This Run",   "1 signal",  "ok",   "Brent P016 Long \u2014 commodity sleeve first ON this cycle")
+EXEC_NEARMISS = ("Near-Miss / Blocked", "5 + 1",     "warn", "WTI, Silver, Copper, WDC, NVDA near-miss \u00b7 BTC gate-blocked")
+EXEC_REGIME   = ("Regime",              "Risk-On / Geo-Binary", "", "Ceasefire EXTENDED \u00b7 Hormuz <10% \u00b7 Blockade intact")
+EXEC_HEAT     = ("Heat (open+pending)", "~2.6%",     "",     "P009 SPY 1.86% open + P016 Brent 0.75% pending \u00b7 8% cap")
 
 # ── Data Freshness Strip ───────────────────────────────────────────────────────
 # (variable, reading, grade, pill_cls, age_note)
 # pill_cls: "green"=LIVE A, "blue"=LIVE B, "yellow"=STALE, "red"=MISSING
 FRESHNESS = [
-    ("MOVE",    "67.90",   "A", "green",  "fresh Apr-21"),
-    ("V027",    "+1.65",   "A", "green",  "fresh Apr-21"),
-    ("V026",    "12/12",   "A", "green",  "Apr-21 19:48"),
-    ("VIX",     "19.04",   "B", "blue",   "Apr-21"),
-    ("DXY",     "98.242",  "A", "green",  "Apr-21"),
-    ("HY OAS",  "285bp",   "B", "blue",   "Apr-19 OK"),
-    ("DGS10",   "4.25%",   "A", "green",  "Apr-21"),
-    ("SPY/QQQ", "$708/$646","A","green",  "Apr-21 close"),
-    ("Brent/WTI","$90/$86","A", "green",  "Apr-21"),
-    ("VIX3M",   "20.51",   "B", "yellow", "stale Apr-18"),
-    ("NFCI",    "−0.47",   "A", "yellow", "11d stale Apr-10"),
-    ("V028",    "Partial", "A", "yellow", "Brent only; others T3"),
-    ("GSCI",    "MISSING", "A", "red",    "4th consecutive run"),
+    ("V026",      "12/12",    "A", "green",  "Apr-22 clean"),
+    ("V027",      "+1.65",    "A", "green",  "fresh Apr-22"),
+    ("V028",      "1/5 fresh","A", "yellow", "Brent T1; WTI/Gold/Ag/Cu T3 stale Apr-17"),
+    ("Brent/WTI", "$94/$90",  "A", "green",  "Apr-22 staging (+6-9%)"),
+    ("GSG/GSCI",  "31.75",    "A", "green",  "Apr-22 CONFIRMED ON"),
+    ("SPY/QQQ",   "~$705/640","B", "blue",   "Apr-21 close"),
+    ("EWJ",       "$90.19",   "B", "blue",   "Apr-22 brief"),
+    ("DXY",       "98.242",   "A", "green",  "Apr-21"),
+    ("DGS10",     "4.25%",    "A", "yellow", "1d stale Apr-21"),
+    ("HY OAS",    "285bp",    "B", "yellow", "stale Apr-19"),
+    ("NFCI",      "-0.47",    "A", "yellow", "12d stale Apr-10"),
+    ("VIX",       "19.04",    "B", "blue",   "Apr-21"),
+    ("MOVE",      "STALE",    "A", "yellow", "Apr-21 last; 67.90"),
+    ("BTC",       "$76,000",  "B", "blue",   "Apr-22 ~4th test $75k"),
 ]
 
 # ── V026 Residual Momentum (all tracked tickers) ──────────────────────────────
 # (ticker, residual_pct_or_None, t_score, signal_note)
-# residual_pct: None = computed but not individually reported / not computed
 V026_RESIDUALS = [
-    ("MU",    +15.63, "+1", "N040 near-miss (capacity gate)"),
-    ("INTC",  +13.89, "+1", "P013 PROMOTED"),
-    ("AAPL",  +4.68,  "+1", "P014 PROMOTED"),
-    ("AMZN",  None,   "—",  "computed; not individually reported"),
-    ("WDC",   None,   "—",  "computed; not individually reported"),
-    ("MSFT",  None,   "—",  "computed; not individually reported"),
-    ("META",  None,   "—",  "computed; not individually reported"),
-    ("PYPL",  None,   "—",  "computed; not individually reported"),
-    ("NVDA",  -1.00,  "0",  "N041 near-miss (tech concentration + T=0)"),
-    ("GOOGL", -0.80,  "0",  "P015 — T=0; Sum+3 via C+1"),
-    ("TSLA",  -9.12,  "-1", "confirmed no-trade"),
-    ("PLTR",  -35.62, "-1", "downgraded from near-miss; factor crowding"),
+    ("MU",    +15.63, "+1", "N040 near-miss — correlation gate (equity cluster Apr-22-30)"),
+    ("INTC",  +13.89, "+1", "P013 OPEN — entry trigger Apr-23 AC beat"),
+    ("WDC",   None,   "+1", "N045 near-miss — C=0 no near-term catalyst"),
+    ("AAPL",  +4.68,  "+1", "P014 DEFERRED — price $266.17 below $271-274 entry zone"),
+    ("AMZN",  None,   "0",  "Sum+2; timing Apr-29 earnings"),
+    ("MSFT",  None,   "0",  "not individually scored this run"),
+    ("META",  None,   "0",  "Sum+2; timing Apr-29 same-day FOMC"),
+    ("PYPL",  None,   "0",  "not individually scored this run"),
+    ("NVDA",  -1.00,  "0",  "N046 near-miss — residual -1.00% T=0; tech concentration"),
+    ("GOOGL", -0.80,  "0",  "P015 CONTINGENT — earnings Apr-29 AC; entry Apr-30 morning"),
+    ("TSLA",  -9.12,  "-1", "confirmed no-trade; earnings tonight"),
+    ("PLTR",  -35.62, "-1", "Sum+2 only; factor crowding confirmed"),
     ("TSM",   None,   "—",  "not computed (data N/A this run)"),
     ("AVGO",  None,   "—",  "not computed (data N/A this run)"),
     ("BABA",  None,   "—",  "not computed (data N/A this run)"),
@@ -68,79 +68,72 @@ V026_RESIDUALS = [
 
 # ── Signal Age / Time-Decay ───────────────────────────────────────────────────
 # (ID, asset, status, promoted_date, days_held, expiry_date, days_remaining, urgency_cls)
-# urgency_cls: "ok" ≥20d / "warn" 10–19d / "bad" <10d
+# urgency_cls: "ok" >=20d / "warn" 10-19d / "bad" <10d
 SIGNAL_AGE = [
-    ("P008", "CLUSDT (WTI)", "Open — off-meth",  "2026-04-03", 18, "2026-05-03", 12, "warn"),
-    ("P009", "SPY",           "Pending fill",      "2026-04-20",  1, "2026-05-13", 22, "ok"),
-    ("P010", "EWJ",           "Pending fill",      "2026-04-21",  0, "2026-06-30", 70, "ok"),
-    ("P013", "INTC",          "Awaiting Apr-23 beat","2026-04-21",0, "2026-06-23", 63, "ok"),
-    ("P014", "AAPL",          "Pending fill",      "2026-04-21",  0, "2026-04-30",  9, "bad"),
-    ("P015", "GOOGL",         "Contingent",        "2026-04-21",  0, "2026-05-15", 24, "ok"),
+    ("P009", "SPY",    "OPEN — filled Apr-21",         "2026-04-20",  2, "2026-05-13", 21, "ok"),
+    ("P010", "EWJ",    "OPEN — filled Apr-21",         "2026-04-21",  1, "2026-06-30", 69, "ok"),
+    ("P016", "Brent",  "PENDING — Gerald execution",   "2026-04-22",  0, "2026-05-22", 30, "ok"),
+    ("P013", "INTC",   "Awaiting Apr-23 AC beat",      "2026-04-21",  1, "2026-06-23", 62, "ok"),
+    ("P014", "AAPL",   "DEFERRED — below entry zone",  "2026-04-21",  1, "2026-04-30",  8, "bad"),
+    ("P015", "GOOGL",  "Contingent — entry Apr-30",    "2026-04-21",  1, "2026-05-15", 23, "ok"),
 ]
 
 # ── Factor Exposure Aggregate ─────────────────────────────────────────────────
 # (ID, asset, status, size_pct, S, T, C, R)
 FACTOR_EXPOSURE = [
-    ("P008", "CLUSDT",  "Open (off-meth)", 0.33, 1, 1, 1, 1),
-    ("P009", "SPY",     "Pending",         1.00, 1, 1, 0, 1),
-    ("P010", "EWJ",     "Pending",         0.75, 1, 1, 0, 1),
-    ("P013", "INTC",    "Awaiting",        1.00, 1, 1, 1, 1),
-    ("P014", "AAPL",    "Pending",         0.75, 1, 1, 0, 1),
-    ("P015", "GOOGL",   "Contingent",      0.75, 1, 0, 1, 1),
+    ("P009", "SPY",    "Open",              1.00, 1, 1, 0, 1),
+    ("P010", "EWJ",    "Open",              0.75, 1, 1, 0, 1),
+    ("P016", "Brent",  "Pending (0.75%)",   0.75, 1, 1, 0, 1),
+    ("P013", "INTC",   "Awaiting beat",     1.00, 1, 1, 1, 1),
+    ("P014", "AAPL",   "Deferred",          0.75, 1, 1, 0, 1),
+    ("P015", "GOOGL",  "Contingent",        0.75, 1, 0, 1, 1),
 ]
 
 # ── Regime Sensitivity Table ──────────────────────────────────────────────────
 # Each scenario column: (header_text, header_cls)
 SCENARIOS = [
-    ("VIX → 28",          "warn"),
-    ("FOMC +50bp",        "bad"),
-    ("Iran Esc. +15%",    "warn"),
-    ("Iran Deal −10%",    "ok"),
-    ("SPY −5%",           "bad"),
+    ("VIX -> 28",          "warn"),
+    ("FOMC +50bp",         "bad"),
+    ("Iran Deal -10%",     "bad"),
+    ("Iran Esc. +15%",     "ok"),
+    ("SPY -5%",            "bad"),
 ]
 # (ID, asset, [(impact_cls, short_label), ...])  — one tuple per SCENARIO column (same order)
 SENSITIVITY = [
-    ("P008", "CLUSDT Long", [
-        ("warn", "Indirect — oil ≠ VIX"),
-        ("bad",  "USD↑ → WTI pressure"),
-        ("ok",   "THESIS ✓ WTI +15%"),
-        ("bad",  "STOP HIT ~$85.30"),
-        ("warn", "Risk-off corr."),
-    ]),
     ("P009", "SPY Long", [
         ("bad",  "EXIT: VIX > 25"),
         ("bad",  "EXIT: primary risk"),
         ("warn", "Oil shock spillover"),
         ("ok",   "Risk-on boost"),
-        ("bad",  "STOP $696 in range"),
+        ("bad",  "STOP $696 in range ~$9 away"),
     ]),
     ("P010", "EWJ Long", [
         ("warn", "Risk-off; BOJ caution"),
-        ("bad",  "USD↑ JPY weak → EWJ↓"),
-        ("warn", "Global risk-off"),
-        ("ok",   "Risk-on; Nikkei↑"),
+        ("bad",  "USD up JPY weak -> EWJ down"),
+        ("warn", "Global risk-off minor"),
+        ("ok",   "Risk-on; Nikkei record"),
         ("bad",  "High SPY corr."),
     ]),
-    ("P013", "INTC Long", [
-        ("warn", "Tech selloff; stop buffer OK"),
-        ("warn", "Sector rotation risk"),
-        ("warn", "VIX indirect only"),
-        ("ok",   "Thesis independent"),
-        ("warn", "SPY corr; $63–67 stop"),
+    ("P016", "Brent Long", [
+        ("warn", "Indirect; VIX != oil"),
+        ("warn", "USD up -> WTI soft pressure"),
+        ("bad",  "THESIS INVALIDATED: deal = -10-15%"),
+        ("ok",   "Thesis confirmed: supply tighter"),
+        ("warn", "Risk-off corr; stop $90.50 OK"),
     ]),
-    ("P014", "AAPL Long", [
-        ("bad",  "EXIT: VIX + 9d window"),
-        ("bad",  "Close early: FOMC+window"),
-        ("warn", "Consumer sentiment indirect"),
-        ("ok",   "Services thesis independent"),
-        ("bad",  "STOP ~$264 if SPY $696"),
+    ("P013", "INTC Await", [
+        ("warn", "Tech selloff; stop OK"),
+        ("warn", "Sector rotation risk"),
+        ("warn", "Indirect only"),
+        ("ok",   "Foundry thesis independent"),
+        ("warn", "SPY corr; $63-67 stop"),
     ]),
     ("P015", "GOOGL Cont.", [
-        ("warn", "May not enter if spike pre-Apr23"),
-        ("warn", "FOMC risk post-entry; T=0"),
+        ("warn", "May not enter if VIX spike"),
+        ("warn", "FOMC risk post-entry"),
         ("warn", "Indirect only"),
         ("ok",   "AI/search independent"),
-        ("warn", "SPY corr; stop $317"),
+        ("warn", "SPY corr; stop ~$317"),
     ]),
 ]
 
@@ -149,69 +142,70 @@ SENSITIVITY = [
 CLOSED_CONTEXT = [
     ("INTC — prior pipeline history", "INTC", [
         ("P004", "Long", "2026-04-08", "2026-04-19", 11, "+2.09%", "ok",
-         "Planned pre-earnings exit — avoided Apr-23 binary. Thesis direction validated. "
-         "Entry validated Terafab foundry narrative."),
+         "Planned pre-earnings exit — avoided Apr-23 binary. Thesis direction validated. Re-entering P013 after beat."),
     ]),
-    ("SPY — prior pipeline history", "SPY", [
-        ("P005", "Long", "2026-03-28", "2026-04-19", 22, "+1.13%", "ok",
-         "Correlation-freed slot after QQQ exit. Time-stop closure pre-FOMC positioning."),
+    ("Commodity sleeve — prior closed", "Brent/WTI", [
+        ("P008", "Long (off-meth)", "2026-04-20", "2026-04-21", 1, "+0.19%", "ok",
+         "Off-methodology WTI long, closed Apr-21 after P009/P010 opened. Tactical; not scored. "
+         "Brent P016 is the first methodology-promoted commodity long."),
     ]),
 ]
-CLOSED_NOTE = ("GOOGL, AAPL, EWJ: first entries in this pipeline — no prior closed-trade history to reference. "
-               "Full history: SignalLedger → PerformanceStats sheet.")
+CLOSED_NOTE = ("SPY, EWJ, Brent: first methodology entries for these assets — no prior closed history. "
+               "Full history: SignalLedger -> PerformanceStats sheet.")
 
 # ── Material Delta box (v2+) — leave DELTA_ITEMS empty for v1 ─────────────────
 DELTA_ITEMS = [
-    '<span class="pill green">NEW P013</span> <b>INTC Sum +4</b> — V026 residual +13.89% → T=+1 resolved. Entry after Apr-23 earnings beat.',
-    '<span class="pill green">NEW P014</span> <b>AAPL Sum +3</b> — V026 residual +4.68% → T=+1 resolved. Immediate entry; hard exit Apr-30.',
-    '<span class="pill blue">P015</span> <b>GOOGL Sum +3</b> — T=0 resolved (residual −0.80%). Entry after tonight\'s beat confirm.',
+    '<span class="pill green">NEW P016</span> <b>Brent Long Sum +3</b> — commodity sleeve CONFIRMED ON (GSG 31.75 > 10m-SMA 25.35). First commodity promotion this cycle. Entry $94.00-94.50, stop $90.50, size 0.75%.',
+    '<span class="pill yellow">P015 DATE CORRECTED</span> <b>GOOGL earnings Apr-29 AC</b> (not Apr-22/23). Entry trigger shifts to Apr-30 morning. P015 contingent status unchanged.',
+    '<span class="pill blue">P014 AAPL DEFERRED</span> Price $266.17 below entry zone $271-274. Do not enter below $268. Hard time-stop Apr-30 still binding.',
 ]
-DELTA_FOOT = ("Also: PLTR downgraded (residual −35.62% → T=−1 → Sum+2, below threshold) · "
-              "MOVE 67.90 + V027 z+1.65 now Grade A fresh (were MISSING in cloud) · "
-              "All 12 V026 scores resolved (numpy failure cleared 19:48 UTC+8)")
+DELTA_FOOT = ("Also: BTC Sum+3 gate-blocked (crypto sleeve OFF, BTC $76k < $91.5k 10m-SMA) logged as P017 Taken=NO. "
+              "WTI/Silver/Copper near-miss — correlation-gated behind Brent (sector cap 25%). "
+              "V026 clean 12/12 (no numpy fail). V027 z+1.65 capital expansion = full sizing.")
 
 # ── Overlay Gate ───────────────────────────────────────────────────────────────
 # (Sleeve, Asset, Reading, pill_cls, gate_text)
 GATE_ROWS = [
-    ("Equity (V033)",    "SPY/QQQ",  "ABOVE (~$710 vs est. $650–680)",            "green", "ON"),
-    ("Commodity (V034)", "GSCI",     "MISSING — 4th consecutive run",             "red",   "UNCERTAIN / effective OFF"),
-    ("Crypto (V035)",    "BTC",      "$76,454 vs est. 10m-SMA ~$80–85K — BELOW", "red",   "OFF"),
-    ("Intl Equity",      "EWJ/EFA",  "$90.19 vs est. 10m-SMA ~$78–82 — ABOVE",  "green", "ON"),
+    ("Equity (V033)",    "SPY/QQQ",  "ABOVE (~$705/$640 vs est. 10m-SMA $650-680)",           "green", "ON"),
+    ("Commodity (V034)", "GSG",      "31.75 vs 10m-SMA 25.35 — ABOVE (CONFIRMED ON Apr-22)",  "green", "ON -- FIRST TIME THIS CYCLE"),
+    ("Crypto (V035)",    "BTC",      "$76,000 vs est. 10m-SMA ~$91.5k -- BELOW",              "red",   "OFF"),
+    ("Intl Equity",      "EWJ/EFA",  "$90.19 vs est. 10m-SMA ~$78-82 -- ABOVE",              "green", "ON"),
 ]
-GATE_NOTE = ("Next read: Apr-30 month-end. Commodity sleeve blocked 4th consecutive run — "
-             "Silver Sum+3 and Copper Sum+3 remain gate-blocked.")
+GATE_NOTE = ("Next read: May-01 Faber monthly review. Commodity sleeve CONFIRMED ON for first time this cycle "
+             "-- Brent promoted as primary. Silver/WTI/Copper correlation-gated behind Brent. "
+             "Crypto sleeve OFF: BTC needs >$91.5k at Apr-30 close (large gap).")
 
 # ── Key Variables ──────────────────────────────────────────────────────────────
 # (Variable, Reading, Grade, pill_cls, status_text, score_impact)
 KEY_VARS = [
-    ("VIX",               "19.04",             "B (BNMA)", "yellow", "LIVE (at threshold)",    "R: +0 at 20 boundary; MOVE dominates"),
-    ("VIX3M",             "20.51",             "B (BNMA)", "gray",   "STALE Apr-18",            "VIX/VIX3M 0.93 = contango benign"),
-    ("MOVE",              "67.90",             "A",        "green",  "LIVE (fresh)",             "R: +1 — low bond vol; was MISSING in cloud"),
-    ("HY OAS",            "285 bps",           "B (BNMA)", "green",  "LIVE",                     "R: tight, non-stressed"),
-    ("NFCI",              "−0.47",             "A",        "gray",   "STALE Apr-10 (11d)",       "Loose conditions"),
-    ("IC z-score (V027)", "+1.65",             "A",        "green",  "LIVE (fresh)",             "R: no notch (z > −1σ); was MISSING in cloud"),
-    ("DGS10",             "4.25%",             "A",        "green",  "LIVE",                     "2s10s +0.54% steepening; no inversion drag"),
-    ("T10YIE",            "2.36%",             "A",        "green",  "LIVE",                     "Above 2% Fed target; FOMC Apr-28 must navigate"),
-    ("DXY",               "98.242",            "A",        "green",  "LIVE",                     "−3.9% from Apr-9 peak; USD structural weakness"),
-    ("SPY / QQQ",         "$708.72 / $646.79", "A",        "green",  "LIVE (Apr-21 close)",      "P009 entry $710.14 within 0.2%"),
-    ("EWJ",               "$90.19",            "A",        "gray",   "STALE Apr-18 (3d, OK)",    "Trend confirmed by Nikkei +1.21% Apr-21"),
-    ("Brent / WTI",       "$90.03 / $86.32",   "A",        "green",  "LIVE",                     "Hormuz premium; P008 stop buffer $1.02"),
-    ("Gold",              "$4,808",            "A",        "green",  "LIVE",                     "Sum+2; gate-blocked (commodity sleeve)"),
-    ("BTC / ETH",         "$76,454 / $2,313",  "A / B",    "green",  "LIVE / STALE",             "4th test $75K; KelpDAO DeFi tail; sleeve OFF"),
+    ("VIX",               "19.04",             "B (BNMA)", "yellow", "STALE Apr-21",            "R: borderline at 20 threshold; benign"),
+    ("VIX3M",             "20.51",             "B (BNMA)", "gray",   "STALE Apr-18",            "VIX/VIX3M contango; no inversion stress"),
+    ("MOVE",              "67.90",             "A",        "yellow", "STALE Apr-21",             "R: +1 -- low bond vol; below 80 threshold"),
+    ("HY OAS",            "285 bps",           "B (BNMA)", "yellow", "STALE Apr-19",             "R: tight; non-stressed backdrop"),
+    ("NFCI",              "-0.47",             "A",        "gray",   "STALE Apr-10 (12d)",       "Loose conditions persisting"),
+    ("IC z-score (V027)", "+1.65",             "A",        "green",  "LIVE (Apr-22 fresh)",      "R: capital expansion z>+0.5 = full sizing per §1.B"),
+    ("DGS10",             "4.25%",             "A",        "yellow", "STALE 1d (Apr-21)",        "2s10s steepening; no inversion drag"),
+    ("T10YIE",            "2.36%",             "A",        "yellow", "STALE 1d (Apr-21)",        "Above 2% target; FOMC Apr-28 navigate"),
+    ("DXY",               "98.242",            "A",        "green",  "LIVE (Apr-21)",            "-3.9% from Apr-9 peak; USD structural weakness; Brent S+1"),
+    ("SPY / QQQ",         "~$705 / $640",      "B",        "blue",   "Apr-21 close (1d)",        "P009 entry $708.95; ~$4 underwater; stop $696 buffer $9"),
+    ("EWJ",               "$90.19",            "A",        "blue",   "Apr-22 brief",             "P010 entry $88.30; +$1.89 unrealized; Nikkei record 59,585"),
+    ("Brent / WTI",       "$94.19 / $90.16",   "A",        "green",  "LIVE Apr-22 (+6-9%)",      "P016 entry zone $94-94.50; backwardation+steepening; Hormuz"),
+    ("GSG (GSCI proxy)",  "31.75",             "A",        "green",  "LIVE Apr-22 (CONFIRMED ON)","V034 gate: 31.75 vs 10m-SMA 25.35 (+24.8%); sleeve ON"),
+    ("BTC",               "~$76,000",          "B",        "blue",   "Apr-22 approx.",           "4th test $75k; ETF +$412M Apr-21; sleeve OFF; crypto gate"),
 ]
 
 # ── Audit Additions ────────────────────────────────────────────────────────────
 # (ID, Variable, pill_cls, status_text, dm_pill_cls, dm_text)
 AUDIT_ROWS = [
-    ("V026", "Residual momentum (FF5 12m) — 12 tickers",
-     "green", "ALL 12 LIVE — numpy failure cleared 19:48 UTC+8",
-     "green", "YES — INTC T+1 (P013), AAPL T+1 (P014), PLTR T−1 (downgraded), TSLA T−1 confirmed"),
+    ("V026", "Residual momentum (FF5 12m) -- 12 tickers",
+     "green", "ALL 12 LIVE (no numpy failure Apr-22)",
+     "green", "YES -- TSLA/PLTR T=-1 via residual-over-raw; INTC/AAPL/MU/WDC T=+1; NVDA/GOOGL T=0"),
     ("V027", "Intermediary capital z-score",
-     "green", "LIVE +1.65 — was MISSING in cloud",
-     "green", "YES — R=+1 Grade A confirmed; full sizing per Risk Rules §1.B"),
+     "green", "LIVE +1.65 (Apr-22 fresh)",
+     "green", "YES -- R=+1 Grade A; capital expansion regime; full sizing authorized (§1.B); overridden to 0.75% for P016 binary-downside"),
     ("V028", "Basis-momentum (4w/12w)",
-     "yellow","PARTIAL — Brent LIVE; WTI/Gold/Silver/Copper STALE T3 (Apr-17)",
-     "gray",  "Brent S+1 confirmed; others scored static slope"),
+     "yellow","PARTIAL -- Brent LIVE T1 (Apr-22); WTI/Gold/Silver/Copper T3 STALE Apr-17 (5d limit)",
+     "yellow","Brent S+1 CONFIRMED (backwardation+13.95, steepening); others near-miss scored static slope; infrastructure persistent failure action-logged"),
 ]
 
 # ── Meta Additions ─────────────────────────────────────────────────────────────
@@ -226,156 +220,162 @@ META_ROWS = [
 # ── Recommendations ────────────────────────────────────────────────────────────
 # (asset_html, dir_cls, entry, stop, target, size, catalyst, grade, sleeve)
 RECS = [
-    ("<b>INTC</b> <span class='pill green'>NEW P013</span>", "green",
-     "$68–72 (after Apr-23 beat)", "~$63–67 (2× ATR ~$5)", "$75 / $82", "1.0% (full — V027 OK)",
-     "C+1: beat = confirmed; miss = thesis invalidated. Earnings Apr-23 AC.",
-     "S+1(A), T+1(A), C+1(A), R+1(A)", "Equity ON"),
-    ("<b>AAPL</b> <span class='pill green'>NEW P014</span>", "green",
-     "~$271–274 (immediate)", "~$264–267 (2× ATR ~$6.50)", "$280 / $290", "0.75% (corr. haircut vs SPY)",
-     "C=0; structural momentum only. <b>Hard exit 2026-04-30</b> before May-1 earnings.",
-     "S+1(A), T+1(A), C0, R+1(A)", "Equity ON"),
-    ("<b>GOOGL</b> <span class='pill yellow'>P015 contingent</span>", "green",
-     "~$333–340 (after Apr-23 beat)", "~$315–320 (2× ATR ~$9)", "$355 / $375", "0.75%",
-     "C+1: Apr-23 beat = entry trigger. Do not chase gap; wait for price stability.",
-     "S+1(A), T0, C+1(A), R+1(A)", "Equity ON"),
-    ("<b>SPY</b> <span class='pill blue'>P009 reconfirmed</span>", "green",
-     "$710.14 limit", "$696 (2× ATR ~$14)", "$720 / $730", "1.0% (half — FOMC tail)",
-     "C=0; structural S+T+R edge. FOMC Apr-28-29 tail; ceasefire cross-asset risk.",
-     "S+1(A), T+1(A), C0, R+1(B)*", "Equity ON"),
-    ("<b>EWJ</b> <span class='pill blue'>P010 reconfirmed</span>", "green",
-     "~$90.24", "$86.00 (2× ATR ~$4.4)", "$95 / $98", "0.75%",
-     "C=0; USD structural weakness + Nikkei trend confirmation.",
-     "S+1(A), T+1(A), C0, R+1(A)", "Intl Equity ON"),
+    ("<b>Brent</b> <span class='pill green'>NEW P016</span>", "green",
+     "$94.00-94.50 (at-market/limit; last known $94.19)", "$90.50 (2x ATR ~$3.7)", "$98 / $102", "0.75% (corr+binary haircut)",
+     "C=0; structural: Hormuz blockade + backwardation steepening + DXY weak. Iran deal = invalidation.",
+     "S+1(A), T+1(A), C0, R+1(A)", "Commodity ON -- first cycle"),
+]
+# carry-over pending (not new promotions today)
+RECS_CARRY = [
+    ("<b>SPY</b> P009 OPEN", "$708.95 avg (filled)", "$696", "~$720/$730", "1.0% open", "C=0; stop $696 ~$9 buffer"),
+    ("<b>EWJ</b> P010 OPEN", "$88.30 avg (filled)",  "$86.00", "~$95/$98", "0.75% open", "C=0; Nikkei record Apr-22 +2.1% unrealized"),
+    ("<b>INTC</b> P013 await", "$68-72 (after Apr-23 beat)", "~$63-67", "$75/$82", "1.0% planned", "C+1: Apr-23 AC earnings trigger"),
+    ("<b>AAPL</b> P014 deferred", "DEFERRED ($266 < $271-274 zone)", "~$264-267", "$280/$290", "0.75% if entry", "Hard exit Apr-30"),
+    ("<b>GOOGL</b> P015 contingent", "~$333-340 after Apr-29 beat", "~$317", "$355/$375", "0.75% planned", "C+1: Apr-29 AC; entry Apr-30 morning"),
 ]
 RECS_BLOCKED = [
-    ("<b>Silver</b> <span class='pill red'>P012 gate-blocked</span>", "LONG",
-     "—", "—", "—", "Taken=NO",
-     "Commodity sleeve UNCERTAIN/OFF — no commodity longs permitted.",
-     "S+1, T+1, C0, R+1 (+3)", "Commodity OFF"),
+    ("<b>BTC</b> <span class='pill red'>P017 gate-blocked</span>", "LONG",
+     "--", "--", "--", "Taken=NO",
+     "Crypto sleeve OFF (BTC $76k < $91.5k 10m-SMA). Sum+3 (S+1/T+1/C+1/R0) blocked.",
+     "S+1, T+1, C+1, R0 (+3)", "Crypto OFF"),
+    ("<b>WTI</b> <span class='pill yellow'>N042 near-miss</span>", "LONG",
+     "--", "--", "--", "Taken=NO",
+     "Correlation-gated behind Brent. V028 T3 STALE (Apr-17). Basis-mom flat divergence.",
+     "S+1, T+1, C0, R+1 (+3)", "Commodity ON (near-miss)"),
+    ("<b>Silver</b> <span class='pill yellow'>N043 near-miss</span>", "LONG",
+     "--", "--", "--", "Taken=NO",
+     "Gate-UNBLOCKED but correlation-gated behind Brent (sector cap 25%). Promote if Brent fills + room.",
+     "S+1, T+1, C0, R+1 (+3)", "Commodity ON (near-miss)"),
 ]
-RECS_FOOTNOTE = ("*R=+1 via MOVE 67.90 (A, fresh) + V027 z+1.65 (A, fresh) + HY OAS 285 (B) + NFCI −0.47 (A) — Grade A triple confirmed.<br>"
-                 "Heat if all fill: P008 0.33% + SPY 1.0% + EWJ 0.75% + AAPL 0.75% + INTC 1.0% + GOOGL 0.75% = <b>4.58%</b> (57% of 8% cap).")
+RECS_FOOTNOTE = ("R=+1 via V027 z+1.65 (A) + HY OAS 285bp (B) + NFCI -0.47 (A) + VIX 19.04 (B) -- Grade A double confirmed.<br>"
+                 "Heat with open+pending: P009 1.0% + P010 0.75% + P016 0.75% (pending) = 2.6% (32% of 8% cap). "
+                 "If P013+P014+P015 all fill: +2.5% additional = 5.1% total (within cap).")
 
 # ── Pre-Entry Checklists ───────────────────────────────────────────────────────
 # list of (title, note_html, [(num, item, cls, icon, detail), ...])
 CHECKLISTS = [
-    ("INTC Long (P013) — entry after Apr-23 AC beat confirmed",
-     "⚠ Entry approach: WAIT FOR CONFIRMED BEAT (Apr-24 UTC+8 morning). "
-     "Prior P004 closed Apr-19 specifically to avoid this binary — maintain discipline.",
-     [(1,"| Sum|≥3 with C scored",                     "ok",  "✅ PASS",         "Sum +4; C+1 (earnings Apr-23 AC pre-scored)"),
-      (2,"Invalidation written, concrete, date-bounded","ok",  "✅ PASS",         "Q1 miss / Terafab miss → C=0/−1 → exit; time-stop 2026-06-23"),
-      (3,"Correlation gate clean",                      "ok",  "✅ PASS",         "Distinct foundry driver vs SPY/AAPL; equity heat 3.83% under cap"),
-      (4,"Per-position ≤2% / heat ≤8%",                "ok",  "✅ PASS",         "1.0%; heat 3.83% with all others"),
-      (5,"ATR stop set",                                "ok",  "✅ PASS",         "2× ATR ~$5 below entry; adjust at fill price post-beat"),
-      (6,"Catalyst asymmetry stated",                   "ok",  "✅ PASS",         "C+1: beat = thesis confirmed; miss = thesis invalidated. High asymmetry."),
-      (7,"Overlay Gate clearance",                      "ok",  "✅ PASS",         "Equity sleeve ON"),
-      (8,"Digest clearance",                            "ok",  "✅ PASS",         "P004 INTC closed Apr-19; no INTC POSITION-ALERT")]),
-    ("AAPL Long (P014)",
-     "",
-     [(1,"| Sum|≥3 with C scored",                     "ok",  "✅ PASS",         "Sum +3; C=0 scored"),
-      (2,"Invalidation written, concrete, date-bounded","ok",  "✅ PASS",         "Break $264 (2× ATR); SPY $696 break; <b>hard exit 2026-04-30</b>"),
-      (3,"Correlation gate clean",                      "ok",  "✅ PASS",         "SPY corr ~0.65; combined equity 1.75%; distinct services/hardware driver"),
-      (4,"Per-position ≤2% / heat ≤8%",                "ok",  "✅ PASS",         "0.75%"),
-      (5,"ATR stop set",                                "ok",  "✅ PASS",         "~$273 entry; ATR ~$3.25; 2× = $6.50 → stop ~$266.50"),
-      (6,"Catalyst asymmetry stated",                   "warn","⚠ PARTIAL",       "C=0; structural momentum only. 8-trading-day window before May-1 binary."),
-      (7,"Overlay Gate clearance",                      "ok",  "✅ PASS",         "Equity sleeve ON"),
-      (8,"Digest clearance",                            "ok",  "✅ PASS",         "No AAPL POSITION-ALERT")]),
-    ("GOOGL Long (P015) — contingent on Apr-23 beat",
-     "⚠ T=0 (not +1) — entry is C+1 driven. Do not chase post-earnings gap; "
-     "wait for price stability before entering.",
-     [(1,"| Sum|≥3 with C scored",                     "ok",  "✅ PASS (cond.)", "Sum +3; C+1 pre-earnings — falls to +2 on miss → no entry"),
-      (2,"Invalidation written, concrete, date-bounded","ok",  "✅ PASS",         "Earnings miss → no entry; break 2× ATR from entry; time-stop 2026-05-15"),
-      (3,"Correlation gate clean",                      "ok",  "✅ PASS",         "Tech concentration monitored; GOOGL AI-search driver distinct from AAPL/INTC"),
-      (4,"Per-position ≤2% / heat ≤8%",                "ok",  "✅ PASS",         "0.75%; total heat 4.58% if all fill"),
-      (5,"ATR stop set",                                "ok",  "✅ PASS",         "~$335 entry; ATR ~$9; 2× = $18 → stop ~$317"),
-      (6,"Catalyst asymmetry stated",                   "ok",  "✅ PASS",         "88% Q1 beat rate + Mag7 +22.8% bar. Beat = entry confirmed."),
-      (7,"Overlay Gate clearance",                      "ok",  "✅ PASS",         "Equity sleeve ON"),
-      (8,"Digest clearance",                            "ok",  "✅ PASS",         "No GOOGL POSITION-ALERT")]),
+    ("Brent Long (P016) -- New promotion today",
+     "Commodity sleeve CONFIRMED ON for first time this cycle. "
+     "Size haircut to 0.75% acknowledges Iran ceasefire binary + TSLA earnings cross-asset risk + FOMC Apr-28 tail.",
+     [(1,"|Sum|>=3 with C scored",                      "ok",   "PASS",     "Sum +3 (S+1/T+1/C0/R+1); C explicitly scored at 0 (ceasefire binary symmetric)"),
+      (2,"Invalidation written, concrete, date-bounded", "ok",   "PASS",     "Iran deal -> Brent <$88; Hormuz >70% normal within 10d; time-stop 2026-05-22"),
+      (3,"Correlation gate clean",                       "ok",   "PASS",     "Primary commodity; WTI/Silver/Copper gated behind. Equity book corr moderate only."),
+      (4,"Per-position <=2% / heat <=8%",                "ok",   "PASS",     "0.75%; heat P009+P010+P016 = ~2.6% (well within 8% cap)"),
+      (5,"ATR stop set",                                 "ok",   "PASS",     "Entry ~$94.25 avg; 2x ATR ~$3.7 -> stop $90.50"),
+      (6,"Catalyst asymmetry stated",                    "warn", "PARTIAL",  "C=0 -- structural edge only. Iran binary is symmetric (-10-15% on deal). Same PARTIAL as SPY P009 precedent 2026-04-20. Size halved."),
+      (7,"Overlay Gate clearance",                       "ok",   "PASS",     "Commodity sleeve CONFIRMED ON (V034 GSG 31.75 > 10m-SMA 25.35)"),
+      (8,"Digest clearance",                             "ok",   "PASS",     "No unresolved POSITION-ALERT in slack-digest; no prior Brent position open"),
+      (9,"V027 tier applied",                            "ok",   "PASS (R1.B)", "z+1.65 = capital expansion; full sizing allowed; binary-downside haircut overrides to 0.75%")]),
+    ("INTC Long (P013) -- Awaiting Apr-23 beat",
+     "WAIT FOR CONFIRMED BEAT (Apr-24 UTC+8 morning). Prior P004 closed Apr-19 to avoid this binary.",
+     [(1,"|Sum|>=3 with C scored",                      "ok",   "PASS",     "Sum +4; C+1 (Terafab earnings Apr-23 AC pre-scored)"),
+      (2,"Invalidation written, concrete, date-bounded", "ok",   "PASS",     "Q1 miss -> C=0/-1 -> no entry; time-stop 2026-06-23"),
+      (3,"Correlation gate clean",                       "ok",   "PASS",     "Distinct foundry driver; equity heat within cap"),
+      (4,"Per-position <=2% / heat <=8%",                "ok",   "PASS",     "1.0% planned; total ~3.5% if all open"),
+      (5,"ATR stop set",                                 "ok",   "PASS",     "2x ATR ~$5 below fill; adjust at Apr-24 fill price"),
+      (6,"Catalyst asymmetry stated",                    "ok",   "PASS",     "C+1: beat = thesis confirmed; miss = no entry. High asymmetry."),
+      (7,"Overlay Gate clearance",                       "ok",   "PASS",     "Equity sleeve ON"),
+      (8,"Digest clearance",                             "ok",   "PASS",     "No INTC POSITION-ALERT; P004 closed Apr-19")]),
 ]
 
 # ── Catalyst Calendar ──────────────────────────────────────────────────────────
 # (date_html, event_html, assets, pill_cls, pill_text)
 CATALYSTS = [
-    ("<b>Apr-23 ~01:00</b>", "<b>GOOGL Q1 earnings AC</b>",    "GOOGL, QQQ, NVDA",       "red",    "HIGH — P015 entry trigger"),
-    ("<b>Apr-23 AC</b>",     "<b>INTC Q1 earnings</b>",         "INTC, QQQ",              "red",    "HIGH — P013 entry trigger (enter Apr-24)"),
-    ("Apr-23 AC",            "AMZN Q1 earnings",                "AMZN, QQQ",              "yellow", "MED — AMZN +2 → potential +3"),
-    ("Apr-24",               "UMich final April sentiment",     "SPY, DXY",               "yellow", "MED — prelim 47.6 record low"),
-    ("<b>Apr-28–29</b>",     "<b>FOMC</b>",                     "All — SPY P009 primary", "red",    "HIGH — hawkish surprise = exit rule"),
-    ("Apr-29",               "META earnings (same day FOMC)",   "META, QQQ",              "yellow", "MED — double-event risk"),
-    ("<b>Apr-30</b>",        "<b>AAPL P014 hard time-stop</b>", "AAPL",                   "red",    "HIGH — exit regardless of P&amp;L"),
-    ("May-1",                "AAPL Q1 earnings",                "AAPL",                   "gray",   "P014 must be closed before"),
-    ("May-12",               "April CPI",                       "All",                    "yellow", "MED — Hormuz inflation follow-through"),
+    ("<b>Apr-22 AC</b>",    "<b>TSLA Q1 earnings</b>",          "QQQ, SPY (P009 stress)", "red",    "HIGH -- delivery miss baked; guidance = key. P009 stop $696 at risk on miss"),
+    ("<b>Apr-23 AC</b>",    "<b>INTC Q1 earnings</b>",          "INTC, QQQ",              "red",    "HIGH -- P013 entry trigger; enter $68-72 Apr-24 morning on beat"),
+    ("Apr-23 AC",           "AMZN Q1 earnings",                 "AMZN, QQQ",              "yellow", "MED -- AWS read-through; AMZN Sum+2 potential +3 on beat"),
+    ("<b>Apr-28-29</b>",    "<b>FOMC</b>",                      "All positions",          "red",    "HIGH -- hawkish surprise = P009/P010 exit rule; Brent P016 R-headwind"),
+    ("Apr-29 AC",           "GOOGL Q1 earnings",                "GOOGL (P015 trigger)",   "red",    "HIGH -- P015 entry trigger; enter $333-340 Apr-30 morning on beat"),
+    ("Apr-29 AC",           "META earnings (same day FOMC)",    "META, QQQ",              "yellow", "MED -- double-event risk"),
+    ("Apr-29 AC",           "AMZN earnings",                    "AMZN, QQQ",              "yellow", "MED -- capex + AWS trajectory"),
+    ("<b>Apr-30</b>",       "<b>AAPL P014 hard time-stop</b>",  "AAPL",                   "red",    "HIGH -- exit regardless of P&amp;L before May-1 earnings"),
+    ("<b>May-1</b>",        "<b>Faber overlay gate review</b>", "All sleeves",            "yellow", "MED -- BTC needs >$91.5k at Apr-30 close for crypto sleeve ON"),
+    ("May-12",              "April CPI",                        "All",                    "yellow", "MED -- Hormuz inflation follow-through; Brent P016 R-confirmatory"),
+    ("Ongoing",             "WTI $90/$95 threshold watch",      "Brent P016, R-baseline", "yellow", "MED -- WTI $90.16 live; >$95 = R headwind; deal = P016 invalidation"),
 ]
-CAT_LABELS = ['Apr-23 GOOGL','Apr-23 INTC','Apr-23 AMZN','Apr-24 UMich','Apr-28-29 FOMC','Apr-30 AAPL stop','May-12 CPI']
-CAT_DATA   = [2, 2, 1, 1, 2, 2, 1]
-CAT_COLORS = ['#f87171','#f87171','#facc15','#facc15','#f87171','#f87171','#facc15']
+CAT_LABELS = ['Apr-22 TSLA','Apr-23 INTC','Apr-28-29 FOMC','Apr-29 GOOGL','Apr-30 AAPL stop','May-1 Gate','May-12 CPI']
+CAT_DATA   = [2, 2, 2, 2, 2, 1, 1]
+CAT_COLORS = ['#f87171','#f87171','#f87171','#f87171','#f87171','#facc15','#facc15']
 
 # ── Near-Misses ────────────────────────────────────────────────────────────────
 # (asset_html, sum_text, block_reason, trigger, id)
 NEAR_MISSES = [
-    ("MU <span class='pill green' style='font-size:10px'>NEW</span>", "+3",
-     "Correlation gate — equity sleeve at capacity during Apr-22–29 earnings+FOMC cluster",
-     "Post-FOMC Apr-30+", "N040"),
-    ("QQQ", "+3",
-     "SPY preferred (correlation-blocked)",
-     "Post earnings cluster Apr-30+", "N034"),
-    ("NVDA <span class='pill green' style='font-size:10px'>NEW</span>", "+3",
-     "Tech concentration; T=0 (residual −1.00%)",
-     "GOOGL beat + V026 residual >+2%", "N041"),
-    ("Copper", "+3",
-     "Commodity sleeve UNCERTAIN/OFF",
-     "GSCI confirmed ON + China PMI >50.5", "N035"),
+    ("WTI <span class='pill green' style='font-size:10px'>NEW</span>", "+3",
+     "Correlation-gated behind Brent P016 (sector cap 25%). V028 T3 STALE Apr-17.",
+     "Brent correlation clears OR fresh WTI basis-mom T1 with divergence cap test", "N042"),
+    ("Silver <span class='pill green' style='font-size:10px'>NEW</span>", "+3",
+     "Correlation-gated behind Brent (gate-UNBLOCKED but sector cap full). Basis-mom T3 STALE.",
+     "Brent fills + sector cap has room, OR industrial C+1 catalyst", "N043"),
+    ("Copper <span class='pill green' style='font-size:10px'>NEW</span>", "+3",
+     "C=0 -- China PMI >50.5 needed. Commodity sleeve now ON.",
+     "China Apr PMI print May-01 >50.5", "N044"),
+    ("WDC <span class='pill green' style='font-size:10px'>NEW</span>", "+3",
+     "C=0 -- no near-term catalyst. T+1 residual but blocking.",
+     "Earnings catalyst or AI data-center news flow", "N045"),
+    ("NVDA", "+3",
+     "T=0 (residual -1.00%); tech concentration vs INTC/GOOGL",
+     "Residual >+2% at next staging OR GOOGL Apr-29 AI read-through", "N046"),
+    ("MU", "+3",
+     "Correlation gate -- equity cluster Apr-22-30; post-FOMC window",
+     "Post Apr-30 FOMC resolved + sector heat eases", "N040"),
+    ("BTC", "+3",
+     "OVERLAY GATE OFF (crypto sleeve; BTC $76k < $91.5k 10m-SMA)",
+     "May-01 gate review; needs BTC >$91.5k at Apr-30 close", "P017 gate-blocked"),
 ]
 
 # ── Score chart data ───────────────────────────────────────────────────────────
-SCORE_LABELS = ['INTC (P013)','AAPL (P014)','GOOGL (P015)','SPY (P009)','EWJ (P010)']
-SCORE_S = [1,1,1,1,1]; SCORE_T = [1,1,0,1,1]; SCORE_C = [1,0,1,0,0]; SCORE_R = [1,1,1,1,1]
-NEAR_LABELS = ['MU (N040)','QQQ (N034)','NVDA (N041)','Copper (N035)','Silver (P012)']
-NEAR_S = [1,1,1,1,1]; NEAR_T = [1,1,0,1,1]; NEAR_C = [0,0,1,0,0]; NEAR_R = [1,1,1,1,1]
+SCORE_LABELS = ['Brent P016','SPY P009','EWJ P010','INTC P013','GOOGL P015']
+SCORE_S = [1,1,1,1,1]; SCORE_T = [1,1,1,1,0]; SCORE_C = [0,0,0,1,1]; SCORE_R = [1,1,1,1,1]
+NEAR_LABELS = ['WTI N042','Silver N043','Copper N044','WDC N045','NVDA N046','MU N040']
+NEAR_S = [1,1,1,1,1,1]; NEAR_T = [1,1,1,1,0,1]; NEAR_C = [0,0,0,0,1,0]; NEAR_R = [1,1,1,1,1,1]
 
 # ── Open Positions ─────────────────────────────────────────────────────────────
-# (ID, Asset, Side, Entry, Stop, Live, Buffer, flag_cls, flag_text)
+# (ID, Asset, Side, Entry, Stop, Live, Buffer, UnrealizedPnL, SizeUSDT, flag_cls, flag_text)
+# NOTE: Live = last known price from brief/staging; update with each US-close snapshot
 OPEN_POSITIONS = [
-    ("P008","CLUSDT (WTI perp)","Short-term Long","$88.250","$85.300","$86.32", "~$1.02","warn","⚠ THIN — Iran binary watch"),
-    ("P009","SPY",              "Long",           "$710.14","$696",   "$708.72","$12.72", "ok",  "OK — fill pending"),
-    ("P010","EWJ",              "Long",           "~$90.24","$86.00", "$90.19", "~$4.19","ok",  "OK — fill pending"),
+    ("P009","SPY (SPYUSDT perp)","Long","$708.95 avg (5T)","$696.00","~$705 (Apr-21 close)","~$9 (~1.3%)","~-$4/sh (-0.56%)","$2,089","warn","OPEN -- below entry; within stop buffer"),
+    ("P010","EWJ (EWJUSDT perp)","Long","$88.30 avg (3T)","$86.00","~$90.19 (Apr-22 brief)","~$4.19 (~4.7%)","~+$1.89 (+2.14%)","$1,396","ok","OPEN -- above entry; Nikkei record Apr-22"),
+    ("P016","Brent (BZUSDT/BZ=F)","Long","$94.00-94.50 zone","$90.50","~$94.19 (Apr-22 staging)","~$3.69 (~3.9%)","--","0.75% (~$30)","blue","PENDING -- Gerald execution required"),
 ]
 
 # ── Data Gap ───────────────────────────────────────────────────────────────────
-GAP_DATA = [20, 4, 1]
+GAP_DATA = [18, 5, 0]  # Grade A: LIVE, STALE, MISSING
 UPSTREAM = [
-    ("ok",  "Local market-brief 2026-04-21 v1 ✅ (A)"),
-    ("ok",  "Local news 2026-04-21 ✅ (A)"),
-    ("ok",  "Local audit-staging 2026-04-21 ✅ — V026 ALL 12, V027, V028 Brent"),
-    ("ok",  "Cloud market-brief (GDrive) ✅ (B)"),
-    ("ok",  "Cloud news (GDrive) ✅ (B)"),
-    ("bad", "Cloud trade-rec: MISSING (not on Drive)"),
-    ("ok",  "framework/Memory.md ✅ (updated 20:20)"),
-    ("ok",  "SignalLedger: P010–P015, N040–N041 appended ✅"),
-    ("ok",  "AuditAdditionLog: +8 V026/V027/MOVE entries ✅"),
+    ("ok",  "Local market-brief 2026-04-22 v1 (A) -- 22k bytes, all 20 variables"),
+    ("ok",  "Local news 2026-04-22 (A) -- 12/12 categories"),
+    ("ok",  "Local audit-staging 2026-04-22 (A) -- V026 12/12, V027 z+1.65, V028 Brent T1"),
+    ("ok",  "us-close-snapshot-2026-04-22 (B) -- Apr-21 19:30 ET"),
+    ("warn","Cloud market-brief 2026-04-22: MISSING (Drive empty at run time) -- local primary used"),
+    ("warn","Cloud news 2026-04-22: MISSING (Drive empty at run time)"),
+    ("warn","Cloud trade-rec 2026-04-22: MISSING (Drive empty)"),
+    ("ok",  "framework/Memory.md updated 20:35 UTC+8"),
+    ("ok",  "SignalLedger: P016, P017, N042-N046 appended"),
+    ("ok",  "HypoLedger: H013 Brent P016 inserted"),
 ]
 
 # ── Discussion ─────────────────────────────────────────────────────────────────
 DISCUSSION = [
-    "<b>Why three new promotions today (INTC, AAPL, GOOGL)?</b> The numpy failure that blocked all single-stock T-scores for 3+ consecutive runs was cleared by the preflight at 19:48 UTC+8. This unlocked V026 residual momentum for all 12 tickers. INTC (+13.89%) and AAPL (+4.68%) both clear the +2% threshold for T=+1. GOOGL (−0.80%) resolves to T=0 — Sum+3 is still achieved via C+1 (earnings tonight) + S+1 + R+1. These are not new thesis discoveries; they are thesis confirmations unblocked by infrastructure recovery.",
-    "<b>INTC is the highest conviction signal.</b> Sum+4 is rare — only the second time in this pipeline. The thesis is the Terafab foundry ramp (commercial validation, Q1 guidance $11.7–$12.7B). Prior P004 closed at +2.09% after 11 days. Entry AFTER the Apr-23 beat eliminates the pre-earnings binary gap risk while capturing the thesis activation. Do not enter pre-earnings.",
-    "<b>AAPL has a hard time fence.</b> The residual momentum edge (+4.68%) and structural S+1 are valid, but C=0 means no catalyst amplification. The 8-day window (Apr-21 to Apr-30) is thin. The must-exit rule before May-1 earnings is non-negotiable — holding into May-1 with C=0 would be an off-methodology decision. If FOMC Apr-28-29 is hawkish and SPY breaks $696, the AAPL stop at ~$264–267 would likely be hit simultaneously.",
-    "<b>V027 z+1.65 now Grade A fresh.</b> In the cloud-7pm run, R=+1 was proxy-only (HY OAS + NFCI + VIX). The local run adds MOVE 67.90 (A, fresh) and V027 z+1.65 (A, fresh). R is now backed by three independent Grade A inputs — the most confident R=+1 reading since the pipeline launched. Per Risk Rules §1.B, z > +0.5σ = full inverse-ATR sizing. INTC gets 1.0% (full); SPY stays half-size (FOMC tail, not R-related).",
-    "<b>Iran ceasefire binary.</b> The two-week ceasefire expired today (Apr-21 UTC+8). Talks are in Islamabad; Iran is not participating in the US-led round. Hormuz at &lt;10% normal traffic. P008 (CL long, off-methodology) has a $1.02 buffer above the $85.30 stop — thin. The new equity entries have indirect Iran exposure through VIX; their ATR stops should survive a moderate oil move without being directly hit.",
+    "<b>Why Brent Long despite ceasefire extension?</b> The ceasefire extension removes the immediate re-escalation binary (good for risk-on equities), but the Hormuz naval blockade REMAINS in force — &lt;10% normal traffic. Brent is not priced on 'war risk premium' alone; it is priced on physical supply shortage from the blockade. The invalidation event is an Iran DEAL + Hormuz reopening, not just a ceasefire pause. The 'frozen conflict with blockade intact' scenario (Al Jazeera scenario b) is exactly the Brent-bullish case. C was scored 0 precisely because the ceasefire binary is symmetric: deal = -10-15%, frozen = +10%; that asymmetry is already in the 0.75% size haircut.",
+    "<b>Why is Brent sized at 0.75% rather than 1.0% or 1.5%?</b> Four simultaneous haircut reasons: (1) Iran ceasefire binary downside (-10-15% if deal — sharp, fast); (2) correlation with open equity book (P009 SPY, P010 EWJ share DXY-weak + real-yield direction with Brent); (3) TSLA earnings tonight = cross-asset tail that could pressure all risk assets; (4) FOMC Apr-28 hawkish tail. V027 z+1.65 allows full sizing per Risk Rules §1.B but the binary-downside logic overrides — same PARTIAL treatment as SPY P009 C=0 precedent (2026-04-20 v3).",
+    "<b>Commodity sleeve now CONFIRMED ON for the first time this cycle.</b> V034 GSG 31.75 vs 10m-SMA 25.35 — a 25% premium over the SMA. This is not marginal. The sleeve was UNCERTAIN for 4+ consecutive runs because GSCI data was missing; today's brief provided fresh GSG data. This unblocks Brent P016, Silver (N043), WTI (N042), and Copper (N044) — all of which had Sum+3 scores blocked by the commodity gate. Brent is the primary promotion; the others are near-miss due to correlation gating.",
+    "<b>TSLA earnings tonight (Apr-22 AC) are the primary portfolio stress test.</b> Delivery miss (358k vs 372k) is baked in. Market focus is on FSD/Robotaxi guidance and margins. A beat on guidance lifts QQQ/SPX futures — supportive for P009 SPY (stop buffer $9) and P010 EWJ. A miss on guidance increases risk-off pressure and tests the P009 $696 stop. Brent is indirectly exposed via VIX; the $90.50 stop has ~$3.7 buffer from $94.19 entry.",
+    "<b>Pending entries this week.</b> P013 INTC: wait for Apr-23 beat confirmation; enter $68-72 Apr-24 morning only. P014 AAPL: deferred (price $266 below $271-274 entry zone); reassess if recovery above $269 before Apr-30. P015 GOOGL: earnings date corrected to Apr-29 AC; entry Apr-30 morning on beat. None of these are actionable today — do not anticipate.",
 ]
 
 # ── Memory Updates / Sources ───────────────────────────────────────────────────
 MEMORY_UPDATES = [
-    "Memory.md §5: Added INTC P013, AAPL P014, GOOGL P015, MU N040 (near-miss watchlist)",
-    "Memory.md §5: GOOGL updated from T-blocked to T=0 resolved (−0.80%); PLTR downgraded to Sum+2",
-    "Memory.md §6: Iran ceasefire status updated to EXPIRED Apr-21 UTC+8",
-    "SignalLedger: P010 EWJ, P011 Gold (gate-blocked), P012 Silver (gate-blocked), P013 INTC, P014 AAPL, P015 GOOGL, N040 MU, N041 NVDA appended",
-    "AuditAdditionLog: 8 entries for V026/V027/MOVE resolution impact",
-    "pipeline/.pipeline-status.json: trade-rec updated to OK v2",
+    "Memory.md §5: Added Brent P016 PROMOTED; Silver GATE-UNBLOCKED near-miss",
+    "Memory.md §5: P015 GOOGL earnings date CORRECTED to Apr-29 AC; P014 AAPL DEFERRED",
+    "Memory.md §5: P011 Gold SUPERSEDED (Sum dropped +3 to +2, T=0)",
+    "Memory.md §6: Added WTI $90/$95 threshold watch; Apr-29 GOOGL; May-01 Faber review",
+    "SignalLedger: P016 Brent, P017 BTC gate-blocked, N042-N046 appended (65 rows total)",
+    "HypoLedger: H013 Brent P016 inserted (PENDING status, entry 94.25, stop 90.50)",
+    "memory-lessons.md: appended 2026-04-22 lesson entry (commodity sleeve first ON; Brent 0.75% haircut; V026 12/12 clean)",
+    "pipeline/.pipeline-status.json: trade-rec OK; consecutive_failures=0",
 ]
-SOURCES_A = ("market-brief-2026-04-21.md v1 · news-2026-04-21.md · audit-data-staging-2026-04-21.md "
-             "(V026 ALL 12, V027 z+1.65, V028 Brent) · framework/{Memory, Risk Rules, Methodology Prompt, Excel-Sync-Protocol}.md")
-SOURCES_B = "cloud-market-brief-2026-04-21.md · cloud-news-2026-04-21.md · [cloud-trade-rec MISSING]"
+SOURCES_A = ("market-brief-2026-04-22.md v1 (A) · news-2026-04-22.md (A) · audit-data-staging-2026-04-22.md "
+             "(V026 12/12, V027 z+1.65, V028 Brent T1) · framework/{Memory, Risk Rules, Methodology Prompt}.md")
+SOURCES_B = "us-close-snapshot-2026-04-22.md (B) · slack-digest-2026-04-22-0923.md (B) · [cloud files all MISSING from Drive]"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -614,17 +614,30 @@ def recs_html():
               '<th>Size</th><th>Catalyst</th><th>Grade</th><th>Sleeve</th></tr>')
     rows = ""
     for asset, dir_cls, entry, stop, target, size, catalyst, grade, sleeve in RECS:
-        rows += (f'<tr><td>{asset}</td><td>{pill(dir_cls,"LONG")}</td>'
+        rows += (f'<tr style="background:rgba(74,222,128,.04)">'
+                 f'<td>{asset}</td><td>{pill(dir_cls,"LONG")}</td>'
                  f'<td>{entry}</td><td>{stop}</td><td>{target}</td><td>{size}</td>'
                  f'<td style="font-size:12px">{catalyst}</td>'
                  f'<td style="font-size:12px;color:#b5bccc">{grade}</td>'
                  f'<td style="font-size:12px">{sleeve}</td></tr>\n')
-    for asset, dir_txt, entry, stop, target, size, catalyst, grade, sleeve in RECS_BLOCKED:
-        rows += (f'<tr style="opacity:0.6"><td>{asset}</td><td>{dir_txt}</td>'
-                 f'<td>{entry}</td><td>{stop}</td><td>{target}</td><td>{size}</td>'
-                 f'<td style="font-size:12px">{catalyst}</td>'
-                 f'<td style="font-size:12px;color:#b5bccc">{grade}</td>'
-                 f'<td style="font-size:12px">{sleeve}</td></tr>\n')
+    # Carry-over pending entries (not new promotions)
+    if RECS_CARRY:
+        rows += f'<tr><td colspan="9" style="background:#12151c;color:#8a93a6;font-size:11px;padding:5px 10px;letter-spacing:.04em">CARRY-OVER PENDING (previously promoted; not new today)</td></tr>\n'
+        for rec in RECS_CARRY:
+            asset_c, entry_c, stop_c, target_c, size_c, cat_c = rec
+            rows += (f'<tr style="opacity:0.8"><td>{asset_c}</td><td>{pill("blue","—")}</td>'
+                     f'<td style="font-size:12px">{entry_c}</td><td style="font-size:12px">{stop_c}</td>'
+                     f'<td style="font-size:12px">{target_c}</td><td style="font-size:12px">{size_c}</td>'
+                     f'<td style="font-size:12px">{cat_c}</td><td></td><td></td></tr>\n')
+    # Blocked
+    if RECS_BLOCKED:
+        rows += f'<tr><td colspan="9" style="background:#12151c;color:#f87171;font-size:11px;padding:5px 10px;letter-spacing:.04em">GATE-BLOCKED / NEAR-MISS (Sum>=3 but blocked)</td></tr>\n'
+        for asset, dir_txt, entry, stop, target, size, catalyst, grade, sleeve in RECS_BLOCKED:
+            rows += (f'<tr style="opacity:0.55"><td>{asset}</td><td>{dir_txt}</td>'
+                     f'<td>{entry}</td><td>{stop}</td><td>{target}</td><td>{size}</td>'
+                     f'<td style="font-size:12px">{catalyst}</td>'
+                     f'<td style="font-size:12px;color:#b5bccc">{grade}</td>'
+                     f'<td style="font-size:12px">{sleeve}</td></tr>\n')
     return (f'<table>\n{header}\n{rows}</table>\n'
             f'<div class="mute" style="font-size:12px;margin-top:6px">{RECS_FOOTNOTE}</div>')
 
@@ -739,15 +752,41 @@ def near_miss_table_html():
 
 
 def positions_html():
+    # summary cards
+    total_heat = sum(0 for _ in OPEN_POSITIONS)  # placeholder; heat shown in exec card
+    card_rows = ""
+    for pid, asset, side, entry, stop, live, buf, pnl, size, fcls, ftxt in OPEN_POSITIONS:
+        pnl_color = "var(--green)" if "+" in pnl else "var(--red)" if "-" in pnl else "var(--accent)"
+        flag_cls_map = {"ok": "green", "warn": "yellow", "bad": "red", "blue": "blue"}
+        pill_cls = flag_cls_map.get(fcls, "gray")
+        card_rows += (
+            f'<div class="card" style="min-width:220px">'
+            f'<div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">{pid} &mdash; {asset}</div>'
+            f'<div style="font-size:16px;font-weight:600;margin:4px 0;color:{pnl_color}">{pnl}</div>'
+            f'<div style="font-size:12px;color:var(--muted)">Entry {entry}</div>'
+            f'<div style="font-size:12px;color:var(--muted)">Live {live} &middot; Stop {stop} &middot; Buffer {buf}</div>'
+            f'<div style="margin-top:6px"><span class="pill {pill_cls}" style="font-size:10px">{ftxt}</span></div>'
+            f'</div>\n'
+        )
+    cards = f'<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">{card_rows}</div>'
+
+    # detail table
     rows = "".join(
-        f'<tr><td>{pid}</td><td>{asset}</td><td>{side}</td>'
-        f'<td>{entry}</td><td>{stop}</td><td>{live}</td><td>{buf}</td>'
-        f'<td class="{fcls}">{ftxt}</td></tr>\n'
-        for pid, asset, side, entry, stop, live, buf, fcls, ftxt in OPEN_POSITIONS
+        f'<tr><td>{pid}</td><td><b>{asset}</b></td><td style="color:var(--green)">{side}</td>'
+        f'<td>{entry}</td><td>{stop}</td><td>{live}</td>'
+        f'<td style="font-weight:600">{buf}</td>'
+        f'<td style="font-weight:600;color:{"var(--green)" if "+" in pnl else "var(--red)" if "-" in pnl else "var(--accent)"}">{pnl}</td>'
+        f'<td>{size}</td><td class="{fcls}" style="font-size:12px">{ftxt}</td></tr>\n'
+        for pid, asset, side, entry, stop, live, buf, pnl, size, fcls, ftxt in OPEN_POSITIONS
     )
-    return (f'<table>\n<tr><th>ID</th><th>Asset</th><th>Side</th>'
-            f'<th>Entry</th><th>Stop</th><th>Live</th><th>Buffer</th><th>Flag</th></tr>\n'
-            f'{rows}</table>')
+    table = (f'<table>\n<tr><th>ID</th><th>Asset</th><th>Side</th>'
+             f'<th>Entry</th><th>Stop</th><th>Last Known Price</th>'
+             f'<th>Buffer to Stop</th><th>Unrealized P&amp;L</th>'
+             f'<th>Size</th><th>Status</th></tr>\n'
+             f'{rows}</table>'
+             f'<div class="mute" style="font-size:11px;margin-top:5px">'
+             f'Live prices = last known from brief/staging. Update with each US-close snapshot.</div>')
+    return cards + table
 
 
 def gap_html():
@@ -916,14 +955,17 @@ ul{{margin:6px 0;padding-left:20px}} li{{margin:3px 0}}
 <h2>Score Stacking &mdash; Top Theses</h2>
 {score_charts_html()}
 
-<h2>Factor Exposure Aggregate</h2>
-{factor_exposure_html()}
+<h2>Open Positions (all)</h2>
+{positions_html()}
 
 <h2>Recommendations</h2>
 {recs_html()}
 
 <h2>Signal Age &amp; Time-Decay</h2>
 {signal_age_html()}
+
+<h2>Factor Exposure Aggregate</h2>
+{factor_exposure_html()}
 
 <h2>Pre-Entry Checklists</h2>
 {checklists_html()}
@@ -939,9 +981,6 @@ ul{{margin:6px 0;padding-left:20px}} li{{margin:3px 0}}
 
 <h2>Near-Misses</h2>
 {near_miss_table_html()}
-
-<h2>Open Positions (all)</h2>
-{positions_html()}
 
 <h2>Data Gap Closure</h2>
 {gap_html()}

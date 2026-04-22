@@ -29,14 +29,16 @@
   },
   "trade-rec-daily": {
     "status": "OK",
-    "reason": "1 promoted (Brent P016 Sum+3), 1 gate-blocked (BTC P017), 10 near-misses; commodity sleeve CONFIRMED ON first time this cycle; 0 cloud files (Drive empty); compact HTML emitted (canonical gen deferred to next multi-signal run)",
+    "reason": "1 promoted (Brent P016 Sum+3), 1 gate-blocked (BTC P017), 7 near-misses; commodity sleeve CONFIRMED ON first time this cycle; 0 cloud files (Drive empty); canonical HTML generated via gen_trade_rec_html.py (64KB); open positions panel added",
     "date": "2026-04-22",
-    "timestamp": "2026-04-22T12:40:00.000000Z",
+    "timestamp": "2026-04-22T13:00:00.000000Z",
     "version": "v1",
     "signals_promoted": 1,
     "signals_blocked": 1,
-    "near_misses": 10,
+    "near_misses": 7,
     "cloud_ingested": 0,
-    "consecutive_failures": 0
+    "consecutive_failures": 0,
+    "html_bytes": 63929,
+    "html_generator": "gen_trade_rec_html.py"
   }
 }

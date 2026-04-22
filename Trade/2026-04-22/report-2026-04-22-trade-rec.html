@@ -1,255 +1,366 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Trade Rec — 2026-04-22 (v1)</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Rec &mdash; 2026-04-22 v1 Local</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
-:root{--bg:#0e1117;--panel:#161b23;--panel2:#1d2330;--muted:#8a93a6;--fg:#e5e7eb;--ok:#4ade80;--warn:#facc15;--bad:#f87171;--blue:#5b9bff;--border:#262b35}
-*{box-sizing:border-box}
-body{margin:0;padding:24px;background:var(--bg);color:var(--fg);font:14px/1.45 -apple-system,Segoe UI,Roboto,sans-serif}
-h1{margin:0 0 6px;font-size:22px}
-h2{margin:22px 0 10px;font-size:17px;border-bottom:1px solid var(--border);padding-bottom:6px}
-h3{margin:14px 0 8px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.sub{color:var(--muted);font-size:13px;margin-bottom:12px}
-.container{max-width:1200px;margin:0 auto}
-.grid{display:grid;gap:10px}
-.grid-4{grid-template-columns:repeat(4,1fr)}
-.grid-3{grid-template-columns:repeat(3,1fr)}
-.grid-2{grid-template-columns:repeat(2,1fr)}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
-.card .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.card .val{font-size:18px;font-weight:600;margin:4px 0}
-.card .sub2{font-size:12px;color:var(--muted)}
-.ok{color:var(--ok)} .warn{color:var(--warn)} .bad{color:var(--bad)} .blue{color:var(--blue)} .mute{color:var(--muted)}
-.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;letter-spacing:.02em}
-.pill.green{background:rgba(74,222,128,.15);color:var(--ok)}
-.pill.yellow{background:rgba(250,204,21,.15);color:var(--warn)}
-.pill.red{background:rgba(248,113,113,.15);color:var(--bad)}
-.pill.blue{background:rgba(91,155,255,.15);color:var(--blue)}
-.pill.gray{background:rgba(138,147,166,.15);color:var(--muted)}
-table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:13px}
-th{background:var(--panel2);text-align:left;padding:8px 10px;color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
-td{padding:8px 10px;border-top:1px solid var(--border);vertical-align:top}
-.delta-box{background:rgba(91,155,255,.08);border:1px solid rgba(91,155,255,.25);border-radius:10px;padding:14px 16px;margin:14px 0}
-.delta-box h3{color:var(--blue);margin-top:0}
-.sec{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:10px 0}
-.chip{display:inline-block;padding:2px 8px;margin:2px 3px;border-radius:8px;font-size:12px;font-weight:500}
-ul{margin:6px 0 6px 18px;padding:0}
-li{margin:3px 0}
-.small{font-size:12px}
-.foot{margin-top:24px;font-size:11px;color:var(--muted);text-align:center}
+:root {--bg:#0f1115;--card:#171a21;--muted:#8a93a6;--fg:#e5e9f0;--accent:#5b9bff;--green:#4ade80;--red:#f87171;--yellow:#facc15;--border:#262b35;}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--fg);line-height:1.5}
+.container{max-width:1180px;margin:0 auto;padding:32px 24px}
+h1{font-size:26px;margin:0 0 4px}
+h2{font-size:18px;margin:28px 0 10px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:6px}
+h3{font-size:15px;margin:18px 0 8px;color:#b5bccc}
+.sub{color:var(--muted);font-size:13px;margin-bottom:14px}
+.grid{display:grid;gap:12px} .grid-2{grid-template-columns:1fr 1fr} .grid-3{grid-template-columns:1fr 1fr 1fr} .grid-4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.card .label{color:var(--muted);font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.card .val{font-size:20px;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{color:var(--muted);font-weight:500;background:#12151c}
+tr:hover td{background:#1a1e27}
+.pill{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:500}
+.pill.green{background:rgba(74,222,128,.15);color:var(--green)}
+.pill.red{background:rgba(248,113,113,.15);color:var(--red)}
+.pill.yellow{background:rgba(250,204,21,.15);color:var(--yellow)}
+.pill.blue{background:rgba(91,155,255,.15);color:var(--accent)}
+.pill.gray{background:#262b35;color:var(--muted)}
+.pill.purple{background:rgba(167,139,250,.15);color:#a78bfa}
+.chart-wrap{position:relative;height:260px}
+.ok{color:var(--green)} .warn{color:var(--yellow)} .bad{color:var(--red)} .mute{color:var(--muted)}
+.footer{color:var(--muted);font-size:12px;margin-top:24px;border-top:1px solid var(--border);padding-top:12px}
+ul{margin:6px 0;padding-left:20px} li{margin:3px 0}
+.delta-box{background:#0d1a2e;border:1px solid #1f6feb;border-radius:8px;padding:14px 18px;margin-bottom:18px}
+.delta-box h3{color:#79c0ff;margin-top:0}
+.universe-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:6px}
+.sens-ok{color:var(--green)} .sens-warn{color:var(--yellow)} .sens-bad{color:var(--red)}
 </style>
 </head>
 <body>
 <div class="container">
 
-<h1>Trade Recommendations &mdash; 2026-04-22 <span class="pill green">OK</span> <span class="pill blue">v1 Local</span></h1>
-<div class="sub">Generated 2026-04-22 20:30 UTC+8 &middot; 20:20 UTC+8 = 08:20 ET US pre-open &middot; <b>RISK-ON (FRAGILE) / GEOPOLITICAL-BINARY &mdash; CEASEFIRE EXTENDED, HORMUZ BLOCKED</b> &middot; Grade A MISSING: <b>0</b> (T3 fallbacks) &middot; Cloud ingested: 0/3 (Drive empty at run time)</div>
+<h1>Trade Recommendation &mdash; 2026-04-22 <span class="pill blue">v1 Local</span></h1>
+<div class="sub">Generated 2026-04-22 20:30 UTC+8 &mdash; production run. Local primary — cloud files absent from Drive at run time. Status: <span class="ok">OK</span> &mdash; Grade A MISSING: 0 (T3 fallbacks applied). &nbsp; V026 ALL 12 LIVE ✓ &nbsp;&middot;&nbsp; V027 z+1.65 ✓ &nbsp;&middot;&nbsp; MOVE STALE Apr-21</div>
 
-<!-- ═════════ EXECUTIVE SUMMARY ═════════ -->
-<div class="grid grid-4">
-  <div class="card"><div class="lbl">Promoted</div><div class="val ok">1 signal</div><div class="sub2">Brent P016 &middot; Sum +3</div></div>
-  <div class="card"><div class="lbl">Near-Miss / Blocked</div><div class="val warn">10 + 1 gate-blocked</div><div class="sub2">WTI, Silver, Copper, WDC, NVDA, QQQ, MU, AAPL, GOOGL, Gold &middot; BTC gate-off</div></div>
-  <div class="card"><div class="lbl">Regime</div><div class="val">Risk-On Fragile / Geo-Binary</div><div class="sub2">Ceasefire EXTENDED &middot; Hormuz &lt;10% &middot; VIX baseline</div></div>
-  <div class="card"><div class="lbl">Heat (all filled)</div><div class="val">~2.6%</div><div class="sub2">0.75% Brent + 1.86% existing book &middot; cap 8%</div></div>
+<h2>Data Freshness</h2>
+<div style="display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px 0;scrollbar-width:thin;scrollbar-color:#262b35 transparent"><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">V026</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#4ade80">●</span> 12/12<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">A</span></div><div style="font-size:10px;color:#8a93a6">Apr-22 clean</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">V027</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#4ade80">●</span> +1.65<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">A</span></div><div style="font-size:10px;color:#8a93a6">fresh Apr-22</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">V028</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#facc15">◐</span> 1/5 fresh<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">A</span></div><div style="font-size:10px;color:#8a93a6">Brent T1; WTI/Gold/Ag/Cu T3 stale Apr-17</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">Brent/WTI</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#4ade80">●</span> $94/$90<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">A</span></div><div style="font-size:10px;color:#8a93a6">Apr-22 staging (+6-9%)</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">GSG/GSCI</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#4ade80">●</span> 31.75<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">A</span></div><div style="font-size:10px;color:#8a93a6">Apr-22 CONFIRMED ON</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">SPY/QQQ</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#5b9bff">●</span> ~$705/640<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">B</span></div><div style="font-size:10px;color:#8a93a6">Apr-21 close</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">EWJ</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#5b9bff">●</span> $90.19<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">B</span></div><div style="font-size:10px;color:#8a93a6">Apr-22 brief</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">DXY</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#4ade80">●</span> 98.242<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">A</span></div><div style="font-size:10px;color:#8a93a6">Apr-21</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">DGS10</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#facc15">◐</span> 4.25%<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">A</span></div><div style="font-size:10px;color:#8a93a6">1d stale Apr-21</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">HY OAS</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#facc15">◐</span> 285bp<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">B</span></div><div style="font-size:10px;color:#8a93a6">stale Apr-19</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">NFCI</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#facc15">◐</span> -0.47<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">A</span></div><div style="font-size:10px;color:#8a93a6">12d stale Apr-10</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">VIX</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#5b9bff">●</span> 19.04<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">B</span></div><div style="font-size:10px;color:#8a93a6">Apr-21</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">MOVE</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#facc15">◐</span> STALE<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">A</span></div><div style="font-size:10px;color:#8a93a6">Apr-21 last; 67.90</div></div><div style="background:#171a21;border:1px solid #262b35;border-radius:8px;padding:8px 10px;min-width:120px;flex:0 0 auto"><div style="font-size:11px;color:#8a93a6;text-transform:uppercase;letter-spacing:.04em">BTC</div><div style="font-size:14px;font-weight:600;margin:2px 0"><span style="color:#5b9bff">●</span> $76,000<span style="font-size:10px;font-weight:400;color:#8a93a6;margin-left:4px">B</span></div><div style="font-size:10px;color:#8a93a6">Apr-22 ~4th test $75k</div></div></div>
+
+<h2>Asset Universe</h2>
+<div class="universe-box">
+<div style="margin-bottom:7px"><span style="display:inline-block;min-width:110px;font-size:11px;font-weight:600;color:#8a93a6;text-transform:uppercase;letter-spacing:.05em;vertical-align:middle">Equities</span><span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">INTC</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">TSM</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">NVDA</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">TSLA</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">AAPL</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">GOOGL</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">AMZN</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">META</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">PYPL</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">PLTR</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">MU</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">WDC</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">AVGO</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">BABA</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(91,155,255,.15);color:#5b9bff">MSFT</span></div>
+<div style="margin-bottom:7px"><span style="display:inline-block;min-width:110px;font-size:11px;font-weight:600;color:#8a93a6;text-transform:uppercase;letter-spacing:.05em;vertical-align:middle">ETFs</span><span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(74,222,128,.15);color:#4ade80">QQQ</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(74,222,128,.15);color:#4ade80">SPY</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(74,222,128,.15);color:#4ade80">EWJ</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(74,222,128,.15);color:#4ade80">EWY</span></div>
+<div style="margin-bottom:7px"><span style="display:inline-block;min-width:110px;font-size:11px;font-weight:600;color:#8a93a6;text-transform:uppercase;letter-spacing:.05em;vertical-align:middle">Commodities</span><span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(250,204,21,.15);color:#facc15">Brent</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(250,204,21,.15);color:#facc15">WTI</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(250,204,21,.15);color:#facc15">Gold</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(250,204,21,.15);color:#facc15">Silver</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(250,204,21,.15);color:#facc15">Copper</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(250,204,21,.15);color:#facc15">Palladium</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(250,204,21,.15);color:#facc15">Platinum</span></div>
+<div style="margin-bottom:7px"><span style="display:inline-block;min-width:110px;font-size:11px;font-weight:600;color:#8a93a6;text-transform:uppercase;letter-spacing:.05em;vertical-align:middle">Crypto</span><span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(248,113,113,.15);color:#f87171">BTC</span> <span style="display:inline-block;margin:2px 3px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:500;background:rgba(248,113,113,.15);color:#f87171">ETH</span></div>
 </div>
 
-<!-- ═════════ DELTA BOX ═════════ -->
 <div class="delta-box">
-  <h3>&#9889; Material change vs prior run (trade-rec 2026-04-21 v2)</h3>
-  <div class="grid grid-3">
-    <div><span class="pill green">NEW P016</span> <b>Brent Long Sum +3</b> &mdash; first commodity promotion; V034 GSG 31.75 &gt;&gt; 10m-SMA 25.35 sleeve CONFIRMED ON (was MISSING 4 consecutive runs). Size 0.75% binary+corr haircut.</div>
-    <div><span class="pill yellow">P014 DEFERRED</span> <b>AAPL</b> &mdash; price $266.17 below entry zone $271&ndash;274; at ATR stop $266.50. Do not enter below $268; hard time-stop 2026-04-30 unchanged.</div>
-    <div><span class="pill yellow">P015 DATE FIX</span> <b>GOOGL</b> earnings corrected Apr-22/23 &rarr; <b>Apr-29 AC</b>. Entry trigger shifts to Apr-30 morning.</div>
-  </div>
-  <div class="small mute" style="margin-top:10px">Also: P017 BTC Sum+3 logged GATE-BLOCKED (crypto sleeve OFF, $78k &lt; $91.5k 10m-SMA) &middot; P011 Gold SUPERSEDED (Sum dropped +3&rarr;+2) &middot; V026 residual 12/12 clean again (no numpy fail) &middot; V028 basis-mom 1/5 fresh (Brent T1), 4/5 T3-STALE at 5d limit.</div>
+<h3>&#9889; Material change vs cloud-7pm v1</h3>
+<div class="grid grid-3" style="margin-top:8px"><div><span class="pill green">NEW P016</span> <b>Brent Long Sum +3</b> — commodity sleeve CONFIRMED ON (GSG 31.75 > 10m-SMA 25.35). First commodity promotion this cycle. Entry $94.00-94.50, stop $90.50, size 0.75%.</div><div><span class="pill yellow">P015 DATE CORRECTED</span> <b>GOOGL earnings Apr-29 AC</b> (not Apr-22/23). Entry trigger shifts to Apr-30 morning. P015 contingent status unchanged.</div><div><span class="pill blue">P014 AAPL DEFERRED</span> Price $266.17 below entry zone $271-274. Do not enter below $268. Hard time-stop Apr-30 still binding.</div></div>
+<div style="margin-top:10px;font-size:13px;color:var(--muted)">Also: BTC Sum+3 gate-blocked (crypto sleeve OFF, BTC $76k < $91.5k 10m-SMA) logged as P017 Taken=NO. WTI/Silver/Copper near-miss — correlation-gated behind Brent (sector cap 25%). V026 clean 12/12 (no numpy fail). V027 z+1.65 capital expansion = full sizing.</div>
 </div>
 
-<!-- ═════════ OVERLAY GATE ═════════ -->
-<h2>Overlay Gate (Step 1.5 / V033&ndash;V035)</h2>
-<table>
-<tr><th>Sleeve</th><th>Reading vs 10m-SMA</th><th>Gate</th><th>Impact</th></tr>
-<tr><td>Equity (V033) SPY/QQQ</td><td>ABOVE</td><td><span class="pill green">ON</span></td><td>SPY P009, EWJ P010 unlocked</td></tr>
-<tr><td><b>Commodity (V034) GSG</b></td><td><b>31.75 &gt;&gt; 25.35 est. SMA</b></td><td><span class="pill green">ON &mdash; CONFIRMED</span></td><td><b>Brent P016 promoted</b>; WTI/Silver/Copper unblocked (correlation-gated behind Brent)</td></tr>
-<tr><td>Crypto (V035) BTC</td><td>$78k &lt; $91.5k est. SMA</td><td><span class="pill red">OFF</span></td><td>BTC Sum+3 &rarr; P017 gate-blocked</td></tr>
-<tr><td>Intl Equity EWJ/EFA</td><td>ABOVE</td><td><span class="pill green">ON</span></td><td>EWJ P010 unlocked</td></tr>
-</table>
-<div class="small mute" style="margin-top:6px">Commodity sleeve ON for the first time this cycle. Next read: May-01 Faber month-end.</div>
+<h2>Executive Summary</h2>
+<div class="grid grid-4">
+  <div class="card"><div class="label">Promoted This Run</div><div class="val ok">1 signal</div><div class="mute" style="font-size:12px;margin-top:4px">Brent P016 Long — commodity sleeve first ON this cycle</div></div>
+  <div class="card"><div class="label">Near-Miss / Blocked</div><div class="val warn">5 + 1</div><div class="mute" style="font-size:12px;margin-top:4px">WTI, Silver, Copper, WDC, NVDA near-miss · BTC gate-blocked</div></div>
+  <div class="card"><div class="label">Regime</div><div class="val">Risk-On / Geo-Binary</div><div class="mute" style="font-size:12px;margin-top:4px">Ceasefire EXTENDED · Hormuz <10% · Blockade intact</div></div>
+  <div class="card"><div class="label">Heat (open+pending)</div><div class="val">~2.6%</div><div class="mute" style="font-size:12px;margin-top:4px">P009 SPY 1.86% open + P016 Brent 0.75% pending · 8% cap</div></div>
+</div>
 
-<!-- ═════════ RECOMMENDATIONS ═════════ -->
+<h2>Overlay Gate &mdash; Faber TAA (C009)</h2>
+<table>
+<tr><th>Sleeve</th><th>Asset</th><th>vs 10m-SMA</th><th>Gate</th></tr>
+<tr><td>Equity (V033)</td><td>SPY/QQQ</td><td>ABOVE (~$705/$640 vs est. 10m-SMA $650-680)</td><td><span class="pill green">ON</span></td></tr>
+<tr><td>Commodity (V034)</td><td>GSG</td><td>31.75 vs 10m-SMA 25.35 — ABOVE (CONFIRMED ON Apr-22)</td><td><span class="pill green">ON -- FIRST TIME THIS CYCLE</span></td></tr>
+<tr><td>Crypto (V035)</td><td>BTC</td><td>$76,000 vs est. 10m-SMA ~$91.5k -- BELOW</td><td><span class="pill red">OFF</span></td></tr>
+<tr><td>Intl Equity</td><td>EWJ/EFA</td><td>$90.19 vs est. 10m-SMA ~$78-82 -- ABOVE</td><td><span class="pill green">ON</span></td></tr>
+</table>
+<div class="mute" style="font-size:12px;margin-top:6px">Next read: May-01 Faber monthly review. Commodity sleeve CONFIRMED ON for first time this cycle -- Brent promoted as primary. Silver/WTI/Copper correlation-gated behind Brent. Crypto sleeve OFF: BTC needs >$91.5k at Apr-30 close (large gap).</div>
+
+<h2>Data Collected &mdash; Key Variables</h2>
+<table>
+<tr><th>Variable</th><th>Reading</th><th>Grade</th><th>Status</th><th>Score Impact</th></tr>
+<tr><td>VIX</td><td>19.04</td><td>B (BNMA)</td><td><span class="pill yellow">STALE Apr-21</span></td><td>R: borderline at 20 threshold; benign</td></tr>
+<tr><td>VIX3M</td><td>20.51</td><td>B (BNMA)</td><td><span class="pill gray">STALE Apr-18</span></td><td>VIX/VIX3M contango; no inversion stress</td></tr>
+<tr><td>MOVE</td><td>67.90</td><td>A</td><td><span class="pill yellow">STALE Apr-21</span></td><td>R: +1 -- low bond vol; below 80 threshold</td></tr>
+<tr><td>HY OAS</td><td>285 bps</td><td>B (BNMA)</td><td><span class="pill yellow">STALE Apr-19</span></td><td>R: tight; non-stressed backdrop</td></tr>
+<tr><td>NFCI</td><td>-0.47</td><td>A</td><td><span class="pill gray">STALE Apr-10 (12d)</span></td><td>Loose conditions persisting</td></tr>
+<tr><td>IC z-score (V027)</td><td>+1.65</td><td>A</td><td><span class="pill green">LIVE (Apr-22 fresh)</span></td><td>R: capital expansion z>+0.5 = full sizing per §1.B</td></tr>
+<tr><td>DGS10</td><td>4.25%</td><td>A</td><td><span class="pill yellow">STALE 1d (Apr-21)</span></td><td>2s10s steepening; no inversion drag</td></tr>
+<tr><td>T10YIE</td><td>2.36%</td><td>A</td><td><span class="pill yellow">STALE 1d (Apr-21)</span></td><td>Above 2% target; FOMC Apr-28 navigate</td></tr>
+<tr><td>DXY</td><td>98.242</td><td>A</td><td><span class="pill green">LIVE (Apr-21)</span></td><td>-3.9% from Apr-9 peak; USD structural weakness; Brent S+1</td></tr>
+<tr><td>SPY / QQQ</td><td>~$705 / $640</td><td>B</td><td><span class="pill blue">Apr-21 close (1d)</span></td><td>P009 entry $708.95; ~$4 underwater; stop $696 buffer $9</td></tr>
+<tr><td>EWJ</td><td>$90.19</td><td>A</td><td><span class="pill blue">Apr-22 brief</span></td><td>P010 entry $88.30; +$1.89 unrealized; Nikkei record 59,585</td></tr>
+<tr><td>Brent / WTI</td><td>$94.19 / $90.16</td><td>A</td><td><span class="pill green">LIVE Apr-22 (+6-9%)</span></td><td>P016 entry zone $94-94.50; backwardation+steepening; Hormuz</td></tr>
+<tr><td>GSG (GSCI proxy)</td><td>31.75</td><td>A</td><td><span class="pill green">LIVE Apr-22 (CONFIRMED ON)</span></td><td>V034 gate: 31.75 vs 10m-SMA 25.35 (+24.8%); sleeve ON</td></tr>
+<tr><td>BTC</td><td>~$76,000</td><td>B</td><td><span class="pill blue">Apr-22 approx.</span></td><td>4th test $75k; ETF +$412M Apr-21; sleeve OFF; crypto gate</td></tr>
+</table>
+
+<h3>Audit Additions (2026-04-14 binding, 2026-10-14 review)</h3>
+<table>
+<tr><th>ID</th><th>Variable</th><th>Status</th><th>Decision-Moving?</th></tr>
+<tr><td>V026</td><td>Residual momentum (FF5 12m) -- 12 tickers</td><td><span class="pill green">ALL 12 LIVE (no numpy failure Apr-22)</span></td><td><span class="pill green">YES -- TSLA/PLTR T=-1 via residual-over-raw; INTC/AAPL/MU/WDC T=+1; NVDA/GOOGL T=0</span></td></tr>
+<tr><td>V027</td><td>Intermediary capital z-score</td><td><span class="pill green">LIVE +1.65 (Apr-22 fresh)</span></td><td><span class="pill green">YES -- R=+1 Grade A; capital expansion regime; full sizing authorized (§1.B); overridden to 0.75% for P016 binary-downside</span></td></tr>
+<tr><td>V028</td><td>Basis-momentum (4w/12w)</td><td><span class="pill yellow">PARTIAL -- Brent LIVE T1 (Apr-22); WTI/Gold/Silver/Copper T3 STALE Apr-17 (5d limit)</span></td><td><span class="pill yellow">Brent S+1 CONFIRMED (backwardation+13.95, steepening); others near-miss scored static slope; infrastructure persistent failure action-logged</span></td></tr>
+</table>
+
+<h3>V026 Residual Momentum &mdash; Full Equity Universe</h3>
+<div style="font-size:12px;color:#8a93a6;margin-bottom:6px">Threshold: <span style="color:#4ade80">T=+1 if &gt;+2%</span> &nbsp;|&nbsp; <span style="color:#facc15">T=0 if within ±2%</span> &nbsp;|&nbsp; <span style="color:#f87171">T=−1 if &lt;−2%</span> &nbsp;|&nbsp; 12-ticker subset (TSM/AVGO/BABA excluded — data N/A)</div><table>
+<tr><th>Ticker</th><th>Residual % (FF5 12m)</th><th>T-Score</th><th>Signal Note</th></tr>
+<tr><td><b>MU</b></td><td><span style="font-weight:600;color:#4ade80">+15.63%</span><div style="display:inline-block;width:60px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:70%;height:100%;background:#4ade80;border-radius:3px"></div></div></td><td><span style="font-weight:600;color:#4ade80">+1</span></td><td style="font-size:12px;color:#8a93a6">N040 near-miss — correlation gate (equity cluster Apr-22-30)</td></tr>
+<tr><td><b>INTC</b></td><td><span style="font-weight:600;color:#4ade80">+13.89%</span><div style="display:inline-block;width:60px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:67%;height:100%;background:#4ade80;border-radius:3px"></div></div></td><td><span style="font-weight:600;color:#4ade80">+1</span></td><td style="font-size:12px;color:#8a93a6">P013 OPEN — entry trigger Apr-23 AC beat</td></tr>
+<tr><td><b>WDC</b></td><td><span style="color:#8a93a6">—</span></td><td><span style="color:#8a93a6">—</span></td><td style="font-size:12px;color:#8a93a6">N045 near-miss — C=0 no near-term catalyst</td></tr>
+<tr><td><b>AAPL</b></td><td><span style="font-weight:600;color:#4ade80">+4.68%</span><div style="display:inline-block;width:60px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:56%;height:100%;background:#4ade80;border-radius:3px"></div></div></td><td><span style="font-weight:600;color:#4ade80">+1</span></td><td style="font-size:12px;color:#8a93a6">P014 DEFERRED — price $266.17 below $271-274 entry zone</td></tr>
+<tr><td><b>AMZN</b></td><td><span style="color:#8a93a6">—</span></td><td><span style="color:#8a93a6">—</span></td><td style="font-size:12px;color:#8a93a6">Sum+2; timing Apr-29 earnings</td></tr>
+<tr><td><b>MSFT</b></td><td><span style="color:#8a93a6">—</span></td><td><span style="color:#8a93a6">—</span></td><td style="font-size:12px;color:#8a93a6">not individually scored this run</td></tr>
+<tr><td><b>META</b></td><td><span style="color:#8a93a6">—</span></td><td><span style="color:#8a93a6">—</span></td><td style="font-size:12px;color:#8a93a6">Sum+2; timing Apr-29 same-day FOMC</td></tr>
+<tr><td><b>PYPL</b></td><td><span style="color:#8a93a6">—</span></td><td><span style="color:#8a93a6">—</span></td><td style="font-size:12px;color:#8a93a6">not individually scored this run</td></tr>
+<tr><td><b>NVDA</b></td><td><span style="font-weight:600;color:#facc15">-1.00%</span><div style="display:inline-block;width:60px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:49%;height:100%;background:#facc15;border-radius:3px"></div></div></td><td><span style="font-weight:600;color:#facc15">0</span></td><td style="font-size:12px;color:#8a93a6">N046 near-miss — residual -1.00% T=0; tech concentration</td></tr>
+<tr><td><b>GOOGL</b></td><td><span style="font-weight:600;color:#facc15">-0.80%</span><div style="display:inline-block;width:60px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:49%;height:100%;background:#facc15;border-radius:3px"></div></div></td><td><span style="font-weight:600;color:#facc15">0</span></td><td style="font-size:12px;color:#8a93a6">P015 CONTINGENT — earnings Apr-29 AC; entry Apr-30 morning</td></tr>
+<tr><td><b>TSLA</b></td><td><span style="font-weight:600;color:#f87171">-9.12%</span><div style="display:inline-block;width:60px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:39%;height:100%;background:#f87171;border-radius:3px"></div></div></td><td><span style="font-weight:600;color:#f87171">-1</span></td><td style="font-size:12px;color:#8a93a6">confirmed no-trade; earnings tonight</td></tr>
+<tr><td><b>PLTR</b></td><td><span style="font-weight:600;color:#f87171">-35.62%</span><div style="display:inline-block;width:60px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:5%;height:100%;background:#f87171;border-radius:3px"></div></div></td><td><span style="font-weight:600;color:#f87171">-1</span></td><td style="font-size:12px;color:#8a93a6">Sum+2 only; factor crowding confirmed</td></tr>
+<tr><td><b>TSM</b></td><td><span style="color:#8a93a6">—</span></td><td><span style="color:#8a93a6">—</span></td><td style="font-size:12px;color:#8a93a6">not computed (data N/A this run)</td></tr>
+<tr><td><b>AVGO</b></td><td><span style="color:#8a93a6">—</span></td><td><span style="color:#8a93a6">—</span></td><td style="font-size:12px;color:#8a93a6">not computed (data N/A this run)</td></tr>
+<tr><td><b>BABA</b></td><td><span style="color:#8a93a6">—</span></td><td><span style="color:#8a93a6">—</span></td><td style="font-size:12px;color:#8a93a6">not computed (data N/A this run)</td></tr>
+</table>
+
+<h3>Meta Additions (2026-04-18 binding)</h3>
+<table>
+<tr><th>ID</th><th>Variable</th><th>Status</th><th>Decision-Moving?</th></tr>
+<tr><td>V029</td><td>BAB (USMV/SPLV)</td><td><span class="pill gray">Not computed</span></td><td>NO</td></tr>
+<tr><td>V030</td><td>DealerGamma (Grade B)</td><td><span class="pill gray">Not computed</span></td><td>NO</td></tr>
+<tr><td>V031</td><td>GP/A (Gross Profitability)</td><td><span class="pill gray">Not computed</span></td><td>NO</td></tr>
+<tr><td>V032</td><td>CEI (Composite Issuance)</td><td><span class="pill gray">Not computed</span></td><td>NO</td></tr>
+</table>
+
+<h2>Score Stacking &mdash; Top Theses</h2>
+<div class="grid grid-2">
+<div class="card"><h3 style="margin-top:0">Promoted |Sum| &#8805; 3 &mdash; S/T/C/R breakdown</h3>
+<div class="chart-wrap"><canvas id="scoreBar"></canvas></div></div>
+<div class="card"><h3 style="margin-top:0">Near-Misses |Sum| = 3 (blocked)</h3>
+<div class="chart-wrap"><canvas id="nearMissBar"></canvas></div></div>
+</div>
+
+<h2>Open Positions (all)</h2>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px"><div class="card" style="min-width:220px"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">P009 &mdash; SPY (SPYUSDT perp)</div><div style="font-size:16px;font-weight:600;margin:4px 0;color:var(--red)">~-$4/sh (-0.56%)</div><div style="font-size:12px;color:var(--muted)">Entry $708.95 avg (5T)</div><div style="font-size:12px;color:var(--muted)">Live ~$705 (Apr-21 close) &middot; Stop $696.00 &middot; Buffer ~$9 (~1.3%)</div><div style="margin-top:6px"><span class="pill yellow" style="font-size:10px">OPEN -- below entry; within stop buffer</span></div></div>
+<div class="card" style="min-width:220px"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">P010 &mdash; EWJ (EWJUSDT perp)</div><div style="font-size:16px;font-weight:600;margin:4px 0;color:var(--green)">~+$1.89 (+2.14%)</div><div style="font-size:12px;color:var(--muted)">Entry $88.30 avg (3T)</div><div style="font-size:12px;color:var(--muted)">Live ~$90.19 (Apr-22 brief) &middot; Stop $86.00 &middot; Buffer ~$4.19 (~4.7%)</div><div style="margin-top:6px"><span class="pill green" style="font-size:10px">OPEN -- above entry; Nikkei record Apr-22</span></div></div>
+<div class="card" style="min-width:220px"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em">P016 &mdash; Brent (BZUSDT/BZ=F)</div><div style="font-size:16px;font-weight:600;margin:4px 0;color:var(--red)">--</div><div style="font-size:12px;color:var(--muted)">Entry $94.00-94.50 zone</div><div style="font-size:12px;color:var(--muted)">Live ~$94.19 (Apr-22 staging) &middot; Stop $90.50 &middot; Buffer ~$3.69 (~3.9%)</div><div style="margin-top:6px"><span class="pill blue" style="font-size:10px">PENDING -- Gerald execution required</span></div></div>
+</div><table>
+<tr><th>ID</th><th>Asset</th><th>Side</th><th>Entry</th><th>Stop</th><th>Last Known Price</th><th>Buffer to Stop</th><th>Unrealized P&amp;L</th><th>Size</th><th>Status</th></tr>
+<tr><td>P009</td><td><b>SPY (SPYUSDT perp)</b></td><td style="color:var(--green)">Long</td><td>$708.95 avg (5T)</td><td>$696.00</td><td>~$705 (Apr-21 close)</td><td style="font-weight:600">~$9 (~1.3%)</td><td style="font-weight:600;color:var(--red)">~-$4/sh (-0.56%)</td><td>$2,089</td><td class="warn" style="font-size:12px">OPEN -- below entry; within stop buffer</td></tr>
+<tr><td>P010</td><td><b>EWJ (EWJUSDT perp)</b></td><td style="color:var(--green)">Long</td><td>$88.30 avg (3T)</td><td>$86.00</td><td>~$90.19 (Apr-22 brief)</td><td style="font-weight:600">~$4.19 (~4.7%)</td><td style="font-weight:600;color:var(--green)">~+$1.89 (+2.14%)</td><td>$1,396</td><td class="ok" style="font-size:12px">OPEN -- above entry; Nikkei record Apr-22</td></tr>
+<tr><td>P016</td><td><b>Brent (BZUSDT/BZ=F)</b></td><td style="color:var(--green)">Long</td><td>$94.00-94.50 zone</td><td>$90.50</td><td>~$94.19 (Apr-22 staging)</td><td style="font-weight:600">~$3.69 (~3.9%)</td><td style="font-weight:600;color:var(--red)">--</td><td>0.75% (~$30)</td><td class="blue" style="font-size:12px">PENDING -- Gerald execution required</td></tr>
+</table><div class="mute" style="font-size:11px;margin-top:5px">Live prices = last known from brief/staging. Update with each US-close snapshot.</div>
+
 <h2>Recommendations</h2>
 <table>
-<tr><th>Asset</th><th>Dir</th><th>Entry</th><th>Stop</th><th>Target</th><th>Size</th><th>Sum (S/T/C/R)</th><th>Catalyst / Risk-Rule</th></tr>
-<tr>
-  <td><b>Brent</b> (BZ=F / BZUSDT) <span class="pill green">NEW P016</span></td>
-  <td class="ok">Long</td>
-  <td>$94.00&ndash;94.50<br><span class="small mute">live $94.19</span></td>
-  <td>$90.50<br><span class="small mute">2&times;ATR ~$3.7</span></td>
-  <td>$98 / $102</td>
-  <td>0.75%<br><span class="small mute">corr+binary haircut</span></td>
-  <td>+3<br><span class="small">S+1(A) T+1(A) C0 R+1(A)</span></td>
-  <td>Structural: Hormuz blockade + basis-mom T1 fresh backwardation+steepening + DXY weak. Iran deal &rarr; Brent &lt;$88 = invalidation. Time-stop 2026-05-22.</td>
-</tr>
+<tr><th>Asset</th><th>Dir</th><th>Entry</th><th>Stop</th><th>Target</th><th>Size</th><th>Catalyst</th><th>Grade</th><th>Sleeve</th></tr>
+<tr style="background:rgba(74,222,128,.04)"><td><b>Brent</b> <span class='pill green'>NEW P016</span></td><td><span class="pill green">LONG</span></td><td>$94.00-94.50 (at-market/limit; last known $94.19)</td><td>$90.50 (2x ATR ~$3.7)</td><td>$98 / $102</td><td>0.75% (corr+binary haircut)</td><td style="font-size:12px">C=0; structural: Hormuz blockade + backwardation steepening + DXY weak. Iran deal = invalidation.</td><td style="font-size:12px;color:#b5bccc">S+1(A), T+1(A), C0, R+1(A)</td><td style="font-size:12px">Commodity ON -- first cycle</td></tr>
+<tr><td colspan="9" style="background:#12151c;color:#8a93a6;font-size:11px;padding:5px 10px;letter-spacing:.04em">CARRY-OVER PENDING (previously promoted; not new today)</td></tr>
+<tr style="opacity:0.8"><td><b>SPY</b> P009 OPEN</td><td><span class="pill blue">—</span></td><td style="font-size:12px">$708.95 avg (filled)</td><td style="font-size:12px">$696</td><td style="font-size:12px">~$720/$730</td><td style="font-size:12px">1.0% open</td><td style="font-size:12px">C=0; stop $696 ~$9 buffer</td><td></td><td></td></tr>
+<tr style="opacity:0.8"><td><b>EWJ</b> P010 OPEN</td><td><span class="pill blue">—</span></td><td style="font-size:12px">$88.30 avg (filled)</td><td style="font-size:12px">$86.00</td><td style="font-size:12px">~$95/$98</td><td style="font-size:12px">0.75% open</td><td style="font-size:12px">C=0; Nikkei record Apr-22 +2.1% unrealized</td><td></td><td></td></tr>
+<tr style="opacity:0.8"><td><b>INTC</b> P013 await</td><td><span class="pill blue">—</span></td><td style="font-size:12px">$68-72 (after Apr-23 beat)</td><td style="font-size:12px">~$63-67</td><td style="font-size:12px">$75/$82</td><td style="font-size:12px">1.0% planned</td><td style="font-size:12px">C+1: Apr-23 AC earnings trigger</td><td></td><td></td></tr>
+<tr style="opacity:0.8"><td><b>AAPL</b> P014 deferred</td><td><span class="pill blue">—</span></td><td style="font-size:12px">DEFERRED ($266 < $271-274 zone)</td><td style="font-size:12px">~$264-267</td><td style="font-size:12px">$280/$290</td><td style="font-size:12px">0.75% if entry</td><td style="font-size:12px">Hard exit Apr-30</td><td></td><td></td></tr>
+<tr style="opacity:0.8"><td><b>GOOGL</b> P015 contingent</td><td><span class="pill blue">—</span></td><td style="font-size:12px">~$333-340 after Apr-29 beat</td><td style="font-size:12px">~$317</td><td style="font-size:12px">$355/$375</td><td style="font-size:12px">0.75% planned</td><td style="font-size:12px">C+1: Apr-29 AC; entry Apr-30 morning</td><td></td><td></td></tr>
+<tr><td colspan="9" style="background:#12151c;color:#f87171;font-size:11px;padding:5px 10px;letter-spacing:.04em">GATE-BLOCKED / NEAR-MISS (Sum>=3 but blocked)</td></tr>
+<tr style="opacity:0.55"><td><b>BTC</b> <span class='pill red'>P017 gate-blocked</span></td><td>LONG</td><td>--</td><td>--</td><td>--</td><td>Taken=NO</td><td style="font-size:12px">Crypto sleeve OFF (BTC $76k < $91.5k 10m-SMA). Sum+3 (S+1/T+1/C+1/R0) blocked.</td><td style="font-size:12px;color:#b5bccc">S+1, T+1, C+1, R0 (+3)</td><td style="font-size:12px">Crypto OFF</td></tr>
+<tr style="opacity:0.55"><td><b>WTI</b> <span class='pill yellow'>N042 near-miss</span></td><td>LONG</td><td>--</td><td>--</td><td>--</td><td>Taken=NO</td><td style="font-size:12px">Correlation-gated behind Brent. V028 T3 STALE (Apr-17). Basis-mom flat divergence.</td><td style="font-size:12px;color:#b5bccc">S+1, T+1, C0, R+1 (+3)</td><td style="font-size:12px">Commodity ON (near-miss)</td></tr>
+<tr style="opacity:0.55"><td><b>Silver</b> <span class='pill yellow'>N043 near-miss</span></td><td>LONG</td><td>--</td><td>--</td><td>--</td><td>Taken=NO</td><td style="font-size:12px">Gate-UNBLOCKED but correlation-gated behind Brent (sector cap 25%). Promote if Brent fills + room.</td><td style="font-size:12px;color:#b5bccc">S+1, T+1, C0, R+1 (+3)</td><td style="font-size:12px">Commodity ON (near-miss)</td></tr>
 </table>
-<div class="small mute" style="margin-top:6px"><b>One promoted.</b> Brent is the clearest commodity candidate post-gate-confirmation: freshest V028 basis-mom T1 data; correlation-gates WTI/Silver/Copper behind it. Size 0.75% (vs full 1.5%) acknowledges (a) C=0 structural-edge-only, (b) Iran ceasefire binary downside asymmetry, (c) TSLA earnings tonight cross-asset risk, (d) FOMC Apr-28&ndash;29 hawkish tail &mdash; same half-size treatment as SPY P009 precedent.</div>
+<div class="mute" style="font-size:12px;margin-top:6px">R=+1 via V027 z+1.65 (A) + HY OAS 285bp (B) + NFCI -0.47 (A) + VIX 19.04 (B) -- Grade A double confirmed.<br>Heat with open+pending: P009 1.0% + P010 0.75% + P016 0.75% (pending) = 2.6% (32% of 8% cap). If P013+P014+P015 all fill: +2.5% additional = 5.1% total (within cap).</div>
 
-<h3>Pending from prior recs (status carried)</h3>
+<h2>Signal Age &amp; Time-Decay</h2>
 <table>
-<tr><th>ID</th><th>Asset</th><th>Status</th><th>Note</th></tr>
-<tr><td>P013</td><td>INTC Sum+4</td><td><span class="pill blue">Active &mdash; awaiting trigger</span></td><td>Q1 earnings Apr-23 AC. Enter $68&ndash;72 Apr-24 morning on beat. Live $66.26 (below zone, on track).</td></tr>
-<tr><td>P014</td><td>AAPL Sum+3</td><td><span class="pill yellow">DEFERRED 2026-04-22</span></td><td>Price $266.17 below entry zone $271&ndash;274; at ATR stop $266.50. Do not enter below $268. Reassess if price &gt;$269 before Apr-30 hard time-stop.</td></tr>
-<tr><td>P015</td><td>GOOGL Sum+3</td><td><span class="pill blue">Contingent &mdash; date fix</span></td><td>Earnings Apr-29 AC (corrected). Entry trigger shifts to Apr-30 morning on beat. C+1 pre-scored 88% Mag7 Q1 beat rate.</td></tr>
-<tr><td>P011</td><td>Gold</td><td><span class="pill gray">SUPERSEDED</span></td><td>Sum dropped +3&rarr;+2 (T=0 slight pullback, contango). Re-classified watchlist.</td></tr>
-<tr><td>P017</td><td>BTC Sum+3</td><td><span class="pill red">GATE-BLOCKED</span></td><td>Crypto sleeve OFF ($78k &lt; $91.5k 10m-SMA). Logged SignalLedger only; no HypoLedger row.</td></tr>
+<tr><th>ID</th><th>Asset</th><th>Status</th><th>Promoted</th><th>Age</th><th>Expiry / Hard Stop</th><th>Days Remaining</th></tr>
+<tr><td>P009</td><td><b>SPY</b></td><td style="font-size:12px;color:#8a93a6">OPEN — filled Apr-21</td><td>2026-04-20</td><td style="color:#8a93a6">2d</td><td>2026-05-13</td><td><span style="font-weight:600;color:#4ade80">21d</span><div style="display:inline-block;width:70px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:23%;height:100%;background:#4ade80;border-radius:3px"></div></div></td></tr>
+<tr><td>P010</td><td><b>EWJ</b></td><td style="font-size:12px;color:#8a93a6">OPEN — filled Apr-21</td><td>2026-04-21</td><td style="color:#8a93a6">1d</td><td>2026-06-30</td><td><span style="font-weight:600;color:#4ade80">69d</span><div style="display:inline-block;width:70px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:76%;height:100%;background:#4ade80;border-radius:3px"></div></div></td></tr>
+<tr><td>P016</td><td><b>Brent</b></td><td style="font-size:12px;color:#8a93a6">PENDING — Gerald execution</td><td>2026-04-22</td><td style="color:#8a93a6">0d</td><td>2026-05-22</td><td><span style="font-weight:600;color:#4ade80">30d</span><div style="display:inline-block;width:70px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:33%;height:100%;background:#4ade80;border-radius:3px"></div></div></td></tr>
+<tr><td>P013</td><td><b>INTC</b></td><td style="font-size:12px;color:#8a93a6">Awaiting Apr-23 AC beat</td><td>2026-04-21</td><td style="color:#8a93a6">1d</td><td>2026-06-23</td><td><span style="font-weight:600;color:#4ade80">62d</span><div style="display:inline-block;width:70px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:68%;height:100%;background:#4ade80;border-radius:3px"></div></div></td></tr>
+<tr><td>P014</td><td><b>AAPL</b></td><td style="font-size:12px;color:#8a93a6">DEFERRED — below entry zone</td><td>2026-04-21</td><td style="color:#8a93a6">1d</td><td>2026-04-30</td><td><span style="font-weight:600;color:#f87171">8d</span><div style="display:inline-block;width:70px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:8%;height:100%;background:#f87171;border-radius:3px"></div></div></td></tr>
+<tr><td>P015</td><td><b>GOOGL</b></td><td style="font-size:12px;color:#8a93a6">Contingent — entry Apr-30</td><td>2026-04-21</td><td style="color:#8a93a6">1d</td><td>2026-05-15</td><td><span style="font-weight:600;color:#4ade80">23d</span><div style="display:inline-block;width:70px;height:6px;background:#262b35;border-radius:3px;margin-left:8px;vertical-align:middle"><div style="width:25%;height:100%;background:#4ade80;border-radius:3px"></div></div></td></tr>
 </table>
+<div class="mute" style="font-size:12px;margin-top:4px"><span style="color:#f87171">■</span> &lt;10d urgent &nbsp;<span style="color:#facc15">■</span> 10–19d monitor &nbsp;<span style="color:#4ade80">■</span> ≥20d OK</div>
 
-<!-- ═════════ NEAR-MISSES ═════════ -->
-<h2>Theses Not Taken (|Sum|&ge;2 not promoted)</h2>
-<table>
-<tr><th>Asset</th><th>Sum</th><th>Legs</th><th>Blocking leg</th><th>Specific promotion trigger</th></tr>
-<tr><td>WTI</td><td>+3</td><td>+1/+1/0/+1</td><td>Correlation + T3 STALE basis-mom</td><td>Brent correlation clears OR fresh WTI basis-mom at next staging</td></tr>
-<tr><td>Silver</td><td>+3</td><td>+1/+1/0/+1</td><td>Correlation (behind Brent)</td><td>Brent filled AND sector cap room, OR industrial C+1</td></tr>
-<tr><td>Copper</td><td>+3</td><td>+1/+1/0/+1</td><td>C (China PMI &gt;50.5 needed)</td><td>China Apr PMI print &mdash; next May-01</td></tr>
-<tr><td>WDC</td><td>+3</td><td>+1/+1/0/+1</td><td>C (no near-term catalyst)</td><td>Earnings or AI data-center news</td></tr>
-<tr><td>NVDA</td><td>+3</td><td>+1/0/+1/+1</td><td>T (residual &minus;1.00%; trust residual)</td><td>Residual &gt;+2% OR GOOGL Apr-29 AI read-through</td></tr>
-<tr><td>QQQ</td><td>+3</td><td>+1/+1/0/+1</td><td>Correlation (behind SPY P009)</td><td>P009 exits correlation gate</td></tr>
-<tr><td>MU</td><td>+3</td><td>+1/+1/0/+1</td><td>Correlation (equity cluster)</td><td>Post Apr-30, FOMC resolved, sector heat eases</td></tr>
-<tr><td>Gold</td><td>+2</td><td>+1/0/0/+1</td><td>T (pullback, contango)</td><td>T flip +1 (trend resumption &gt;$4,850)</td></tr>
-<tr><td>PLTR</td><td>+2</td><td>+1/&minus;1/+1/+1</td><td>T (residual &minus;35.62%)</td><td>Residual &gt;0</td></tr>
-<tr><td>TSM / META / AMZN / EWY</td><td>+2</td><td>various</td><td>T stale / earnings timing</td><td>Post Apr-29 beats</td></tr>
-</table>
-
-<!-- ═════════ PRE-ENTRY CHECKLIST ═════════ -->
-<h2>Pre-Entry Checklist &mdash; Brent Long P016</h2>
-<table>
-<tr><th>#</th><th>Item</th><th>Status</th><th>Note</th></tr>
-<tr><td>1</td><td>|Sum|&ge;3 with C scored</td><td><span class="pill green">PASS</span></td><td>Sum +3; C explicitly scored 0 (ceasefire binary symmetric)</td></tr>
-<tr><td>2</td><td>Invalidation written, concrete, date-bounded</td><td><span class="pill green">PASS</span></td><td>(a) Iran deal &rarr; Brent &lt;$88 hard; (b) Hormuz re-opens &gt;70% in 10d structural; (c) time-stop 2026-05-22</td></tr>
-<tr><td>3</td><td>Correlation gate clean</td><td><span class="pill green">PASS</span></td><td>Primary commodity promotion; WTI/Silver/Copper near-miss behind. Commodity sector 0% &rarr; 0.75% (cap 25%). Different primary variable vs SPY/EWJ (oil-supply+DXY vs equity risk-on)</td></tr>
-<tr><td>4</td><td>Per-position &le;2% AND heat &le;8%</td><td><span class="pill green">PASS</span></td><td>0.75%; book heat 1.86% &rarr; ~2.6% post-entry</td></tr>
-<tr><td>5</td><td>ATR stop set</td><td><span class="pill green">PASS</span></td><td>2&times;ATR ~$3.7 &rarr; $90.50 hard stop from $94.19</td></tr>
-<tr><td>6</td><td>Catalyst asymmetry stated</td><td><span class="pill yellow">PARTIAL</span></td><td><b>C=0</b> structural edge only (backwardation+steepening, blockade). Downside binary (Iran deal, &minus;10&ndash;15%) is primary non-structural risk. Size halved 0.75% vs 1.5% &mdash; same SPY P009 precedent.</td></tr>
-<tr><td>7</td><td>Slack-digest clearance (POSITION-ALERT)</td><td><span class="pill green">PASS</span></td><td>No unresolved POSITION-ALERT on P009/P010 or commodity sleeve</td></tr>
-<tr><td>R1.B</td><td>V027 tier applied</td><td><span class="pill green">PASS</span></td><td>z +1.65 capital expansion; full sizing allowed (other haircuts drove size)</td></tr>
-<tr><td>R7.7</td><td>Overlay gate ON for sleeve</td><td><span class="pill green">PASS</span></td><td>V034 GSG 31.75 &gt;&gt; 25.35; commodity sleeve ON CONFIRMED</td></tr>
-</table>
-<div class="small mute" style="margin-top:6px"><b>Verdict: PROMOTED</b> &mdash; 8/9 PASS, 1/9 PARTIAL (item #6 acknowledged + sized-down).</div>
-
-<!-- ═════════ KEY VARIABLES ═════════ -->
-<h2>Key Variables &amp; Audit Additions</h2>
-<table>
-<tr><th>Variable</th><th>Reading</th><th>Grade</th><th>Status</th><th>Impact</th></tr>
-<tr><td>V026 residual momentum</td><td>12/12</td><td>A</td><td><span class="pill green">LIVE</span></td><td>Decision-moving: resolved TSLA/PLTR T=&minus;1; confirmed AAPL/INTC/MU/WDC T=+1; NVDA/GOOGL/TSM/AMZN/META T=0</td></tr>
-<tr><td>V027 IC z-score</td><td>+1.65</td><td>A</td><td><span class="pill green">LIVE</span></td><td>Capital expansion; full sizing per Risk Rules &sect;1.B</td></tr>
-<tr><td>V028 basis-momentum</td><td>1/5 fresh (Brent T1)</td><td>A</td><td><span class="pill yellow">PARTIAL</span></td><td>Brent T1 fresh &rarr; P016 enabled; WTI/Gold/Silver/Copper T3-STALE Apr-17 at 5d limit</td></tr>
-<tr><td>V033 Equity gate</td><td>SPY/QQQ ABOVE</td><td>A</td><td><span class="pill green">ON</span></td><td>Equity sleeve active</td></tr>
-<tr><td>V034 Commodity gate</td><td>GSG 31.75 &gt;&gt; 25.35</td><td>A</td><td><span class="pill green">ON &mdash; CONFIRMED</span></td><td><b>First sleeve ON this cycle</b> &mdash; unlocked Brent promotion</td></tr>
-<tr><td>V035 Crypto gate</td><td>BTC $78k &lt; $91.5k</td><td>A</td><td><span class="pill red">OFF</span></td><td>BTC Sum+3 blocked</td></tr>
-<tr><td>MOVE</td><td>67.90</td><td>A</td><td><span class="pill green">LIVE</span></td><td>R=+1 component</td></tr>
-<tr><td>HY OAS</td><td>285 bps</td><td>B</td><td><span class="pill green">LIVE (T3 1d)</span></td><td>Non-stressed</td></tr>
-<tr><td>NFCI</td><td>&minus;0.47</td><td>A</td><td><span class="pill gray">STALE 12d</span></td><td>Loose conditions</td></tr>
-<tr><td>DGS10</td><td>4.25%</td><td>A</td><td><span class="pill gray">T3 1d</span></td><td>No inversion drag</td></tr>
-<tr><td>DXY</td><td>98.242</td><td>A</td><td><span class="pill green">LIVE</span></td><td>USD weak &mdash; commodity+EWJ tailwind</td></tr>
-<tr><td>Brent / WTI</td><td>$94.19 / $90.16</td><td>A</td><td><span class="pill green">LIVE</span></td><td>+6&ndash;9% overnight; Hormuz premium intact</td></tr>
-<tr><td>BTC</td><td>$78k</td><td>A</td><td><span class="pill green">LIVE</span></td><td>Below sleeve threshold; P017 blocked</td></tr>
-</table>
-
-<!-- ═════════ CATALYSTS ═════════ -->
-<h2>Catalyst Calendar (next 10d)</h2>
-<table>
-<tr><th>Date</th><th>Event</th><th>Assets</th><th>Priority</th></tr>
-<tr><td><b>Apr-22 AC (tonight)</b></td><td><b>TSLA Q1 earnings</b></td><td>TSLA, QQQ/SPX cross-asset</td><td><span class="pill red">HIGH &mdash; P009/P010 stress test</span></td></tr>
-<tr><td>Apr-23 AC</td><td>INTC Q1 earnings</td><td>INTC, QQQ</td><td><span class="pill red">HIGH &mdash; P013 entry trigger (enter Apr-24)</span></td></tr>
-<tr><td>Apr-24</td><td>S&amp;P Global Flash PMI (US)</td><td>SPY, DXY</td><td><span class="pill yellow">MED</span></td></tr>
-<tr><td><b>Apr-28&ndash;29</b></td><td><b>FOMC</b></td><td>All &mdash; SPY P009 primary</td><td><span class="pill red">HIGH &mdash; hawkish = exit rule</span></td></tr>
-<tr><td>Apr-29 AC</td><td>GOOGL / AMZN / META earnings</td><td>GOOGL (P015), QQQ</td><td><span class="pill red">HIGH &mdash; P015 Apr-30 entry trigger</span></td></tr>
-<tr><td><b>Apr-30</b></td><td><b>AAPL P014 hard time-stop</b></td><td>AAPL</td><td><span class="pill red">HIGH &mdash; exit regardless</span></td></tr>
-<tr><td>May-01</td><td>AAPL Q1 earnings &middot; Faber month-end overlay review &middot; China Apr PMI</td><td>AAPL, all sleeves, Copper</td><td><span class="pill yellow">MED &mdash; gate re-read</span></td></tr>
-<tr><td>Ongoing</td><td>WTI $90 / $95 threshold</td><td>Brent, WTI, commodity sleeve</td><td><span class="pill yellow">MED &mdash; $95+ = R headwind all sleeves</span></td></tr>
-</table>
-
-<!-- ═════════ DATA GAPS ═════════ -->
-<h2>Data Gaps</h2>
-<div class="sec">
-  <h3>Upstream artifacts</h3>
-  <ul class="small">
-    <li>slack-digest-2026-04-22-0923 &mdash; present (pre-dates 20:00 brief, overnight context only)</li>
-    <li>market-brief-2026-04-22 v1 &mdash; 22,006 bytes local authoritative</li>
-    <li>news-2026-04-22 &mdash; 10,346 bytes 12/12 categories</li>
-    <li>us-close-snapshot-2026-04-22 &mdash; 07:30 UTC+8 present</li>
-    <li>weekly-review-2026-04-20 &mdash; present (most recent Sunday)</li>
-    <li><span class="bad">Cloud (Drive): MISSING</span> &mdash; cloud-market-brief / cloud-news / cloud-trade-rec all empty at run time. Local primary used; no cloud cross-check today.</li>
-  </ul>
-  <h3>Audit-addition status</h3>
-  <ul class="small">
-    <li><b>V026:</b> 12/12 COMPUTED ✓ (no numpy failure; decision-moving as above)</li>
-    <li><b>V027:</b> z +1.65 LIVE ✓ (capital expansion &mdash; full sizing allowed)</li>
-    <li><b>V028:</b> 1/5 fresh (Brent T1), 4/5 T3-STALE Apr-17 at 5-day staleness limit. <b>Infrastructure persistent failure</b> &mdash; scripts/compute_audit_additions.py unable to populate futures_curves.csv for non-Brent commodities 5+ consecutive runs. Action item logged.</li>
-  </ul>
-  <h3>Other Grade-A MISSING (T3 fallbacks applied; no score impact)</h3>
-  <ul class="small">
-    <li>DGS10/DGS2/T10YIE/DFII10 T3 STALE 1d (FRED intermittent timeout; within 5d window)</li>
-    <li>HY OAS T3 STALE 1d &middot; NFCI T3 STALE 12d (weekly cadence)</li>
-    <li>EIA crude inventory (Apr-22) NOT CAPTURED &mdash; release actual not in search; directional already in price</li>
-    <li>V036 PCTECH NOT COMPUTED (Grade B supplementary)</li>
-    <li>BTC 3m basis / ETF flow &mdash; Grade B context, 1d stale</li>
-  </ul>
-</div>
-
-<!-- ═════════ LEDGER APPENDS ═════════ -->
-<h2>Ledger Appends</h2>
+<h2>Factor Exposure Aggregate</h2>
 <div class="grid grid-2">
-  <div class="sec">
-    <h3>SignalLedger (master-data-log.xlsx)</h3>
-    <ul class="small">
-      <li><b>P016 Brent</b> Long Sum+3, entry $94.00&ndash;94.50, stop $90.50, TP1 $98, TP2 $102, size 0.75%, Taken=PENDING, overlay_gate=CommodityON, v027_regime=CapitalExpansion(+1.65)</li>
-      <li><b>P017 BTC</b> Long Sum+3, Taken=NO, Block_Reason=OverlayGateOff (crypto sleeve)</li>
-      <li>N042 WTI &middot; N043 Silver &middot; N044 Copper &middot; N045 WDC &middot; N046 NVDA (near-miss rows)</li>
-      <li>Dedup: QQQ=N033 prior, MU=N040 prior open</li>
-    </ul>
-  </div>
-  <div class="sec">
-    <h3>HypoLedger (master-data-log.xlsx)</h3>
-    <ul class="small">
-      <li><b>H013 Brent</b> &mdash; Rec_Date 2026-04-22, v1, S=+1 T=+1 C=0 R=+1 Sum=+3, Entry_Price_Rec 94.25, Stop_Rec 90.50, TP1 98, TP2 102, Inv_Date 2026-05-22, Size_Rec 0.0075, Status PENDING, Hypo_Entry_Price 94.25</li>
-      <li>No HypoLedger row for P017 BTC (failed overlay-gate checklist; SignalLedger only)</li>
-    </ul>
-  </div>
+<div class="card">
+<h3 style="margin-top:0">Factor Tilt (size-weighted)</h3>
+<div style="padding:4px 0"><div style="margin:6px 0"><span style="display:inline-block;width:80px;font-size:12px;color:#8a93a6">S (Signal)</span><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:8px;background:#262b35;border-radius:4px"><div style="width:100%;height:100%;background:#4ade80;border-radius:4px"></div></div><span style="font-size:12px;color:#4ade80;width:36px">1.00</span></div></div><div style="margin:6px 0"><span style="display:inline-block;width:80px;font-size:12px;color:#8a93a6">T (Trend)</span><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:8px;background:#262b35;border-radius:4px"><div style="width:85%;height:100%;background:#5b9bff;border-radius:4px"></div></div><span style="font-size:12px;color:#5b9bff;width:36px">0.85</span></div></div><div style="margin:6px 0"><span style="display:inline-block;width:80px;font-size:12px;color:#8a93a6">C (Catalyst)</span><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:8px;background:#262b35;border-radius:4px"><div style="width:35%;height:100%;background:#facc15;border-radius:4px"></div></div><span style="font-size:12px;color:#facc15;width:36px">0.35</span></div></div><div style="margin:6px 0"><span style="display:inline-block;width:80px;font-size:12px;color:#8a93a6">R (Risk)</span><div style="display:flex;align-items:center;gap:8px"><div style="flex:1;height:8px;background:#262b35;border-radius:4px"><div style="width:100%;height:100%;background:#a78bfa;border-radius:4px"></div></div><span style="font-size:12px;color:#a78bfa;width:36px">1.00</span></div></div></div><div style="font-size:12px;color:#8a93a6;margin-top:8px">Portfolio bias: signal-heavy (all S=1) · trend-favorable · <span style="color:#facc15">catalyst-light (most C=0)</span> · strong risk backdrop (R Grade A triple)</div></div>
+<div class="card">
+<h3 style="margin-top:0">Position Breakdown</h3>
+<table style="margin-top:0">
+<tr><th>ID</th><th>Asset</th><th>Status</th><th>Size%</th><th style="color:#4ade80">S</th><th style="color:#5b9bff">T</th><th style="color:#facc15">C</th><th style="color:#a78bfa">R</th></tr>
+<tr><td>P009</td><td>SPY</td><td style="color:#8a93a6;font-size:12px">Open</td><td>1.00%</td><td style="color:#4ade80">1</td><td style="color:#5b9bff">1</td><td style="color:#facc15">0</td><td style="color:#a78bfa">1</td></tr>
+<tr><td>P010</td><td>EWJ</td><td style="color:#8a93a6;font-size:12px">Open</td><td>0.75%</td><td style="color:#4ade80">1</td><td style="color:#5b9bff">1</td><td style="color:#facc15">0</td><td style="color:#a78bfa">1</td></tr>
+<tr><td>P016</td><td>Brent</td><td style="color:#8a93a6;font-size:12px">Pending (0.75%)</td><td>0.75%</td><td style="color:#4ade80">1</td><td style="color:#5b9bff">1</td><td style="color:#facc15">0</td><td style="color:#a78bfa">1</td></tr>
+<tr><td>P013</td><td>INTC</td><td style="color:#8a93a6;font-size:12px">Awaiting beat</td><td>1.00%</td><td style="color:#4ade80">1</td><td style="color:#5b9bff">1</td><td style="color:#facc15">1</td><td style="color:#a78bfa">1</td></tr>
+<tr><td>P014</td><td>AAPL</td><td style="color:#8a93a6;font-size:12px">Deferred</td><td>0.75%</td><td style="color:#4ade80">1</td><td style="color:#5b9bff">1</td><td style="color:#facc15">0</td><td style="color:#a78bfa">1</td></tr>
+<tr><td>P015</td><td>GOOGL</td><td style="color:#8a93a6;font-size:12px">Contingent</td><td>0.75%</td><td style="color:#4ade80">1</td><td style="color:#5b9bff">0</td><td style="color:#facc15">1</td><td style="color:#a78bfa">1</td></tr>
+<tr style="background:#1a1e27;font-weight:600"><td colspan="3">Portfolio weighted avg (size=5.00% heat)</td><td></td><td style="color:#4ade80">1.00</td><td style="color:#5b9bff">0.85</td><td style="color:#facc15">0.35</td><td style="color:#a78bfa">1.00</td></tr>
+</table>
+</div>
 </div>
 
-<!-- ═════════ DISCUSSION ═════════ -->
+<h2>Pre-Entry Checklists</h2>
+<h3>Brent Long (P016) -- New promotion today</h3>
+<table>
+<tr><th>#</th><th>Item</th><th>Status</th><th>Detail</th></tr>
+<tr><td>1</td><td>|Sum|>=3 with C scored</td><td class="ok">PASS</td><td>Sum +3 (S+1/T+1/C0/R+1); C explicitly scored at 0 (ceasefire binary symmetric)</td></tr>
+<tr><td>2</td><td>Invalidation written, concrete, date-bounded</td><td class="ok">PASS</td><td>Iran deal -> Brent <$88; Hormuz >70% normal within 10d; time-stop 2026-05-22</td></tr>
+<tr><td>3</td><td>Correlation gate clean</td><td class="ok">PASS</td><td>Primary commodity; WTI/Silver/Copper gated behind. Equity book corr moderate only.</td></tr>
+<tr><td>4</td><td>Per-position <=2% / heat <=8%</td><td class="ok">PASS</td><td>0.75%; heat P009+P010+P016 = ~2.6% (well within 8% cap)</td></tr>
+<tr><td>5</td><td>ATR stop set</td><td class="ok">PASS</td><td>Entry ~$94.25 avg; 2x ATR ~$3.7 -> stop $90.50</td></tr>
+<tr><td>6</td><td>Catalyst asymmetry stated</td><td class="warn">PARTIAL</td><td>C=0 -- structural edge only. Iran binary is symmetric (-10-15% on deal). Same PARTIAL as SPY P009 precedent 2026-04-20. Size halved.</td></tr>
+<tr><td>7</td><td>Overlay Gate clearance</td><td class="ok">PASS</td><td>Commodity sleeve CONFIRMED ON (V034 GSG 31.75 > 10m-SMA 25.35)</td></tr>
+<tr><td>8</td><td>Digest clearance</td><td class="ok">PASS</td><td>No unresolved POSITION-ALERT in slack-digest; no prior Brent position open</td></tr>
+<tr><td>9</td><td>V027 tier applied</td><td class="ok">PASS (R1.B)</td><td>z+1.65 = capital expansion; full sizing allowed; binary-downside haircut overrides to 0.75%</td></tr>
+</table>
+<div class="mute" style="font-size:12px;margin-top:4px">Commodity sleeve CONFIRMED ON for first time this cycle. Size haircut to 0.75% acknowledges Iran ceasefire binary + TSLA earnings cross-asset risk + FOMC Apr-28 tail.</div>
+<h3>INTC Long (P013) -- Awaiting Apr-23 beat</h3>
+<table>
+<tr><th>#</th><th>Item</th><th>Status</th><th>Detail</th></tr>
+<tr><td>1</td><td>|Sum|>=3 with C scored</td><td class="ok">PASS</td><td>Sum +4; C+1 (Terafab earnings Apr-23 AC pre-scored)</td></tr>
+<tr><td>2</td><td>Invalidation written, concrete, date-bounded</td><td class="ok">PASS</td><td>Q1 miss -> C=0/-1 -> no entry; time-stop 2026-06-23</td></tr>
+<tr><td>3</td><td>Correlation gate clean</td><td class="ok">PASS</td><td>Distinct foundry driver; equity heat within cap</td></tr>
+<tr><td>4</td><td>Per-position <=2% / heat <=8%</td><td class="ok">PASS</td><td>1.0% planned; total ~3.5% if all open</td></tr>
+<tr><td>5</td><td>ATR stop set</td><td class="ok">PASS</td><td>2x ATR ~$5 below fill; adjust at Apr-24 fill price</td></tr>
+<tr><td>6</td><td>Catalyst asymmetry stated</td><td class="ok">PASS</td><td>C+1: beat = thesis confirmed; miss = no entry. High asymmetry.</td></tr>
+<tr><td>7</td><td>Overlay Gate clearance</td><td class="ok">PASS</td><td>Equity sleeve ON</td></tr>
+<tr><td>8</td><td>Digest clearance</td><td class="ok">PASS</td><td>No INTC POSITION-ALERT; P004 closed Apr-19</td></tr>
+</table>
+<div class="mute" style="font-size:12px;margin-top:4px">WAIT FOR CONFIRMED BEAT (Apr-24 UTC+8 morning). Prior P004 closed Apr-19 to avoid this binary.</div>
+
+
+<h2>Regime Sensitivity &mdash; Stress Test</h2>
+<div style="overflow-x:auto">
+<table style="min-width:800px">
+<tr><th>Position</th><th class="sens-warn">VIX -> 28</th><th class="sens-bad">FOMC +50bp</th><th class="sens-bad">Iran Deal -10%</th><th class="sens-ok">Iran Esc. +15%</th><th class="sens-bad">SPY -5%</th></tr>
+<tr><td><b>P009</b> <span style="color:#8a93a6;font-size:12px">SPY Long</span></td><td style="font-size:12px;background:rgba(248,113,113,.09);color:#f87171">EXIT: VIX > 25</td><td style="font-size:12px;background:rgba(248,113,113,.09);color:#f87171">EXIT: primary risk</td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">Oil shock spillover</td><td style="font-size:12px;background:rgba(74,222,128,.07);color:#4ade80">Risk-on boost</td><td style="font-size:12px;background:rgba(248,113,113,.09);color:#f87171">STOP $696 in range ~$9 away</td></tr>
+<tr><td><b>P010</b> <span style="color:#8a93a6;font-size:12px">EWJ Long</span></td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">Risk-off; BOJ caution</td><td style="font-size:12px;background:rgba(248,113,113,.09);color:#f87171">USD up JPY weak -> EWJ down</td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">Global risk-off minor</td><td style="font-size:12px;background:rgba(74,222,128,.07);color:#4ade80">Risk-on; Nikkei record</td><td style="font-size:12px;background:rgba(248,113,113,.09);color:#f87171">High SPY corr.</td></tr>
+<tr><td><b>P016</b> <span style="color:#8a93a6;font-size:12px">Brent Long</span></td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">Indirect; VIX != oil</td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">USD up -> WTI soft pressure</td><td style="font-size:12px;background:rgba(248,113,113,.09);color:#f87171">THESIS INVALIDATED: deal = -10-15%</td><td style="font-size:12px;background:rgba(74,222,128,.07);color:#4ade80">Thesis confirmed: supply tighter</td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">Risk-off corr; stop $90.50 OK</td></tr>
+<tr><td><b>P013</b> <span style="color:#8a93a6;font-size:12px">INTC Await</span></td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">Tech selloff; stop OK</td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">Sector rotation risk</td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">Indirect only</td><td style="font-size:12px;background:rgba(74,222,128,.07);color:#4ade80">Foundry thesis independent</td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">SPY corr; $63-67 stop</td></tr>
+<tr><td><b>P015</b> <span style="color:#8a93a6;font-size:12px">GOOGL Cont.</span></td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">May not enter if VIX spike</td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">FOMC risk post-entry</td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">Indirect only</td><td style="font-size:12px;background:rgba(74,222,128,.07);color:#4ade80">AI/search independent</td><td style="font-size:12px;background:rgba(250,204,21,.07);color:#facc15">SPY corr; stop ~$317</td></tr>
+</table>
+</div>
+<div class="mute" style="font-size:12px;margin-top:4px">Read: <span style="color:#4ade80">■ neutral/positive</span> &nbsp;<span style="color:#facc15">■ monitor / indirect risk</span> &nbsp;<span style="color:#f87171">■ direct stop/exit risk</span></div>
+
+<h2>Catalyst Calendar (rolling 2 weeks)</h2>
+<div class="chart-wrap" style="height:190px"><canvas id="catCal"></canvas></div>
+<table style="margin-top:10px">
+<tr><th>Date</th><th>Event</th><th>Assets</th><th>Priority</th></tr>
+<tr><td><b>Apr-22 AC</b></td><td><b>TSLA Q1 earnings</b></td><td>QQQ, SPY (P009 stress)</td><td><span class="pill red">HIGH -- delivery miss baked; guidance = key. P009 stop $696 at risk on miss</span></td></tr>
+<tr><td><b>Apr-23 AC</b></td><td><b>INTC Q1 earnings</b></td><td>INTC, QQQ</td><td><span class="pill red">HIGH -- P013 entry trigger; enter $68-72 Apr-24 morning on beat</span></td></tr>
+<tr><td>Apr-23 AC</td><td>AMZN Q1 earnings</td><td>AMZN, QQQ</td><td><span class="pill yellow">MED -- AWS read-through; AMZN Sum+2 potential +3 on beat</span></td></tr>
+<tr><td><b>Apr-28-29</b></td><td><b>FOMC</b></td><td>All positions</td><td><span class="pill red">HIGH -- hawkish surprise = P009/P010 exit rule; Brent P016 R-headwind</span></td></tr>
+<tr><td>Apr-29 AC</td><td>GOOGL Q1 earnings</td><td>GOOGL (P015 trigger)</td><td><span class="pill red">HIGH -- P015 entry trigger; enter $333-340 Apr-30 morning on beat</span></td></tr>
+<tr><td>Apr-29 AC</td><td>META earnings (same day FOMC)</td><td>META, QQQ</td><td><span class="pill yellow">MED -- double-event risk</span></td></tr>
+<tr><td>Apr-29 AC</td><td>AMZN earnings</td><td>AMZN, QQQ</td><td><span class="pill yellow">MED -- capex + AWS trajectory</span></td></tr>
+<tr><td><b>Apr-30</b></td><td><b>AAPL P014 hard time-stop</b></td><td>AAPL</td><td><span class="pill red">HIGH -- exit regardless of P&amp;L before May-1 earnings</span></td></tr>
+<tr><td><b>May-1</b></td><td><b>Faber overlay gate review</b></td><td>All sleeves</td><td><span class="pill yellow">MED -- BTC needs >$91.5k at Apr-30 close for crypto sleeve ON</span></td></tr>
+<tr><td>May-12</td><td>April CPI</td><td>All</td><td><span class="pill yellow">MED -- Hormuz inflation follow-through; Brent P016 R-confirmatory</span></td></tr>
+<tr><td>Ongoing</td><td>WTI $90/$95 threshold watch</td><td>Brent P016, R-baseline</td><td><span class="pill yellow">MED -- WTI $90.16 live; >$95 = R headwind; deal = P016 invalidation</span></td></tr>
+</table>
+
+<h2>Closed-Trade Context &mdash; Analyst Reference</h2>
+<h3>INTC — prior pipeline history</h3>
+<table>
+<tr><th>ID</th><th>Side</th><th>Opened</th><th>Closed</th><th>Hold</th><th>P&amp;L</th><th>Exit Reason</th></tr>
+<tr><td>P004</td><td>Long</td><td>2026-04-08</td><td>2026-04-19</td><td>11d</td><td class="ok"><b>+2.09%</b></td><td style="font-size:12px">Planned pre-earnings exit — avoided Apr-23 binary. Thesis direction validated. Re-entering P013 after beat.</td></tr>
+</table>
+<h3>Commodity sleeve — prior closed</h3>
+<table>
+<tr><th>ID</th><th>Side</th><th>Opened</th><th>Closed</th><th>Hold</th><th>P&amp;L</th><th>Exit Reason</th></tr>
+<tr><td>P008</td><td>Long (off-meth)</td><td>2026-04-20</td><td>2026-04-21</td><td>1d</td><td class="ok"><b>+0.19%</b></td><td style="font-size:12px">Off-methodology WTI long, closed Apr-21 after P009/P010 opened. Tactical; not scored. Brent P016 is the first methodology-promoted commodity long.</td></tr>
+</table>
+<div class="mute" style="font-size:12px;margin-top:6px">SPY, EWJ, Brent: first methodology entries for these assets — no prior closed history. Full history: SignalLedger -> PerformanceStats sheet.</div>
+
+
+<h2>Near-Misses</h2>
+<table>
+<tr><th>Asset</th><th>Sum</th><th>Block Reason</th><th>Trigger to Promote</th><th>ID</th></tr>
+<tr><td>WTI <span class='pill green' style='font-size:10px'>NEW</span></td><td><span style="color:var(--accent);font-weight:bold">+3</span></td><td style="font-size:12px">Correlation-gated behind Brent P016 (sector cap 25%). V028 T3 STALE Apr-17.</td><td style="font-size:12px">Brent correlation clears OR fresh WTI basis-mom T1 with divergence cap test</td><td>N042</td></tr>
+<tr><td>Silver <span class='pill green' style='font-size:10px'>NEW</span></td><td><span style="color:var(--accent);font-weight:bold">+3</span></td><td style="font-size:12px">Correlation-gated behind Brent (gate-UNBLOCKED but sector cap full). Basis-mom T3 STALE.</td><td style="font-size:12px">Brent fills + sector cap has room, OR industrial C+1 catalyst</td><td>N043</td></tr>
+<tr><td>Copper <span class='pill green' style='font-size:10px'>NEW</span></td><td><span style="color:var(--accent);font-weight:bold">+3</span></td><td style="font-size:12px">C=0 -- China PMI >50.5 needed. Commodity sleeve now ON.</td><td style="font-size:12px">China Apr PMI print May-01 >50.5</td><td>N044</td></tr>
+<tr><td>WDC <span class='pill green' style='font-size:10px'>NEW</span></td><td><span style="color:var(--accent);font-weight:bold">+3</span></td><td style="font-size:12px">C=0 -- no near-term catalyst. T+1 residual but blocking.</td><td style="font-size:12px">Earnings catalyst or AI data-center news flow</td><td>N045</td></tr>
+<tr><td>NVDA</td><td><span style="color:var(--accent);font-weight:bold">+3</span></td><td style="font-size:12px">T=0 (residual -1.00%); tech concentration vs INTC/GOOGL</td><td style="font-size:12px">Residual >+2% at next staging OR GOOGL Apr-29 AI read-through</td><td>N046</td></tr>
+<tr><td>MU</td><td><span style="color:var(--accent);font-weight:bold">+3</span></td><td style="font-size:12px">Correlation gate -- equity cluster Apr-22-30; post-FOMC window</td><td style="font-size:12px">Post Apr-30 FOMC resolved + sector heat eases</td><td>N040</td></tr>
+<tr><td>BTC</td><td><span style="color:var(--accent);font-weight:bold">+3</span></td><td style="font-size:12px">OVERLAY GATE OFF (crypto sleeve; BTC $76k < $91.5k 10m-SMA)</td><td style="font-size:12px">May-01 gate review; needs BTC >$91.5k at Apr-30 close</td><td>P017 gate-blocked</td></tr>
+</table>
+
+<h2>Data Gap Closure</h2>
+<div class="grid grid-2">
+<div class="card"><h3 style="margin-top:0">Grade A Coverage</h3><div class="chart-wrap"><canvas id="gapDoughnut"></canvas></div></div>
+<div class="card"><h3 style="margin-top:0">Upstream Artifact Coverage</h3><ul><li class="ok">Local market-brief 2026-04-22 v1 (A) -- 22k bytes, all 20 variables</li><li class="ok">Local news 2026-04-22 (A) -- 12/12 categories</li><li class="ok">Local audit-staging 2026-04-22 (A) -- V026 12/12, V027 z+1.65, V028 Brent T1</li><li class="ok">us-close-snapshot-2026-04-22 (B) -- Apr-21 19:30 ET</li><li class="warn">Cloud market-brief 2026-04-22: MISSING (Drive empty at run time) -- local primary used</li><li class="warn">Cloud news 2026-04-22: MISSING (Drive empty at run time)</li><li class="warn">Cloud trade-rec 2026-04-22: MISSING (Drive empty)</li><li class="ok">framework/Memory.md updated 20:35 UTC+8</li><li class="ok">SignalLedger: P016, P017, N042-N046 appended</li><li class="ok">HypoLedger: H013 Brent P016 inserted</li></ul></div>
+</div>
+
 <h2>Discussion</h2>
-<div class="sec">
-  <p><b>Why only one promotion on a 3-candidate commodity sleeve day?</b> The correlation gate (Risk Rules &sect;5) requires shared-regime variables to size to the combined sector cap. WTI, Silver, Copper and Brent all share the Hormuz-blockade / DXY-weak primary variable. Promoting all four simultaneously would blow the 25% commodity sector cap and double-count the same regime edge. Brent has the freshest V028 basis-momentum (T1 Apr-22); WTI/Silver/Copper are T3-STALE at the 5-day limit. Brent as primary is methodologically the right pick &mdash; the others sit as explicit near-miss triggers.</p>
-  <p><b>Why 0.75% and not 1.5%?</b> C=0 setups in this pipeline get half-sized per the SPY P009 precedent (2026-04-20 v3). The Iran ceasefire is binary (symmetric &plusmn;10&ndash;15% tail), TSLA earnings tonight cross-asset risk, and FOMC Apr-28 is 6 days out. Four independent reasons to haircut; 0.75% is the conservative size.</p>
-  <p><b>Commodity sleeve CONFIRMED ON &mdash; first this cycle.</b> V034 GSG 31.75 is well above the est. 10m-SMA ~25.35. Prior 4 runs had GSG MISSING in audit-staging. This unblocks the entire commodity sleeve; Silver moves from GATE-BLOCKED to GATE-UNBLOCKED correlation-gated behind Brent. Next overlay re-read May-01 month-end.</p>
-  <p><b>Iran ceasefire extension.</b> Trump extended open-ended on Apr-21 AH pending Iran "unified proposal." Removes hard expiry risk but blockade continuation (&lt;10% Hormuz traffic) was the surprise &mdash; markets had partially priced re-opening. Net: oil premium sticky, but binary downside survives any deal announcement.</p>
-  <p><b>V026 residual pipeline clean 12/12.</b> Second consecutive run without numpy failure. Decision-moving: TSLA residual &minus;9.12% and PLTR &minus;35.62% resolved T=&minus;1 via residual-over-raw rule; AAPL/INTC/MU/WDC confirmed T=+1 (all &gt;+2%); NVDA/GOOGL/TSM/AMZN/META sit T=0 (&plusmn;2% band).</p>
-  <p><b>V027 z +1.65 Grade A fresh.</b> Capital expansion regime (z &gt; +0.5&sigma;) per Risk Rules &sect;1.B allows full inverse-ATR sizing. Brent haircut to 0.75% is catalyst/binary driven, not risk-rule driven.</p>
-</div>
+<div class="card"><p><b>Why Brent Long despite ceasefire extension?</b> The ceasefire extension removes the immediate re-escalation binary (good for risk-on equities), but the Hormuz naval blockade REMAINS in force — &lt;10% normal traffic. Brent is not priced on 'war risk premium' alone; it is priced on physical supply shortage from the blockade. The invalidation event is an Iran DEAL + Hormuz reopening, not just a ceasefire pause. The 'frozen conflict with blockade intact' scenario (Al Jazeera scenario b) is exactly the Brent-bullish case. C was scored 0 precisely because the ceasefire binary is symmetric: deal = -10-15%, frozen = +10%; that asymmetry is already in the 0.75% size haircut.</p><p><b>Why is Brent sized at 0.75% rather than 1.0% or 1.5%?</b> Four simultaneous haircut reasons: (1) Iran ceasefire binary downside (-10-15% if deal — sharp, fast); (2) correlation with open equity book (P009 SPY, P010 EWJ share DXY-weak + real-yield direction with Brent); (3) TSLA earnings tonight = cross-asset tail that could pressure all risk assets; (4) FOMC Apr-28 hawkish tail. V027 z+1.65 allows full sizing per Risk Rules §1.B but the binary-downside logic overrides — same PARTIAL treatment as SPY P009 C=0 precedent (2026-04-20 v3).</p><p><b>Commodity sleeve now CONFIRMED ON for the first time this cycle.</b> V034 GSG 31.75 vs 10m-SMA 25.35 — a 25% premium over the SMA. This is not marginal. The sleeve was UNCERTAIN for 4+ consecutive runs because GSCI data was missing; today's brief provided fresh GSG data. This unblocks Brent P016, Silver (N043), WTI (N042), and Copper (N044) — all of which had Sum+3 scores blocked by the commodity gate. Brent is the primary promotion; the others are near-miss due to correlation gating.</p><p><b>TSLA earnings tonight (Apr-22 AC) are the primary portfolio stress test.</b> Delivery miss (358k vs 372k) is baked in. Market focus is on FSD/Robotaxi guidance and margins. A beat on guidance lifts QQQ/SPX futures — supportive for P009 SPY (stop buffer $9) and P010 EWJ. A miss on guidance increases risk-off pressure and tests the P009 $696 stop. Brent is indirectly exposed via VIX; the $90.50 stop has ~$3.7 buffer from $94.19 entry.</p><p><b>Pending entries this week.</b> P013 INTC: wait for Apr-23 beat confirmation; enter $68-72 Apr-24 morning only. P014 AAPL: deferred (price $266 below $271-274 entry zone); reassess if recovery above $269 before Apr-30. P015 GOOGL: earnings date corrected to Apr-29 AC; entry Apr-30 morning on beat. None of these are actionable today — do not anticipate.</p></div>
 
-<!-- ═════════ MEMORY UPDATES ═════════ -->
 <h2>Memory Updates Applied</h2>
-<div class="sec">
-<ul class="small">
-  <li>framework/Memory.md &sect;5 Watchlist &mdash; ADD Brent PROMOTED P016; UPDATE Silver GATE-UNBLOCKED (correlation-gated); UPDATE P015 GOOGL date Apr-29 AC; UPDATE P014 AAPL DEFERRED; REMOVE P011 Gold SUPERSEDED</li>
-  <li>framework/Memory.md &sect;6 Catalysts &mdash; GOOGL Q1 corrected to Apr-29; WTI $90/$95 watch added; May-01 Faber review added</li>
-  <li>framework/memory-lessons.md &mdash; one-line entry: "Commodity sleeve CONFIRMED ON first time this cycle; Brent primary promotion with 0.75% correlation+binary haircut per SPY P009 C=0 half-size precedent; V026 12/12 decision-moving (TSLA/PLTR T=&minus;1 residual-over-raw)"</li>
-  <li>master-data-log.xlsx SignalLedger &mdash; P016, P017, N042&ndash;N046 appended (65 rows total)</li>
-  <li>master-data-log.xlsx HypoLedger &mdash; H013 Brent inserted before PERFORMANCE SUMMARY block</li>
-  <li>pipeline/.pipeline-status.json &mdash; trade-rec-daily OK v1 (next)</li>
-</ul>
+<ul><li>Memory.md §5: Added Brent P016 PROMOTED; Silver GATE-UNBLOCKED near-miss</li><li>Memory.md §5: P015 GOOGL earnings date CORRECTED to Apr-29 AC; P014 AAPL DEFERRED</li><li>Memory.md §5: P011 Gold SUPERSEDED (Sum dropped +3 to +2, T=0)</li><li>Memory.md §6: Added WTI $90/$95 threshold watch; Apr-29 GOOGL; May-01 Faber review</li><li>SignalLedger: P016 Brent, P017 BTC gate-blocked, N042-N046 appended (65 rows total)</li><li>HypoLedger: H013 Brent P016 inserted (PENDING status, entry 94.25, stop 90.50)</li><li>memory-lessons.md: appended 2026-04-22 lesson entry (commodity sleeve first ON; Brent 0.75% haircut; V026 12/12 clean)</li><li>pipeline/.pipeline-status.json: trade-rec OK; consecutive_failures=0</li></ul>
+
+<div class="footer">
+Sources (local A): market-brief-2026-04-22.md v1 (A) · news-2026-04-22.md (A) · audit-data-staging-2026-04-22.md (V026 12/12, V027 z+1.65, V028 Brent T1) · framework/{Memory, Risk Rules, Methodology Prompt}.md<br>
+Sources (cloud B): us-close-snapshot-2026-04-22.md (B) · slack-digest-2026-04-22-0923.md (B) · [cloud files all MISSING from Drive]<br>
+v1 Local Authoritative &mdash; generated 2026-04-22 20:30 UTC+8
+</div>
 </div>
 
-<!-- ═════════ SOURCES ═════════ -->
-<h2>Sources</h2>
-<div class="sec">
-<p class="small"><b>Grade A (local primary):</b> market-brief-2026-04-22.md v1 &middot; news-2026-04-22.md &middot; audit-data-staging-2026-04-22.md (V026 12/12, V027 z+1.65, V028 Brent) &middot; us-close-snapshot-2026-04-22.md &middot; weekly-review-2026-04-20.md &middot; framework/{Memory, Risk Rules, Methodology Prompt, memory-lessons}.md</p>
-<p class="small"><b>Grade B (supplementary):</b> slack-digest-2026-04-22-0923.md &middot; [cloud files MISSING]</p>
-</div>
+<script>
+const cfg = {
+  indexAxis:'y', responsive:true, maintainAspectRatio:false,
+  plugins:{legend:{labels:{color:'#e5e9f0'}}},
+  scales:{x:{ticks:{color:'#8a93a6'},grid:{color:'#262b35'}},
+           y:{ticks:{color:'#e5e9f0'},grid:{color:'#262b35'}}}
+};
 
-<div class="foot">T.system &middot; Trade/ pipeline &middot; trade-rec 2026-04-22 v1 &middot; Compact HTML (1-signal day; canonical gen_trade_rec_html.py deferred to next multi-signal run) &middot; Regime: RISK-ON (FRAGILE) / GEOPOLITICAL-BINARY</div>
+new Chart(document.getElementById('scoreBar'),{
+  type:'bar',
+  data:{labels:['Brent P016','SPY P009','EWJ P010','INTC P013','GOOGL P015'],datasets:[
+    {label:'S',data:[1,1,1,1,1],backgroundColor:'#4ade80'},
+    {label:'T',data:[1,1,1,1,0],backgroundColor:'#5b9bff'},
+    {label:'C',data:[0,0,0,1,1],backgroundColor:'#facc15'},
+    {label:'R',data:[1,1,1,1,1],backgroundColor:'#a78bfa'}]},
+  options:{...cfg,scales:{...cfg.scales,
+    x:{...cfg.scales.x,stacked:true,min:0,max:4},
+    y:{...cfg.scales.y,stacked:true}}}
+});
 
-</div>
+new Chart(document.getElementById('nearMissBar'),{
+  type:'bar',
+  data:{labels:['WTI N042','Silver N043','Copper N044','WDC N045','NVDA N046','MU N040'],datasets:[
+    {label:'S',data:[1,1,1,1,1,1],backgroundColor:'#4ade80'},
+    {label:'T',data:[1,1,1,1,0,1],backgroundColor:'#5b9bff'},
+    {label:'C',data:[0,0,0,0,1,0],backgroundColor:'#facc15'},
+    {label:'R',data:[1,1,1,1,1,1],backgroundColor:'#a78bfa'}]},
+  options:{...cfg,scales:{...cfg.scales,
+    x:{...cfg.scales.x,stacked:true,min:0,max:4},
+    y:{...cfg.scales.y,stacked:true}}}
+});
+
+new Chart(document.getElementById('catCal'),{
+  type:'bar',
+  data:{labels:['Apr-22 TSLA','Apr-23 INTC','Apr-28-29 FOMC','Apr-29 GOOGL','Apr-30 AAPL stop','May-1 Gate','May-12 CPI'],datasets:[{
+    label:'Priority (1=MED 2=HIGH 3=CRITICAL)',
+    data:[2,2,2,2,2,1,1],
+    backgroundColor:["#f87171","#f87171","#f87171","#f87171","#f87171","#facc15","#facc15"]}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{x:{ticks:{color:'#8a93a6'},grid:{color:'#262b35'}},
+             y:{ticks:{color:'#8a93a6'},grid:{color:'#262b35'},min:0,max:3}}}
+});
+
+new Chart(document.getElementById('gapDoughnut'),{
+  type:'doughnut',
+  data:{labels:['Grade A LIVE','Grade A STALE','Grade A MISSING'],
+        datasets:[{data:[18,5,0],
+          backgroundColor:['#4ade80','#facc15','#f87171'],
+          borderColor:'#171a21',borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#e5e9f0'}}}}
+});
+</script>
 </body>
 </html>
