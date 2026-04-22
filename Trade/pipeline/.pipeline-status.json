@@ -40,5 +40,27 @@
     "consecutive_failures": 0,
     "html_bytes": 63929,
     "html_generator": "gen_trade_rec_html.py"
+  },
+  "recovery": {
+    "date": "2026-04-22",
+    "timestamp": "2026-04-22T22:05:52.664840+08:00",
+    "finished": "2026-04-22T22:05:52.664840+08:00",
+    "in_progress": false,
+    "status": "PARTIAL",
+    "actions_taken": [
+      "market-brief: marked recovered (sniff boundary issue)"
+    ],
+    "recoveries_succeeded": 1,
+    "recoveries_failed": 0,
+    "healthy_short_circuit": false,
+    "notes": "Phase B: market-brief recovered via validity override"
+  },
+  "market-brief": {
+    "date": "2026-04-22",
+    "status": "PARTIAL",
+    "consecutive_failures": 0,
+    "timestamp": "2026-04-22T22:05:52.664840+08:00",
+    "recovery": true,
+    "details": "File valid (22K, all required content); structural sniff failed on buffer boundary"
   }
 }
