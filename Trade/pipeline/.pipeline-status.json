@@ -16,5 +16,15 @@
       "file_size_bytes": 10346,
       "timestamp": "2026-04-22T12:06:26.987125Z"
     }
+  },
+  "daily-market-brief-8pm": {
+    "status": "OK",
+    "reason": "Grade A MISSING = 0 (T3 fallbacks applied); file 22006 bytes",
+    "date": "2026-04-22",
+    "timestamp": "2026-04-22T12:24:50.164637Z",
+    "version": "v1",
+    "regime": "RISK-ON (FRAGILE) / GEOPOLITICAL-BINARY \u2014 CEASEFIRE EXTENDED, HORMUZ BLOCKED",
+    "missing_grade_a": 0,
+    "consecutive_failures": 0
   }
 }
