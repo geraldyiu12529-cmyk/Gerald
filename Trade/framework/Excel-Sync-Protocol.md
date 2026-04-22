@@ -76,11 +76,24 @@ If a same-day row exists from a prior version, overwrite it and note the version
 - Outcome = PENDING, rest blank
 For catalysts whose date has passed, update Outcome if known.
 
-### 2. daily-trade-rec skill (Step 9.5 — after ledger append, before HTML report)
+### 2. daily-trade-rec skill (Step 8.5 — HypoLedger append; Step 9.5 — SignalLedger/AuditAdditionLog/CatalystLog)
 
-**Sheets to update:** SignalLedger, AuditAdditionLog, CatalystLog
+**Sheets to update:** HypoLedger (Step 8.5), SignalLedger, AuditAdditionLog, CatalystLog (Step 9.5)
 
-**SignalLedger:** For each signal from today's rec (promoted or near-miss), append a row to SignalLedger (this is now the sole signal store — `hypo-ledger-2026.md` has been deleted):
+**HypoLedger (Step 8.5):** For every FORMALLY PROMOTED signal (all pre-entry checklist items PASS), append one row — or update the existing row if this asset × direction × Rec_Date is a re-confirmation of a prior entry. This sheet is the system-efficacy ledger; it tracks rec-price performance independent of Gerald's execution decisions.
+
+Columns (H_ID, Rec_Date, Rec_File, Asset, Direction, S, T, C, R, Sum, Entry_Price_Rec, Stop_Rec, TP1_Rec, TP2_Rec, Inv_Date, Size_Rec_%, Status, Hypo_Entry_Price, Hypo_Current_Price, Hypo_PnL_%, Actual_Taken, Actual_Entry, Actual_Exit, Actual_PnL_%, Note):
+- `H_ID`: next sequential H### from max existing row
+- `Entry_Price_Rec`: midpoint of the recommended entry zone (or limit price if stated precisely)
+- `Hypo_Entry_Price`: same as `Entry_Price_Rec` at time of append
+- `Hypo_Current_Price`: leave blank at append time — signal-review fills this weekly
+- `Status`: `OPEN` (immediate entry) · `PENDING` (entry requires trigger: beat confirmation, gate resolution) · `VOIDED` (promoted then de-promoted same session) · `FLAGGED` (Sum≥3 identified but not formally promoted)
+- `Actual_Taken`, `Actual_Entry`, `Actual_Exit`: blank at append; filled by trade-update or signal-review
+
+Dedup rule: if asset × direction × Rec_Date already exists in HypoLedger, update the `Rec_File` field to reflect the latest version instead of adding a new row.
+Do NOT add near-miss signals — those belong in SignalLedger (N### rows) only.
+
+**SignalLedger (Step 9.5):** For each signal from today's rec (promoted or near-miss), append a row to SignalLedger:
 - ID, Type ('Promoted' or 'Near-Miss'), Date, Asset, AssetClass, Direction
 - S, T, C, R, Sum (as integers: 1, 0, -1)
 - Entry_Price, ATR_Stop, Target_TP1, Target_TP2 (for promoted); leave blank for near-misses
@@ -101,16 +114,27 @@ Same deduplication rule as the markdown ledger: if an asset has an OPEN row with
 
 ### 3. signal-review skill (Step 7 — after writing review file)
 
-**Sheets to update:** SignalLedger (mark-to-market updates)
+**Sheets to update:** SignalLedger (mark-to-market updates), **HypoLedger (mark-to-market + efficacy report)**, PerformanceStats (dimension 14)
 
-For each OPEN signal in the SignalLedger:
+**SignalLedger:** For each OPEN signal:
 - Update Status if it should change (HIT_TARGET, HIT_STOP, EXPIRED, STILL_OPEN)
 - Fill Exit_Price, Exit_Date, Days_to_Exit for closed signals
 - Fill MAE_Pct, MFE_Pct for all signals with price history
 - Fill Catalyst_Outcome for signals whose catalyst date has passed
 - Fill Hypo_PnL_Pct for closed signals
 
-Do NOT add new rows — only update existing OPEN rows.
+Do NOT add new rows to SignalLedger — only update existing OPEN rows.
+
+**HypoLedger:** For each row with Status = OPEN or PENDING:
+- Fetch current price from latest brief/snapshot or WebSearch
+- Update `Hypo_Current_Price` (the `Hypo_PnL_%` formula auto-recalculates)
+- If `Stop_Rec` breached since last review → Status = `HIT_STOP`, `Hypo_Current_Price` = stop price
+- If `TP1_Rec` breached → Status = `HIT_TARGET`, `Hypo_Current_Price` = TP1
+- If today > `Inv_Date` and still OPEN → Status = `EXPIRED`, `Hypo_Current_Price` = current price
+- For PENDING rows: if entry trigger confirmed → Status = `OPEN`, `Hypo_Entry_Price` = rec midpoint; if trigger failed (e.g. earnings miss for a contingent entry) → Status = `VOIDED`
+- For rows where `Actual_Taken = YES` and `Actual_Exit` is still blank: cross-reference Memory.md §7 and fill `Actual_Exit` + `Actual_PnL_%`
+
+**PerformanceStats (dimension 14):** Write the HypoLedger efficacy summary (hypo weighted avg PnL%, actual weighted avg PnL%, execution gap, early-exit cost) to the PerformanceStats sheet's dimension-14 block.
 
 ### 4. quarterly-methodology-review skill (Step 7.5 — after writing review file)
 
@@ -210,13 +234,13 @@ No variable moves from Provisionally Useful → Approved → Grade A without Ger
 
 ---
 
-## Relationship to Markdown Files (updated 2026-04-16)
+## Relationship to Markdown Files (updated 2026-04-22)
 
 As of 2026-04-16, structured data lives exclusively in Excel. The following markdown files have been **deleted** — Excel is the sole source of truth:
 
 | Former markdown file | Excel sole owner | Notes |
 |---|---|---|
-| `hypo-ledger-2026.md` | SignalLedger + PerformanceStats | Rolling statistics, interaction matrix, and all summary tables moved to PerformanceStats |
+| `hypo-ledger-2026.md` | **HypoLedger** (dedicated sheet, added 2026-04-22) | Promoted-signal efficacy ledger at rec prices; separate from SignalLedger. Hypo P&L, actual execution gap, stop-discipline delta, FLAGGED counterfactual. |
 | `data-quality-scorecard.md` | DataQuality | Tiered fail-loud framework and daily MISSING log |
 | `audit-data-missing-tracker.md` | DataQuality | Per-variable OK/MISSING daily log and running tally |
 | Memory.md §3 (Regime State) | RegimeHistory | Latest row = current regime |

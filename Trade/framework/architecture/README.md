@@ -14,6 +14,9 @@ This folder is the authoritative system-architecture record for T.system. It is 
 
 ## Current
 
+- **v5** — [architecture-v5-2026-04-22.md](architecture-v5-2026-04-22.md) — HypoLedger added as 11th Excel sheet; §5 daily-trade-rec + signal-review wiring updated; PerformanceStats now 14 dimensions.
+- **v4** — [architecture-v4-2026-04-22.md](architecture-v4-2026-04-22.md) — skills path consolidated to `~/.claude/skills/`; `Trade/.claude/` deleted; cowork removed.
+- **v3** — see file for prior changes.
 - **v2** — [architecture-v2-2026-04-21.md](architecture-v2-2026-04-21.md) — adds §10 Current Variable Registry (Top-33 with grades) + §11 Grade Distribution & Review Cohorts.
 - **v1** — [architecture-v1-2026-04-21.md](architecture-v1-2026-04-21.md) — initial versioned cut; consolidates prior `architecture.md`, `pipeline-dependency-graph.mermaid`, `routine-output-map.md`.
 
