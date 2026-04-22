@@ -323,5 +323,6 @@ Every sentence in a briefing must either (a) inform a decision or (b) manage a r
 - `Data Sources.md` — explicit Grade A/B variable → source mapping with fail-loud rule.
 - `bnma/meta-analysis/BNMA-meta-analysis-2026-04-18.md` — highest-evidence synthesis: 4-paper cross-run MCMC analysis; DEPLOY/WATCH/EXCLUDE verdicts per variable; V001/V004/V006/V007/V008 A→B downgrades; primary evidence basis for Top-33 entries V026–V035.
 - `bnma/meta-analysis/PL-NMA-meta-analysis-2026-04-18.md` — Plackett-Luce NMA all-vs-all ranking of 54 variables across 12 papers (Bradley-Terry model); provides θ (log-odds), P(top-k), and pairwise dominance probabilities cited in Top-33 entries.
+- `reviews/methodology-audit-post-integration-patch-2026-04-22.md` — rationale memo for the seven 2026-04-22 post-integration audit changes (V036 PCTECH addition, V030 citation correction, V014 split note, V020 VRP note, V016 PL-NMA/BNMA contradiction, HMLDevil WATCH registration, Systematic Review WATCH List section). Per-change evidence basis, alternatives considered, and what was deliberately NOT done.
 
 All live in `/Trade/framework/` (or `/Trade/bnma/meta-analysis/` for the BNMA files) and should be consulted directly when a variable's definition, evidence, or direction is uncertain.
