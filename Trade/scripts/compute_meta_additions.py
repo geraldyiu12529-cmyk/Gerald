@@ -298,7 +298,7 @@ def write_staging_file(output_path, faber, bab, dealer, gpa, cei):
         lines.append(f"- Proxy: {bab['proxy_type']}")
         lines.append(f"- USMV 12m total return: **{bab['usmv_12m_pct']:+.2f}%**")
         lines.append(f"- SPLV 12m total return: **{bab['splv_12m_pct']:+.2f}%**")
-        lines.append(f"- Spread (USMV − SPLV): **{bab['spread_pct']:+.2f}%**  →  **{bab['direction']}**")
+        lines.append(f"- Spread (USMV - SPLV): **{bab['spread_pct']:+.2f}%**  ->  **{bab['direction']}**")
         lines.append(f"- *{bab['note']}*")
     else:
         lines.append(f"**Status: MISSING** — {bab.get('reason','?')}")
@@ -340,7 +340,7 @@ def write_staging_file(output_path, faber, bab, dealer, gpa, cei):
                  f"brief/rec SKILL.md to read this file.*")
 
     Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, "w") as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
     return output_path
 
@@ -367,7 +367,7 @@ def main():
     print("\n[V029] BAB ETF proxy...")
     bab = compute_bab_etf_proxy()
     if bab["status"] == "OK":
-        print(f"  USMV {bab['usmv_12m_pct']:+.2f}% − SPLV {bab['splv_12m_pct']:+.2f}% "
+        print(f"  USMV {bab['usmv_12m_pct']:+.2f}% - SPLV {bab['splv_12m_pct']:+.2f}% "
               f"= {bab['spread_pct']:+.2f}% ({bab['direction']})")
     else:
         print(f"  MISSING — {bab['reason']}")
