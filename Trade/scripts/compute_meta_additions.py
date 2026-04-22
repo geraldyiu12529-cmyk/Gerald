@@ -215,7 +215,7 @@ def compute_dealergamma():
             "SqueezeMetrics GEX (paid)",
             "SpotGamma daily composite (paid)",
         ],
-        "grade": "B (single-paper Barbon-Buraschi 2021)",
+        "grade": "B (single-paper Baltussen-Da-Lammers-Martens 2021 JFE; corrected 2026-04-22)",
         "next_review": "2026-07-01 quarterly methodology review",
     }
 

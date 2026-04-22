@@ -351,7 +351,9 @@ Five new variables entered the framework after the 2026-04-18 meta-analysis synt
 
 **Concept.** Aggregate dealer gamma exposure across the SPY/SPX options market, sign-corrected. Short-gamma regimes (dealers collectively short gamma) mechanically amplify intraday index volatility as dealers rehedge with the market; long-gamma regimes damp it. Similar mechanism at single-stock level on names with deep options books (NVDA, TSLA, AAPL, META).
 
-**Primary citation.** Barbon, A., & Buraschi, A. (2021). *Gamma Fragility.* Working Paper (SSRN 3747317).
+**Primary citation.** Baltussen, G., Da, Z., Lammers, S., & Martens, M. (2021). *Hedging Demand and Market Intraday Momentum.* JFE 142(1), 377–403; Zhu et al. (2024) extending to SPY (net Sharpe 1.33).
+
+*Citation corrected 2026-04-22 — earlier drafts incorrectly cited Barbon-Buraschi (2021) "Gamma Fragility" which was not the systematic-review source paper.*
 
 **Replication.** **Single-paper primary source — second independent replication required before Grade A promotion.** Practitioner evidence from SqueezeMetrics and SpotGamma consistent with the mechanism but not peer-reviewed. Flag for second-replication search at 2026-07-01 quarterly methodology review.
 
