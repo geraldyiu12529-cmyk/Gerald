@@ -1,9 +1,0 @@
-{
-  "file": "pd_statistics.csv",
-  "rows": 20,
-  "latest_date": "",
-  "timestamp": "2026-04-17T20:35:52.235038+08:00",
-  "source_tier": 1,
-  "source_name": "working_dir",
-  "staleness_window_days": 14
-}

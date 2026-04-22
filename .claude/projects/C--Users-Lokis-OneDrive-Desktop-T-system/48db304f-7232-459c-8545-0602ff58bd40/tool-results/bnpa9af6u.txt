@@ -1,0 +1,890 @@
+=== C:/Users/Lokis/.claude/scheduled-tasks/create-trading-pipeline-routines/SKILL.md ===
+---
+name: create-trading-pipeline-routines
+description: One-time setup: create all 13 remaining Claude Code cloud routines for Gerald's trading pipeline
+---
+
+You are creating 13 Claude Code cloud routines for a trading pipeline. This is a one-time setup task.
+
+## Preconditions — verify ALL before creating anything
+
+1. GitHub repo https://github.com/geraldyiu12529-cmyk/Gerald has "Allow unrestricted branch pushes" enabled
+2. A cloud environment named "trading-system-env" exists with: Network=Trusted, Setup script=`pip install openpyxl requests`
+3. Account timezone is UTC+8 (Asia/Singapore)
+4. Claude Code plan is Max or higher (required for 7 weekday routines)
+5. Routine `preflight-audit-data` already exists — skip it, do NOT recreate it
+
+If any precondition fails, STOP immediately and report what needs to be fixed. Do NOT proceed with partial setup.
+
+## Spec reference
+
+The authoritative spec is in Trade/claude-code-migration/MIGRATION-GUIDE.md §7 in the Gerald repo (branch: main). If any detail below conflicts with that file, the file wins.
+
+## Common settings for all routines
+
+- Repo: https://github.com/geraldyiu12529-cmyk/Gerald
+- Branch: main
+- Working directory: Trade/
+- Environment: trading-system-env
+- "Allow unrestricted branch pushes": enabled
+- All prompts end with a git commit + push step
+
+## Create these 13 routines in order. Verify each appears in /schedule list before creating the next.
+
+### DAILY (Mon–Fri)
+
+**1. us-close-snapshot**
+- cron: `30 7 * * 1-5`
+- model: Sonnet
+- prompt: "cd Trade/. Read Memory.md §2 Open Positions and the previous day's market brief. For each open position, pull the latest US close price via WebSearch. Write us-close-snapshot-{today}.md with: mark-to-market per position, any >1σ ATR moves vs the brief's levels, after-hours earnings reactions. Update .pipeline-status.json. Git commit and push all changes."
+
+**2. positions-monitor**
+- cron: `0 9 * * 1-5`
+- model: Haiku
+- prompt: "cd Trade/. /positions-monitor then git commit and push any output files."
+
+**3. market-brief**
+- cron: `0 20 * * 1-5`
+- model: Sonnet
+- prompt: "cd Trade/. /market-brief then git commit and push all new/changed files."
+
+**4. news-events**
+- cron: `0 20 * * 1-5`
+- model: Sonnet
+- prompt: "cd Trade/. /news-events then git commit and push all new/changed files."
+
+**5. trade-rec**
+- cron: `0 21 * * 1-5`
+- model: Opus
+- prompt: "cd Trade/. /daily-trade-rec then git commit and push all new/changed files."
+
+**6. pipeline-recovery**
+- cron: `0 22 * * 1-5`
+- model: Haiku
+- prompt: "cd Trade/. /pipeline-recovery then git commit and push if any recovery files were created."
+
+### WEEKLY (Sunday)
+
+**7. weekly-review**
+- cron: `0 18 * * 0`
+- model: Opus
+- prompt: "cd Trade/. Two phases in one session. Phase 1: Read Memory.md, latest market brief, all news files from this week. Write weekly-review-{today}.md with regime trajectory, week's key events, thesis validation, lessons. Condense memory-lessons.md entries. Phase 2: /signal-review. Git commit and push all changes."
+
+**8. workspace-tidy**
+- cron: `0 21 * * 0`
+- model: Haiku
+- prompt: "cd Trade/. CRITICAL: This is a utility task, NOT a trading question. Do NOT follow the CLAUDE.md Session Startup Protocol. Do NOT read Methodology Prompt.md, Coin core.md, Trad core.md, or protocol documents unless explicitly listed below. Apply Retention Policy.md. Move files aged 8+ days to archive/YYYY-MM/. Digest files aged 31+ days into monthly digest. Check Memory.md for pinned files before archiving. Run /consolidate-memory. Append to archive/cleanup-log.md. Run diagnostics: Excel integrity, pipeline liveness, output continuity, cache health, skill presence. Git commit and push all changes."
+
+### INFREQUENT
+
+**9. quarterly-review**
+- cron: `0 19 1 1,4,7,10 *`
+- model: Opus
+- prompt: "cd Trade/. /quarterly-methodology-review then git commit and push all changes."
+
+**10. bootstrap-review**
+- cron: `0 19 1 5,6 *`
+- model: Sonnet
+- prompt: "cd Trade/. Health check: are all routines firing? Are skills producing valid output? Check git log for recent routine commits. Report status. Disable this routine after Jul 1 2026. Git commit and push."
+
+**11. literature-review**
+- cron: `0 15 1 1,7 *`
+- model: Opus
+- prompt: "cd Trade/. /literature-review then git commit and push all changes."
+
+**12. system-review**
+- cron: `0 19 1 5,11 *`
+- model: Opus
+- prompt: "cd Trade/. /system-review then git commit and push all changes."
+
+**13. audit-variable-review**
+- ONE-TIME fire: 2026-10-14T19:00:00+08:00
+- model: Opus
+- prompt: "cd Trade/. Six-month review of the 3 audit-addition variables (residual momentum, intermediary capital ratio, basis-momentum). Read AuditAdditionLog in master-data-log.xlsx. Per variable: count days LIVE, decision-moving contributions, contribution rate normalized by days LIVE. Verdict: KEEP at Grade A, DEMOTE to B, or REMOVE. Write methodology-audit-6mo-review-2026-10-14.md. Git commit and push."
+
+## After all 13 are created
+
+1. Run /schedule list and print the full output — confirm 14 routines total (13 above + preflight-audit-data)
+2. Trigger ONE low-risk routine via "Run now" — use positions-monitor or workspace-tidy (not market-brief, news-events, or trade-rec — those must fire on schedule to preserve the parallel-run comparison window)
+3. Report the resulting git commit SHA from the test run
+
+## Error handling
+
+If any routine fails to create: STOP and report the routine name + error. Do NOT silently skip.=== C:/Users/Lokis/.claude/scheduled-tasks/daily-market-brief-8pm/SKILL.md ===
+---
+name: daily-market-brief-8pm
+description: Daily US pre-open market brief — runs every weekday at 8pm local time (UTC+8)
+---
+
+Produce today's US pre-open market brief.
+
+1. Follow CLAUDE.md §Session Startup Protocol (all four reads).
+2. Load and run the `market-brief` skill end-to-end for today's local date (UTC+8).
+   - Reads `audit-data-staging-{YYYY-MM-DD}.md` at Step 0
+   - Reads `catalysts-cache-{YYYY-MM-DD}.json` at Step 5.5 if news wrote it
+   - Pulls Grade A variables via data_retrieval_engine.fetch_many (4-tier fallback)
+   - FAIL-LOUD on any MISSING Grade A variable — do NOT silently infer
+   - Output: market-brief-{YYYY-MM-DD}.md (version tag v1 first run; v2/v3... on same-day re-runs)
+   - Syncs DailyVariables, RegimeHistory, DataQuality, CatalystLog sheets in master-data-log.xlsx
+3. After the brief file is written, update .pipeline-status.json per
+   the write pattern in Pipeline-Recovery-Protocol.md §daily-market-brief-8pm-v2.
+   OK if file ≥500 bytes and ≤3 MISSING Grade A. PARTIAL if >3 MISSING. FAIL if write failed.
+   consecutive_failures: 0 on OK; increment from prior on non-OK.
+4. Pack into the consolidated daily file (creates `daily-{YYYY-MM-DD}.md` if missing, else upserts the section in-place; same-day v1→v2 re-runs replace §D in-place):
+   `python scripts/pack_daily.py --section D --source market-brief-{YYYY-MM-DD}.md --status "{OK|PARTIAL|FAIL} v{N}"`
+   The per-day `market-brief-{YYYY-MM-DD}.md` source file stays at workspace root — trade-rec's integrity pre-check and the weekly review still read it directly.
+5. Exit summary (one line, required for pipeline-recovery sniff):
+   `Market brief {YYYY-MM-DD} v{N} complete — regime={label}, MISSING Grade A={count}, status={OK|PARTIAL|FAIL}, packed=daily-{YYYY-MM-DD}.md §D`
+
+Then git add -A, commit with message "routine: market-brief {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/meta-shadow-review-2026-04-25/SKILL.md ===
+---
+name: meta-shadow-review-2026-04-25
+description: One-time Phase 3 GO/NO-GO review for V029–V035 shadow variables (fires 2026-04-25)
+---
+
+Read all meta-additions-staging-*.md files from 2026-04-20 to 2026-04-24 (5 shadow-run days).
+
+For each of V029–V035 (BAB, DealerGamma, GP/A, CEI, Faber TAA V033–V035):
+- Report: days retrieved successfully, contribution rate, any instance where the variable was decision-moving in the shadow analysis
+- Verdict: PROMOTE to live scoring (Phase 3 GO) / HOLD in shadow for another review cycle / RETIRE
+
+Cross-check against the 2026-04-18 deployment memo in Methodology Prompt.md for the original promotion criteria.
+
+Write meta-shadow-review-2026-04-25.md with per-variable verdict table and narrative justification.
+
+If any variable earns PROMOTE: note that Phase 3 SKILL.md edits in patches/ must now be applied (market-brief, news-events, daily-trade-rec). Gerald must authorize explicitly before applying.
+
+Then git add -A, commit with message "routine: meta-shadow-mode-review 2026-04-25", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/methodology-audit-6mo-review-2026-10-14/SKILL.md ===
+---
+name: methodology-audit-6mo-review-2026-10-14
+description: One-time 6-month keep/demote review for residual-mom, intermediary capital ratio, basis-momentum (fires 2026-10-14)
+---
+
+Six-month keep/demote review for the 3 audit-addition variables added 2026-04-14:
+1. Residual momentum (12m FF5-residualized) — T-input for single stocks
+2. Intermediary capital ratio (NY Fed PD z-score) — R-overlay cross-asset
+3. Basis-momentum (4w/12w F1–F2 slope change) — S-input for commodities
+
+For each variable:
+- Read AuditAdditionLog sheet in master-data-log.xlsx for all entries since 2026-04-14
+- Read audit-data-missing-tracker.md for MISSING rates
+- Compute: days LIVE, number of decision-moving contributions, contribution rate normalized by days LIVE
+- Verdict: KEEP at Grade A / DEMOTE to Grade B / REMOVE from pipeline
+
+Read methodology-audit-6mo-review-2026-10-14.md for any pre-written decision criteria.
+
+Write methodology-audit-6mo-review-2026-10-14-DECISION.md with per-variable verdict, supporting evidence, and any required updates to Methodology Prompt.md, Data Sources.md, or SKILL.md files.
+
+Then git add -A, commit with message "routine: methodology-audit-6mo-review 2026-10-14", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/monthly-bootstrap-review/SKILL.md ===
+---
+name: monthly-bootstrap-review
+description: Bootstrap health check — verify all 16 routines firing (auto-disables after 2026-07-01)
+---
+
+If today's date >= 2026-07-01: print "Auto-disable threshold reached. No action taken. Gerald: please pause this routine." and exit without doing any checks.
+
+Bootstrap health check — verify all routines are firing and producing valid output.
+
+Check git log for routine commits from the past 7 days. For each of the 16 routines, confirm at least one commit appeared in its expected window. Report any routine with no commits as MISSED.
+
+Spot-check output quality: read the most recent market-brief-*.md and confirm it contains a regime label, a scorecard table, and at least 10 variable readings.
+
+Check .pipeline-status.json for any task with consecutive_failures > 0.
+
+If today's date >= 2026-07-01: print "Auto-disable threshold reached. No action taken. Gerald: please pause this routine." and exit without doing any checks.
+
+Report status and any issues found.
+
+Then git add -A, commit with message "routine: monthly-bootstrap-review {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/news-events-daily/SKILL.md ===
+---
+name: news-events-daily
+description: Daily news capture — 12-category taxonomy, catalysts cache, pipeline status update
+---
+
+Capture today's daily news, geopolitics, macro releases, corporate earnings, crypto regulatory, and flash events.
+
+1. Do NOT follow CLAUDE.md §Session Startup Protocol in full. Read ONLY: news-events/README.md (for the 12-category taxonomy and hotspot list).
+2. Load and run the `news-events` skill end-to-end for today's local date (UTC+8).
+   - Search by category (not by named conflict). Use hotspot list from README.
+   - Cover all 12 categories: macro releases, central bank, geopolitics, equity earnings, crypto regulatory, commodity supply, FX policy, flash events, credit/rates, sector rotation, analyst revisions, overnight Asia
+   - Output: news-events/news-{YYYY-MM-DD}.md
+   - Write catalysts-cache-{YYYY-MM-DD}.json if any time-sensitive catalysts found (for market-brief and trade-rec to consume)
+3. After the news file is written, update .pipeline-status.json:
+   - status: OK if file exists and >200 bytes; FAIL otherwise
+   - consecutive_failures: 0 on OK; increment from prior on non-OK
+4. Pack into the consolidated daily file (creates `/mnt/Trade/daily-{YYYY-MM-DD}.md` if missing, else upserts the section in-place):
+   `python scripts/pack_daily.py --section E --source news-events/news-{YYYY-MM-DD}.md --status "{OK|FAIL}"`
+   The per-day `news-events/news-{YYYY-MM-DD}.md` source file stays in place — market-brief Step 5.5 and trade-rec still read it directly via their catalysts cache and integrity pre-check.
+5. Exit summary (one line):
+   `News capture {YYYY-MM-DD} complete — {N} categories covered, {N} catalysts cached, status={OK|FAIL}, packed=daily-{YYYY-MM-DD}.md §E`
+
+Then git add -A, commit with message "routine: news-events {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/pipeline-recovery-daily/SKILL.md ===
+---
+name: pipeline-recovery-daily
+description: Daily pipeline recovery check — Phase A triage, Phase B recovery if needed
+---
+
+Run the pipeline-recovery skill to check today's pipeline health and recover from any upstream failures.
+
+/pipeline-recovery
+
+The skill runs in two phases:
+- Phase A: fast triage (<3K tokens). Reads .pipeline-status.json, checks file sizes against MIN_SIZES, runs structural sniff on brief and trade-rec. If all healthy, print "Pipeline healthy. No recovery needed." and EXIT — do NOT write any files.
+- Phase B: recovery (only if Phase A finds failures). Attempts cache-brief from Tier 3 data if market-brief failed. Writes news skeleton if news-events failed. Flags .recovery-pending if trade-rec aborted and brief was just recovered. Escalates to Memory.md §7 if consecutive_failures >= 5 for any task.
+
+After the skill exits, pack §H into the consolidated daily file ONLY if Phase B ran (healthy Phase A writes nothing — consistent with the existing rule):
+- Phase A+B (recovered):
+  `python scripts/pack_daily.py --section H --content "Phase A+B — {one-line summary of files touched}" --status recovered`
+- Phase A+B (unrecoverable):
+  `python scripts/pack_daily.py --section H --content "Phase A+B — escalated to Memory.md §7 ({reason})" --status unrecoverable`
+- Phase A-only (healthy): skip the pack step.
+
+Commit + push ONLY if Phase B created or modified files. If Phase A was clean, no commit needed. (The §H pack is part of Phase B, so it is covered by the existing commit rule.)
+
+Exit summary (one line):
+`Pipeline recovery {YYYY-MM-DD} — phase={A-only|A+B}, status={healthy|recovered|unrecoverable}`=== C:/Users/Lokis/.claude/scheduled-tasks/positions-monitor/SKILL.md ===
+---
+name: positions-monitor
+description: Intraday positions watchdog — stop buffers, thesis variables, catalyst check
+---
+
+/positions-monitor
+
+After the skill completes, pack §G into the consolidated daily file:
+- If `positions-monitor-{YYYY-MM-DD}.md` exists (flags fired):
+  `python scripts/pack_daily.py --section G --source positions-monitor-{YYYY-MM-DD}.md --status "flags"`
+- If no file was written (silent-when-OK):
+  `python scripts/pack_daily.py --section G --content "Silent — no flags fired at 09:00 check." --status SILENT`
+
+(Creates `/mnt/Trade/daily-{YYYY-MM-DD}.md` if missing; upserts `## §G — Positions Monitor`.)
+
+Then git add -A, commit with message "routine: positions-monitor {today}", and push to origin main. If the skill exited silently (no flags), the commit message should note "silent-OK".=== C:/Users/Lokis/.claude/scheduled-tasks/preflight-audit-data/SKILL.md ===
+---
+name: preflight-audit-data
+description: Weekday preflight — pipeline health check + audit-addition compute
+---
+
+CRITICAL: utility task, do NOT follow CLAUDE.md §Session Startup Protocol. Do NOT read Methodology Prompt.md, Memory.md, Risk Rules, or protocol documents.
+
+Phase 1 — Pipeline health check:
+Run scripts/preflight_health_check.py to test source connectivity and write .pipeline-health.json. Log any unreachable sources.
+
+Check .pipeline-status.json for yesterday's entries:
+- If any task shows consecutive_failures >= 3, print: "⚠ CONSECUTIVE FAILURE ALERT: {task} has failed {N} consecutive days. Investigate."
+- If yesterday's market-brief status is FAIL/ABORT AND today's sources are healthy, print: "Recovery opportunity: yesterday's brief failed but sources are now reachable."
+
+Phase 2 — Audit-addition compute:
+Run scripts/compute_audit_additions.py to produce audit-data-staging-{today}.md. If compute fails, consult .data-cache/ for cached inputs within staleness windows per Data Sources.md §4-tier fallback and retry. Update audit-data-missing-tracker.md per RM1 protocol.
+
+After both phases complete:
+Verify .pipeline-health.json was written today. Verify audit-data-staging-{today}.md exists and is non-empty. Write preflight status to .pipeline-status.json (status: OK if both files written; PARTIAL if either missing). If either check fails, append "INTEGRITY FAIL: [filename] not produced" to the output summary.
+
+Then pack into the consolidated daily file (creates `/mnt/Trade/daily-{today}.md` if missing, else upserts the section in-place):
+`python scripts/pack_daily.py --section B --source audit-data-staging-{today}.md --status "{OK|PARTIAL|FAIL}"`
+The per-day `audit-data-staging-{today}.md` source file stays at workspace root (market-brief Step 0 still reads it).
+
+Exit summary (one line): `Preflight {YYYY-MM-DD} complete — sources={OK|DEGRADED}, staging={OK|MISSING}, status={OK|PARTIAL|FAIL}, packed=daily-{today}.md §B`
+
+Then git add -A, commit with message "routine: preflight-audit-data {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/preflight-meta-additions/SKILL.md ===
+---
+name: preflight-meta-additions
+description: Shadow compute for V029–V035 meta-addition variables (BAB, DealerGamma, GP/A, CEI, Faber TAA)
+---
+
+CRITICAL: shadow mode only — do NOT feed results into market-brief or trade-rec.
+
+Run scripts/compute_meta_additions.py to produce meta-additions-staging-{today}.md. The file covers seven shadow variables: V029 BAB (betting-against-beta), V030 DealerGamma, V031 GP/A (gross-profitability-to-assets), V032 CEI (composite equity issuance), V033–V035 Faber TAA signals.
+
+For each variable, log status (RETRIEVED / MISSING / STALE) to AuditAdditionLog sheet in master-data-log.xlsx with Type=SHADOW. Do NOT promote to live scoring until the 2026-04-25 shadow review clears Phase 3.
+
+If today's date >= 2026-04-25 and meta-shadow-review-2026-04-25.md contains PROMOTE verdicts for any variable, add a note: "Phase 3 GO/NO-GO complete — check meta-shadow-review-2026-04-25.md for live promotion instructions."
+
+Then pack into the consolidated daily file (creates `/mnt/Trade/daily-{today}.md` if missing, else upserts the section in-place):
+`python scripts/pack_daily.py --section C --source meta-additions-staging-{today}.md --status "{N}/7 retrieved"`
+
+Exit summary (one line): `Meta-additions shadow {YYYY-MM-DD} — {N}/7 variables retrieved, {N} MISSING, packed=daily-{today}.md §C`
+
+Then git add -A, commit with message "routine: preflight-meta-additions {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/quarterly-methodology-review/SKILL.md ===
+---
+name: quarterly-methodology-review
+description: Quarterly methodology review — variable pipeline, research core reconciliation, VariableRegistry update
+---
+
+/quarterly-methodology-review
+
+Runs the full quarterly meta-review:
+- Audits whether each analytical dimension in the signal review is earning its keep
+- Reconciles research cores (Coin core.md / Trad core.md) against out-of-sample ledger evidence in PerformanceStats sheet
+- Manages the variable candidate pipeline (promote, hold, retire decisions)
+- Updates VariableRegistry sheet in master-data-log.xlsx
+- Writes quarterly-methodology-review-{today}.md
+
+Then git add -A, commit with message "routine: quarterly-methodology-review {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/semi-annual-literature-review/SKILL.md ===
+---
+name: semi-annual-literature-review
+description: Semi-annual academic finance literature scan for new tradeable variables
+---
+
+/literature-review
+
+Runs the semi-annual academic finance literature scan:
+- Searches working papers and journals for new tradeable factors meeting the 5 inclusion criteria (peer-reviewed, replicated, mechanism-grounded, independent, real-time implementable)
+- Assesses candidates against Gerald's framework gaps
+- Writes structured candidate proposals for the variable pipeline
+- Output: literature-review-{today}.md
+
+Then git add -A, commit with message "routine: semi-annual-literature-review {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/semi-annual-system-review/SKILL.md ===
+---
+name: semi-annual-system-review
+description: Semi-annual strategic architecture + efficiency audit (first Sunday of May and November)
+---
+
+If today is not a Sunday, exit silently without doing any work.
+
+/system-review
+
+Runs the semi-annual strategic architecture and efficiency audit:
+- Walks every skill, scheduled task, and workspace file
+- Maps each to the research → trade → monitor → earn value chain
+- Produces KEEP / MODIFY / MERGE / REMOVE verdicts using two tests: value (does it earn money) and efficiency (at minimum token cost)
+- Identifies architecture gaps AND redundant token burn
+- Ranks proposals by P&L impact or context-budget freed for the trade rec
+- Output: system-review-{today}.md
+
+Then git add -A, commit with message "routine: system-review-semi-annual {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/setup-claude-code-routines/SKILL.md ===
+---
+name: setup-claude-code-routines
+description: Reference guide: all 17 Claude Code trading routine configs for manual creation at claude.ai/code/routines
+---
+
+
+# Claude Code Routine Setup Guide — Gerald's Trading System
+
+**Purpose:** Output the full configuration for all 17 trading routines so Gerald can create them at claude.ai/code/routines. Run this task, then copy-paste each config into the web UI.
+
+**Repo:** https://github.com/geraldyiu12529-cmyk/Gerald (private, branch: main)
+**Workspace subdirectory:** All content lives in `Trade/` inside the repo root. Every routine prompt begins with navigation to that directory.
+
+---
+
+## STEP 1 — Prerequisites (do these before creating any routines)
+
+1. **GitHub repo settings:** Enable "Allow unrestricted branch pushes" so routines can push directly to `main` instead of creating `claude/*` branches. Without this, the daily pipeline chain breaks — each routine must see the prior routine's committed output.
+
+2. **Create environment** at claude.ai/code → Environments → New:
+   - Name: `trading-system-env`
+   - Setup script: `pip install openpyxl requests pandas numpy`
+   - Network: Trusted (required for WebSearch data pulls)
+   - Leave API key fields blank unless you add FRED/Barchart keys later
+   - Apply this environment to ALL routines below
+
+3. **Plan tier check:** Max plan (15/day) or higher is required to run all 8 daily routines in the cloud. If on Pro (5/day cap), keep `us-close-snapshot`, `positions-monitor`, and `preflight-meta-additions` as local Desktop scheduled tasks and cloud-route only the core 5 daily routines.
+
+4. **Cron timezone:** All cron expressions below are in your LOCAL time (UTC+8). The web UI scheduler uses local time — do not convert to UTC.
+
+---
+
+## STEP 2 — Create the 17 routines
+
+### DAILY ROUTINES — Mon–Fri
+
+---
+
+#### Routine 1: us-close-snapshot-730am-v2
+- **Model:** haiku
+- **Cron (UTC+8 local):** `30 7 * * 1-5`
+- **Prompt:**
+```
+CRITICAL: This is a utility task. Do NOT follow CLAUDE.md Session Startup Protocol. Do NOT read Methodology Prompt.md, Coin core.md, Trad core.md, Risk Rules.md, or Data Sources.md. Only read Memory.md §2 Open Positions and the latest market-brief-*.md file.
+
+cd Trade/
+
+For each open position listed in Memory.md §2: pull US previous-day close price and any after-hours earnings reaction via WebSearch. Write us-close-snapshot-{TODAY}.md with mark-to-market values, any >1σ ATR moves flagged, and AH earnings notes. Update .pipeline-status.json with task completion status.
+
+Then: git add -A && git commit -m "routine: us-close-snapshot {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+#### Routine 2: positions-monitor-intraday-9am
+- **Model:** sonnet
+- **Cron (UTC+8 local):** `0 9 * * 1-5`
+- **Prompt:**
+```
+cd Trade/
+
+Use the positions-monitor skill. Silent-when-OK — produce output only if position drift, stop breach, or watchlist trigger is detected. If all positions are within normal parameters, write a one-line OK status to .pipeline-status.json and exit. Do not write a dated output file on a silent run.
+
+Commit only if there is something to commit (prevents empty-commit spam on silent-OK days):
+git add -A && git diff --cached --quiet || (git commit -m "routine: positions-monitor {TODAY}" && git push origin HEAD:main)
+```
+
+---
+
+#### Routine 3: preflight-audit-data-1945pm
+- **Model:** sonnet
+- **Cron (UTC+8 local):** `45 19 * * 1-5`
+- **Prompt:**
+```
+CRITICAL: This is a data pipeline task. Do NOT read Methodology Prompt.md, Coin core.md, Trad core.md, or Risk Rules.md. Only read Data Sources.md and .pipeline-health.json (if present).
+
+cd Trade/
+
+Phase 1 — source health check: Run `python scripts/pipeline_status.py` (or equivalent) to test connectivity for each data source in Data Sources.md. Write .pipeline-health.json with per-source availability, cache coverage, and any advisories.
+
+Phase 2 — audit-addition compute: Run `python scripts/compute_audit_additions.py` to produce audit-data-staging-{TODAY}.md with:
+  - Residual momentum (12m FF5-residualized) for all 12 equities — T-scores and raw TSMOM
+  - Intermediary capital ratio (NY Fed PD z-score) — current ratio, z-score, R-adjustment
+  - Basis-momentum (4w/12w F1-F2 change) for 5 commodities (Brent, WTI, Gold, Silver, Copper)
+
+Use 4-tier retrieval per Data Sources.md: Tier 1 HTTP → Tier 2 WebSearch → Tier 3 cache → Tier 4 MISSING/fail-loud. If a variable fails all 4 tiers, mark as MISSING and state which score leg it blocks.
+
+Phase 3 — tracker update: Append one row to audit-data-missing-tracker.md per the RM1 protocol: Date, ResidMom status, ResidMom_OK_stocks count, InterCap status, BasisMom status, BasisMom_OK_cmdty count, Notes.
+
+Then: git add -A && git commit -m "routine: preflight-audit-data {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+#### Routine 4: preflight-meta-additions-1952pm
+- **Model:** sonnet
+- **Cron (UTC+8 local):** `52 19 * * 1-5`
+- **Prompt:**
+```
+cd Trade/
+
+SHADOW MODE — V029–V035 meta-integration compute. Do NOT feed results into market-brief or trade-rec. This is a parallel monitoring run only.
+
+Run `python scripts/compute_meta_additions.py` to produce meta-additions-staging-{TODAY}.md with shadow-mode scores for: V029 BAB (Betting Against Beta), V030 DealerGamma, V031 GP/A (Gross Profitability), V032 CEI (Composite Equity Issuance), V033–V035 Faber TAA (3-month, 10-month, cross-asset momentum). 
+
+Log each variable's LIVE/MISSING status to AuditAdditionLog sheet of master-data-log.xlsx with Type=SHADOW.
+
+Shadow mode remains active until the 2026-04-25 meta-shadow-mode-review GO/NO-GO. After a GO verdict, Phase 3 SKILL.md patches promote these to live scoring.
+
+Then: git add -A && git commit -m "routine: preflight-meta-additions {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+#### Routine 5: daily-market-brief-8pm-v2
+- **Model:** sonnet
+- **Cron (UTC+8 local):** `0 20 * * 1-5`
+- **Prompt:**
+```
+cd Trade/
+
+Use the market-brief skill. Read audit-data-staging-{TODAY}.md first — if the file is missing, fail-loud and abort (do not produce a brief from stale data). The brief must incorporate all three audit-addition variable scores (residual-mom T-scores, intermediary-capital R-overlay, basis-momentum S-input) per the 2026-04-14 audit-addition rules in CLAUDE.md.
+
+Then: git add -A && git commit -m "routine: market-brief {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+#### Routine 6: daily-news-events-8pm-v2
+- **Model:** sonnet
+- **Cron (UTC+8 local):** `0 20 * * 1-5`
+- **Prompt:**
+```
+cd Trade/
+
+Use the news-events skill. Capture geopolitics, macro surprises, earnings, and catalyst events for the day. Update the catalysts cache via scripts/catalysts_cache.py if new catalyst tags are identified.
+
+Then: git add -A && git commit -m "routine: news-events {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+#### Routine 7: daily-trade-recommendation-820pm-v2
+- **Model:** opus
+- **Cron (UTC+8 local):** `0 21 * * 1-5`
+- **Prompt:**
+```
+cd Trade/
+
+INTEGRITY PRE-CHECK: Before running Step 0 delta-check, verify that market-brief-{TODAY}.md EXISTS as a non-empty file. If the file does not exist, abort and write a one-line failure note to .pipeline-status.json — do not fall through to the delta-check which would silently carry forward the prior rec.
+
+Use the daily-trade-rec skill. This task touches live capital — follow the 8-step methodology in Methodology Prompt.md exactly. Do not skip steps. Fail-loud on any missing Grade A variable (state which leg it blocks). The SignalLedger append is append-only — never delete or overwrite existing rows.
+
+Then: git add -A && git commit -m "routine: trade-rec {TODAY}" && git push origin HEAD:main
+If Memory.md or .pipeline-status.json were updated but no new trade-rec was produced (delta-check triggered): still commit + push those updates.
+```
+
+---
+
+#### Routine 8: pipeline-recovery-830pm
+- **Model:** haiku
+- **Cron (UTC+8 local):** `0 22 * * 1-5`
+- **Prompt:**
+```
+cd Trade/
+
+Use the pipeline-recovery skill. Phase A (fast triage, target <3K tokens): read .pipeline-status.json and check file sizes for today's expected outputs (market-brief, news, trade-rec, audit-data-staging). If all files present and above MIN_SIZES, log "healthy" to .pipeline-status.json and exit — no further work.
+
+Phase B (recovery, runs only if Phase A flags unhealthy): produce cache-backed skeleton files for any missing output. Check audit-addition drift per RM1: read the last 3 rows of audit-data-missing-tracker.md; WARNING if any variable has ≥2 consecutive MISSING, CRITICAL (→ Memory.md alert) if ≥3. Excel sync check (read-only). Recovery-brief structural validation. Self-watchdog in_progress marker.
+
+Commit + push only if files were created or Memory.md was updated:
+git add -A && git commit -m "routine: pipeline-recovery {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+### WEEKLY ROUTINES — Sunday
+
+---
+
+#### Routine 9: weekly-regime-signal-review-6pm
+- **Model:** opus
+- **Cron (UTC+8 local):** `0 18 * * 0`
+- **Prompt:**
+```
+cd Trade/
+
+Phase 1 — weekly regime review: Read Memory.md, the latest market-brief-*.md, and all news-events/news-*.md files from the past 7 days. Write weekly-review-{TODAY}.md covering: regime trajectory vs prior week, key macro/geopolitical events, thesis validation for open positions, lessons. Condense any new entries in memory-lessons.md (deduplicate, sharpen wording, remove entries that have been absorbed into methodology).
+
+Phase 2 — signal review: Use the signal-review skill. Produces signal-review-{TODAY}.md and report-{TODAY}-signal-review.html. Appends OOS performance metrics to PerformanceStats sheet of master-data-log.xlsx (append-only).
+
+Then: git add -A && git commit -m "routine: weekly-review+signal-review {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+#### Routine 10: workspace-tidy-sunday-9pm
+- **Model:** haiku
+- **Cron (UTC+8 local):** `0 21 * * 0`
+- **Prompt:**
+```
+CRITICAL: This is a utility task. Do NOT follow CLAUDE.md Session Startup Protocol. Do NOT read Methodology Prompt.md, Coin core.md, Trad core.md, Risk Rules.md, or Data Sources.md.
+
+cd Trade/
+
+Apply Retention Policy.md: move files aged 8+ days to archive/YYYY-MM/; digest files aged 31+ days per the tiering rules. Respect Memory.md pinned files — do not move or delete anything pinned.
+
+Run diagnostics and append to archive/cleanup-log.md:
+- Excel integrity: verify master-data-log.xlsx opens and has 10 sheets (SignalLedger, PerformanceStats, RegimeHistory, DailyVariables, AuditAdditionLog, DataQuality, VariableRegistry, MethodologyNotes, CatalystLog, README)
+- Pipeline liveness: check .pipeline-status.json — last successful run for each of the 7 daily tasks
+- Output continuity: are there dated output files for each weekday in the past 5 business days?
+- Cache health: list .data-cache/ files with staleness classification per Data Sources.md
+- Skill presence: verify .claude/skills/ contains 10 project-scope skills (no consolidate-memory)
+
+Then: git add -A && git commit -m "routine: workspace-tidy {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+### QUARTERLY / SEMI-ANNUAL / MONTHLY
+
+---
+
+#### Routine 11: quarterly-methodology-review
+- **Model:** opus
+- **Cron (UTC+8 local):** `0 19 1 1,4,7,10 *`
+- **Prompt:**
+```
+cd Trade/
+
+Use the quarterly-methodology-review skill. This fires on the 1st of January, April, July, October. Review: Top-28 variable performance over the quarter, methodology dimension audit, variable pipeline (candidates from literature-review → promotion criteria), AuditAdditionLog trends, VariableRegistry reconciliation.
+
+The 2026-10-14 methodology-audit-6mo-review-2026-10-14 one-time routine also feeds into this quarterly's October run — read its output if present.
+
+Then: git add -A && git commit -m "routine: quarterly-methodology-review {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+#### Routine 12: semi-annual-literature-review
+- **Model:** opus
+- **Cron (UTC+8 local):** `0 15 1 1,7 *`
+- **Prompt:**
+```
+cd Trade/
+
+Use the literature-review skill. Fires 1st of January and July. Systematic academic factor scan: search recent papers (past 6 months) for new tradeable variables meeting 5-criteria screens (replication, mechanism, data availability, cost, orthogonality to existing Top-28). Output feeds the quarterly-methodology-review candidate pipeline.
+
+Then: git add -A && git commit -m "routine: semi-annual-literature-review {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+#### Routine 13: system-review-semi-annual
+- **Model:** opus
+- **Cron (UTC+8 local):** `0 19 1-7 5,11 0`
+- **Prompt:**
+```
+cd Trade/
+
+CRON GUARD: This routine should fire only on the FIRST Sunday of May and November. Today's date is {TODAY}. If day-of-month > 7 or month is not May or November, exit silently with no action (cron OR-semantics safeguard).
+
+Use the system-review skill. Strategic architecture + efficiency audit: skill performance, token usage patterns, pipeline reliability, methodology fitness, any structural changes needed. Chain the skill-creator for patches if architectural changes are recommended.
+
+Then: git add -A && git commit -m "routine: system-review {TODAY}" && git push origin HEAD:main
+```
+*Note: If the web UI cron fires under OR-semantics (every day 1–7 of May/Nov PLUS every Sunday of May/Nov), the in-prompt date guard above will catch and suppress misfires. Verify on first fire: expected 2026-05-03 19:00 UTC+8.*
+
+---
+
+#### Routine 14: monthly-bootstrap-review
+- **Model:** sonnet
+- **Cron (UTC+8 local):** `0 19 1 5,6 *`
+- **Prompt:**
+```
+cd Trade/
+
+Bootstrap health check — fires 1st of May and June 2026 only (auto-retires after).
+
+If today's date >= 2026-07-01: print "auto-disable: bootstrap review window closed" and take no action. Gerald will disable this routine manually.
+
+Otherwise: check whether all 17 routines have been firing correctly by reviewing git log for routine: commits over the past month. Report: which routines ran, which missed, any error patterns. Check that the 3-day parallel-run comparison (Cowork vs Claude Code) completed successfully. Note any remaining discrepancies for manual investigation.
+
+Then: git add -A && git commit -m "routine: monthly-bootstrap-review {TODAY}" && git push origin HEAD:main
+```
+
+---
+
+### ONE-TIME ROUTINES
+
+---
+
+#### Routine 15: meta-shadow-mode-review-2026-04-25
+- **Model:** opus
+- **Cron (UTC+8 local):** `0 10 25 4 *` — create this, then DISABLE immediately after it fires on 2026-04-25
+- **Prompt:**
+```
+cd Trade/
+
+One-time Phase 3 GO/NO-GO review for V029–V035 meta-integration variables.
+
+Read all meta-additions-staging-*.md files from 2026-04-20 through 2026-04-24 (5 shadow-mode business days). For each of V029 BAB, V030 DealerGamma, V031 GP/A, V032 CEI, V033 Faber-3mo, V034 Faber-10mo, V035 Faber-cross:
+- Contribution rate: how many days was the variable LIVE (not MISSING)?
+- Decision-moving instances: how many times did it change a score leg?
+- Verdict: PROMOTE to live (Phase 3 GO) if ≥80% LIVE and ≥1 decision-moving instance; HOLD in shadow if LIVE but not yet decision-moving; RETIRE if <50% LIVE.
+
+Cross-check against deployment-memo-2026-04-18.md for each variable's expected behavior. Write meta-shadow-review-2026-04-25.md with per-variable verdict table and overall Phase 3 recommendation.
+
+If overall verdict is GO: list the 5 Phase-3 SKILL.md patches (V029–V035) that must be applied. They are blocked in patches/ directory pending this review.
+
+Then: git add -A && git commit -m "routine: meta-shadow-mode-review 2026-04-25" && git push origin HEAD:main
+```
+*After this fires on 2026-04-25, disable the routine in the web UI.*
+
+---
+
+#### Routine 16: methodology-audit-6mo-review-2026-10-14
+- **Model:** opus
+- **Cron (UTC+8 local):** `0 9 14 10 *` — create this, then DISABLE immediately after it fires on 2026-10-14
+- **Prompt:**
+```
+cd Trade/
+
+Six-month live-monitoring review of the 3 original audit-addition variables (first valued 2026-04-14/15). Review window: 2026-04-14 through 2026-10-13 (approximately 130 trading days).
+
+Read:
+- audit-data-missing-tracker.md — tally LIVE rows per variable (uptime denominator = LIVE rows only, per Methodology §Audit-Addition Review)
+- AuditAdditionLog sheet of master-data-log.xlsx — decision-moving contributions
+- The most recent quarterly-methodology-review output
+
+For each variable (residual_momentum, intermediary_capital, basis_momentum):
+- Days LIVE in review window (from tracker)
+- Decision-moving contributions (from AuditAdditionLog)
+- Contribution rate = decision_moving_rows / LIVE_rows (not calendar days)
+- Uptime pct = LIVE_rows / total_rows (pipeline health signal)
+
+Verdict per variable: KEEP Grade A (uptime ≥70%, contribution rate meets threshold) / DEMOTE to Grade B / REMOVE from pipeline.
+
+Write methodology-audit-6mo-review-2026-10-14.md with full tables and verdict. This output feeds the October quarterly-methodology-review.
+
+Then: git add -A && git commit -m "routine: methodology-audit-6mo-review 2026-10-14" && git push origin HEAD:main
+```
+*After this fires on 2026-10-14, disable the routine in the web UI.*
+
+---
+
+#### Routine 17: methodology-audit-6mo-review-batch2-2026-10-14
+- **Model:** opus
+- **Cron (UTC+8 local):** `30 9 14 10 *` — fires 30 minutes after Routine 16 on the same day
+- **Prompt:**
+```
+cd Trade/
+
+Batch-2 companion to methodology-audit-6mo-review-2026-10-14 (runs 30 min later). Reviews V029–V035 meta-integration variables added 2026-04-18 (approximately 6 months of shadow + live data).
+
+Read:
+- All meta-additions-staging-*.md files from 2026-04-18 through 2026-10-13
+- AuditAdditionLog sheet (Type=SHADOW pre-GO, Type=LIVE post-GO)
+- meta-shadow-review-2026-04-25.md (the Phase 3 GO/NO-GO decision)
+
+For each of V029–V035:
+- Shadow period uptime (pre-2026-04-25 GO date)
+- Live period uptime (post-GO, if promoted)
+- Decision-moving contributions in live period
+- Verdict: KEEP Grade A / DEMOTE to B / REMOVE
+
+Write methodology-audit-6mo-review-batch2-2026-10-14.md.
+
+Then: git add -A && git commit -m "routine: methodology-audit-6mo-review-batch2 2026-10-14" && git push origin HEAD:main
+```
+*After this fires on 2026-10-14, disable the routine in the web UI.*
+
+---
+
+## STEP 3 — Verify one routine end-to-end
+
+After creating all 17 routines, test `preflight-audit-data-1945pm` first (lowest risk):
+
+1. Click **Run now** in the web UI
+2. Watch the session — confirm it clones the repo, runs the compute, writes audit-data-staging-{TODAY}.md and .pipeline-health.json, commits, and pushes to main
+3. On your local machine: `git pull origin main` and verify the new files appear
+4. If any step fails, investigate before activating the remaining routines
+
+## STEP 4 — Parallel-run period (3 business days)
+
+Keep Cowork scheduled tasks enabled. Each day, compare Cowork vs Claude Code outputs. Expected: identical or near-identical. Discrepancies → stop and investigate before Cowork cutover (~2026-04-24).
+
+## Summary table
+
+| # | Task ID | Model | Cron (UTC+8) | Type |
+|---|---------|-------|--------------|------|
+| 1 | us-close-snapshot-730am-v2 | haiku | `30 7 * * 1-5` | daily |
+| 2 | positions-monitor-intraday-9am | sonnet | `0 9 * * 1-5` | daily |
+| 3 | preflight-audit-data-1945pm | sonnet | `45 19 * * 1-5` | daily |
+| 4 | preflight-meta-additions-1952pm | sonnet | `52 19 * * 1-5` | daily |
+| 5 | daily-market-brief-8pm-v2 | sonnet | `0 20 * * 1-5` | daily |
+| 6 | daily-news-events-8pm-v2 | sonnet | `0 20 * * 1-5` | daily |
+| 7 | daily-trade-recommendation-820pm-v2 | opus | `0 21 * * 1-5` | daily |
+| 8 | pipeline-recovery-830pm | haiku | `0 22 * * 1-5` | daily |
+| 9 | weekly-regime-signal-review-6pm | opus | `0 18 * * 0` | weekly |
+| 10 | workspace-tidy-sunday-9pm | haiku | `0 21 * * 0` | weekly |
+| 11 | quarterly-methodology-review | opus | `0 19 1 1,4,7,10 *` | quarterly |
+| 12 | semi-annual-literature-review | opus | `0 15 1 1,7 *` | semi-annual |
+| 13 | system-review-semi-annual | opus | `0 19 1-7 5,11 0` | semi-annual |
+| 14 | monthly-bootstrap-review | sonnet | `0 19 1 5,6 *` | monthly (temp) |
+| 15 | meta-shadow-mode-review-2026-04-25 | opus | `0 10 25 4 *` (one-time, disable after) | one-time |
+| 16 | methodology-audit-6mo-review-2026-10-14 | opus | `0 9 14 10 *` (one-time, disable after) | one-time |
+| 17 | methodology-audit-6mo-review-batch2-2026-10-14 | opus | `30 9 14 10 *` (one-time, disable after) | one-time |
+=== C:/Users/Lokis/.claude/scheduled-tasks/trade-rec-daily/SKILL.md ===
+---
+name: trade-rec-daily
+description: Daily pre-open trade recommendation — pipeline integrity check + 8-step methodology
+---
+
+Produce today's pre-open trade recommendation.
+
+PIPELINE INTEGRITY PRE-CHECK (run before loading the skill):
+
+```python
+import json
+from pathlib import Path
+from datetime import datetime, timezone, timedelta
+utc8 = timezone(timedelta(hours=8))
+today = datetime.now(utc8).strftime('%Y-%m-%d')
+trade_dir = Path('.')
+brief   = trade_dir / f'market-brief-{today}.md'
+news    = trade_dir / f'news-events/news-{today}.md'
+staging = trade_dir / f'audit-data-staging-{today}.md'
+missing = []
+if not brief.exists():   missing.append(f'market-brief-{today}.md')
+if not news.exists():    missing.append(f'news-events/news-{today}.md')
+if not staging.exists(): missing.append(f'audit-data-staging-{today}.md')
+```
+
+- If brief is MISSING → HARD ABORT. Write abort status to .pipeline-status.json with incremented consecutive_failures. Output: "PIPELINE INTEGRITY FAIL — {missing files}. Trade rec aborted. Consecutive failures: {N}." Stop. Do not load the skill.
+- If brief exists but news or staging is missing → WARN AND PROCEED. Output: "PIPELINE INTEGRITY WARNING — {missing files} missing. Proceeding with partial data." Load the skill normally.
+- If all three exist → proceed silently.
+
+1. Follow CLAUDE.md §Session Startup Protocol (all four reads).
+2. Load and run the `daily-trade-rec` skill end-to-end for today's local date (UTC+8).
+   - Synthesises market-brief, news-events, us-close-snapshot, and weekly-review through the 8-step evidence-graded methodology
+   - Applies Risk Rules pre-entry checklist before promoting any signal
+   - Logs all promoted signals and near-misses to SignalLedger in master-data-log.xlsx (append-only — never rewrite existing rows)
+   - Output: trade-rec-{YYYY-MM-DD}.md + report-{YYYY-MM-DD}-trade-rec.html
+3. If the delta-check (Step 0) flags "no material change since prior rec", still commit any Memory.md or .pipeline-status.json updates that occurred.
+4. On completion, update .pipeline-status.json:
+   - status: OK on successful write; ABORT if pre-check aborted; FAIL if skill crashed
+   - consecutive_failures: 0 on OK; increment on non-OK
+5. Pack into the consolidated daily file (markdown only — the HTML report `report-{YYYY-MM-DD}-trade-rec.html` stays as a separate file at workspace root):
+   `python scripts/pack_daily.py --section F --source trade-rec-{YYYY-MM-DD}.md --status "{OK|ABORT|FAIL}"`
+   The per-day `trade-rec-{YYYY-MM-DD}.md` source file stays at workspace root (it is a permanent audit artifact per Retention Policy).
+6. Exit summary (one line):
+   `Trade rec {YYYY-MM-DD} complete — signals={N promoted, N near-miss}, status={OK|ABORT|FAIL}, packed=daily-{YYYY-MM-DD}.md §F`
+
+Then git add -A, commit with message "routine: trade-rec {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/us-close-snapshot/SKILL.md ===
+---
+name: us-close-snapshot
+description: Daily US post-close delta snapshot — >1σ moves, open-position review, overnight watch (Mon–Fri 07:30 UTC+8)
+---
+
+**CRITICAL: This is a utility delta snapshot, NOT a trading question. Do NOT follow CLAUDE.md §Session Startup Protocol. Do NOT read Methodology Prompt.md, Coin core.md, Trad core.md, Risk Rules, Data Sources, or any other authoritative doc unless explicitly listed below.**
+
+Produce the US post-close delta snapshot. Lean, deltas-only.
+
+**Reads (and only these):**
+- Memory.md §2 Open Positions, §5 Watchlist, §6 Upcoming Catalysts
+- Yesterday's market-brief-*.md (brief v1/final levels for Δ comparison)
+- Yesterday's trade-rec-*.md (promoted entries + open-position marks) if present
+
+**Action sequence:**
+1. Web-search US cash-session close for every variable that moved >1σ or changed materially vs yesterday's brief: SPX, NDX, Dow, each open position in Memory §2, each watchlist Sum≥2 name, Brent, Gold, BTC, BTC ETF flows, VIX, DXY.
+2. Pull yesterday's US econ releases (actual vs expected vs prior) and any after-hours earnings in the universe (INTC, TSM, NVDA, TSLA, AAPL, GOOGL, AMZN, META, PYPL, PLTR, MU, WDC).
+3. Write us-close-snapshot-{YYYY-MM-DD}.md (use today's date for the filename) with sections:
+   §1 Close snapshot (>1σ moves and material changes, tabled)
+   §2 Open-position review (close vs entry, stop, status — intact / flagged / stopped)
+   §3 Watchlist update
+   §4 Regime delta (is brief regime label still current?)
+   §5 Overnight watch (top-3 things to monitor before US pre-open)
+4. Target ≤500 words. Flat items go in a one-line "Flat vs brief" footer.
+5. No fail-loud on variables already covered by brief — this is a delta file, not a brief.
+6. Pack into the consolidated daily file (creates `daily-{YYYY-MM-DD}.md` if missing, else upserts the section in-place):
+   `python scripts/pack_daily.py --section A --source us-close-snapshot-{YYYY-MM-DD}.md --status "delta={none|soft|hard}"`
+   The per-day `us-close-snapshot-{YYYY-MM-DD}.md` source file stays at workspace root (downstream brief/rec reads still use it).
+
+Exit summary (one line):
+`US close snapshot {YYYY-MM-DD} complete — {N_moves} >1σ moves, regime delta={none|soft|hard}, open-pos status={intact|flagged|stopped}, packed=daily-{YYYY-MM-DD}.md §A`
+
+Then git add -A, commit with message "routine: us-close-snapshot {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/weekly-regime-signal-review/SKILL.md ===
+---
+name: weekly-regime-signal-review
+description: Sunday weekly regime review + signal review (marks SignalLedger, hit rates, methodology)
+---
+
+Run the weekly regime review and signal review.
+
+PIPELINE INTEGRITY PRE-CHECK (run before Phase 1):
+Identify today's date and the 5 weekdays (Mon–Fri) in the most recently completed trading week. Check for market-brief-{date}.md files covering those 5 days. Also check .pipeline-status.json for consecutive failure counts across all tasks.
+
+- If fewer than 4 of 5 daily briefs are present: output "PIPELINE INTEGRITY WARNING — only {n}/5 weekly briefs found. Proceeding but flagging low confidence." Add a ## Data Coverage section to the output noting missing days.
+- If 0 or 1 briefs found: output "PIPELINE INTEGRITY FAIL — insufficient brief history ({n}/5). Weekly review aborted." STOP.
+- If any task shows consecutive_failures >= 3: add a ## ⚠ Pipeline Health Alert section listing each failing task and its count.
+
+Phase 1 — Regime review:
+Read Memory.md, the latest market-brief-*.md, and all news-events/news-*.md from the past 7 days. Write weekly-review-{today}.md covering: regime trajectory for the week, key macro/geopolitical events, thesis validation for open positions, and distilled lessons. Condense memory-lessons.md (remove superseded entries, tighten surviving ones).
+After Phase 1, pack §W into the consolidated daily file (creates `/mnt/Trade/daily-{today}.md` if missing, else upserts):
+`python scripts/pack_daily.py --section W --source weekly-review-{today}.md --status OK`
+
+Phase 2 — Signal review:
+/signal-review
+Marks-to-market every hypothetical signal in the SignalLedger sheet of master-data-log.xlsx. Computes hit rates by asset class / score component / regime. Identifies methodology improvements. Writes signal-review-{today}.md + report-{today}-signal-review.html. Updates PerformanceStats sheet.
+After Phase 2, pack §S into the consolidated daily file (markdown only — the HTML report stays a separate file):
+`python scripts/pack_daily.py --section S --source signal-review-{today}.md --status OK`
+
+Then git add -A, commit with message "routine: weekly-regime-signal-review {today}", and push to origin main.=== C:/Users/Lokis/.claude/scheduled-tasks/workspace-tidy/SKILL.md ===
+---
+name: workspace-tidy
+description: Sunday workspace tidy — retention policy, archive, diagnostics, cleanup log
+---
+
+CRITICAL: utility task, do NOT follow CLAUDE.md §Session Startup Protocol. Do NOT read Methodology Prompt.md, Coin core.md, Trad core.md, Risk Rules, or protocol documents.
+
+Apply the Retention Policy (read Retention Policy.md):
+- Move files aged 8+ days to archive/YYYY-MM/ (respecting Memory.md pinned files)
+- Digest files aged 31+ days per the retention tiers
+- Never archive framework files: Methodology Prompt.md, Risk Rules.md, Data Sources.md, Coin core.md, Trad core.md, Memory.md, Retention Policy.md
+
+Run workspace diagnostics:
+1. Excel integrity — verify master-data-log.xlsx opens and has expected 10 sheets
+2. Pipeline liveness — check .pipeline-status.json for any tasks with consecutive_failures > 0
+3. Output continuity — confirm market-brief, news, and trade-rec files exist for each of the past 5 weekdays
+4. Cache health — check .data-cache/ for expired entries beyond staleness windows
+5. Skill presence — confirm all 10 skill folders exist under .claude/skills/
+
+Append a dated entry to archive/cleanup-log.md summarising: files archived, files digested, diagnostic results.
+
+Then git add -A, commit with message "routine: workspace-tidy {today}", and push to origin main.

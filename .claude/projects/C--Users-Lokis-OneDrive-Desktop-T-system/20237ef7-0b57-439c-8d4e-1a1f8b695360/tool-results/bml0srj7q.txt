@@ -1,0 +1,958 @@
+On branch master
+Your branch is ahead of 'origin/main' by 3 commits.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	renamed:    Trade/M2.md -> Trade/bnma/stage-a-completion-T-group.md
+	renamed:    Trade/m3.md -> Trade/bnma/stage-a-sharpe-extraction.md
+	renamed:    Trade/M1.md -> Trade/bnma/stage-a2-validation-R-S-groups.md
+	renamed:    Trade/Coin core.md -> Trade/framework/Coin core.md
+	renamed:    Trade/Data Sources.md -> Trade/framework/Data Sources.md
+	renamed:    Trade/Data-Retrieval-Fallback-Framework.md -> Trade/framework/Data-Retrieval-Fallback-Framework.md
+	renamed:    Trade/Excel-Sync-Protocol.md -> Trade/framework/Excel-Sync-Protocol.md
+	renamed:    Trade/Memory.md -> Trade/framework/Memory.md
+	renamed:    Trade/Methodology Prompt.md -> Trade/framework/Methodology Prompt.md
+	renamed:    Trade/Pipeline-Recovery-Protocol.md -> Trade/framework/Pipeline-Recovery-Protocol.md
+	renamed:    Trade/Retention Policy.md -> Trade/framework/Retention Policy.md
+	renamed:    Trade/Risk Rules.md -> Trade/framework/Risk Rules.md
+	renamed:    Trade/Trad core.md -> Trade/framework/Trad core.md
+	renamed:    Trade/Trade-Execution-Protocol.md -> Trade/framework/Trade-Execution-Protocol.md
+	renamed:    Trade/Variable-Discovery-Protocol.md -> Trade/framework/Variable-Discovery-Protocol.md
+	renamed:    Trade/memory-lessons.md -> Trade/framework/memory-lessons.md
+	renamed:    Trade/.pipeline-health.json -> Trade/pipeline/.pipeline-health.json
+	renamed:    Trade/.pipeline-status.json -> Trade/pipeline/.pipeline-status.json
+	renamed:    Trade/audit-data-missing-tracker.md -> Trade/pipeline/audit-data-missing-tracker.md
+	renamed:    Trade/pipeline-dependency-graph.mermaid -> Trade/pipeline/pipeline-dependency-graph.mermaid
+	renamed:    Trade/methodology-audit-6mo-review-2026-10-14-DECISION.md -> Trade/reviews/methodology-audit-6mo-review-2026-10-14-DECISION.md
+	renamed:    Trade/methodology-audit-6mo-review-2026-10-14.md -> Trade/reviews/methodology-audit-6mo-review-2026-10-14.md
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   Trade/.claude/CLAUDE.md
+	modified:   Trade/.claude/rules/risk-rules-summary.md
+	modified:   Trade/.claude/skills/daily-trade-rec/SKILL.md
+	modified:   Trade/.claude/skills/literature-review/SKILL.md
+	modified:   Trade/.claude/skills/market-brief/SKILL.md
+	modified:   Trade/.claude/skills/news-events/SKILL.md
+	modified:   Trade/.claude/skills/pipeline-recovery/SKILL.md
+	modified:   Trade/.claude/skills/positions-monitor/SKILL.md
+	modified:   Trade/.claude/skills/quarterly-methodology-review/SKILL.md
+	modified:   Trade/.claude/skills/signal-review/SKILL.md
+	modified:   Trade/.claude/skills/system-review/SKILL.md
+	modified:   Trade/.claude/skills/trade-update/SKILL.md
+	deleted:    Trade/BNMA Claude Mark 1.zip
+	deleted:    Trade/BNMA Mark 1.md
+	deleted:    Trade/Bayesian Meta-Analysis/BNMA Mark 1.md
+	deleted:    Trade/Bayesian Meta-Analysis/BNMA-meta-analysis-2026-04-18.md
+	deleted:    Trade/Bayesian Meta-Analysis/BNMA-meta-analysis-report-2026-04-18.html
+	deleted:    Trade/Bayesian Meta-Analysis/Chatgpt Mark 1.md
+	deleted:    Trade/Bayesian Meta-Analysis/Chatgpt mark 2.md
+	deleted:    Trade/Bayesian Meta-Analysis/PL-NMA-meta-analysis-2026-04-18.md
+	deleted:    Trade/Bayesian Meta-Analysis/PL-NMA-report-2026-04-18.html
+	deleted:    Trade/Bayesian Meta-Analysis/System review Claude 1.md
+	deleted:    Trade/Bayesian Meta-Analysis/System review chat gpt 4.md
+	deleted:    Trade/Bayesian Meta-Analysis/System review chatgpt 1.md
+	deleted:    Trade/Bayesian Meta-Analysis/System review chatgpt 2.md
+	deleted:    Trade/Bayesian Meta-Analysis/System review chatgpt 3.md
+	deleted:    Trade/Bayesian Meta-Analysis/System review claude 2.md
+	deleted:    Trade/Bayesian Meta-Analysis/System review claude 3.md
+	deleted:    Trade/Bayesian Meta-Analysis/bnma-claude mark 2.md
+	deleted:    Trade/Bayesian Meta-Analysis/data_literal.js
+	deleted:    Trade/Bayesian Meta-Analysis/deep-research-prompt-2026-04-18.md
+	deleted:    Trade/Bayesian Meta-Analysis/deep-research-prompt-index-2026-04-18.md
+	deleted:    Trade/Bayesian Meta-Analysis/deep-research-prompt-stocks-2026-04-18.md
+	deleted:    Trade/Bayesian Meta-Analysis/full-review-meta-analysis-2026-04-18.html
+	deleted:    Trade/Bayesian Meta-Analysis/meta_analysis.py
+	deleted:    Trade/Bayesian Meta-Analysis/meta_results.json
+	deleted:    Trade/Bayesian Meta-Analysis/meta_results_compact.json
+	deleted:    Trade/Bayesian Meta-Analysis/pl_nma_results.json
+	deleted:    Trade/Bayesian Meta-Analysis/plackett_luce_nma.py
+	deleted:    Trade/Bayesian Meta-Analysis/system review chatgpt mark 5.md
+	deleted:    Trade/Bayesian Meta-Analysis/systematic-review-meta-analysis-2026-04-18.html
+	deleted:    Trade/CONCEPT_PROMPT_FOR_GENERALIZATION.md
+	deleted:    Trade/SKILL.md
+	deleted:    Trade/audit-data-staging-2026-04-15.md
+	deleted:    Trade/audit-data-staging-2026-04-16.md
+	deleted:    Trade/audit-data-staging-2026-04-17.md
+	deleted:    Trade/audit-data-staging-2026-04-19.md
+	deleted:    Trade/bnma-variable-ranking-prompt.md
+	deleted:    Trade/bnma/bnma-claude mark 2.md
+	deleted:    Trade/catalysts-cache-2026-04-17.json
+	deleted:    Trade/claude-code-migration/.claude/CLAUDE.md
+	deleted:    Trade/claude-code-migration/.claude/rules/evidence-grades.md
+	deleted:    Trade/claude-code-migration/.claude/rules/risk-rules-summary.md
+	deleted:    Trade/claude-code-migration/.claude/settings.json
+	deleted:    Trade/claude-code-migration/.claude/skills/consolidate-memory/SKILL.md
+	deleted:    Trade/claude-code-migration/.claude/skills/daily-trade-rec/SKILL.md
+	deleted:    Trade/claude-code-migration/.claude/skills/literature-review/SKILL.md
+	deleted:    Trade/claude-code-migration/.claude/skills/market-brief/SKILL.md
+	deleted:    Trade/claude-code-migration/.claude/skills/news-events/SKILL.md
+	deleted:    Trade/claude-code-migration/.claude/skills/pipeline-recovery/SKILL.md
+	deleted:    Trade/claude-code-migration/.claude/skills/positions-monitor/SKILL.md
+	deleted:    Trade/claude-code-migration/.claude/skills/quarterly-methodology-review/SKILL.md
+	deleted:    Trade/claude-code-migration/.claude/skills/signal-review/SKILL.md
+	deleted:    Trade/claude-code-migration/.claude/skills/system-review/SKILL.md
+	deleted:    Trade/claude-code-migration/.claude/skills/trade-update/SKILL.md
+	deleted:    Trade/claude-code-migration/BOOTSTRAP-PROMPT.md
+	deleted:    Trade/claude-code-migration/MIGRATION-GUIDE.md
+	deleted:    Trade/claude-code-migration/setup-claude-code.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/CLAUDE.md.cowork-original
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/audit-data-staging-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/MEMORY.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/feedback_evidence_grades.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/feedback_trade_execution.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/project_literature_review_2026-04-17_news-events.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/project_residmom_pipeline_fix_2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/project_structural_sniffs_2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/project_system_review_2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/project_system_review_execution_2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/project_system_review_skill_creator_chain_2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/project_system_state.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/reference_catalysts_cache.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/reference_pipeline.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/reference_skill_description_limit.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/reference_trade_workspace.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/auto-memory/user_gerald.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Coin core.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Data Sources.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Data-Retrieval-Fallback-Framework.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Excel-Sync-Protocol.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Memory.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Methodology Prompt.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Pipeline-Recovery-Protocol.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Retention Policy.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Risk Rules.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Trad core.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Trade-Execution-Protocol.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/Variable-Discovery-Protocol.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/framework/memory-lessons.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/market-brief-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/master-data-log.xlsx
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/news-events/README.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/news-events/news-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/pipeline-config/.pipeline-health.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/pipeline-config/.pipeline-status.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/scripts/cache_manager.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/scripts/catalysts_cache.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/scripts/compute_audit_additions.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/scripts/data_retrieval_engine.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/scripts/fetch_ff5_from_french_library.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/scripts/pipeline_status.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/scripts/preflight_health_check.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/scripts/test_compute_audit_additions.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/scripts/test_data_contract.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/consolidate-memory/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/daily-trade-rec/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/LICENSE.txt
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/accept_changes.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/comment.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/helpers/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/helpers/merge_runs.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/helpers/simplify_redlines.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/pack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/mce/mc.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/microsoft/wml-2010.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/microsoft/wml-2012.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/microsoft/wml-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/microsoft/wml-cex-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/microsoft/wml-cid-2016.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/schemas/microsoft/wml-symex-2015.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/soffice.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/unpack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/validate.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/validators/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/validators/base.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/validators/docx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/validators/pptx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/office/validators/redlining.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/templates/comments.xml
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/templates/commentsExtended.xml
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/templates/commentsExtensible.xml
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/templates/commentsIds.xml
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/docx/scripts/templates/people.xml
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/literature-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/market-brief/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/news-events/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/FORMS.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/LICENSE.txt
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/REFERENCE.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/scripts/check_bounding_boxes.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/scripts/check_fillable_fields.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/scripts/convert_pdf_to_images.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/scripts/create_validation_image.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/scripts/extract_form_field_info.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/scripts/extract_form_structure.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/scripts/fill_fillable_fields.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pdf/scripts/fill_pdf_form_with_annotations.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pipeline-recovery/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pipeline-recovery/scripts/pipeline_status.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/positions-monitor/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/LICENSE.txt
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/editing.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/pptxgenjs.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/add_slide.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/clean.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/helpers/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/helpers/merge_runs.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/helpers/simplify_redlines.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/pack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/mce/mc.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-2010.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-2012.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-cex-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-cid-2016.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-symex-2015.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/soffice.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/unpack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/validate.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/validators/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/validators/base.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/validators/docx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/validators/pptx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/office/validators/redlining.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/pptx/scripts/thumbnail.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/quarterly-methodology-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/schedule/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/setup-cowork/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/signal-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/LICENSE.txt
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/agents/analyzer.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/agents/comparator.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/agents/grader.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/assets/eval_review.html
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/eval-viewer/generate_review.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/eval-viewer/viewer.html
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/references/schemas.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/scripts/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/scripts/aggregate_benchmark.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/scripts/generate_report.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/scripts/improve_description.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/scripts/package_skill.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/scripts/quick_validate.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/scripts/run_eval.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/scripts/run_loop.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/skill-creator/scripts/utils.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/system-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/trade-update/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/LICENSE.txt
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/helpers/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/helpers/merge_runs.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/helpers/simplify_redlines.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/pack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/mce/mc.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-2010.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-2012.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-cex-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-cid-2016.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-symex-2015.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/soffice.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/unpack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/validate.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/validators/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/validators/base.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/validators/docx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/validators/pptx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/office/validators/redlining.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/skills-cowork/xlsx/scripts/recalc.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/trade-rec-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-18/us-close-snapshot-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/BACKUP-MANIFEST.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/MEMORY.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/feedback_evidence_grades.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/feedback_trade_execution.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/project_literature_review_2026-04-17_news-events.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/project_meta_integration_2026-04-18.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/project_residmom_pipeline_fix_2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/project_skill_manager_2026-04-18.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/project_structural_sniffs_2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/project_system_review_2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/project_system_review_execution_2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/project_system_review_skill_creator_chain_2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/project_system_state.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/reference_catalysts_cache.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/reference_pipeline.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/reference_skill_description_limit.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/reference_trade_workspace.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/auto-memory/user_gerald.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/CLAUDE.md.global
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/CLAUDE.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/rules/evidence-grades.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/rules/risk-rules-summary.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/settings.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/consolidate-memory/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/daily-trade-rec/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/literature-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/market-brief/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/news-events/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/pipeline-recovery/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/positions-monitor/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/quarterly-methodology-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/signal-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/system-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/claude-instructions/project-claude/skills/trade-update/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Coin core.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Data Sources.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Data-Retrieval-Fallback-Framework.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Excel-Sync-Protocol.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Memory.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Methodology Prompt.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Pipeline-Recovery-Protocol.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Retention Policy.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Risk Rules.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Trad core.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Trade-Execution-Protocol.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/Variable-Discovery-Protocol.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/framework/memory-lessons.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/news-events/README.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/news-events/news-2026-04-14.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/news-events/news-2026-04-15.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/news-events/news-2026-04-16.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/news-events/news-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/audit-data-missing-tracker.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/audit-data-staging-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/market-brief-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/master-data-log.xlsx
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/positions-monitor-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/quarterly-methodology-review-2026-04-15.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/report-2026-04-17-trade-rec.html
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/signal-review-2026-04-15.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/trade-rec-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/us-close-snapshot-2026-04-17.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/outputs-latest/weekly-review-2026-04-15.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/AAPL.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/AMZN.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/AUDUSD.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BTC.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BTC_ActiveAddr.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BTC_HashRate.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BasisMom_Brent_12w.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BasisMom_Brent_4w.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BasisMom_Copper_12w.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BasisMom_Copper_4w.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BasisMom_Gold_12w.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BasisMom_Gold_4w.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BasisMom_Silver_12w.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BasisMom_Silver_4w.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BasisMom_WTI_12w.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/BasisMom_WTI_4w.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/Brent.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/Copper.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/DGS10.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/DXY.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ETH.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/EURUSD.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/EWJ.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/EWY.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/GBPUSD.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/GOOGL.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/Gold.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/HY_OAS.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/INTC.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/Intermediary_Cap_Ratio.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/Intermediary_Cap_Z.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/META.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/MOVE.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/MU.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/NDX.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/NFCI.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/NVDA.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/PLTR.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/PYPL.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/Palladium.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/Platinum.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/QQQ.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_AAPL.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_AMZN.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_GOOGL.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_INTC.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_META.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_MU.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_NVDA.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_PLTR.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_PYPL.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_TSLA.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_TSM.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ResidMom_WDC.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/SPX.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/SPY.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/Silver.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/TSLA.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/TSM.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/USDJPY.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/VIX.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/VIX3M.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/VIX_TEST.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/VIX_TEST2.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/VIX_VIX3M.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/WDC.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/WTI.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ff5_factors.csv
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/ff5_factors.csv.meta.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/futures_curves.csv
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/futures_curves.csv.meta.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/manifest.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/pd_statistics.csv
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/pd_statistics.csv.meta.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/retrieval-log.jsonl
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/stock_returns.csv
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.data-cache/stock_returns.csv.meta.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.pipeline-health.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/.pipeline-status.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/pipeline-config/catalysts-cache-2026-04-17.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scheduled-tasks/scheduled-tasks.json
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scheduled-tasks/scheduled-tasks.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scripts/cache_manager.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scripts/catalysts_cache.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scripts/compute_audit_additions.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scripts/compute_meta_additions.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scripts/data_retrieval_engine.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scripts/fetch_ff5_from_french_library.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scripts/pipeline_status.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scripts/preflight_health_check.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scripts/test_compute_audit_additions.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/scripts/test_data_contract.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/consolidate-memory/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/daily-trade-rec/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/LICENSE.txt
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/accept_changes.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/comment.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/helpers/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/helpers/merge_runs.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/helpers/simplify_redlines.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/pack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/mce/mc.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/microsoft/wml-2010.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/microsoft/wml-2012.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/microsoft/wml-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/microsoft/wml-cex-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/microsoft/wml-cid-2016.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/schemas/microsoft/wml-symex-2015.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/soffice.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/unpack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/validate.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/validators/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/validators/base.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/validators/docx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/validators/pptx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/office/validators/redlining.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/templates/comments.xml
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/templates/commentsExtended.xml
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/templates/commentsExtensible.xml
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/templates/commentsIds.xml
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/docx/scripts/templates/people.xml
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/literature-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/market-brief/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/news-events/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/FORMS.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/LICENSE.txt
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/REFERENCE.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/scripts/check_bounding_boxes.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/scripts/check_fillable_fields.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/scripts/convert_pdf_to_images.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/scripts/create_validation_image.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/scripts/extract_form_field_info.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/scripts/extract_form_structure.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/scripts/fill_fillable_fields.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pdf/scripts/fill_pdf_form_with_annotations.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pipeline-recovery/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pipeline-recovery/scripts/pipeline_status.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/positions-monitor/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/LICENSE.txt
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/editing.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/pptxgenjs.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/add_slide.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/clean.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/helpers/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/helpers/merge_runs.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/helpers/simplify_redlines.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/pack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/mce/mc.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-2010.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-2012.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-cex-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-cid-2016.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/schemas/microsoft/wml-symex-2015.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/soffice.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/unpack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/validate.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/validators/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/validators/base.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/validators/docx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/validators/pptx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/office/validators/redlining.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/pptx/scripts/thumbnail.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/quarterly-methodology-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/schedule/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/setup-cowork/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/signal-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/LICENSE.txt
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/agents/analyzer.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/agents/comparator.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/agents/grader.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/assets/eval_review.html
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/eval-viewer/generate_review.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/eval-viewer/viewer.html
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/references/schemas.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/scripts/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/scripts/aggregate_benchmark.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/scripts/generate_report.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/scripts/improve_description.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/scripts/package_skill.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/scripts/quick_validate.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/scripts/run_eval.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/scripts/run_loop.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/skill-creator/scripts/utils.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/system-review/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/trade-update/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/LICENSE.txt
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/SKILL.md
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/helpers/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/helpers/merge_runs.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/helpers/simplify_redlines.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/pack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chart.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-picture.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/pml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-math.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/sml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-main.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/wml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ISO-IEC29500-4_2016/xml.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-contentTypes.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-coreProperties.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-digSig.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/ecma/fouth-edition/opc-relationships.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/mce/mc.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-2010.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-2012.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-cex-2018.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-cid-2016.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-sdtdatahash-2020.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/schemas/microsoft/wml-symex-2015.xsd
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/soffice.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/unpack.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/validate.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/validators/__init__.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/validators/base.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/validators/docx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/validators/pptx.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/office/validators/redlining.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/skills-cowork/xlsx/scripts/recalc.py
+	deleted:    Trade/claude-code-migration/system-backup-2026-04-19/verification.txt
+	deleted:    Trade/claude-code-port-prompt.md
+	deleted:    Trade/daily-2026-04-14.md
+	deleted:    Trade/daily-2026-04-15.md
+	deleted:    Trade/daily-2026-04-16.md
+	deleted:    Trade/daily-2026-04-17.md
+	deleted:    Trade/daily-2026-04-18.md
+	deleted:    Trade/daily-2026-04-19.md
+	deleted:    Trade/daily-trade-rec.skill
+	deleted:    Trade/data-collection-audit-2026-04-15.md
+	deleted:    Trade/deployment-memo-2026-04-18.md
+	deleted:    Trade/deployment-prompt-2026-04-18.md
+	modified:   Trade/framework/Memory.md
+	modified:   Trade/framework/Pipeline-Recovery-Protocol.md
+	modified:   Trade/framework/Retention Policy.md
+	modified:   Trade/framework/Risk Rules.md
+	deleted:    Trade/fresh-session-outcome-2026-04-18.md
+	deleted:    Trade/fresh-session-prompt-2026-04-18.md
+	deleted:    Trade/implementation-audit-log.md
+	deleted:    Trade/implementation-verification-prompt.md
+	deleted:    Trade/lit-review-news-taxonomy-prompt.md
+	deleted:    Trade/literature-review-2026-04-17-news-events.md
+	deleted:    Trade/literature-review.skill
+	deleted:    Trade/market-brief-2026-04-14.md
+	deleted:    Trade/market-brief-2026-04-15.md
+	deleted:    Trade/market-brief-2026-04-16.md
+	deleted:    Trade/market-brief-2026-04-17.md
+	deleted:    Trade/market-brief.skill
+	deleted:    Trade/meta-additions-staging-2026-04-18.md
+	deleted:    Trade/meta-analysis-integration-plan-2026-04-18.md
+	deleted:    Trade/news-events-skill-md-patch-2026-04-17.md
+	deleted:    Trade/news-events.skill
+	deleted:    Trade/news-events/news-2026-04-14.md
+	deleted:    Trade/news-events/news-2026-04-15.md
+	deleted:    Trade/news-events/news-2026-04-16.md
+	deleted:    Trade/news-events/news-2026-04-17.md
+	deleted:    Trade/patches/E1-us-close-snapshot-prepend.md
+	deleted:    Trade/patches/E1-workspace-tidy-prepend.md
+	deleted:    Trade/patches/E4-daily-trade-rec-SKILL-patch.md
+	deleted:    Trade/patches/E4-market-brief-SKILL-patch.md
+	deleted:    Trade/patches/E4-news-events-SKILL-patch.md
+	deleted:    Trade/patches/META-B5-model-tiering-patch.md
+	deleted:    Trade/patches/README.md
+	deleted:    Trade/patches/RM1-pipeline-recovery-SKILL-patch.md
+	deleted:    Trade/patches/apply-E1.bat
+	deleted:    Trade/patches/apply-E1.ps1
+	deleted:    Trade/patches/claude-code-port-prompt.md
+	deleted:    Trade/patches/daily-trade-rec-phase3-SKILL-patch.md
+	deleted:    Trade/patches/daily-trade-rec.skill
+	deleted:    Trade/patches/market-brief-phase3-SKILL-patch.md
+	deleted:    Trade/patches/market-brief.skill
+	deleted:    Trade/patches/news-events.skill
+	deleted:    Trade/patches/positions-monitor-2026-04-18-patch-v2.md
+	deleted:    Trade/patches/positions-monitor-2026-04-18-patch.md
+	deleted:    Trade/patches/positions-monitor-SKILL.md
+	deleted:    Trade/patches/positions-monitor-phase3-SKILL-patch.md
+	deleted:    Trade/patches/positions-monitor.skill
+	deleted:    Trade/patches/quarterly-methodology-review-phase3-SKILL-patch.md
+	deleted:    Trade/patches/remove-consolidate-memory-skill.md
+	deleted:    Trade/patches/signal-review-phase3-SKILL-patch.md
+	deleted:    Trade/pipeline-recovery.skill
+	modified:   Trade/pipeline/.pipeline-status.json
+	deleted:    Trade/positions-monitor-2026-04-17.md
+	deleted:    Trade/quarterly-methodology-review-2026-04-15.md
+	deleted:    Trade/quarterly-methodology-review.skill
+	deleted:    Trade/report-2026-04-14-trade-rec.html
+	deleted:    Trade/report-2026-04-15-quarterly-review.html
+	deleted:    Trade/report-2026-04-15-signal-review.html
+	deleted:    Trade/report-2026-04-15-trade-rec.html
+	deleted:    Trade/report-2026-04-16-trade-rec.html
+	deleted:    Trade/report-2026-04-17-trade-rec.html
+	deleted:    Trade/retrieval-monitoring-patches.md
+	deleted:    Trade/scheduled-task-recovery-prompt.md
+	modified:   Trade/scripts/catalysts_cache.py
+	modified:   Trade/scripts/compute_audit_additions.py
+	modified:   Trade/scripts/compute_meta_additions.py
+	modified:   Trade/scripts/data_retrieval_engine.py
+	modified:   Trade/scripts/pipeline_status.py
+	modified:   Trade/scripts/preflight_health_check.py
+	deleted:    Trade/signal-review-2026-04-15.md
+	deleted:    Trade/signal-review.skill
+	deleted:    Trade/skill-backups/2026-04-18/positions-monitor.2/BACKUP_MANIFEST.md
+	deleted:    Trade/skill-backups/2026-04-18/positions-monitor.2/SKILL.md
+	deleted:    Trade/skill-backups/2026-04-18/positions-monitor.3/BACKUP_MANIFEST.md
+	deleted:    Trade/skill-backups/2026-04-18/positions-monitor.3/SKILL.md
+	deleted:    Trade/skill-backups/2026-04-18/positions-monitor/BACKUP_MANIFEST.md
+	deleted:    Trade/skill-backups/2026-04-18/positions-monitor/SKILL.md
+	deleted:    Trade/skill-description-tightening-2026-04-17.md
+	deleted:    Trade/skill-patches-2026-04-15.md
+	deleted:    Trade/skill-patches.zip
+	deleted:    Trade/skill-patches/daily-trade-rec/SKILL.md
+	deleted:    Trade/skill-patches/literature-review/SKILL.md
+	deleted:    Trade/skill-patches/market-brief/SKILL.md
+	deleted:    Trade/skill-patches/news-events/SKILL.md
+	deleted:    Trade/skill-patches/quarterly-methodology-review/SKILL.md
+	deleted:    Trade/skill-patches/signal-review/SKILL.md
+	deleted:    Trade/skill-updates/daily-trade-rec.skill
+	deleted:    Trade/skill-updates/daily-trade-rec/SKILL.md
+	deleted:    Trade/skill-updates/signal-review.skill
+	deleted:    Trade/skill-updates/signal-review/SKILL.md
+	deleted:    Trade/skills-draft/apply-skill-patch/SKILL.md
+	deleted:    Trade/skills-draft/skill-manager.zip
+	deleted:    Trade/skills-draft/skill-manager/SKILL.md
+	deleted:    Trade/skills-draft/skill-manager/assets/skill-template.md
+	deleted:    Trade/skills-draft/skill-manager/references/apply-workflow.md
+	deleted:    Trade/skills-draft/skill-manager/references/edits-schema.md
+	deleted:    Trade/skills-draft/skill-manager/references/trading-skills.md
+	deleted:    Trade/skills-draft/skill-manager/scripts/_common.py
+	deleted:    Trade/skills-draft/skill-manager/scripts/backup_skill.py
+	deleted:    Trade/skills-draft/skill-manager/scripts/package_skill.py
+	deleted:    Trade/skills-draft/skill-manager/scripts/patch_skill.py
+	deleted:    Trade/skills-draft/skill-manager/scripts/scaffold_skill.py
+	deleted:    Trade/skills-draft/skill-manager/test_edits.json
+	deleted:    Trade/skills-draft/test-smoke.zip
+	deleted:    Trade/skills-draft/test-smoke/SKILL.md
+	deleted:    Trade/skills-draft/test-smoke/assets/.gitkeep
+	deleted:    Trade/skills-draft/test-smoke/references/.gitkeep
+	deleted:    Trade/skills-draft/test-smoke/scripts/.gitkeep
+	deleted:    Trade/skills-patched/apply-report-2026-04-18.md
+	deleted:    Trade/skills-patched/daily-trade-rec-SKILL-2026-04-18.md
+	deleted:    Trade/skills-patched/daily-trade-rec.skill
+	deleted:    Trade/skills-patched/market-brief-SKILL-2026-04-18.md
+	deleted:    Trade/skills-patched/market-brief.skill
+	deleted:    Trade/skills-patched/positions-monitor-SKILL-2026-04-18.md
+	deleted:    Trade/skills-patched/positions-monitor.skill
+	deleted:    Trade/skills-patched/quarterly-methodology-review-SKILL-2026-04-18.md
+	deleted:    Trade/skills-patched/quarterly-methodology-review.skill
+	deleted:    Trade/skills-patched/signal-review-SKILL-2026-04-18.md
+	deleted:    Trade/skills-patched/signal-review.skill
+	deleted:    Trade/skills-patched/zi97yNSl
+	deleted:    Trade/skills-patched/ziHH55za
+	deleted:    Trade/skills-patched/ziHP7LD0
+	deleted:    Trade/skills-patched/ziaFa1Nf
+	deleted:    Trade/skills-patched/zihPsAkz
+	deleted:    Trade/streamlining-implementation-prompt.md
+	deleted:    Trade/streamlining-patches.md
+	deleted:    Trade/system-architecture-report.html
+	deleted:    Trade/system-architecture.html
+	deleted:    Trade/system-assessment-2026-04-15.html
+	deleted:    Trade/system-health-audit-2026-04-16.md
+	deleted:    Trade/system-review-2026-04-17.html
+	deleted:    Trade/system-review-2026-04-17.md
+	deleted:    Trade/system-review-execution-explainer-2026-04-17.html
+	deleted:    Trade/system-review-skill-patch-2026-04-17.md
+	deleted:    Trade/system-review.skill
+	deleted:    Trade/trade-rec-2026-04-14.md
+	deleted:    Trade/trade-rec-2026-04-15.md
+	deleted:    Trade/trade-rec-2026-04-16.md
+	deleted:    Trade/trade-rec-2026-04-17.md
+	deleted:    Trade/trade-update.skill
+	deleted:    Trade/us-close-snapshot-2026-04-14.md
+	deleted:    Trade/us-close-snapshot-2026-04-15.md
+	deleted:    Trade/us-close-snapshot-2026-04-16.md
+	deleted:    Trade/us-close-snapshot-2026-04-17.md
+	deleted:    Trade/weekly-review-2026-04-14.md
+	deleted:    Trade/weekly-review-2026-04-15.md
+	deleted:    Trade/workflow-audit-2026-04-15.html
+	deleted:    Trade/workflow-audit-report-2026-04-15.docx
+	deleted:    Trade/workflow-changes-report-2026-04-15.html
+	deleted:    Trade/workflow-review-2026-04-15.md
+	deleted:    Trade/zi742LF3
+	deleted:    Trade/ziR3ccgi
+	deleted:    Trade/ziTRiBMK
+	deleted:    Trade/ziXZFMx3
+	deleted:    Trade/zinV6fOW
+	deleted:    Trade/zir3gEmR
+	deleted:    Trade/zivrfzcP
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	Research & Rationale/
+	Trade/2026-04-19/
+	Trade/archive/one-offs/2026-04/bnma-drafts/
+	Trade/bnma/meta-analysis/
+	Trade/pipeline/routine-output-map.md
+	Trade/scripts/logs/
+	Trade/scripts/pack_daily.py
+	Trade/scripts/run-us-close-snapshot.ps1
+
+---DIFF-STAT---
+ Trade/skills-patched/signal-review.skill           |  Bin 9062 -> 0 bytes
+ Trade/skills-patched/zi97yNSl                      |  Bin 9239 -> 0 bytes
+ Trade/skills-patched/ziHH55za                      |  Bin 3529 -> 0 bytes
+ Trade/skills-patched/ziHP7LD0                      |  Bin 12524 -> 0 bytes
+ Trade/skills-patched/ziaFa1Nf                      |  Bin 7360 -> 0 bytes
+ Trade/skills-patched/zihPsAkz                      |  Bin 8608 -> 0 bytes
+ Trade/streamlining-implementation-prompt.md        |  361 --
+ Trade/streamlining-patches.md                      |  167 -
+ Trade/system-architecture-report.html              | 1818 --------
+ Trade/system-architecture.html                     |  343 --
+ Trade/system-assessment-2026-04-15.html            |  468 ---
+ Trade/system-health-audit-2026-04-16.md            |  157 -
+ Trade/system-review-2026-04-17.html                |  387 --
+ Trade/system-review-2026-04-17.md                  |  213 -
+ ...stem-review-execution-explainer-2026-04-17.html |  320 --
+ Trade/system-review-skill-patch-2026-04-17.md      |  236 --
+ Trade/system-review.skill                          |  Bin 6187 -> 0 bytes
+ Trade/trade-rec-2026-04-14.md                      |  101 -
+ Trade/trade-rec-2026-04-15.md                      |  130 -
+ Trade/trade-rec-2026-04-16.md                      |  123 -
+ Trade/trade-rec-2026-04-17.md                      |   82 -
+ Trade/trade-update.skill                           |  Bin 5377 -> 0 bytes
+ Trade/us-close-snapshot-2026-04-14.md              |   49 -
+ Trade/us-close-snapshot-2026-04-15.md              |   52 -
+ Trade/us-close-snapshot-2026-04-16.md              |   54 -
+ Trade/us-close-snapshot-2026-04-17.md              |   70 -
+ Trade/weekly-review-2026-04-14.md                  |  120 -
+ Trade/weekly-review-2026-04-15.md                  |  162 -
+ Trade/workflow-audit-2026-04-15.html               |  378 --
+ Trade/workflow-audit-report-2026-04-15.docx        |  Bin 16285 -> 0 bytes
+ Trade/workflow-changes-report-2026-04-15.html      |  168 -
+ Trade/workflow-review-2026-04-15.md                |  105 -
+ Trade/zi742LF3                                     |  Bin 7192 -> 0 bytes
+ Trade/ziR3ccgi                                     |  Bin 14770 -> 0 bytes
+ Trade/ziTRiBMK                                     |  Bin 5450 -> 0 bytes
+ Trade/ziXZFMx3                                     |  Bin 14374 -> 0 bytes
+ Trade/zinV6fOW                                     |  Bin 14270 -> 0 bytes
+ Trade/zir3gEmR                                     |  Bin 7545 -> 0 bytes
+ Trade/zivrfzcP                                     |  Bin 10491 -> 0 bytes
+ 891 files changed, 277 insertions(+), 233079 deletions(-)

@@ -1,67 +1,13 @@
 {
-  "preflight": {
-    "date": "2026-04-21",
-    "status": "OK",
-    "consecutive_failures": 0,
-    "timestamp": "2026-04-21T19:49:41.838459+08:00",
-    "details": "health.json=OK, staging=OK (2026-04-21/audit-data-staging-2026-04-21.md), sources=ALL_UP, cache_coverage=53.5%, residmom=FALLBACK(mkt-model)"
-  },
-  "market-brief": {
-    "date": "2026-04-21",
-    "status": "OK",
-    "consecutive_failures": 0,
-    "timestamp": "2026-04-21T20:31:33.705755+08:00",
-    "file": "2026-04-21/market-brief-2026-04-21.md",
-    "version": "v1",
-    "missing_grade_a_count": 1,
-    "excel_sync": "OK",
-    "notes": "v1 \u2014 OK: 1 MISSING Grade A (GSCI gate V034). 4 STALE FALLBACK T3 (basis-mom WTI/Gold/Silver/Copper, Apr17). T-scores all resolved (V026 all 12 tickers). IC z+1.65 (V027 OK). MOVE 67.90 (fresh). New signals: INTC+4, AAPL+3, GOOGL+3 confirmed. Excel synced OK on v2 run (DailyVariables/RegimeHistory/DataQuality/CatalystLog +8 new)."
-  },
-  "news-events": {
-    "date": "2026-04-21",
-    "status": "OK",
-    "consecutive_failures": 0,
-    "timestamp": "2026-04-21T21:00:00+08:00",
-    "file": "2026-04-21/news-2026-04-21.md",
-    "catalysts_cached": 4,
-    "categories_covered": 12
-  },
-  "trade-rec": {
-    "date": "2026-04-21",
-    "status": "OK",
-    "consecutive_failures": 0,
-    "timestamp": "2026-04-21T21:12:00.325056+08:00",
-    "file": "2026-04-21/trade-rec-2026-04-21.md",
-    "version": "v2",
-    "signals_logged": 8,
-    "promoted": 5,
-    "near_miss": 4,
-    "missing_grade_a_count": 1,
-    "cloud_ingested": 2,
-    "notes": "v2 local authoritative. New promotions: INTC P013 Sum+4, AAPL P014 Sum+3 (both T-unblocked by V026 resolution). GOOGL P015 contingent on Apr-23 beat. SPY P009 + EWJ P010 re-confirmed. Silver P012 gate-blocked. Downgraded: PLTR T=-1 (residual -35.62%). Near-miss: MU N040, NVDA N041, QQQ N034, Copper. V026 ALL 12 resolved, V027 z+1.65 fresh, MOVE 67.90 fresh. Cloud ingested 2/3 (no cloud trade-rec on Drive)."
-  },
-  "positions-monitor": {
-    "date": "2026-04-20",
-    "status": "FLAGGED",
-    "flags": [
-      "F1_INTC_stop_buffer"
-    ],
-    "critical": false,
-    "consecutive_failures": 0,
-    "timestamp": "2026-04-20T09:00:00+08:00",
-    "file": "2026-04-20/positions-monitor-2026-04-20.md",
-    "notes": "INTC buffer 18.1% \u00e2\u20ac\u201d above 15% floor, non-actionable. Gold/QQQ clear. MOCK TEST RUN."
-  },
-  "recovery": {
-    "date": "2026-04-20",
-    "timestamp": "2026-04-20T22:00:00+08:00",
-    "finished": "2026-04-20T22:00:00+08:00",
-    "in_progress": false,
-    "status": "OK",
-    "actions_taken": [],
-    "recoveries_succeeded": 0,
-    "recoveries_failed": 0,
-    "healthy_short_circuit": true,
-    "notes": "MOCK TEST RUN \u00e2\u20ac\u201d pipeline healthy on fast triage."
+  "date": "2026-04-22",
+  "status": "OK",
+  "sources": "OK",
+  "staging": "OK",
+  "tasks": {
+    "preflight-audit-data": {
+      "last_date": "2026-04-22",
+      "last_status": "OK",
+      "consecutive_failures": 0
+    }
   }
 }

@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T.system — Architecture Health</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg:      #0b0d14;
+    --surface: #13161f;
+    --card:    #1a1d2b;
+    --border:  #2a2d3e;
+    --green:   #00e676;
+    --amber:   #ffb300;
+    --red:     #ff1744;
+    --blue:    #448aff;
+    --purple:  #7c4dff;
+    --cyan:    #00e5ff;
+    --text:    #e0e4f0;
+    --muted:   #7b82a0;
+    --radius:  10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: linear-gradient(135deg, #0f1520 0%, #151a2e 50%, #0f1520 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 900; color: #fff;
+    box-shadow: 0 4px 20px rgba(68,138,255,0.4);
+  }
+  .header h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+  .header .subtitle { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  .badge-green  { background: rgba(0,230,118,0.15); color: var(--green); border: 1px solid rgba(0,230,118,0.3); }
+  .badge-amber  { background: rgba(255,179,0,0.15);  color: var(--amber); border: 1px solid rgba(255,179,0,0.3); }
+  .badge-red    { background: rgba(255,23,68,0.15);   color: var(--red);   border: 1px solid rgba(255,23,68,0.3); }
+  .badge-blue   { background: rgba(68,138,255,0.15);  color: var(--blue);  border: 1px solid rgba(68,138,255,0.3); }
+  .badge-purple { background: rgba(124,77,255,0.15);  color: var(--purple);border: 1px solid rgba(124,77,255,0.3); }
+  .badge-muted  { background: rgba(123,130,160,0.15); color: var(--muted); border: 1px solid rgba(123,130,160,0.3); }
+  .badge-cyan   { background: rgba(0,229,255,0.15);   color: var(--cyan);  border: 1px solid rgba(0,229,255,0.3); }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%; display: inline-block;
+    animation: pulse 2s infinite;
+  }
+  .dot-green  { background: var(--green);  box-shadow: 0 0 6px var(--green); }
+  .dot-amber  { background: var(--amber);  box-shadow: 0 0 6px var(--amber); }
+  .dot-red    { background: var(--red);    box-shadow: 0 0 6px var(--red); }
+  .dot-blue   { background: var(--blue); }
+  @keyframes pulse {
+    0%,100% { opacity: 1; } 50% { opacity: 0.5; }
+  }
+  .timestamp { font-size: 11px; color: var(--muted); }
+
+  /* ── LAYOUT ── */
+  .main { padding: 24px 32px; max-width: 1600px; margin: 0 auto; }
+  .section-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted);
+    margin: 28px 0 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── KPI STRIP ── */
+  .kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .kpi {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .kpi:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .kpi::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  }
+  .kpi.green::before  { background: linear-gradient(90deg, var(--green), transparent); }
+  .kpi.amber::before  { background: linear-gradient(90deg, var(--amber), transparent); }
+  .kpi.red::before    { background: linear-gradient(90deg, var(--red),   transparent); }
+  .kpi.blue::before   { background: linear-gradient(90deg, var(--blue),  transparent); }
+  .kpi.purple::before { background: linear-gradient(90deg, var(--purple),transparent); }
+  .kpi-label { font-size: 10px; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; }
+  .kpi-value { font-size: 26px; font-weight: 800; margin: 4px 0; letter-spacing: -1px; }
+  .kpi-value.green  { color: var(--green); }
+  .kpi-value.amber  { color: var(--amber); }
+  .kpi-value.red    { color: var(--red); }
+  .kpi-value.blue   { color: var(--blue); }
+  .kpi-value.purple { color: var(--purple); }
+  .kpi-sub { font-size: 10px; color: var(--muted); }
+
+  /* ── 3-COL GRID ── */
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    transition: box-shadow 0.15s;
+  }
+  .card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.35); }
+  .card-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  /* ── SOURCE GRID ── */
+  .source-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .source-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+    transition: background 0.15s;
+  }
+  .source-card:hover { background: rgba(68,138,255,0.05); }
+  .source-icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+    background: rgba(0,230,118,0.12);
+  }
+  .source-info { flex: 1; min-width: 0; }
+  .source-name { font-weight: 600; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .source-ms   { font-size: 10px; color: var(--muted); }
+  .source-status { font-size: 10px; font-weight: 700; color: var(--green); }
+
+  /* ── PIPELINE STATUS ── */
+  .pipeline-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .pipeline-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .pipeline-card.ok     { border-left: 3px solid var(--green); }
+  .pipeline-card.flagged{ border-left: 3px solid var(--amber); }
+  .pipeline-card.error  { border-left: 3px solid var(--red); }
+  .pipeline-card.idle   { border-left: 3px solid var(--muted); }
+  .pipeline-name { font-weight: 700; font-size: 12px; margin-bottom: 4px; }
+  .pipeline-date { font-size: 10px; color: var(--muted); }
+  .pipeline-note { font-size: 10px; color: var(--muted); margin-top: 6px; line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .flag-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .flag-tag {
+    background: rgba(255,179,0,0.15); color: var(--amber);
+    border: 1px solid rgba(255,179,0,0.3);
+    border-radius: 4px; padding: 1px 6px; font-size: 9px; font-weight: 600;
+  }
+
+  /* ── SKILLS TABLE ── */
+  .skills-table { width: 100%; border-collapse: collapse; }
+  .skills-table th {
+    text-align: left; padding: 8px 12px;
+    font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--muted); border-bottom: 1px solid var(--border);
+    font-weight: 600;
+  }
+  .skills-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid rgba(42,45,62,0.5);
+    font-size: 12px;
+    vertical-align: middle;
+  }
+  .skills-table tr:hover td { background: rgba(68,138,255,0.04); }
+  .skills-table tr:last-child td { border-bottom: none; }
+  .model-badge {
+    padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .model-opus    { background: rgba(124,77,255,0.2); color: var(--purple); }
+  .model-sonnet  { background: rgba(68,138,255,0.2); color: var(--blue); }
+  .model-haiku   { background: rgba(0,229,255,0.15); color: var(--cyan); }
+  .model-ondemand{ background: rgba(123,130,160,0.15); color: var(--muted); }
+
+  /* ── RISKS TABLE ── */
+  .risks-table { width: 100%; border-collapse: collapse; }
+  .risks-table th {
+    text-align: left; padding: 8px 12px;
+    font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 600;
+  }
+  .risks-table td {
+    padding: 9px 12px; border-bottom: 1px solid rgba(42,45,62,0.5);
+    font-size: 12px; vertical-align: middle;
+  }
+  .risks-table tr:hover td { background: rgba(255,23,68,0.03); }
+  .risks-table tr:last-child td { border-bottom: none; }
+  .sev {
+    padding: 2px 9px; border-radius: 4px; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.3px; white-space: nowrap;
+  }
+  .sev-high { background: rgba(255,23,68,0.2);   color: var(--red);   }
+  .sev-med  { background: rgba(255,179,0,0.15);  color: var(--amber); }
+  .sev-low  { background: rgba(0,230,118,0.12);  color: var(--green); }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding: 8px 0; }
+  .tl-axis {
+    display: flex; justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 9px; color: var(--muted);
+  }
+  .tl-bar-bg {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+    padding: 8px 0;
+  }
+  .tl-grid {
+    position: absolute; inset: 0;
+    display: flex;
+    pointer-events: none;
+  }
+  .tl-col {
+    flex: 1; border-right: 1px solid rgba(42,45,62,0.4);
+  }
+  .tl-col:last-child { border-right: none; }
+  .tl-events {
+    position: absolute; inset: 8px 0;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .tl-event {
+    position: absolute;
+    height: 22px;
+    border-radius: 5px;
+    display: flex; align-items: center; padding: 0 8px;
+    font-size: 10px; font-weight: 600;
+    white-space: nowrap; overflow: hidden;
+    transition: filter 0.15s;
+    cursor: default;
+  }
+  .tl-event:hover { filter: brightness(1.2); z-index: 10; }
+  .tl-event.haiku  { background: rgba(0,229,255,0.25); color: var(--cyan); border: 1px solid rgba(0,229,255,0.3); }
+  .tl-event.sonnet { background: rgba(68,138,255,0.25); color: var(--blue); border: 1px solid rgba(68,138,255,0.3); }
+  .tl-event.opus   { background: rgba(124,77,255,0.25); color: var(--purple); border: 1px solid rgba(124,77,255,0.3); }
+  .tl-event.script { background: rgba(0,230,118,0.2); color: var(--green); border: 1px solid rgba(0,230,118,0.3); }
+
+  /* ── PROGRESS BAR ── */
+  .progress-wrap { margin: 10px 0; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 5px; }
+  .progress-bar {
+    height: 8px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 10px;
+    background: linear-gradient(90deg, var(--blue), var(--cyan));
+    transition: width 1s ease-out;
+  }
+
+  /* ── ARCH VERSIONS ── */
+  .ver-timeline { display: flex; gap: 0; margin: 4px 0; position: relative; }
+  .ver-timeline::before {
+    content: ''; position: absolute;
+    top: 20px; left: 20px; right: 20px; height: 2px;
+    background: var(--border);
+    z-index: 0;
+  }
+  .ver-node {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    position: relative; z-index: 1;
+  }
+  .ver-dot {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 12px;
+    border: 2px solid var(--border);
+    background: var(--card);
+    transition: transform 0.15s;
+  }
+  .ver-node.current .ver-dot {
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(68,138,255,0.5);
+    transform: scale(1.15);
+  }
+  .ver-date { font-size: 9px; color: var(--muted); text-align: center; }
+  .ver-label { font-size: 9px; color: var(--muted); text-align: center; max-width: 80px; line-height: 1.3; }
+
+  /* ── DOUBLE GATES ── */
+  .gate-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid rgba(42,45,62,0.5);
+  }
+  .gate-item:last-child { border-bottom: none; }
+  .gate-icon {
+    width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0;
+    background: rgba(255,179,0,0.12); color: var(--amber);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+  }
+  .gate-pair { font-weight: 700; font-size: 12px; }
+  .gate-rule { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ── VAR GRADE TABLE ── */
+  .grade-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid rgba(42,45,62,0.5);
+    font-size: 12px;
+  }
+  .grade-row:last-child { border-bottom: none; }
+  .grade-label { width: 60px; font-weight: 700; }
+  .grade-bar-wrap { flex: 1; }
+  .grade-bar { height: 8px; border-radius: 4px; }
+  .grade-count { width: 30px; text-align: right; color: var(--muted); font-size: 11px; }
+
+  /* ── EXEC ORDER ── */
+  .exec-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 7px 0; border-bottom: 1px solid rgba(42,45,62,0.4);
+    font-size: 12px;
+  }
+  .exec-row:last-child { border-bottom: none; }
+  .exec-time { width: 45px; font-family: monospace; color: var(--cyan); font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .exec-task { flex: 1; }
+  .exec-task strong { display: block; font-size: 12px; }
+  .exec-task span   { font-size: 10px; color: var(--muted); }
+
+  /* ── CHART CONTAINER ── */
+  .chart-container { position: relative; height: 200px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 16px 32px;
+    margin-top: 32px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10px; color: var(--muted);
+  }
+  .footer a { color: var(--blue); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1200px) {
+    .kpi-strip   { grid-template-columns: repeat(3, 1fr); }
+    .grid-3      { grid-template-columns: 1fr 1fr; }
+    .source-grid { grid-template-columns: repeat(2, 1fr); }
+    .pipeline-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .main { padding: 16px; }
+    .kpi-strip { grid-template-columns: repeat(2, 1fr); }
+    .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    .source-grid, .pipeline-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo">T</div>
+    <div>
+      <div class="header h1" style="font-size:18px;font-weight:700">T.system Architecture Health</div>
+      <div class="subtitle">Trading Pipeline · Architecture v7 · 2026-04-22</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="badge badge-green"><span class="dot dot-green"></span> All Sources UP</span>
+    <span class="badge badge-amber"><span class="dot dot-amber"></span> Positions Flagged</span>
+    <span class="badge badge-blue">architecture-health skill</span>
+    <span class="timestamp">Snapshot: 2026-04-22 09:23 UTC+8</span>
+  </div>
+</div>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div class="main">
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip">
+    <div class="kpi green">
+      <div class="kpi-label">Data Sources</div>
+      <div class="kpi-value green">7 / 7</div>
+      <div class="kpi-sub"><span class="dot dot-green"></span> All upstream APIs responding</div>
+    </div>
+    <div class="kpi blue">
+      <div class="kpi-label">Cache Coverage</div>
+      <div class="kpi-value blue">53.5%</div>
+      <div class="kpi-sub">38 / 71 variables cached</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">Pipeline Skills</div>
+      <div class="kpi-value green">5 / 6</div>
+      <div class="kpi-sub">OK · 1 flagged (positions)</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Open Flags</div>
+      <div class="kpi-value amber">6</div>
+      <div class="kpi-sub">F1×2 · F4×2 · F5 · F10</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-label">Structural Risks</div>
+      <div class="kpi-value red">3 HIGH</div>
+      <div class="kpi-sub">+ 6 MED · 1 LOW</div>
+    </div>
+    <div class="kpi purple">
+      <div class="kpi-label">Architecture</div>
+      <div class="kpi-value purple">v7</div>
+      <div class="kpi-sub">Top-34 vars · WATCH list</div>
+    </div>
+  </div>
+
+  <!-- ── DATA SOURCES ── -->
+  <div class="section-title">Data Sources</div>
+  <div class="card" style="padding:14px 18px">
+    <div class="source-grid">
+      <div class="source-card">
+        <div class="source-icon">📈</div>
+        <div class="source-info">
+          <div class="source-name">Yahoo Finance</div>
+          <div class="source-ms">310 ms response</div>
+        </div>
+        <div class="source-status">UP</div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon">🪙</div>
+        <div class="source-info">
+          <div class="source-name">CoinGecko</div>
+          <div class="source-ms">312 ms response</div>
+        </div>
+        <div class="source-status">UP</div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon">⛓️</div>
+        <div class="source-info">
+          <div class="source-name">Blockchain.info</div>
+          <div class="source-ms">562 ms response</div>
+        </div>
+        <div class="source-status">UP</div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon">🏛️</div>
+        <div class="source-info">
+          <div class="source-name">Kenneth French</div>
+          <div class="source-ms">2,471 ms response</div>
+        </div>
+        <div class="source-status">UP</div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon">🏦</div>
+        <div class="source-info">
+          <div class="source-name">NY Fed (PD Stats)</div>
+          <div class="source-ms">575 ms response</div>
+        </div>
+        <div class="source-status">UP</div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon">📊</div>
+        <div class="source-info">
+          <div class="source-name">Barchart</div>
+          <div class="source-ms">1,725 ms response</div>
+        </div>
+        <div class="source-status">UP</div>
+      </div>
+      <div class="source-card">
+        <div class="source-icon">🌽</div>
+        <div class="source-info">
+          <div class="source-name">Chicago Fed</div>
+          <div class="source-ms">489 ms response</div>
+        </div>
+        <div class="source-status">UP</div>
+      </div>
+      <div class="source-card" style="background:rgba(68,138,255,0.06); border-color:rgba(68,138,255,0.2)">
+        <div class="source-icon" style="background:rgba(68,138,255,0.12);">💾</div>
+        <div class="source-info">
+          <div class="source-name">Cache</div>
+          <div class="source-ms">38 / 71 variables</div>
+        </div>
+        <div class="progress-wrap" style="margin:0;flex:1;margin-left:8px">
+          <div class="progress-bar" style="height:6px">
+            <div class="progress-fill" style="width:53.5%"></div>
+          </div>
+          <div style="font-size:9px;color:var(--blue);margin-top:2px;text-align:right">53.5%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PIPELINE STATUS ── -->
+  <div class="section-title">Pipeline Status</div>
+  <div class="pipeline-grid">
+    <div class="pipeline-card ok">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div class="pipeline-name">Preflight</div>
+        <span class="badge badge-green" style="font-size:9px;padding:2px 7px">OK</span>
+      </div>
+      <div class="pipeline-date">2026-04-21 · 19:49</div>
+      <div class="pipeline-note">health.json=OK, staging=OK, sources=ALL_UP, cache=53.5%, residmom=FALLBACK(mkt-model)</div>
+    </div>
+    <div class="pipeline-card ok">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div class="pipeline-name">Market Brief</div>
+        <span class="badge badge-green" style="font-size:9px;padding:2px 7px">OK</span>
+      </div>
+      <div class="pipeline-date">2026-04-21 · 20:31 · v1</div>
+      <div class="pipeline-note">1 MISSING Grade A (GSCI V034). T-scores all resolved. V026 all 12 tickers. V027 z+1.65. Excel synced OK.</div>
+    </div>
+    <div class="pipeline-card ok">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div class="pipeline-name">News Events</div>
+        <span class="badge badge-green" style="font-size:9px;padding:2px 7px">OK</span>
+      </div>
+      <div class="pipeline-date">2026-04-21 · 21:00</div>
+      <div class="pipeline-note">4 catalysts cached · 12 categories covered</div>
+    </div>
+    <div class="pipeline-card ok">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div class="pipeline-name">Trade Rec</div>
+        <span class="badge badge-green" style="font-size:9px;padding:2px 7px">OK v2</span>
+      </div>
+      <div class="pipeline-date">2026-04-21 · 21:12</div>
+      <div class="pipeline-note">5 promoted · 4 near-miss · INTC P013 Sum+4 · AAPL P014 Sum+3 · GOOGL P015 contingent Apr-23</div>
+    </div>
+    <div class="pipeline-card flagged">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div class="pipeline-name">Positions Monitor</div>
+        <span class="badge badge-amber" style="font-size:9px;padding:2px 7px">FLAGGED</span>
+      </div>
+      <div class="pipeline-date">2026-04-22 · 09:23</div>
+      <div class="flag-list">
+        <span class="flag-tag">F1 CL stop</span>
+        <span class="flag-tag">F1 SPY stop</span>
+        <span class="flag-tag">F4 GOOGL earnings</span>
+        <span class="flag-tag">F4 INTC earnings</span>
+        <span class="flag-tag">F5 Iran binary</span>
+        <span class="flag-tag">F10 SPY/EWJ corr</span>
+      </div>
+    </div>
+    <div class="pipeline-card ok">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div class="pipeline-name">Pipeline Recovery</div>
+        <span class="badge badge-green" style="font-size:9px;padding:2px 7px">OK</span>
+      </div>
+      <div class="pipeline-date">2026-04-20 · 22:00</div>
+      <div class="pipeline-note">Healthy short-circuit · Phase A only · 0 actions taken</div>
+    </div>
+  </div>
+
+  <!-- ── SKILLS + VARIABLE REGISTRY ── -->
+  <div class="grid-3" style="margin-top:0">
+    <!-- SKILLS TABLE -->
+    <div class="card" style="grid-column:span 2">
+      <div class="card-title">
+        Skills Registry
+        <span class="badge badge-muted">14 skills</span>
+      </div>
+      <table class="skills-table">
+        <thead>
+          <tr>
+            <th>Skill</th>
+            <th>Model</th>
+            <th>Cadence</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>market-brief</strong></td>
+            <td><span class="model-badge model-sonnet">Sonnet</span></td>
+            <td style="color:var(--muted)">Daily · Mon–Fri 20:08 UTC+8</td>
+            <td><span class="badge badge-green" style="font-size:9px;padding:1px 6px">OK</span></td>
+          </tr>
+          <tr>
+            <td><strong>news-events</strong></td>
+            <td><span class="model-badge model-haiku">Haiku</span></td>
+            <td style="color:var(--muted)">Daily · Mon–Fri 20:10 UTC+8</td>
+            <td><span class="badge badge-green" style="font-size:9px;padding:1px 6px">OK</span></td>
+          </tr>
+          <tr>
+            <td><strong>daily-trade-rec</strong></td>
+            <td><span class="model-badge model-opus">Opus</span></td>
+            <td style="color:var(--muted)">Daily · Mon–Fri 20:30 UTC+8</td>
+            <td><span class="badge badge-green" style="font-size:9px;padding:1px 6px">OK</span></td>
+          </tr>
+          <tr>
+            <td><strong>positions-monitor</strong></td>
+            <td><span class="model-badge model-haiku">Haiku</span></td>
+            <td style="color:var(--muted)">Daily · Mon–Fri 09:03 UTC+8</td>
+            <td><span class="badge badge-amber" style="font-size:9px;padding:1px 6px">FLAGGED</span></td>
+          </tr>
+          <tr>
+            <td><strong>trade-update</strong></td>
+            <td><span class="model-badge model-sonnet">Sonnet</span></td>
+            <td style="color:var(--muted)">Event-driven ⚡</td>
+            <td><span class="badge badge-muted" style="font-size:9px;padding:1px 6px">—</span></td>
+          </tr>
+          <tr>
+            <td><strong>pipeline-recovery</strong></td>
+            <td><span class="model-badge model-haiku">Haiku</span></td>
+            <td style="color:var(--muted)">Daily · 22:00 UTC+8</td>
+            <td><span class="badge badge-green" style="font-size:9px;padding:1px 6px">OK</span></td>
+          </tr>
+          <tr>
+            <td><strong>signal-review</strong></td>
+            <td><span class="model-badge model-sonnet">Sonnet</span></td>
+            <td style="color:var(--muted)">Weekly · Sun 18:00 UTC+8</td>
+            <td><span class="badge badge-muted" style="font-size:9px;padding:1px 6px">—</span></td>
+          </tr>
+          <tr>
+            <td><strong>quarterly-methodology-review</strong></td>
+            <td><span class="model-badge model-opus">Opus</span></td>
+            <td style="color:var(--muted)">Quarterly · next 2026-07-01</td>
+            <td><span class="badge badge-muted" style="font-size:9px;padding:1px 6px">—</span></td>
+          </tr>
+          <tr>
+            <td><strong>system-review</strong></td>
+            <td><span class="model-badge model-opus">Opus</span></td>
+            <td style="color:var(--muted)">Semi-annual · next 2026-10-01</td>
+            <td><span class="badge badge-muted" style="font-size:9px;padding:1px 6px">—</span></td>
+          </tr>
+          <tr>
+            <td><strong>literature-review</strong></td>
+            <td><span class="model-badge model-opus">Opus</span></td>
+            <td style="color:var(--muted)">Semi-annual · next 2026-10-17</td>
+            <td><span class="badge badge-muted" style="font-size:9px;padding:1px 6px">—</span></td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--cyan)">architecture-health</strong> <span style="font-size:9px;color:var(--muted)">(was methodology-sync)</span></td>
+            <td><span class="model-badge model-sonnet">Sonnet</span></td>
+            <td style="color:var(--muted)">On-demand · after methodology changes</td>
+            <td><span class="badge badge-blue" style="font-size:9px;padding:1px 6px">ACTIVE</span></td>
+          </tr>
+          <tr>
+            <td><strong>pipeline-smoketest</strong></td>
+            <td><span class="model-badge model-ondemand">—</span></td>
+            <td style="color:var(--muted)">On-demand · read-only diagnostic</td>
+            <td><span class="badge badge-muted" style="font-size:9px;padding:1px 6px">—</span></td>
+          </tr>
+          <tr>
+            <td><strong>asset-universe-update</strong></td>
+            <td><span class="model-badge model-ondemand">—</span></td>
+            <td style="color:var(--muted)">On-demand · universe changes only</td>
+            <td><span class="badge badge-muted" style="font-size:9px;padding:1px 6px">—</span></td>
+          </tr>
+          <tr>
+            <td><strong>skill-manager</strong></td>
+            <td><span class="model-badge model-haiku">Haiku</span></td>
+            <td style="color:var(--muted)">On-demand · skill lifecycle</td>
+            <td><span class="badge badge-muted" style="font-size:9px;padding:1px 6px">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- VARIABLE REGISTRY -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <div class="card-title">Variable Registry <span class="badge badge-muted">34 vars</span></div>
+        <div class="chart-container" style="height:170px">
+          <canvas id="gradeChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Grade Distribution</div>
+        <div class="grade-row">
+          <div class="grade-label" style="color:var(--green)"><strong>Grade A</strong></div>
+          <div class="grade-bar-wrap">
+            <div class="grade-bar" style="background:linear-gradient(90deg,var(--green),rgba(0,230,118,0.4));width:85%"></div>
+          </div>
+          <div class="grade-count">22</div>
+        </div>
+        <div class="grade-row">
+          <div class="grade-label" style="color:var(--amber)"><strong>Grade B</strong></div>
+          <div class="grade-bar-wrap">
+            <div class="grade-bar" style="background:linear-gradient(90deg,var(--amber),rgba(255,179,0,0.4));width:42%"></div>
+          </div>
+          <div class="grade-count">11</div>
+        </div>
+        <div class="grade-row" style="border:none">
+          <div class="grade-label" style="color:var(--muted)"><strong>Context</strong></div>
+          <div class="grade-bar-wrap">
+            <div class="grade-bar" style="background:linear-gradient(90deg,var(--muted),rgba(123,130,160,0.3));width:8%"></div>
+          </div>
+          <div class="grade-count">2</div>
+        </div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--muted)">
+          ↓ 5 downgraded A→B on 2026-04-18 (BNMA)<br>
+          V036 PCTECH added B (Shadow) 2026-04-22<br>
+          🔍 9 vars under 6mo review · due 2026-10-14<br>
+          👁 7 WATCH candidates · promote gate 2026-10-14
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STRUCTURAL RISKS ── -->
+  <div class="section-title">Structural Risks</div>
+  <div class="card">
+    <table class="risks-table">
+      <thead>
+        <tr>
+          <th>Severity</th>
+          <th>Risk</th>
+          <th>Affected</th>
+          <th>Mitigation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="sev sev-high">HIGH</span></td>
+          <td><strong>numpy fragility</strong> — compute_audit_additions.py unavailable 2026-04-20; all 12 single-stock T-scores MISSING</td>
+          <td style="color:var(--muted)">market-brief, trade-rec</td>
+          <td style="color:var(--muted)">Partial: mkt-model fallback. Root cause unresolved</td>
+        </tr>
+        <tr>
+          <td><span class="sev sev-high">HIGH</span></td>
+          <td><strong>meta-additions-staging has no fallback</strong> — absent = V029–V032 + Overlay Gate all MISSING</td>
+          <td style="color:var(--muted)">market-brief, trade-rec</td>
+          <td style="color:var(--muted)">None — preflight must succeed</td>
+        </tr>
+        <tr>
+          <td><span class="sev sev-high">HIGH</span></td>
+          <td><strong>Memory.md staleness on exit</strong> — trade-update not run at close → ghost-open positions</td>
+          <td style="color:var(--muted)">positions-monitor, trade-rec</td>
+          <td style="color:var(--muted)">Discipline only. No programmatic gate</td>
+        </tr>
+        <tr>
+          <td><span class="sev sev-med">MED</span></td>
+          <td><strong>Overlay Gate month-end timing</strong> — only flips at month-end; intraday drift undetected</td>
+          <td style="color:var(--muted)">market-brief, trade-rec</td>
+          <td style="color:var(--muted)">By design. Known lag</td>
+        </tr>
+        <tr>
+          <td><span class="sev sev-med">MED</span></td>
+          <td><strong>Off-methodology positions pollute SignalLedger</strong> — P006/P007/P008 have no stops or thesis docs</td>
+          <td style="color:var(--muted)">signal-review, trade-update</td>
+          <td style="color:var(--muted)">Memory-lessons flagged; no enforcement</td>
+        </tr>
+        <tr>
+          <td><span class="sev sev-med">MED</span></td>
+          <td><strong>Catalyst cache authenticity</strong> — skill can claim "cache written ✅" with no .json file</td>
+          <td style="color:var(--muted)">news-events, market-brief</td>
+          <td style="color:var(--muted)">pipeline-smoketest catches on next run</td>
+        </tr>
+        <tr>
+          <td><span class="sev sev-med">MED</span></td>
+          <td><strong>Cloud Grade B divergence</strong> — cloud brief fires 4h before local; scores can differ</td>
+          <td style="color:var(--muted)">Human decision</td>
+          <td style="color:var(--muted)">Cloud supplementary only; local Grade A authoritative</td>
+        </tr>
+        <tr>
+          <td><span class="sev sev-med">MED</span></td>
+          <td><strong>V030 DealerGamma single-paper dependency</strong> — Baltussen-Da-Lammers-Martens 2021 JFE 142(1) + Zhu et al. 2024 SPY extension; high re-estimation risk. <em>Citation corrected 2026-04-22.</em></td>
+          <td style="color:var(--muted)">market-brief</td>
+          <td style="color:var(--muted)">Monitor for decay; flag at next quarterly-review; re-evaluate 2026-10-14 audit</td>
+        </tr>
+        <tr>
+          <td><span class="sev sev-med">MED</span></td>
+          <td><strong>Literature-review gaps pending sign-off</strong> — 3 HIGH-severity news-events diffs not yet applied</td>
+          <td style="color:var(--muted)">news-events</td>
+          <td style="color:var(--muted)">Gerald sign-off required</td>
+        </tr>
+        <tr>
+          <td><span class="sev sev-low">LOW</span></td>
+          <td><strong>Drift escalation duplicate alerts</strong> — pipeline-recovery can write duplicate System Alerts</td>
+          <td style="color:var(--muted)">Memory.md</td>
+          <td style="color:var(--muted)">Guard not yet implemented</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── DAILY TIMELINE + ARCH VERSIONS ── -->
+  <div class="grid-2">
+    <!-- DAILY EXECUTION TIMELINE -->
+    <div class="card">
+      <div class="card-title">Daily Execution Timeline <span style="color:var(--muted);font-size:9px">Mon–Fri UTC+8</span></div>
+      <div class="timeline">
+        <div style="position:relative;height:240px;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;padding:8px 0">
+          <!-- Hour grid lines -->
+          <div style="position:absolute;inset:0;display:flex">
+            <div style="width:calc(7.38/24*100%);border-right:1px dashed rgba(123,130,160,0.2)"></div>
+            <div style="width:calc(1.65/24*100%);border-right:1px dashed rgba(123,130,160,0.2)"></div>
+            <div style="width:calc(9/24*100%);border-right:1px dashed rgba(123,130,160,0.2)"></div>
+            <div style="flex:1"></div>
+          </div>
+          <!-- Events positioned by hour -->
+          <!-- 07:38 us-close-snapshot: left = 7.38/24 * 100% = 30.75% -->
+          <div class="tl-event haiku"  style="left:30%;top:12px;width:10%">07:38 snapshot</div>
+          <!-- 09:00 slack-ingest: 9/24 = 37.5% -->
+          <div class="tl-event haiku"  style="left:37%;top:40px;width:11%">09:00 slack×4</div>
+          <!-- 09:03 positions-monitor -->
+          <div class="tl-event haiku"  style="left:37%;top:68px;width:12%">09:03 positions</div>
+          <!-- 18:00 cloud-brief: 18/24 = 75% -->
+          <div class="tl-event sonnet" style="left:74%;top:12px;width:14%">18:00 cloud-brief</div>
+          <!-- 18:30 cloud-news -->
+          <div class="tl-event haiku"  style="left:76%;top:40px;width:12%">18:30 cloud-news</div>
+          <!-- 19:00 cloud-rec -->
+          <div class="tl-event opus"   style="left:78%;top:68px;width:11%">19:00 cloud-rec</div>
+          <!-- 19:50 preflight-audit: 19.83/24 = 82.6% -->
+          <div class="tl-event script" style="left:82%;top:96px;width:10%">19:50 preflight</div>
+          <!-- 19:55 preflight-meta -->
+          <div class="tl-event script" style="left:82%;top:124px;width:10%">19:55 meta</div>
+          <!-- 20:08 market-brief -->
+          <div class="tl-event sonnet" style="left:83%;top:152px;width:12%">20:08 brief</div>
+          <!-- 20:10 news-events -->
+          <div class="tl-event haiku"  style="left:83%;top:12px;width:12%;top:180px">20:10 news</div>
+          <!-- 20:30 trade-rec -->
+          <div class="tl-event opus"   style="left:85%;top:208px;width:12%">20:30 rec</div>
+          <!-- axis labels -->
+          <div style="position:absolute;bottom:0;left:0;right:0;display:flex;padding:2px 8px">
+            <div style="position:absolute;left:0%;font-size:9px;color:var(--muted)">00:00</div>
+            <div style="position:absolute;left:25%;font-size:9px;color:var(--muted)">06:00</div>
+            <div style="position:absolute;left:50%;font-size:9px;color:var(--muted)">12:00</div>
+            <div style="position:absolute;left:75%;font-size:9px;color:var(--muted)">18:00</div>
+            <div style="position:absolute;right:0;font-size:9px;color:var(--muted)">24:00</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap">
+          <span style="font-size:10px;color:var(--cyan)">■ Haiku</span>
+          <span style="font-size:10px;color:var(--blue)">■ Sonnet</span>
+          <span style="font-size:10px;color:var(--purple)">■ Opus</span>
+          <span style="font-size:10px;color:var(--green)">■ Script</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ARCH VERSIONS + DOUBLE-COUNT GATES -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <div class="card-title">Architecture Versions</div>
+        <div class="ver-timeline">
+          <div class="ver-node">
+            <div class="ver-dot" style="font-size:11px">v1</div>
+            <div class="ver-date">2026-04-21</div>
+            <div class="ver-label">Initial file created</div>
+          </div>
+          <div class="ver-node">
+            <div class="ver-dot" style="font-size:11px">v2</div>
+            <div class="ver-date">2026-04-21</div>
+            <div class="ver-label">Top-33 variable registry</div>
+          </div>
+          <div class="ver-node">
+            <div class="ver-dot" style="font-size:11px">v3</div>
+            <div class="ver-date">2026-04-21</div>
+            <div class="ver-label">Cloud agents + audit additions</div>
+          </div>
+          <div class="ver-node">
+            <div class="ver-dot" style="font-size:11px">v4</div>
+            <div class="ver-date">2026-04-22</div>
+            <div class="ver-label">Skills path to ~/.claude</div>
+          </div>
+          <div class="ver-node">
+            <div class="ver-dot" style="font-size:11px">v5</div>
+            <div class="ver-date">2026-04-22</div>
+            <div class="ver-label">HypoLedger — 11th sheet</div>
+          </div>
+          <div class="ver-node">
+            <div class="ver-dot" style="font-size:11px">v6</div>
+            <div class="ver-date">2026-04-22</div>
+            <div class="ver-label">architecture-health rename</div>
+          </div>
+          <div class="ver-node current">
+            <div class="ver-dot" style="font-size:11px">v7</div>
+            <div class="ver-date">2026-04-22</div>
+            <div class="ver-label">V036 PCTECH + WATCH list</div>
+          </div>
+        </div>
+        <div style="margin-top:12px;font-size:10px;color:var(--muted)">
+          Maintained by <strong style="color:var(--cyan)">architecture-health</strong> skill · Immutable, append-only
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Double-Count Gates</div>
+        <div class="gate-item">
+          <div class="gate-icon">⚡</div>
+          <div>
+            <div class="gate-pair">V009 × V026</div>
+            <div class="gate-rule">Same ticker → score V026 only, zero sizing vs V009</div>
+          </div>
+        </div>
+        <div class="gate-item">
+          <div class="gate-icon">⚡</div>
+          <div>
+            <div class="gate-pair">V004 × V027</div>
+            <div class="gate-rule">Simultaneous stress → more-negative, not sum. V027 leads V004</div>
+          </div>
+        </div>
+        <div class="gate-item">
+          <div class="gate-icon">⚡</div>
+          <div>
+            <div class="gate-pair">V001 × V030</div>
+            <div class="gate-rule">Simultaneous stress → more-negative, not sum</div>
+          </div>
+        </div>
+        <div class="gate-item">
+          <div class="gate-icon">⚡</div>
+          <div>
+            <div class="gate-pair">V011 × V028</div>
+            <div class="gate-rule">Basis-mom supplements slope; divergence caps S at 0</div>
+          </div>
+        </div>
+        <div class="gate-item">
+          <div class="gate-icon">⚡</div>
+          <div>
+            <div class="gate-pair">V029 / V030 sleeves × V009 spine</div>
+            <div class="gate-rule">Each capped at ⅓ V009 risk budget; independent of spine</div>
+          </div>
+        </div>
+        <div class="gate-item" style="border:none">
+          <div class="gate-icon" style="background:rgba(0,229,255,0.12);color:var(--cyan)">⚡</div>
+          <div>
+            <div class="gate-pair" style="color:var(--cyan)">V009 × V036 <span style="font-size:9px;color:var(--muted);font-weight:400">(new rule #5)</span></div>
+            <div class="gate-rule">Same index ticker (SPY/QQQ) → take average, do not sum. Active when V036 pipeline ships.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EXCEL SHEETS ── -->
+  <div class="section-title">Master Data Log — Excel Sheets</div>
+  <div class="card">
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">📋</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px">SignalLedger</div>
+        <div style="font-size:9px;color:var(--muted)">All trade signals</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">📊</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px">PerformanceStats</div>
+        <div style="font-size:9px;color:var(--muted)">14 dimensions</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">🕒</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px">RegimeHistory</div>
+        <div style="font-size:9px;color:var(--muted)">Market regimes</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">📅</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px">DailyVariables</div>
+        <div style="font-size:9px;color:var(--muted)">Daily data log</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">🔬</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px">AuditAdditionLog</div>
+        <div style="font-size:9px;color:var(--muted)">V026–V028 log</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">✅</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px">DataQuality</div>
+        <div style="font-size:9px;color:var(--muted)">Source health</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">🗂️</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px">VariableRegistry</div>
+        <div style="font-size:9px;color:var(--muted)">33 variables</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">📝</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px">MethodologyNotes</div>
+        <div style="font-size:9px;color:var(--muted)">Decision log</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">⚡</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px">CatalystLog</div>
+        <div style="font-size:9px;color:var(--muted)">News catalysts</div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(68,138,255,0.1),rgba(124,77,255,0.1));border:1px solid rgba(68,138,255,0.3);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">🧪</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px;color:var(--cyan)">HypoLedger</div>
+        <div style="font-size:9px;color:var(--blue)">NEW v5 — efficacy</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+        <div style="font-size:18px">📖</div>
+        <div style="font-size:11px;font-weight:700;margin-top:4px">README</div>
+        <div style="font-size:9px;color:var(--muted)">Schema docs</div>
+      </div>
+      <div style="background:rgba(0,230,118,0.04);border:1px dashed rgba(0,230,118,0.2);border-radius:8px;padding:10px;text-align:center;display:flex;align-items:center;justify-content:center">
+        <div style="font-size:10px;color:var(--green)">11 sheets total ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PORTFOLIO HEAT + LIVE POSITIONS ── -->
+  <div class="section-title">Portfolio Heat &amp; Live Positions</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Heat Gauge <span class="badge badge-green">2.05% / 8% cap</span></div>
+      <div style="margin:10px 0 6px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:6px">
+          <span style="color:var(--muted)">0%</span>
+          <span style="color:var(--green);font-weight:700;font-size:13px">2.05%</span>
+          <span style="color:var(--amber)">6% warn</span>
+          <span style="color:var(--red)">8% cap</span>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;height:22px;position:relative;overflow:hidden">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:75%;background:linear-gradient(90deg,rgba(0,230,118,0.08),rgba(255,179,0,0.1));border-right:1px dashed rgba(255,179,0,0.4)"></div>
+          <div style="position:absolute;left:75%;top:0;bottom:0;right:0;background:rgba(255,23,68,0.08)"></div>
+          <div style="position:absolute;left:0;top:0;bottom:0;width:25.6%;background:linear-gradient(90deg,var(--green),rgba(0,230,118,0.6));border-radius:8px 0 0 8px;display:flex;align-items:center;padding-left:8px">
+            <span style="font-size:10px;font-weight:700;color:#0b0d14">2.05%</span>
+          </div>
+        </div>
+        <div style="font-size:9px;color:var(--muted);margin-top:5px">No circuit breakers active · V027 z +1.65 = capital expansion → full inverse-ATR sizing</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Open</div>
+          <div style="font-size:24px;font-weight:800;color:var(--blue);margin:2px 0">3</div>
+          <div style="font-size:9px;color:var(--muted)">P008 · P009 · P010</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Pending</div>
+          <div style="font-size:24px;font-weight:800;color:var(--amber);margin:2px 0">3</div>
+          <div style="font-size:9px;color:var(--muted)">P013 · P014 · P015</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Closed</div>
+          <div style="font-size:24px;font-weight:800;color:var(--muted);margin:2px 0">8</div>
+          <div style="font-size:9px;color:var(--muted)">Net ~−$24 USDT</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Entry / Current / Stop Range</div>
+      <!-- P008 CL -->
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+          <span style="font-weight:700;font-size:12px">P008 CL (WTI) <span style="font-size:9px;color:var(--amber)">⚠ F1 WATCH · F5 Hormuz</span></span>
+          <span class="badge badge-amber" style="font-size:9px;padding:1px 6px">1.44× ATR</span>
+        </div>
+        <div style="position:relative;height:20px;background:var(--surface);border:1px solid var(--border);border-radius:5px">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:55.1%;background:linear-gradient(90deg,rgba(0,230,118,0.06),rgba(0,230,118,0.18));border-radius:5px 0 0 5px"></div>
+          <div style="position:absolute;left:19.2%;top:-3px;bottom:-3px;width:2px;background:var(--red);border-radius:1px"></div>
+          <div style="position:absolute;left:43.8%;top:-3px;bottom:-3px;width:2px;background:var(--muted);border-radius:1px"></div>
+          <div style="position:absolute;left:55.1%;top:-3px;bottom:-3px;width:3px;background:var(--green);border-radius:1px"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:3px">
+          <span style="color:var(--red)">Stop $85.30</span><span>Entry $88.25</span><span style="color:var(--green)">$89.61 ▲ +1.5%</span>
+        </div>
+      </div>
+      <!-- P009 SPY -->
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+          <span style="font-weight:700;font-size:12px">P009 SPY <span style="font-size:9px;color:var(--red)">⚠ F1 ACTIVE · FOMC $700 trigger</span></span>
+          <span class="badge badge-red" style="font-size:9px;padding:1px 6px">1.0× ATR</span>
+        </div>
+        <div style="position:relative;height:20px;background:var(--surface);border:1px solid var(--border);border-radius:5px">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:53.3%;background:linear-gradient(90deg,rgba(255,179,0,0.06),rgba(255,179,0,0.15));border-radius:5px 0 0 5px"></div>
+          <div style="position:absolute;left:20%;top:-3px;bottom:-3px;width:2px;background:var(--red);border-radius:1px"></div>
+          <div style="position:absolute;left:63.2%;top:-3px;bottom:-3px;width:2px;background:var(--muted);border-radius:1px"></div>
+          <div style="position:absolute;left:53.3%;top:-3px;bottom:-3px;width:3px;background:var(--amber);border-radius:1px"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:3px">
+          <span style="color:var(--red)">Stop $696</span><span>Avg entry $708.95</span><span style="color:var(--amber)">$706 ▼ −0.4%</span>
+        </div>
+      </div>
+      <!-- P010 EWJ -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+          <span style="font-weight:700;font-size:12px">P010 EWJ <span style="font-size:9px;color:var(--green)">✓ CLEAR</span></span>
+          <span class="badge badge-green" style="font-size:9px;padding:1px 6px">2.6× ATR</span>
+        </div>
+        <div style="position:relative;height:20px;background:var(--surface);border:1px solid var(--border);border-radius:5px">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:64.8%;background:linear-gradient(90deg,rgba(0,230,118,0.06),rgba(0,230,118,0.18));border-radius:5px 0 0 5px"></div>
+          <div style="position:absolute;left:25%;top:-3px;bottom:-3px;width:2px;background:var(--red);border-radius:1px"></div>
+          <div style="position:absolute;left:53.8%;top:-3px;bottom:-3px;width:2px;background:var(--muted);border-radius:1px"></div>
+          <div style="position:absolute;left:64.8%;top:-3px;bottom:-3px;width:3px;background:var(--green);border-radius:1px"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:3px">
+          <span style="color:var(--red)">Stop $86.00</span><span>Avg entry $88.30</span><span style="color:var(--green)">$89.18 ▲ +1.0%</span>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:9px;color:var(--muted);padding-top:8px;border-top:1px solid var(--border)">
+        <span style="color:var(--red)">▌</span> Stop &nbsp;&nbsp;<span style="color:var(--muted)">▌</span> Entry &nbsp;&nbsp;<span style="color:var(--green)">▌</span> Current (green = above entry · amber = below entry)
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PENDING TRIGGERS ── -->
+  <div class="section-title">Pending Triggers</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+    <div class="card" style="border-top:2px solid var(--amber)">
+      <div class="card-title">P013 INTC <span class="badge badge-amber" style="font-size:9px">F4 EARNINGS</span></div>
+      <div style="font-size:28px;font-weight:800;color:var(--green);letter-spacing:-1px;margin-bottom:8px">Sum +4</div>
+      <div style="display:flex;gap:5px;margin-bottom:10px">
+        <div style="flex:1;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">S</div><div style="font-weight:800;color:var(--green);font-size:15px">+1</div>
+        </div>
+        <div style="flex:1;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">T</div><div style="font-weight:800;color:var(--green);font-size:15px">+1</div>
+        </div>
+        <div style="flex:1;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">C</div><div style="font-weight:800;color:var(--green);font-size:15px">+1</div>
+        </div>
+        <div style="flex:1;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">R</div><div style="font-weight:800;color:var(--green);font-size:15px">+1</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--muted);line-height:1.6">
+        V026 residual +13.89% (A)<br>
+        Entry: post Apr-23 AC beat · ~$68–72<br>
+        Size 1.0% · Target $75 / $82
+      </div>
+    </div>
+    <div class="card" style="border-top:2px solid var(--blue)">
+      <div class="card-title">P014 AAPL <span class="badge badge-blue" style="font-size:9px">IN ZONE $271–274</span></div>
+      <div style="font-size:28px;font-weight:800;color:var(--green);letter-spacing:-1px;margin-bottom:8px">Sum +3</div>
+      <div style="display:flex;gap:5px;margin-bottom:10px">
+        <div style="flex:1;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">S</div><div style="font-weight:800;color:var(--green);font-size:15px">+1</div>
+        </div>
+        <div style="flex:1;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">T</div><div style="font-weight:800;color:var(--green);font-size:15px">+1</div>
+        </div>
+        <div style="flex:1;background:rgba(123,130,160,0.1);border:1px solid rgba(123,130,160,0.2);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">C</div><div style="font-weight:800;color:var(--muted);font-size:15px">0</div>
+        </div>
+        <div style="flex:1;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">R</div><div style="font-weight:800;color:var(--green);font-size:15px">+1</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--muted);line-height:1.6">
+        V026 residual +4.68% (A)<br>
+        Size 0.75% (SPY corr haircut)<br>
+        <span style="color:var(--red)">Hard exit 2026-04-30</span> before May 1 earnings
+      </div>
+    </div>
+    <div class="card" style="border-top:2px solid var(--purple)">
+      <div class="card-title">P015 GOOGL <span class="badge badge-amber" style="font-size:9px">F4 APR-29 AC</span></div>
+      <div style="font-size:28px;font-weight:800;color:var(--green);letter-spacing:-1px;margin-bottom:8px">Sum +3</div>
+      <div style="display:flex;gap:5px;margin-bottom:10px">
+        <div style="flex:1;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">S</div><div style="font-weight:800;color:var(--green);font-size:15px">+1</div>
+        </div>
+        <div style="flex:1;background:rgba(123,130,160,0.1);border:1px solid rgba(123,130,160,0.2);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">T</div><div style="font-weight:800;color:var(--muted);font-size:15px">0</div>
+        </div>
+        <div style="flex:1;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">C</div><div style="font-weight:800;color:var(--green);font-size:15px">+1</div>
+        </div>
+        <div style="flex:1;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:6px;text-align:center">
+          <div style="font-size:9px;color:var(--muted)">R</div><div style="font-weight:800;color:var(--green);font-size:15px">+1</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:var(--muted);line-height:1.6">
+        Residual −0.80% T=0 · 88% beat rate<br>
+        Entry: ~$333–340 post-beat · Size 0.75%<br>
+        Target $355 / $375 · Stop ~$317
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CLOSED TRADES P&L + VARIABLE BUCKET MAP ── -->
+  <div class="grid-2" style="margin-top:0">
+    <div class="card">
+      <div class="card-title">Closed Trades P&amp;L <span class="badge badge-muted">8 trades · net ~−$24 USDT</span></div>
+      <div class="chart-container" style="height:210px"><canvas id="plChart"></canvas></div>
+      <div style="display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;font-size:10px">
+        <span><span style="color:var(--green)">■</span> Methodology trades: +$13.60</span>
+        <span><span style="color:var(--red)">■</span> Off-methodology: −$37.75</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Variable Coverage by Bucket <span class="badge badge-muted">34 vars</span></div>
+      <div class="chart-container" style="height:210px"><canvas id="bucketChart"></canvas></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:8px;font-size:10px">
+        <span><span style="color:var(--blue)">■</span> Equities 13</span>
+        <span><span style="color:var(--cyan)">■</span> Cross-asset 11</span>
+        <span><span style="color:var(--green)">■</span> Bonds 5</span>
+        <span><span style="color:var(--amber)">■</span> Commodities 4</span>
+        <span><span style="color:var(--purple)">■</span> Crypto 1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CATALYST CALENDAR + METHODOLOGY REF ── -->
+  <div class="grid-2" style="margin-top:0">
+    <div class="card">
+      <div class="card-title">Catalyst Calendar <span style="font-size:9px;font-weight:400;color:var(--muted)">next 30 days</span></div>
+      <div class="exec-row">
+        <div class="exec-time" style="color:var(--red)">Apr 22</div>
+        <div class="exec-task"><strong>TSLA Q1 earnings (AC)</strong><span>EPS $0.36 / rev $21.9B · QQQ gap risk · P009 SPY sentiment</span></div>
+      </div>
+      <div class="exec-row">
+        <div class="exec-time" style="color:var(--amber)">Apr 23</div>
+        <div class="exec-task"><strong>INTC Q1 earnings (AC) ⚑ P013 gate</strong><span>Terafab validation · C+1 if beat · entry Apr-24 morning UTC+8</span></div>
+      </div>
+      <div class="exec-row">
+        <div class="exec-time">Apr 24</div>
+        <div class="exec-task"><strong>UMich Final Apr sentiment</strong><span>Prelim 47.6 (record low, 98% pre-ceasefire) · partial recovery possible</span></div>
+      </div>
+      <div class="exec-row">
+        <div class="exec-time" style="color:var(--red)">Apr 28–29</div>
+        <div class="exec-task"><strong>FOMC ⚑ P009 exit protocol</strong><span>SPY &lt;$700 before Apr-28 → exit. Path repricing risk all positions.</span></div>
+      </div>
+      <div class="exec-row">
+        <div class="exec-time" style="color:var(--amber)">Apr 29</div>
+        <div class="exec-task"><strong>GOOGL Q1 earnings (AC) ⚑ P015 gate</strong><span>Consensus EPS $2.68 / rev $106.9B · 88% beat rate last 4Q</span></div>
+      </div>
+      <div class="exec-row">
+        <div class="exec-time" style="color:var(--amber)">Apr 29</div>
+        <div class="exec-task"><strong>META earnings (same day FOMC)</strong><span>Ad revenue read vs GOOGL · QQQ directional signal</span></div>
+      </div>
+      <div class="exec-row">
+        <div class="exec-time" style="color:var(--red)">Apr 30</div>
+        <div class="exec-task"><strong>P014 AAPL hard exit ⚑</strong><span>Time-stop binding. Must close before May 1 earnings binary.</span></div>
+      </div>
+      <div class="exec-row" style="border:none">
+        <div class="exec-time">May 12</div>
+        <div class="exec-task"><strong>April CPI release</strong><span>Inflation post energy shock · rates / DXY / Gold / BTC signals</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">8-Step Methodology Reference</div>
+      <table class="skills-table">
+        <thead>
+          <tr><th>Step</th><th>Name</th><th>Output</th><th>Key variables</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:var(--muted)">1</td>
+            <td><strong>Regime</strong></td>
+            <td style="color:var(--muted)">Label + 3 vars</td>
+            <td style="color:var(--muted);font-size:10px">V001 VIX, V004 HY OAS, V005 policy path</td>
+          </tr>
+          <tr>
+            <td style="color:var(--amber)">1.5</td>
+            <td><strong style="color:var(--amber)">Overlay Gate</strong></td>
+            <td style="color:var(--amber)">ON / OFF per sleeve</td>
+            <td style="color:var(--muted);font-size:10px">V033 SPY, V034 GSCI, V035 BTC 10m-SMA</td>
+          </tr>
+          <tr>
+            <td style="color:var(--blue)">2</td>
+            <td><strong>Structural <span style="color:var(--blue)">(S)</span></strong></td>
+            <td style="color:var(--blue)">+1 / 0 / −1</td>
+            <td style="color:var(--muted);font-size:10px">V010/V012/V031 equities · V006–V008/V014 bonds · V011/V013/V028 comm</td>
+          </tr>
+          <tr>
+            <td style="color:var(--cyan)">3</td>
+            <td><strong>Tactical <span style="color:var(--cyan)">(T)</span></strong></td>
+            <td style="color:var(--cyan)">+1 / 0 / −1</td>
+            <td style="color:var(--muted);font-size:10px">V003/V009 TSMOM · V026 res-mom (single stocks) · V036 PCTECH (SPY/QQQ Shadow)</td>
+          </tr>
+          <tr>
+            <td style="color:var(--green)">4</td>
+            <td><strong>Catalyst <span style="color:var(--green)">(C)</span></strong></td>
+            <td style="color:var(--green)">+1 / 0 / −1</td>
+            <td style="color:var(--muted);font-size:10px">Next 1–3 repricing events · surprise vs confirmation dependency</td>
+          </tr>
+          <tr>
+            <td style="color:var(--red)">5</td>
+            <td><strong>Risk Overlay <span style="color:var(--red)">(R)</span></strong></td>
+            <td style="color:var(--red)">+1 / 0 / −1</td>
+            <td style="color:var(--muted);font-size:10px">V027 intermediary-cap (primary) · V001 VIX · V030 DealerGamma · V019/V020 skew/VRP</td>
+          </tr>
+          <tr>
+            <td style="color:var(--purple)">6</td>
+            <td><strong>Sum → Action</strong></td>
+            <td style="color:var(--purple)">S+T+C+R</td>
+            <td style="color:var(--muted);font-size:10px">≥+3 Buy · +1/+2 Wait · 0/−2 Sell · ≤−3 Short</td>
+          </tr>
+          <tr>
+            <td style="color:var(--muted)">7</td>
+            <td><strong>Expression</strong></td>
+            <td style="color:var(--muted)">Outright / RV / No trade</td>
+            <td style="color:var(--muted);font-size:10px">S+T align → outright · valuation rank → RV · conflict → no trade</td>
+          </tr>
+          <tr style="border:none">
+            <td style="color:var(--muted)">8</td>
+            <td><strong>Invalidation</strong></td>
+            <td style="color:var(--muted)">Written + date</td>
+            <td style="color:var(--muted);font-size:10px">Rev reversal, trend break, spread threshold, path repricing, time-stop</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── WATCH LIST ── -->
+  <div class="section-title">Systematic Review WATCH List <span style="font-size:9px;font-weight:400;color:var(--muted)">§11.5 · 7 candidates · promote gate 2026-10-14</span></div>
+  <div class="card">
+    <table class="risks-table">
+      <thead>
+        <tr><th>Candidate</th><th>Proposed leg</th><th>Evidence basis</th><th>Independence note</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>HMLDevil</strong></td>
+          <td><span class="badge badge-blue" style="font-size:9px">S sleeve</span></td>
+          <td style="color:var(--muted);font-size:11px">PL-NMA θ meaningfully positive</td>
+          <td style="color:var(--muted);font-size:11px">Low corr with V029 BAB</td>
+          <td><span class="badge badge-amber" style="font-size:9px">WATCH · Oct-14</span></td>
+        </tr>
+        <tr>
+          <td><strong>QMJ</strong> Quality Minus Junk</td>
+          <td><span class="badge badge-blue" style="font-size:9px">S sleeve</span></td>
+          <td style="color:var(--muted);font-size:11px">Published Sharpe; V031 GP/A overlap</td>
+          <td style="color:var(--muted);font-size:11px">Independence vs V031 to evaluate</td>
+          <td><span class="badge badge-amber" style="font-size:9px">WATCH · Oct-14</span></td>
+        </tr>
+        <tr>
+          <td><strong>OppInsider</strong></td>
+          <td><span class="badge badge-blue" style="font-size:9px">S</span></td>
+          <td style="color:var(--muted);font-size:11px">Extension of V025 insider net-buying</td>
+          <td style="color:var(--muted);font-size:11px">Orthogonal subset possible</td>
+          <td><span class="badge badge-amber" style="font-size:9px">WATCH · Oct-14</span></td>
+        </tr>
+        <tr>
+          <td><strong>LazyPrices</strong></td>
+          <td><span class="badge badge-cyan" style="font-size:9px">C catalyst</span></td>
+          <td style="color:var(--muted);font-size:11px">10-K textual change; event-driven</td>
+          <td style="color:var(--muted);font-size:11px">Distinct from V021 news sentiment</td>
+          <td><span class="badge badge-amber" style="font-size:9px">WATCH · Oct-14</span></td>
+        </tr>
+        <tr>
+          <td><strong>ADS_Nowcast</strong></td>
+          <td><span class="badge badge-muted" style="font-size:9px">context/regime</span></td>
+          <td style="color:var(--muted);font-size:11px">Aruoba-Diebold-Scotti real-time macro</td>
+          <td style="color:var(--muted);font-size:11px">Regime-ID only; may not score</td>
+          <td><span class="badge badge-amber" style="font-size:9px">WATCH · Oct-14</span></td>
+        </tr>
+        <tr>
+          <td><strong>LM_Text</strong></td>
+          <td><span class="badge badge-cyan" style="font-size:9px">C catalyst</span></td>
+          <td style="color:var(--muted);font-size:11px">Loughran-McDonald 10-K sentiment</td>
+          <td style="color:var(--muted);font-size:11px">Complements V021; textual layer</td>
+          <td><span class="badge badge-amber" style="font-size:9px">WATCH · Oct-14</span></td>
+        </tr>
+        <tr>
+          <td><strong>CieslakPovala</strong></td>
+          <td><span class="badge badge-blue" style="font-size:9px">S bonds</span></td>
+          <td style="color:var(--muted);font-size:11px">Short-rate expectations cycle; complements V023</td>
+          <td style="color:var(--muted);font-size:11px">Bonds bucket; low corr expected</td>
+          <td><span class="badge badge-amber" style="font-size:9px">WATCH · Oct-14</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:10px;color:var(--muted)">
+      At 2026-10-14: <strong style="color:var(--green)">PROMOTE</strong> → allocate V037+ ID and integrate · <strong style="color:var(--amber)">KEEP-ON-WATCH</strong> → extend to 2027-04-14 · <strong style="color:var(--red)">DROP</strong> → remove from registry
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<div class="footer">
+  <div>T.system Architecture Health Dashboard · Architecture <strong>v7</strong> · Snapshot 2026-04-22</div>
+  <div>Maintained by <strong style="color:var(--cyan)">architecture-health</strong> skill · Source: <code>Trade/framework/architecture/architecture-v7-2026-04-22.md</code></div>
+</div>
+
+<!-- ══════════════ CHARTS ══════════════ -->
+<script>
+  // Grade donut chart
+  const gradeCtx = document.getElementById('gradeChart').getContext('2d');
+  new Chart(gradeCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Grade A', 'Grade B', 'Context-only'],
+      datasets: [{
+        data: [22, 11, 2],
+        backgroundColor: [
+          'rgba(0,230,118,0.85)',
+          'rgba(255,179,0,0.85)',
+          'rgba(123,130,160,0.5)'
+        ],
+        borderColor: [
+          'rgba(0,230,118,0.3)',
+          'rgba(255,179,0,0.3)',
+          'rgba(123,130,160,0.2)'
+        ],
+        borderWidth: 2,
+        hoverOffset: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '68%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            color: '#7b82a0',
+            font: { size: 10 },
+            padding: 12,
+            boxWidth: 10
+          }
+        },
+        tooltip: {
+          backgroundColor: '#1a1d2b',
+          borderColor: '#2a2d3e',
+          borderWidth: 1,
+          titleColor: '#e0e4f0',
+          bodyColor: '#7b82a0',
+          callbacks: {
+            label: ctx => ` ${ctx.label}: ${ctx.raw} variables`
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'centerText',
+      beforeDraw(chart) {
+        const { width, height, ctx } = chart;
+        ctx.restore();
+        ctx.font = 'bold 22px Segoe UI';
+        ctx.fillStyle = '#e0e4f0';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('34', width / 2, height / 2 - 8);
+        ctx.font = '10px Segoe UI';
+        ctx.fillStyle = '#7b82a0';
+        ctx.fillText('variables', width / 2, height / 2 + 12);
+        ctx.save();
+      }
+    }]
+  });
+
+  // ── Closed Trades P&L bar chart ──
+  const plData = [-22, 2.75, 3.20, 2.35, 4.51, -4.60, -11.15, 0.79];
+  const plCtx = document.getElementById('plChart').getContext('2d');
+  new Chart(plCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Off-meth\nbatch', 'EWY', 'Gold', 'INTC\nP004', 'QQQ', 'TSLA\nP007', 'AAVE\nP006', 'CL\nP008'],
+      datasets: [{
+        data: plData,
+        backgroundColor: plData.map(v => v >= 0 ? 'rgba(0,230,118,0.65)' : 'rgba(255,23,68,0.65)'),
+        borderColor:      plData.map(v => v >= 0 ? 'rgba(0,230,118,0.9)' : 'rgba(255,23,68,0.9)'),
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1d2b', borderColor: '#2a2d3e', borderWidth: 1,
+          titleColor: '#e0e4f0', bodyColor: '#7b82a0',
+          callbacks: { label: ctx => ` ${ctx.raw >= 0 ? '+' : ''}${ctx.raw.toFixed(2)} USDT` }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#7b82a0', font: { size: 9 } }, grid: { color: 'rgba(42,45,62,0.5)' } },
+        y: {
+          ticks: { color: '#7b82a0', font: { size: 9 }, callback: v => (v >= 0 ? '+' : '') + v },
+          grid: { color: 'rgba(42,45,62,0.5)' },
+          border: { color: 'rgba(42,45,62,0.5)' }
+        }
+      }
+    }
+  });
+
+  // ── Variable bucket radar chart ──
+  const bucketCtx = document.getElementById('bucketChart').getContext('2d');
+  new Chart(bucketCtx, {
+    type: 'radar',
+    data: {
+      labels: ['Equities\n(13)', 'Cross-asset\n(11)', 'Bonds\n(5)', 'Commodities\n(4)', 'Crypto\n(1)'],
+      datasets: [{
+        label: 'Variables',
+        data: [13, 11, 5, 4, 1],
+        backgroundColor: 'rgba(68,138,255,0.12)',
+        borderColor: 'rgba(68,138,255,0.8)',
+        borderWidth: 2,
+        pointBackgroundColor: ['#448aff','#00e5ff','#00e676','#ffb300','#7c4dff'],
+        pointBorderColor: '#1a1d2b',
+        pointRadius: 5,
+        pointHoverRadius: 7
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1d2b', borderColor: '#2a2d3e', borderWidth: 1,
+          titleColor: '#e0e4f0', bodyColor: '#7b82a0',
+          callbacks: { label: ctx => ` ${ctx.raw} variables` }
+        }
+      },
+      scales: {
+        r: {
+          min: 0, max: 14,
+          ticks: { stepSize: 2, color: '#7b82a0', font: { size: 8 }, backdropColor: 'transparent' },
+          grid: { color: 'rgba(42,45,62,0.7)' },
+          angleLines: { color: 'rgba(42,45,62,0.7)' },
+          pointLabels: { color: '#7b82a0', font: { size: 10 } }
+        }
+      }
+    }
+  });
+</script>
+</body>
+</html>

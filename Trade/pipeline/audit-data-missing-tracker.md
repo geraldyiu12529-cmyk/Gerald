@@ -40,3 +40,4 @@ then re-measure over the NEXT window.
 | 2026-04-19 | LIVE | 12/12 | LIVE | LIVE | 5/5 | weekend-test; Tier 3 cache; InterCap STALE-WARN (data through 2026-04-04) |
 | 2026-04-20 | MISSING | 0/12 | MISSING | LIVE | 1/5 | residmom-missing:numpy not available (market-model fallba; intercap-missing:numpy not available for z-score computat |
 | 2026-04-21 | FALLBACK | 12/12 | LIVE | LIVE | 1/5 | residmom-mktmodel-fallback |
+| 2026-04-22 | FALLBACK | 12/12 | LIVE | LIVE | 1/5 | residmom-mktmodel-fallback |

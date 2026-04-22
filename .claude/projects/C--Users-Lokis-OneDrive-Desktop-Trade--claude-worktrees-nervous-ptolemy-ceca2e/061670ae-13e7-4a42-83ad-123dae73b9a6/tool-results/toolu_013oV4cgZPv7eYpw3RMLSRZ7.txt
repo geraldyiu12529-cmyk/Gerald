@@ -1,0 +1,252 @@
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-83-   | 12 | `skill-manager` | project or user | **new, not yet installed — packaged at `skills-draft/skill-manager.zip`** |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-84-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-85-5. **Enumerate scheduled tasks** that must become Claude Code routines. Authoritative list from `auto-memory/reference_pipeline.md` plus 2026-04-18 meta-integration additions:
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-86-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-87-   Daily (Mon–Fri, UTC+8):
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-88-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-89-   | Time | Task ID | Produces |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-90-   |---|---|---|
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-91-   | 07:30 | `us-close-snapshot` | `us-close-snapshot-YYYY-MM-DD.md` |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-92-   | 09:00 | `positions-monitor` | `positions-monitor-YYYY-MM-DD.md` (silent-when-OK) |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md:93:   | 19:45 | `preflight-audit-data` | `audit-data-staging-YYYY-MM-DD.md` + `.pipeline-health.json` |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-94-   | 19:52 | `preflight-meta-additions` | `meta-additions-staging-YYYY-MM-DD.md` (shadow mode until 2026-04-25) |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-95-   | 20:00 | `market-brief` | `market-brief-YYYY-MM-DD.md` |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-96-   | 20:00 | `news-events` | `news-events/news-YYYY-MM-DD.md` + catalysts cache |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-97-   | 21:00 | `trade-rec` | `trade-rec-YYYY-MM-DD.md` + HTML + SignalLedger append |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-98-   | 22:00 | `pipeline-recovery` | recovery files if upstream failed |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-99-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-100-   Weekly (Sunday, UTC+8):
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-101-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-102-   | Time | Task ID | Produces |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-103-   |---|---|---|
+--
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-255-   Then git add -A, commit with message "routine: <name> <today>", and push to origin main.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-256-   ```
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-257-   This is required — omit it and the next routine won't see the outputs.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-258-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-259-   ### Daily routines (Mon–Fri, UTC+8)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-260-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-261-   | # | Name | Cron | Model | Prompt |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-262-   |---|------|------|-------|--------|
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-263-[Omitted long context line]
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-264-   | 2 | `positions-monitor` | `0 9 * * 1-5` | haiku | `/positions-monitor` + commit + push |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md:265:   | 3 | `preflight-audit-data` | `45 19 * * 1-5` | sonnet | `Run scripts/preflight_health_check.py to write .pipeline-health.json. Then run scripts/compute_audit_additions.py to produce audit-data-staging-{today}.md. If compute fails, consult .data-cache/ for cached inputs within staleness windows per Data Sources.md §4-tier fallback and retry. Update audit-data-missing-tracker.md per RM1. Commit + push.` |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-266-   | 4 | `preflight-meta-additions` | `52 19 * * 1-5` | sonnet | `Run scripts/compute_meta_additions.py to produce meta-additions-staging-{today}.md in shadow mode (V029 BAB, V030 DealerGamma, V031 GP/A, V032 CEI, V033–V035 Faber TAA). Log each variable's status to AuditAdditionLog (Type=SHADOW). Do NOT feed results into market-brief or trade-rec — shadow mode only until 2026-04-25 review. Commit + push.` |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-267-   | 5 | `market-brief` | `0 20 * * 1-5` | sonnet | `/market-brief` + commit + push |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-268-   | 6 | `news-events` | `0 20 * * 1-5` | sonnet | `/news-events` + commit + push |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-269-   | 7 | `trade-rec` | `0 21 * * 1-5` | opus | `/daily-trade-rec` + commit + push. If the trade-rec mentions "no changes since prior rec" (Step 0 delta-check), still commit + push any Memory.md or .pipeline-status.json updates. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-270-   | 8 | `pipeline-recovery` | `0 22 * * 1-5` | haiku | `/pipeline-recovery`. If Phase A returns healthy, exit fast with no file writes. If unhealthy, proceed to Phase B. Commit + push only if files were created. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-271-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-272-   ### Weekly routines (Sunday, UTC+8)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-273-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-274-   | # | Name | Cron | Model | Prompt |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-275-   |---|------|------|-------|--------|
+--
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-288-   | 16 | `methodology-audit-6mo-review` | One-time: `0 10 14 10 *` (auto-disable after firing) | opus | `Six-month review of 3 audit-addition variables (residual mom, intermediary capital, basis-momentum). Read AuditAdditionLog and audit-data-missing-tracker.md. Per variable: days LIVE, decision-moving contributions, contribution rate normalized by days LIVE. Verdict: KEEP Grade A / DEMOTE to B / REMOVE. Write methodology-audit-6mo-review-2026-10-14.md. Commit + push.` |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-289-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-290-[Omitted long context line]
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-291-   - `0 19 1-7 5 *` with prompt preamble: "If today is not Sunday, exit silently. Otherwise /system-review + commit + push."
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-292-   - `0 19 1-7 11 *` with same preamble.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-293-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-294-5. **Decide: cloud routines vs Desktop scheduled tasks.**
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-295-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-296-   If Gerald is on Max: all 16 go to cloud routines.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-297-   If Gerald is on Pro: cloud routines cap is 5/day. Recommend split:
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md:298:   - **Cloud (5 daily):** preflight-audit-data, market-brief, news-events, trade-rec, pipeline-recovery
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-299-   - **Desktop (3 daily):** us-close-snapshot (morning check), positions-monitor (machine on), preflight-meta-additions (shadow)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-300-   - All weekly + quarterly + one-time: cloud (low daily cost)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-301-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md:302:6. **Verify one routine end-to-end.** Pick `preflight-audit-data` (lowest risk, reads-heavy, minimal writes). Click **Run now** in the web UI. Watch the session. Confirm:
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-303-   - It clones the repo.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-304-   - It runs the compute script.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-305-   - It writes `audit-data-staging-{today}.md` and `.pipeline-health.json`.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-306-   - It commits + pushes to `main`.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-307-   - The next `git pull` on the local workspace shows the new files.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-308-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-309-   If any step fails, STOP. Do NOT proceed to activate the rest of the routines.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-310-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-311-7. **Parallel-run window (3 business days).** Leave Cowork scheduled tasks enabled. Every day for 3 days, diff Cowork's and Claude Code's outputs (`diff trade-rec-{today}-cowork.md trade-rec-{today}.md`). Expected: identical or near-identical. Discrepancies → STOP, investigate before cutover.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-port-prompt.md-312-
+--
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-24-- Patch `Methodology Prompt.md`: add V029–V035 to the Top-30 variable list; insert new Step 1.5 Overlay Regime Gate between Step 1 and Step 2; add the bucket-nomenclature crosswalk appendix; add the four new scoring rule lines.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-25-- Patch `Risk Rules.md`: add V027 sizing tier rule; add C009 Faber drawdown circuit-breaker; add R-group scale-consistency rule; add BAB/DealerGamma sleeve-sizing rule.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-26-- Patch `Data Sources.md`: add BAB, DealerGamma, GP/A, CEI, C009 Faber-SMA rows with source, frequency, fallback chain.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-27-- Patch `Trad core.md`: add mechanism + evidence entries for BAB (Frazzini-Pedersen 2014), DealerGamma (Barbon-Buraschi 2021), GP/A (Novy-Marx 2013), CEI (Daniel-Titman 2006), C009 Faber TAA (Faber 2007).
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-28-- Append a dated `MethodologyNotes` sheet entry in `master-data-log.xlsx` pointing to the integration plan. Use `Excel-Sync-Protocol.md` for column mappings — read it before writing.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-29-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-30-**[GATE 1]** — Print full diff summary. Wait for my approval before Phase 2.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-31-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-32-**Phase 2 — Data pipeline** (blocking for live scoring):
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-33-- Extend `scripts/compute_audit_additions.py` (or create `scripts/compute_meta_additions.py` if cleaner) to fetch BAB ETF proxy (USMV/SPLV), GP/A (Ken French library), CEI (self-compute CRSP+Compustat), DealerGamma (SqueezeMetrics — ASK ME IF SUBSCRIPTION IS ACTIVE BEFORE CODING THE PULL), Faber-SMA (Yahoo monthly closes).
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md:34:- Wire into `preflight-audit-data-1945pm` scheduled task. Verify fail-loud prints `MISSING — [sources attempted]` when upstream fails.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-35-- Add VariableRegistry rows V029–V035 with `live_date` empty, `review_date = 2026-10-14`.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-36-- Run pipeline in SHADOW MODE for 5 consecutive weekdays — values computed and surfaced in the daily market-brief but NOT scored into SignalLedger. Do not shortcut this shadow window.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-37-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-38-**[GATE 2]** — Show the 5-day shadow-mode pipeline health. If any Grade-A pull hit MISSING more than once across the 5 days, STOP and escalate. Wait for my approval before Phase 3.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-39-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-40-**Phase 3 — Live scoring**:
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-41-- Update `market-brief` SKILL.md, `daily-trade-rec` SKILL.md, `signal-review` SKILL.md, `positions-monitor` SKILL.md, `quarterly-methodology-review` SKILL.md per integration plan §3.6.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-42-- Set `live_date` on V029–V035 to the date of the first live rec.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-43-- First trade-rec under the new framework must include a header note: "First rec under 2026-04-18 meta-integration — V029–V035 live".
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\deployment-prompt-2026-04-18.md-44-
+--
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-94-| Active addresses | A | blockchain.com / Glassnode free |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-95-| Hash rate | A | blockchain.com |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-96-| Exchange netflows | A | CryptoQuant free tier |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-97-| Stablecoin supply | B | DefiLlama |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-98-| MVRV / SOPR | B | regime context only — Glassnode free |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-99-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-100-Citation: `Methodology Prompt.md:50, 108, 142-148`, `Coin core.md:9-17, 107-125`.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-101-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-102-## Meta-integration additions (V029–V035, added 2026-04-18)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-103-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md:104:All five variable rows below obey the 4-tier fail-loud rule. Wire into `preflight-audit-data-1945pm` extension (Phase 2 of the 2026-04-18 rollout; see `meta-analysis-integration-plan-2026-04-18.md §3.3` and `deployment-memo-2026-04-18.md`).
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-105-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-106-| Variable | Grade | Source | Frequency | Fallback chain | Notes |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-107-|---|---|---|---|---|---|
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-108-| **V029 BAB (Betting-Against-Beta)** | A | AQR BAB factor returns (canonical, for grading) OR ETF proxy (USMV/SPLV spread, tactical) OR self-compute from CRSP β-bucketed deciles | Monthly (canonical); daily (ETF proxy) | AQR → Ken French library → ETF proxy (USMV/SPLV) → self-compute | ETF proxy is tactical-use only. Canonical BAB required for 2026-10-14 review evidence. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-109-| **V030 DealerGamma (options dealer gamma positioning)** | B | SqueezeMetrics GEX OR SpotGamma daily composite | Daily | SqueezeMetrics → SpotGamma → MISSING (no self-compute option) | **Paid data — subscription required. CONFIRM with Gerald before Phase 2 coding.** If neither source is subscribed, row stays MISSING until resolved. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-110-| **V031 GP/A (Gross Profitability / Assets)** | A | Compustat / Ken French GP portfolio | Quarterly (financial statements) | Ken French library → Compustat → self-compute from CRSP + Compustat | Slow-moving; monthly rebalance of ranked basket, not daily rescore. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-111-| **V032 CEI (Composite Equity Issuance)** | A | Daniel-Titman composite equity issuance (self-computed from CRSP + Compustat) | Quarterly | self-compute only | Document computation in `scripts/compute_cei.py` (new, created in Phase 2). Quarterly financial-statement data has reporting lag — replicate equal-weight quarterly rebalance. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-112-| **V033–V035 C009 Faber TAA 10m-SMA** | A | Yahoo Finance monthly closes on SPY (V033) / GSCI (V034) / BTC-USD (V035) | Monthly (end-of-month) | Yahoo → Stooq → MISSING | EFA optional (for EWJ/EWY sleeve). Trivial computation; extend `scripts/compute_audit_additions.py`. Overlay state flips only at month-end. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-113-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-114-Citation: `Methodology Prompt.md §Step 1.5`, `Methodology Prompt.md §4` entries 29–33, `Trad core.md` Addendum 2026-04-18, `Risk Rules.md §1.B, §4.B, §5.A, §8`.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-115-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md:116:**Automated compute pipeline (extended 2026-04-18):** The `preflight-audit-data-1945pm` scheduled task will pull V029 / V031 / V032 / V033–V035 during Phase 2 rollout (extension of `scripts/compute_audit_additions.py` or new sibling script). DealerGamma (V030) pull wires in only after the subscription question is resolved.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-117-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-118-**Expected Phase 2 runtime impact:** +3–5 minutes on preflight. The 20:00 market-brief SLA must hold.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-119-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-120----
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-121-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-122-## On-demand-only (no routine pull)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-123-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-124-- Token unlocks calendar (when BTC/ETH not the focus): TokenUnlocks.app
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-125-- FedWatch (rate-path surprise): CME FedWatch
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Data Sources.md-126-- Geopolitical risk index (Caldara-Iacoviello): matteoiacoviello.com
+--
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-188-| `market-brief` | Add BAB / GP/A / CEI / DealerGamma / C009 to the scorecard columns. Extend fail-loud to cover new Grade-A pulls. | New variables need daily surface. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-189-| `daily-trade-rec` | Extend 8-step template to include Step 1.5 Overlay Gate output. Update pre-entry checklist with V027 regime bucket + C009 sleeve state. | New gate blocks entry when off. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-190-| `signal-review` | Mark-to-market logic unchanged, but add grouping-by-V027-regime-bucket to the weekly stats. | Meta-analysis Recommendation 7.5.2. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-191-| `quarterly-methodology-review` | Add explicit 2026-07-01 agenda items: re-score V006/V007/V008 downgrade question; review DealerGamma single-paper status; promote WATCH bucket per 2-consecutive-quarter rule. | Deferred items must not drift. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-192-| `positions-monitor` | Add C009 sleeve-off check — if a held position is in a sleeve that flipped overlay-off, flag for review (not auto-close — discretionary). | New gate affects existing positions. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-193-| `trade-update` | No immediate change; existing 4-layer sync still applies. | New variables use same ledger write path. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-194-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-195-### 3.7 Scheduled tasks
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-196-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-197-No new tasks. Extend existing:
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md:198:- `preflight-audit-data-1945pm` — add BAB / GP/A / CEI / DealerGamma / Faber-SMA to pull list. Update `.pipeline-health.json` schema to cover the 5 new pulls.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-199-- `quarterly-methodology-review` (1st of Jul/Oct/Jan/Apr at 19:00) — reminder in cron description to re-evaluate deferred downgrades and single-paper DEPLOYs.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-200-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-201----
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-202-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-203-## 4. Rollout sequencing
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-204-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-205-### Phase 1 — Documentation (this week, no live impact)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-206-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-207-1. Patch `Methodology Prompt.md` with Top-30, Step 1.5 Overlay Gate, scoring rule additions, bucket crosswalk appendix.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-208-2. Patch `Risk Rules.md` with V027 sizing, C009 drawdown gate, R-group scale-consistency, factor sleeve sizing.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-209-3. Patch `Data Sources.md` with new variable source mappings.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-210-4. Patch `Trad core.md` with the 5 new variable mechanism entries.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-211-5. Append dated entry to `MethodologyNotes` sheet documenting the integration.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-212-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-213-**Gate to proceed to Phase 2:** documentation patches reviewed by Gerald and approved.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-214-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-215-### Phase 2 — Data pipeline (2 weeks, blocking for live scoring)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-216-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-217-1. Extend `compute_audit_additions.py` (or new `compute_meta_additions.py`) to pull BAB ETF proxy (USMV/SPLV), GP/A (French library), CEI (self-compute), DealerGamma (SqueezeMetrics subscription — check if already available), Faber-SMA (Yahoo monthly).
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md:218:2. Wire into `preflight-audit-data-1945pm` task; verify fail-loud triggers.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-219-3. Add VariableRegistry rows V029–V035 with `live_date` field empty.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-220-4. Run 5 consecutive pipeline days in "shadow mode" — compute values but do not score into SignalLedger; surface values in brief only.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-221-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-222-**Gate to proceed to Phase 3:** 5 consecutive clean pipeline days with no MISSING for the 5 new Grade-A pulls (DealerGamma allowed to MISSING as Grade B).
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-223-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-224-### Phase 3 — Live scoring (after Phase 2 green)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-225-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-226-1. Update `market-brief` and `daily-trade-rec` skills to include new variables in scorecard and 8-step.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-227-2. Set `live_date` on VariableRegistry rows V029–V035.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\meta-analysis-integration-plan-2026-04-18.md-228-3. First live rec under new framework: note the fact in the trade rec header.
+--
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-34-   - Enable "Allow unrestricted branch pushes" so routines can push to main
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-35-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-36-### Then create these 14 routines:
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-37-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-38-#### Daily (Mon–Fri)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-39-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-40-| Name | Cron | Model | Prompt |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-41-|---|---|---|---|
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-42-| us-close-snapshot | `30 7 * * 1-5` | Sonnet | `Read Memory.md §2 Open Positions and the previous day's market brief. For each open position, pull the latest US close price via WebSearch. Write us-close-snapshot-{today}.md with: mark-to-market per position, any >1σ ATR moves vs the brief's levels, after-hours earnings reactions. Update .pipeline-status.json. Git commit and push all changes.` |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-43-| positions-monitor | `0 9 * * 1-5` | Haiku | `/positions-monitor` then git commit and push any output files. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md:44:| preflight-audit-data | `45 19 * * 1-5` | Sonnet | `Run scripts/compute_audit_additions.py to produce audit-data-staging-{today}.md. If the script fails, check .data-cache/ for cached inputs within staleness windows and retry. Write .pipeline-health.json with connectivity status. Update .pipeline-status.json. Git commit and push all changes.` |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-45-| market-brief | `0 20 * * 1-5` | Sonnet | `/market-brief` then git commit and push all new/changed files. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-46-| news-events | `0 20 * * 1-5` | Sonnet | `/news-events` then git commit and push all new/changed files. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-47-| trade-rec | `0 21 * * 1-5` | Opus | `/daily-trade-rec` then git commit and push all new/changed files. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-48-| pipeline-recovery | `0 22 * * 1-5` | Haiku | `/pipeline-recovery` then git commit and push if any recovery files were created. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-49-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-50-#### Weekly (Sunday)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-51-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-52-| Name | Cron | Model | Prompt |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-53-|---|---|---|---|
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\BOOTSTRAP-PROMPT.md-54-| weekly-review | `0 18 * * 0` | Opus | `Two phases in one session. Phase 1: Read Memory.md, latest market brief, all news files from this week. Write weekly-review-{today}.md with regime trajectory, week's key events, thesis validation, lessons. Condense memory-lessons.md entries. Phase 2: /signal-review. Git commit and push all changes.` |
+--
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-331-| **Environment variables** | Any API keys your scripts need |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-332-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-333-### Routine Definitions
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-334-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-335-#### Daily Routines (Mon–Fri)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-336-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-337-| # | Name | Cron (UTC+8) | Model | Prompt |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-338-|---|---|---|---|---|
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-339-| 1 | `us-close-snapshot` | `30 7 * * 1-5` | Sonnet | `Read Memory.md §2 Open Positions and the previous day's market brief. For each open position, pull the latest US close price via WebSearch. Write us-close-snapshot-{today}.md with: mark-to-market per position, any >1σ ATR moves vs the brief's levels, after-hours earnings reactions. Update .pipeline-status.json. Git commit and push all changes.` |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-340-| 2 | `positions-monitor` | `0 9 * * 1-5` | Haiku | `/positions-monitor` then git commit and push any output files. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md:341:| 3 | `preflight-audit-data` | `45 19 * * 1-5` | Sonnet | `Run scripts/compute_audit_additions.py to produce audit-data-staging-{today}.md. If the script fails, check .data-cache/ for cached inputs within staleness windows and retry. Write .pipeline-health.json with connectivity status. Update .pipeline-status.json. Git commit and push all changes.` |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-342-| 4 | `market-brief` | `0 20 * * 1-5` | Sonnet | `/market-brief` then git commit and push all new/changed files. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-343-| 5 | `news-events` | `0 20 * * 1-5` | Sonnet | `/news-events` then git commit and push all new/changed files. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-344-| 6 | `trade-rec` | `0 21 * * 1-5` | Opus | `/daily-trade-rec` then git commit and push all new/changed files. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-345-| 7 | `pipeline-recovery` | `0 22 * * 1-5` | Haiku | `/pipeline-recovery` then git commit and push if any recovery files were created. |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-346-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-347-#### Weekly Routines (Sunday)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-348-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-349-| # | Name | Cron (UTC+8) | Model | Prompt |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-350-|---|---|---|---|---|
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\claude-code-migration\MIGRATION-GUIDE.md-351-| 8 | `weekly-review` | `0 18 * * 0` | Opus | `Two phases in one session. Phase 1: Read Memory.md, latest market brief, all news files from this week. Write weekly-review-{today}.md with regime trajectory, week's key events, thesis validation, lessons. Condense memory-lessons.md entries. Phase 2: /signal-review. Git commit and push all changes.` |
+--
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-1-flowchart TD
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-2-    subgraph T1945["19:45 UTC+8"]
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid:3:        P[preflight-audit-data-1945pm]
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-4-    end
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-5-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-6-    subgraph T2000["20:00 UTC+8"]
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-7-        B[daily-market-brief-8pm-v2]
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-8-        N[daily-news-events-810pm-v2]
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-9-    end
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-10-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-11-    subgraph T2100["21:00 UTC+8 — downstream consumer"]
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-12-        R[daily-trade-recommendation-820pm-v2]
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\pipeline-dependency-graph.mermaid-13-    end
+--
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-69-### Consecutive failure tracking
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-70-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-71-Each task entry carries `consecutive_failures`. On successful completion, reset to 0. On any non-OK status, increment from the prior entry's value. This gives the recovery task a single number to check.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-72-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-73----
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-74-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-75-## Integrity Checks (task prompt prepends)
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-76-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-77-These go at the top of each scheduled task prompt. They run before the skill loads.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-78-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md:79:### `preflight-audit-data-1945pm`
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-80-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-81-The preflight runs first in the pipeline. Its integrity check is a self-check + recovery detection:
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-82-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-83-```
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-84-**PIPELINE INTEGRITY SELF-CHECK + RECOVERY (run before anything else):**
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-85-
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-86-1. Read `/mnt/Trade/.pipeline-status.json` if it exists.
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-87-2. Check yesterday's pipeline status:
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-88-   - If any task shows `consecutive_failures >= 3`, print:
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-89-     "⚠ CONSECUTIVE FAILURE ALERT: {task} has failed {N} consecutive days. Investigate."
+--
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-314-| Fail-loud in briefs | Missing individual variables | Missing entire upstream files |
+C:\Users\Lokis\OneDrive\Desktop\Trade\Trade\Pipeline-Recovery-Protocol.md-315-| `.pipeline-health.json` | Source connectivity before pipeline runs | Whether tasks actually completed |
+
+[Showing results with pagination = limit: 250]

@@ -1,37 +1,37 @@
 {
-  "timestamp": "2026-04-21T19:48:43.963804+08:00",
+  "timestamp": "2026-04-22T19:03:37.841574+08:00",
   "sources": {
     "yahoo_finance": {
       "available": true,
-      "response_time_ms": 310
+      "response_time_ms": 230
     },
     "coingecko": {
       "available": true,
-      "response_time_ms": 312
+      "response_time_ms": 280
     },
     "blockchain_info": {
       "available": true,
-      "response_time_ms": 562
+      "response_time_ms": 538
     },
     "kenneth_french": {
       "available": true,
-      "response_time_ms": 2471
+      "response_time_ms": 2320
     },
     "ny_fed": {
       "available": true,
-      "response_time_ms": 575
+      "response_time_ms": 633
     },
     "barchart": {
       "available": true,
-      "response_time_ms": 1725
+      "response_time_ms": 4687
     },
     "chicago_fed": {
       "available": true,
-      "response_time_ms": 489
+      "response_time_ms": 377
     }
   },
-  "cache_coverage": "38/71 variables",
-  "cache_coverage_pct": 53.5,
+  "cache_coverage": "54/71 variables",
+  "cache_coverage_pct": 76.1,
   "schema_issues": [],
   "schema_ok": true,
   "predicted_missing": 0,
