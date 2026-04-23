@@ -1,6 +1,6 @@
 # Audit-Addition Variable Staging — 2026-04-23
 
-**Computed:** 2026-04-23 18:35 UTC+8
+**Computed:** 2026-04-23 19:31 UTC+8
 **Consumer:** daily-market-brief, daily-trade-rec
 **Rule:** If a variable reads MISSING here, the brief/rec must fail-loud on that score leg.
 
