@@ -19,6 +19,12 @@ MISS_COUNT = "0 (T3 fallbacks applied)"
 V026_ST    = "ALL 12 LIVE"
 V027_ST    = "z+1.65"
 
+# ── Portfolio NAV ────────────────────────────────────────────────────────────
+# Update this whenever Gerald deposits/withdraws or trade-update runs post-close.
+# All notional sizes in RECS are computed as: risk_pct × PORT_NAV / stop_distance_pct
+PORT_NAV      = 4300    # USDT
+PORT_NAV_DATE = "2026-04-22"
+
 REGIME_LABEL = "RISK-ON (FRAGILE) / GEOPOLITICAL-BINARY"
 REGIME_SUB   = "CEASEFIRE EXTENDED  |  HORMUZ BLOCKED (<10% traffic)  |  TSLA earnings tonight AC"
 
@@ -27,7 +33,7 @@ EXEC_CARDS = [
     ("Promoted This Run",   "1 signal",            "ok",   "Brent P016 Long -- commodity sleeve first ON this cycle"),
     ("Near-Miss / Blocked", "5 near-miss + 1 gate","warn", "WTI | Silver | Copper | WDC | NVDA near-miss | BTC gate-blocked"),
     ("Regime",              REGIME_LABEL,           "",     REGIME_SUB),
-    ("Portfolio Heat",      "~2.6%",                "",     "P009 1.86% open + P016 0.75% pending | 8% cap | room for INTC/GOOGL"),
+    ("Portfolio Heat",      "~2.6%",                "",     f"~${round(2.6*PORT_NAV/100)} USDT at risk / ${PORT_NAV} NAV | P009+P010+P016 | 8% cap | room for INTC/GOOGL"),
 ]
 
 # ── Open Positions ──────────────────────────────────────────────────────────
@@ -42,19 +48,112 @@ OPEN_POSITIONS = [
     ("P010","EWJ",   "Long",  88.30,  90.19,  86.00,  95.0,  98.0,
      0.75, "$1,396", +2.14, "ok",   "OPEN | above entry | Nikkei record Apr-22",   "2026-06-30"),
     ("P016","Brent", "Long",  94.25,  94.19,  90.50,  98.0, 102.0,
-     0.75, "~$30",    0.00, "blue", "PENDING | Gerald execution required",          "2026-05-22"),
+     0.75, "~$859",   0.00, "blue", "PENDING | Gerald execution required",          "2026-05-22"),
 ]
 TOTAL_HEAT = 2.6   # % of NAV at risk (open + pending)
 HEAT_CAP   = 8.0   # % cap per Risk Rules
 
-# Thesis summary per signal ID (shown in Thesis section; leave "" to omit)
+# ── Thesis Summary ────────────────────────────────────────────────────────────
+# Writing standard (2026-04-22): each entry is a full analytical paragraph,
+# 4–8 sentences minimum. Cover: position/status, mechanism behind each score
+# leg (not just the value), the specific edge, primary invalidation + speed,
+# and the exact next action. Numbers must be explained in context.
+# Do NOT write terse one-liners — they provide no decision value at review time.
 THESIS = {
-    "P009": "SPY long -- structural equity (S+T+R edge, C=0). Regime Risk-On (FRAGILE); half-sized for FOMC tail. Entry avg $708.95 (5 tranches). Stop $696 (2x ATR ~$14). Time-stop 2026-05-13.",
-    "P010": "EWJ long -- USD structural weakness + Nikkei record 59,585 (Apr-22). Japan March trade surplus 7th consecutive month. Entry avg $88.30 (3 tranches). Stop $86 (2x ATR ~$4.4). Time-stop 2026-06-30.",
-    "P016": "Brent long -- Hormuz blockade (<10% traffic) + basis-momentum T1 fresh (backwardation +13.95, steepening). V027 z+1.65 capital expansion. Size 0.75% for Iran binary downside. Stop $90.50 (2x ATR ~$3.7). Time-stop 2026-05-22.",
-    "P013": "INTC long -- Terafab foundry ramp. V026 residual +13.89% (T=+1). Sum+4. Entry after Apr-23 AC beat ($68-72 Apr-24 morning). Prior P004 validated direction (+2.09% in 11 days).",
-    "P014": "AAPL long -- V026 residual +4.68% (T=+1). Sum+3. DEFERRED Apr-22 ($266 below $271-274 zone). Hard exit Apr-30 before May-1 earnings. Reassess if price recovers above $269.",
-    "P015": "GOOGL long -- AI/search S+1, C+1 pre-earnings (88% Mag7 beat rate). T=0 (residual -0.80%). Entry Apr-30 morning after Apr-29 AC beat. Stop ~$317. Time-stop 2026-05-15.",
+    "P009": (
+        "SPY is held long as the core equity sleeve position with a full three-factor edge (S+T+R, C=0). "
+        "The structural case rests on the equity overlay gate being firmly ON — SPY trading ~$705, "
+        "well above the estimated 10-month SMA of $650–680 (V033), confirming the regime is Risk-On. "
+        "Momentum is constructive (T+1 via raw TSMOM), and intermediary capital (V027 z+1.65) is in "
+        "expansion territory, which under Risk Rules §1.B authorizes full sizing — however, the position "
+        "was deliberately half-sized at initiation because the Catalyst leg scores zero. There is no "
+        "fresh event-driven tailwind; the edge is purely structural. Entry was averaged into across five "
+        "tranches at $708.95; current price ~$705 leaves approximately $9 of buffer to the $696 hard stop "
+        "(2× ATR ~$14). The primary near-term risk is TSLA Q1 earnings tonight — a sharp miss could "
+        "pressure QQQ/SPX futures and bring the stop into focus. Secondary risk is FOMC Apr-28–29, "
+        "where Warsh hawkish framing has injected a rate-regime tail. Hold unless SPY closes below $696 "
+        "or the FOMC delivers a materially hawkish surprise. Time-stop: 2026-05-13."
+    ),
+    "P010": (
+        "EWJ is a long in Japanese large-cap equities, held as an international equity sleeve position "
+        "with two converging tailwinds. The primary structural driver (S+1) is USD weakness: DXY has "
+        "fallen 3.9% from its April 9 peak to 98.24, compressing the dollar and boosting the relative "
+        "purchasing power of yen-denominated assets when translated back for a USD investor — the same "
+        "DXY-weak regime that underpins P009 SPY also favors international equity as a second expression. "
+        "The momentum leg (T+1) is confirmed by the Nikkei printing a record high of 59,585 on April 22, "
+        "and Japan's March trade surplus marked the seventh consecutive month of surplus, providing "
+        "fundamental macro footing beneath the trend. The international equity overlay gate (EWJ $90.19 "
+        "vs estimated 10-month SMA ~$78–82) is ON. Entry averaged $88.30 across three tranches; at "
+        "$90.19 the position carries approximately $1.89 of unrealized gain. Stop is $86 (2× ATR ~$4.4). "
+        "The primary risk is a DXY reversal — if the dollar strengthens sharply on hawkish Fed or "
+        "safe-haven flow, both the S-variable and the FX translation unwind simultaneously. Time-stop: "
+        "2026-06-30."
+    ),
+    "P016": (
+        "Brent crude is the primary new promotion today — the commodity overlay gate (V034 GSG 31.75 "
+        "vs. 10-month SMA 25.35, +24.8% above) confirmed ON for the first time this cycle, unblocking "
+        "the commodity sleeve. Three independent structural factors stack the thesis: (1) the Hormuz "
+        "Strait blockade — currently restricting less than 10% of normal traffic — is removing a "
+        "significant share of seaborne crude supply from the global market, providing a persistent "
+        "supply-shock bid; (2) the Brent futures curve shows fresh backwardation with basis-momentum "
+        "T1 reading +13.95 and steepening, the only commodity with T1-grade fresh data in today's "
+        "V028 run; and (3) USD structural weakness (DXY -3.9% from peak) provides an independent "
+        "commodity S+1 tailwind. Intermediary capital expansion (V027 z+1.65) permits full sizing, "
+        "but two risks drive a deliberate haircut to 0.75%: first, correlation exposure to P009/P010 "
+        "which already express the DXY-weak macro theme; second, the Iran ceasefire binary — a deal "
+        "materializing could send Brent down 10–15% instantly, and that outcome has symmetric "
+        "probability at current visibility. Entry zone: $94.00–94.50 at-market or limit (Brent current "
+        "$94.19). Stop: $90.50 (2× ATR ~$3.7). Targets: $98 / $102. Invalidation: Iran deal confirmed "
+        "or Hormuz shipping >70% restored within 10 days. Time-stop: 2026-05-22."
+    ),
+    "P013": (
+        "INTC is a contingent long in Intel, not yet entered — the position is pending an earnings-beat "
+        "catalyst trigger tonight. The thesis is grounded in Intel's Terafab foundry ramp: the "
+        "manufacturing-services buildout positions Intel to capture external semiconductor production "
+        "demand independent of its legacy CPU business cycle, which has historically suffered from "
+        "market-share attrition to AMD. What makes the setup compelling is the residual momentum signal "
+        "(V026): INTC scores +13.89% on the T+1 residual basis — the highest residual reading in the "
+        "entire scored universe. Residual momentum strips out market-wide and sector-wide factors, so "
+        "+13.89% represents INTC-specific outperformance, not just semiconductor sector beta. The full "
+        "score is Sum+4, the highest conviction score in the current book. A prior position (P004) in "
+        "the same direction confirmed the thesis direction with a +2.09% return in 11 days. The entry "
+        "plan: Intel reports Q1 after market close tonight (April 23). A confirmed beat triggers a "
+        "limit-order entry in the $68–72 zone on the April 24 morning open. Current price $66.26 is "
+        "below the zone — do not enter early. If earnings disappoint, the trade is abandoned. Stop "
+        "and sizing will be set at entry confirmation."
+    ),
+    "P014": (
+        "AAPL is a promoted long that is currently deferred — the setup is valid but price has not "
+        "reached the entry zone, and methodology discipline prohibits chasing. The residual momentum "
+        "score (V026) reads +4.68% on a T+1 basis, confirming stock-specific outperformance above "
+        "market and sector factors, which gives T=+1. The macro and regime factors are supportive "
+        "(S+T=+2), and Sum+3 clears the promotion threshold. The problem is price: AAPL closed at "
+        "$266.17 on April 22, below the target entry zone of $271–274. Entering below $268 is "
+        "prohibited — the entry zone was set at a level where the risk/reward and stop geometry make "
+        "sense; entering lower compresses the reward leg while keeping the stop the same, degrading "
+        "the trade's expected value. The action is to wait: if price recovers above $269 before "
+        "April 30, the position can be entered. April 30 is a hard deadline — AAPL reports earnings "
+        "on May 1, and no position will be initiated into a binary earnings event without an explicit "
+        "catalyst thesis scored at C+1. If price fails to recover to $269 before April 30, the "
+        "opportunity is abandoned for this cycle."
+    ),
+    "P015": (
+        "GOOGL is a contingent long, not yet entered, pending the April 29 earnings event. The "
+        "structural thesis (S+1) is AI-driven search monetization: Google's integration of AI "
+        "Overviews and Gemini into core search positions it to defend and grow ad revenue per query "
+        "even as the search interface evolves. The catalyst leg (C+1) is the pre-earnings setup: "
+        "historically, 88% of Mega-Cap Tech names beat Q1 estimates in the prior four years, "
+        "providing a statistically meaningful entry edge on the morning after a confirmed beat. "
+        "The trend leg is the current weakness of the setup — residual momentum (V026) scores "
+        "-0.80% (T=0), borderline but not positive, which is why this is a contingent entry "
+        "rather than an immediate one. The plan is clear: if GOOGL beats Q1 earnings after market "
+        "close on April 29, enter long on the April 30 morning open. Stop is set ~$317 (2× ATR "
+        "below the April 30 open). One complicating factor is the FOMC meeting, which concludes "
+        "April 29 — the same day as GOOGL earnings. A hawkish Fed surprise on the same evening "
+        "could create a cross-current where even a solid earnings beat faces a rates-driven "
+        "sell-off. Position size will be evaluated fresh at entry time to account for this "
+        "compounded event risk. Time-stop: 2026-05-15."
+    ),
 }
 
 # ── Data Freshness Strip ──────────────────────────────────────────────────────
@@ -178,22 +277,25 @@ DELTA_FOOT = ("BTC Sum+3 gate-blocked (crypto sleeve OFF; BTC $76k < $91.5k 10m-
 
 # ── Recommendations ───────────────────────────────────────────────────────────
 # RECS: new promotions this run
-# (asset_html, dir_cls, entry, stop, target, size, catalyst, grade, sleeve)
+# (asset_html, dir_cls, entry, stop, target, size, catalyst, grade, sleeve, notional_usd)
+# notional_usd = risk_pct × PORT_NAV / (stop_distance / entry_mid)
 RECS = [
     ("<b>Brent</b> <span class='pill green'>NEW P016</span>","green",
      "$94.00-94.50 (at-market/limit; last $94.19)","$90.50 (2x ATR ~$3.7)","$98 / $102",
      "0.75% (corr+binary haircut)",
      "C=0; structural: Hormuz blockade + backwardation steepening + DXY weak. Iran deal = invalidation.",
-     "S+1(A), T+1(A), C0, R+1(A)","Commodity ON -- first cycle"),
+     "S+1(A), T+1(A), C0, R+1(A)","Commodity ON -- first cycle",
+     813),  # 0.75% × $4,300 / (3.75/94.25) ≈ $813
 ]
 # RECS_CARRY: carry-over pending entries from prior recs
-# (asset_label, entry_note, stop, target, size_note, catalyst_note)
+# (asset_label, entry_note, stop, target, size_note, catalyst_note, notional_usd)
+# notional_usd: actual filled position size for OPEN; computed entry size for PENDING
 RECS_CARRY = [
-    ("<b>SPY</b> P009 OPEN",        "$708.95 avg (filled)",            "$696",      "~$720/$730","1.0% open",      "C=0; live ~$705 -- $9 stop buffer; watch TSLA tonight"),
-    ("<b>EWJ</b> P010 OPEN",        "$88.30 avg (filled)",             "$86.00",    "~$95/$98",  "0.75% open",     "C=0; Nikkei record Apr-22 +2.1% unrealized"),
-    ("<b>INTC</b> P013 await beat", "$68-72 (after Apr-23 AC beat)",   "~$63-67",   "$75/$82",   "1.0% planned",   "C+1: Apr-23 AC -- enter Apr-24 morning ONLY on beat"),
-    ("<b>AAPL</b> P014 deferred",   "DEFERRED ($266 < $271-274 zone)", "~$264-267", "$280/$290", "0.75% if entry", "Hard exit Apr-30; recover above $269 before"),
-    ("<b>GOOGL</b> P015 contingent","~$333-340 after Apr-29 beat",     "~$317",     "$355/$375", "0.75% planned",  "C+1: Apr-29 AC; enter Apr-30 morning on beat ONLY"),
+    ("<b>SPY</b> P009 OPEN",        "$708.95 avg (filled)",            "$696",      "~$720/$730","1.0% risk · ~$43 at stop",  "C=0; live ~$705 -- $9 stop buffer; watch TSLA tonight", 2089),
+    ("<b>EWJ</b> P010 OPEN",        "$88.30 avg (filled)",             "$86.00",    "~$95/$98",  "0.75% risk · ~$32 at stop", "C=0; Nikkei record Apr-22 +2.1% unrealized",            1396),
+    ("<b>INTC</b> P013 await beat", "$68-72 (after Apr-23 AC beat)",   "~$63-67",   "$75/$82",   "1.0% risk · ~$43 at stop",  "C+1: Apr-23 AC -- enter Apr-24 morning ONLY on beat",   602),
+    ("<b>AAPL</b> P014 deferred",   "DEFERRED ($266 < $271-274 zone)", "~$264-267", "$280/$290", "0.75% risk · ~$32 at stop", "Hard exit Apr-30; recover above $269 before",           543),
+    ("<b>GOOGL</b> P015 contingent","~$333-340 after Apr-29 beat",     "~$317",     "$355/$375", "0.75% risk · ~$32 at stop", "C+1: Apr-29 AC; enter Apr-30 morning on beat ONLY",     543),
 ]
 # RECS_BLOCKED: gate-blocked or near-miss Sum>=3
 # (asset_html, dir_txt, entry, stop, target, size, catalyst, grade, sleeve)
@@ -211,9 +313,10 @@ RECS_BLOCKED = [
      "Gate-UNBLOCKED but correlation-gated behind Brent. Promote if Brent fills + sector cap room.",
      "S+1,T+1,C0,R+1 (+3)","Commodity ON (near-miss)"),
 ]
-RECS_FOOTNOTE = ("R=+1 via V027 z+1.65 (A) + HY OAS 285bp (B) + NFCI -0.47 (A) + VIX 19.04 (B) -- Grade A double confirmed.<br>"
-                 "Heat open+pending: P009 1.0% + P010 0.75% + P016 0.75% = 2.6% (32% of 8% cap). "
-                 "If P013+P014+P015 all fill: +2.5% additional = 5.1% total (within cap).")
+RECS_FOOTNOTE = (f"R=+1 via V027 z+1.65 (A) + HY OAS 285bp (B) + NFCI -0.47 (A) + VIX 19.04 (B) -- Grade A double confirmed.<br>"
+                 f"Heat open+pending: P009 1.0% + P010 0.75% + P016 0.75% = 2.6% (~${round(2.6*PORT_NAV/100)} USDT / 32% of 8% cap). "
+                 f"If P013+P014+P015 all fill: +2.5% additional = 5.1% total (~${round(5.1*PORT_NAV/100)} USDT, within cap).<br>"
+                 f"<b>PORT_NAV: ${PORT_NAV} USDT ({PORT_NAV_DATE}).</b> Notionals = risk% &times; NAV &divide; stop-distance%.")
 
 # ── Signal Age ────────────────────────────────────────────────────────────────
 # (ID, asset, status, promoted_date, days_held, expiry_date, days_remaining, urgency_cls)
@@ -379,12 +482,102 @@ UPSTREAM = [
 ]
 
 # ── Discussion ────────────────────────────────────────────────────────────────
+# Writing standard (2026-04-22): each entry is a substantive paragraph,
+# 5–10 sentences, with a bold header question/topic. Cover min: primary
+# promotion rationale, sizing haircut factors, gate/regime change consequences,
+# live event risk scenarios mapped to each position with price levels, all
+# pending entry triggers with exact conditions, portfolio heat + regime label.
+# Frame each item as "why is the obvious interpretation incomplete?" — not a
+# recap of what the scorecard already shows.
 DISCUSSION = [
-    "<b>Why Brent Long despite ceasefire extension?</b> The ceasefire extension removes immediate re-escalation risk (good for equities), but the Hormuz naval blockade REMAINS in force -- &lt;10% normal traffic. Brent is priced on physical supply shortage, not war risk premium alone. Invalidation is an Iran DEAL + Hormuz reopening -- not a ceasefire pause. The 'frozen conflict with blockade intact' scenario (Al Jazeera scenario b) is exactly the Brent-bullish case. C=0 is scored because the ceasefire binary is symmetric: deal = -10-15%, frozen = +10%; that risk is already in the 0.75% size haircut.",
-    "<b>Why 0.75% rather than 1.0% or 1.5%?</b> Four simultaneous haircut reasons: (1) Iran ceasefire binary downside (-10-15% on deal -- sharp, fast); (2) correlation with open equity book (P009 SPY, P010 EWJ share DXY-weak + real-yield direction); (3) TSLA earnings tonight = cross-asset tail; (4) FOMC Apr-28 hawkish tail. V027 z+1.65 allows full sizing per ss1.B but binary-downside logic overrides -- same PARTIAL treatment as SPY P009 C=0 precedent (2026-04-20 v3).",
-    "<b>Commodity sleeve CONFIRMED ON for the first time this cycle.</b> V034 GSG 31.75 vs 10m-SMA 25.35 -- a 25% premium. This unblocks Brent P016 (promoted), Silver (N043), WTI (N042), and Copper (N044). All had Sum+3 blocked by the gate. Brent is primary; others are near-miss via correlation gating (sector cap 25%).",
-    "<b>TSLA earnings tonight (Apr-22 AC) are the primary portfolio stress test.</b> Delivery miss (358k vs 372k) is baked in. Market focus: FSD/Robotaxi guidance and margins. Beat -> QQQ/SPX futures up, P009 SPY supportive (buffer $9). Miss -> risk-off tests P009 $696 stop. Brent indirectly exposed via VIX; stop $90.50 has ~$3.7 buffer from $94.19.",
-    "<b>Pending entries this week.</b> P013 INTC: enter $68-72 Apr-24 morning ONLY on confirmed beat. P014 AAPL: deferred; reassess above $269 before Apr-30. P015 GOOGL: corrected to Apr-29 AC; enter Apr-30 morning. None actionable today.",
+    (
+        "<b>Why Brent Long despite the ceasefire extension?</b> "
+        "It is worth being precise about what the ceasefire extension actually changes. "
+        "The extension removes the immediate 24-hour re-escalation trigger — that is good for equities and reduces VIX-spike risk. "
+        "What it does NOT change is the Hormuz Strait blockade, which remains in force at less than 10% of normal traffic throughput. "
+        "Brent's current price level is not primarily a war-risk premium — it is a physical supply shortage premium. "
+        "The tonnage that cannot move through Hormuz has to re-route via the Cape of Good Hope (adding ~14 days and meaningful freight cost), "
+        "or it simply does not reach buyers. That supply displacement is structural and does not resolve with a ceasefire. "
+        "The scenario that invalidates the thesis is not a ceasefire pause; it is a full Iran nuclear deal followed by Hormuz reopening — "
+        "a significantly higher political bar. The 'frozen conflict with blockade intact' scenario is precisely the Brent-bullish case. "
+        "C is scored at 0 (not +1) because the binary outcome is symmetric: a deal materializes = Brent -10 to -15% fast; "
+        "blockade persists = Brent +10% or more. That symmetric uncertainty is why there is no catalyst credit — "
+        "and it is already reflected in the 0.75% size haircut rather than the standard 1.5%."
+    ),
+    (
+        "<b>Why 0.75% and not more?</b> "
+        "This sizing decision is the most consequential judgment call in today's rec and deserves explicit treatment. "
+        "V027 intermediary capital at z+1.65 authorizes full sizing under Risk Rules §1.B — so the methodology ceiling is 1.5%. "
+        "Four factors independently argued for a haircut, and their combined weight drove the position to half-size. "
+        "First, the Iran ceasefire binary: a deal could produce a -10 to -15% drawdown in Brent within hours, "
+        "and at 1.5% position size that would consume nearly the entire annual risk budget for a single commodity slot. "
+        "Second, correlation exposure: P009 SPY and P010 EWJ are both DXY-weak expressions in the equity sleeve — "
+        "adding a commodity position that also benefits from USD weakness means three positions sharing the same macro factor; "
+        "a DXY reversal would hurt all three simultaneously. "
+        "Third, TSLA earnings tonight introduce cross-asset tail risk — a miss could pressure QQQ/SPX futures, "
+        "trigger risk-off, and impact Brent through VIX expansion. "
+        "Fourth, FOMC Apr-28-29 is six days out with hawkish optionality (Warsh framing). "
+        "The SPY P009 precedent — also C=0, also half-sized — is directly applicable. "
+        "This is a structural-edge position with acknowledged binary downside, not a momentum chase; sizing should reflect that."
+    ),
+    (
+        "<b>Commodity sleeve ON for the first time this cycle — what changes.</b> "
+        "V034 (GSG GSCI proxy) reading 31.75 against an estimated 10-month SMA of 25.35 represents a 24.8% premium — "
+        "a decisive gate-ON confirmation, not a borderline reading. This matters because the overlay gate is the system's "
+        "primary defense against promoting commodity trades in secular downtrend regimes. For the past several months, "
+        "every commodity Sum+3 signal — Brent, WTI, Silver, Copper — was blocked by this gate regardless of its score. "
+        "Today that block is lifted. The direct consequences: Brent P016 is promoted as primary (freshest basis-momentum data, T1 grade). "
+        "Silver (N043) and WTI (N042) are unblocked but remain near-misses today due to correlation gating behind Brent — "
+        "the sector cap of 25% commodity exposure prevents stacking correlated commodity longs. "
+        "Copper (N044) remains blocked on C (needs China PMI > 50.5). "
+        "The next gate review is May-01 Faber monthly close — if GSG slips below the 10-month SMA, the sleeve gates back OFF "
+        "and all commodity positions revert to gate-blocked status at that point."
+    ),
+    (
+        "<b>TSLA earnings tonight are the live portfolio stress test.</b> "
+        "The delivery miss (358k vs. 372k guidance) is already market knowledge — that news is baked into the pre-earnings price. "
+        "What the market does not yet know are: FSD and Robotaxi guidance quality, gross margin trajectory, "
+        "and whether management gives forward-year confidence or signals further demand softness. "
+        "The playbook for each scenario: a guidance beat or margin surprise drives QQQ/SPX futures higher overnight, "
+        "P009 SPY's ~$9 buffer to the $696 stop widens, and P010 EWJ gets sympathy support through Nikkei futures. "
+        "A guidance miss or margin disappointment drives risk-off: QQQ could gap -2% or more, "
+        "bringing P009's stop into live focus by morning. Brent is indirectly exposed — "
+        "a VIX spike from TSLA risk-off would suppress risk-on sentiment broadly, "
+        "though Brent's primary driver (Hormuz supply) is largely independent. "
+        "The stop at $90.50 provides ~$3.70 of buffer from $94.19; that buffer is unlikely to be tested by TSLA alone "
+        "unless risk-off is severe enough to produce broad commodity liquidation. "
+        "INTC P013 is directly at stake: an INTC earnings beat tonight opens the $68-72 entry window; a miss closes it."
+    ),
+    (
+        "<b>Pending entries and what has to happen for each.</b> "
+        "Three positions are promoted but not yet entered, each with a specific trigger. "
+        "INTC P013 (Sum+4) requires a confirmed beat in Intel's Q1 earnings tonight (April 23 AC). "
+        "If beat confirmed: enter long in the $68-72 limit zone on the April 24 morning open — not before, not at market. "
+        "The entry zone represents the post-earnings pop range consistent with thesis price geometry; "
+        "chasing above $72 on gap-up would compress the risk/reward unacceptably. "
+        "AAPL P014 (Sum+3) is deferred because price is at $266.17, below the $271-274 entry zone. "
+        "Do not enter below $268. The trade has a hard time-stop of April 30 because AAPL reports May 1 — "
+        "if price has not recovered to the entry zone by April 30, the opportunity expires for this cycle. "
+        "GOOGL P015 (Sum+3) is a cleaner situation: the trigger is an April 29 AC earnings beat, "
+        "with entry on the April 30 morning open. Note that FOMC also concludes April 29 — "
+        "a hawkish surprise on the same day could create cross-currents that require sizing judgment at entry time. "
+        "None of these three are actionable today."
+    ),
+    (
+        "<b>Portfolio heat and regime context.</b> "
+        "Current portfolio heat across all open positions: approximately 2.6% total risk after adding Brent P016 at 0.75%. "
+        "That is well within the 8% heat cap, leaving meaningful capacity for INTC P013 (contingent), "
+        "and still-deferred AAPL and GOOGL entries. "
+        "The regime label — Risk-On (FRAGILE) / Geopolitical-Binary — reflects a market that is directionally constructive "
+        "but operating with elevated tail risk on two independent axes: the Iran binary (commodity supply shock) "
+        "and the FOMC rate path (earnings multiple compression risk). "
+        "FRAGILE is an internal label indicating that the Risk-On read is real but not robust — "
+        "a single negative macro surprise could flip the regime. "
+        "The correct posture under FRAGILE is: honor the trend, size conservatively on new entries, "
+        "keep stops tight, and do not stack correlated positions. That is exactly what today's rec does. "
+        "The primary regime-flip watch variable for the next 48 hours is WTI at the $90/$95 threshold: "
+        "above $95 begins to function as a tax on growth, creating R headwinds across all sleeves simultaneously."
+    ),
 ]
 
 # ── Memory Updates ────────────────────────────────────────────────────────────
@@ -549,7 +742,7 @@ def positions_cards_html():
             f'<tr><td class="mute">Stop</td><td style="text-align:right;color:#f87171">{stop}</td></tr>'
             f'<tr><td class="mute">Buffer to stop</td><td style="text-align:right;color:{"#4ade80" if buf and buf>5 else "#facc15" if buf and buf>2 else "#f87171"}">{f"{buf:.2f}%" if buf is not None else "--"}</td></tr>'
             f'<tr><td class="mute">TP1 / TP2</td><td style="text-align:right">{tp1} / {tp2}</td></tr>'
-            f'<tr><td class="mute">Size</td><td style="text-align:right">{size_pct*100:.2f}% ({size_usd})</td></tr>'
+            f'<tr><td class="mute">Size</td><td style="text-align:right">{size_pct:.2f}% risk &middot; {size_usd} notional &middot; <span style="color:#5b9bff">~${round(size_pct/100*PORT_NAV):,} risk$</span></td></tr>'
             f'<tr><td class="mute">Time-stop</td><td style="text-align:right">{tstop}</td></tr>'
             f'</tbody></table>'
             f'<div style="margin-top:8px;font-size:11px;color:{flag_col}">{flag_txt}</div>'
@@ -564,6 +757,9 @@ def heat_gauge_section():
         f'<div class="chart-wrap" style="height:160px"><canvas id="heatGauge"></canvas></div>'
         f'<div style="font-size:20px;font-weight:700;margin-top:4px">{TOTAL_HEAT}% / {HEAT_CAP}%</div>'
         f'<div class="mute" style="font-size:12px">{TOTAL_HEAT/HEAT_CAP*100:.0f}% of cap used</div>'
+        f'<div class="mute" style="font-size:12px;margin-top:4px">'
+        f'~${round(TOTAL_HEAT*PORT_NAV/100):,} USDT at risk &nbsp;|&nbsp; NAV ${PORT_NAV:,} ({PORT_NAV_DATE})'
+        f'</div>'
         f'</div>'
     )
 
@@ -731,13 +927,20 @@ def delta_html():
 # §8 Recommendations
 def recs_html():
     hdr = ('<tr><th>Asset</th><th>Dir</th><th>Entry</th><th>Stop</th><th>Target</th>'
-           '<th>Size</th><th>Catalyst</th><th>Grade</th><th>Sleeve</th></tr>')
+           '<th>Enter (USDT)</th><th>Catalyst</th><th>Grade</th><th>Sleeve</th></tr>')
     rows = ""
     if RECS:
-        for asset, dir_cls, entry, stop, target, size, catalyst, grade, sleeve in RECS:
+        for rec in RECS:
+            asset, dir_cls, entry, stop, target, size, catalyst, grade, sleeve = rec[:9]
+            notional = rec[9] if len(rec) > 9 else None
+            if notional:
+                size_cell = (f'<span style="font-size:15px;font-weight:700;color:#4ade80">~${notional:,} USDT</span>'
+                             f'<br><span style="color:#8a93a6;font-size:11px">{size}</span>')
+            else:
+                size_cell = size
             rows += (f'<tr style="background:rgba(74,222,128,.04)">'
                      f'<td>{asset}</td><td>{pill(dir_cls,"LONG")}</td>'
-                     f'<td>{entry}</td><td>{stop}</td><td>{target}</td><td>{size}</td>'
+                     f'<td>{entry}</td><td>{stop}</td><td>{target}</td><td>{size_cell}</td>'
                      f'<td style="font-size:12px">{catalyst}</td>'
                      f'<td style="font-size:12px;color:#b5bccc">{grade}</td>'
                      f'<td style="font-size:12px">{sleeve}</td></tr>\n')
@@ -746,10 +949,16 @@ def recs_html():
     if RECS_CARRY:
         rows += f'<tr><td colspan="9" style="background:#12151c;color:#8a93a6;font-size:11px;padding:5px 10px;letter-spacing:.04em">CARRY-OVER PENDING (previously promoted)</td></tr>\n'
         for rec in RECS_CARRY:
-            a_c, e_c, s_c, t_c, sz_c, cat_c = rec
+            a_c, e_c, s_c, t_c, sz_c, cat_c = rec[:6]
+            notional_c = rec[6] if len(rec) > 6 else None
+            if notional_c:
+                sz_html = (f'<span style="font-size:14px;font-weight:700;color:#5b9bff">~${notional_c:,} USDT</span>'
+                           f'<br><span style="color:#8a93a6;font-size:11px">{sz_c}</span>')
+            else:
+                sz_html = f'<span style="font-size:12px">{sz_c}</span>'
             rows += (f'<tr style="opacity:0.8"><td>{a_c}</td><td>{pill("blue","--")}</td>'
                      f'<td style="font-size:12px">{e_c}</td><td style="font-size:12px">{s_c}</td>'
-                     f'<td style="font-size:12px">{t_c}</td><td style="font-size:12px">{sz_c}</td>'
+                     f'<td style="font-size:12px">{t_c}</td><td>{sz_html}</td>'
                      f'<td style="font-size:12px">{cat_c}</td><td></td><td></td></tr>\n')
     if RECS_BLOCKED:
         rows += f'<tr><td colspan="9" style="background:#12151c;color:#f87171;font-size:11px;padding:5px 10px;letter-spacing:.04em">GATE-BLOCKED / NEAR-MISS (Sum&ge;3 but blocked)</td></tr>\n'
@@ -796,9 +1005,17 @@ def thesis_html():
         return '<div class="mute">No thesis entries.</div>'
     items = ""
     for sid, text in THESIS.items():
+        # Split on double-newlines for multi-paragraph theses; fall back to single paragraph
+        paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
+        if not paragraphs:
+            paragraphs = [text]
+        paras_html = "".join(
+            f'<p style="font-size:13px;line-height:1.7;margin:0 0 8px 0">{p}</p>'
+            for p in paragraphs
+        )
         items += (f'<div class="card" style="margin-bottom:8px">'
                   f'<div class="lbl">{sid}</div>'
-                  f'<div style="font-size:13px;margin-top:6px;line-height:1.6">{text}</div>'
+                  f'<div style="margin-top:6px">{paras_html}</div>'
                   f'</div>')
     return items
 

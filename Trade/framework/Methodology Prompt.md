@@ -313,6 +313,25 @@ When a meta-analysis posterior is cited in analysis or in the deployment memo, d
 
 Every sentence in a briefing must either (a) inform a decision or (b) manage a risk. No padding, no narrative prose, no recaps of what the user already knows. Cite evidence grades (A/B/C) when referencing signals.
 
+### 8.1 HTML Report — Thesis & Discussion Writing Standards (added 2026-04-22)
+
+The trade rec HTML report is the primary review artifact and must support re-reading days or weeks after the fact with full context intact. Terse one-liners fail at review time.
+
+**THESIS dict** — each entry is a full analytical paragraph (4–8 sentences minimum) covering:
+- What the position is, its direction, and current status (open / contingent / deferred)
+- The mechanism behind each score leg — not the value alone but *why* S/T/C/R score as they do
+- The specific edge this trade has that justifies taking the risk
+- The primary invalidation scenario: how fast it materializes, what triggers it, and how it is priced into sizing or stop placement
+- The exact next action: hold condition, price trigger, or time deadline
+
+**DISCUSSION list** — each entry is a substantive paragraph (5–10 sentences) with a bold header question or topic. Each paragraph must:
+- Frame the question precisely — what is the market's default assumption and why is it incomplete or oversimplified
+- Walk through the reasoning step by step (if/then logic, scenario tree, or causal mechanism)
+- Quantify where possible and explain what each number means in context (not just "stop $90.50" but what risk event that stop does and does not absorb)
+- State the actionable conclusion for position sizing, entry timing, stop placement, or regime assessment
+
+Minimum topics to cover per run: primary promotion rationale; sizing decision with explicit haircut factors; any gate/regime change and its downstream consequences; live event risk scenarios mapped to each open position with specific price impacts; all pending entry triggers with exact conditions; portfolio heat and regime-label interpretation.
+
 ---
 
 ## Source Documents

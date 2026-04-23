@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "trade-rec-html",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "7432", "--directory", "C:/Users/Lokis/OneDrive/Desktop/T.system/Trade"],
+      "port": 7432
+    }
+  ]
+}
