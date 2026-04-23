@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Trade Recommendations Report — 2026-04-23</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; color: #1a1a1a; background: #fafafa; }
+  h1 { color: #0a3d62; border-bottom: 3px solid #0a3d62; padding-bottom: 8px; }
+  h2 { color: #0a3d62; margin-top: 32px; border-left: 4px solid #0a3d62; padding-left: 10px; }
+  h3 { color: #20536a; margin-top: 18px; }
+  .meta { background: #eef3f7; padding: 12px 16px; border-radius: 6px; font-size: 0.92em; }
+  .promote { background: #e8f5e9; border-left: 4px solid #2e7d32; padding: 12px 14px; border-radius: 4px; margin: 10px 0; }
+  .pending { background: #fff8e1; border-left: 4px solid #f9a825; padding: 12px 14px; border-radius: 4px; margin: 10px 0; }
+  .warn { background: #ffebee; border-left: 4px solid #c62828; padding: 10px 12px; border-radius: 4px; margin: 8px 0; font-size: 0.95em; }
+  .gap { background: #fff3e0; border-left: 4px solid #ef6c00; padding: 8px 12px; border-radius: 4px; margin: 6px 0; font-size: 0.92em; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.9em; background: white; }
+  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+  th { background: #f0f4f8; color: #0a3d62; font-weight: 600; }
+  tr:hover { background: #f9fafb; }
+  .pos { color: #2e7d32; font-weight: 600; }
+  .neg { color: #c62828; font-weight: 600; }
+  .neutral { color: #757575; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 14px 0; }
+  .panel { background: white; border: 1px solid #e0e0e0; border-radius: 6px; padding: 14px; }
+  .chart-container { position: relative; height: 320px; margin: 12px 0; }
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .chart-row .chart-container { height: 280px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 0.8em; font-weight: 600; margin-right: 4px; }
+  .b-A { background: #2e7d32; color: white; }
+  .b-B { background: #f9a825; color: white; }
+  .b-C { background: #c62828; color: white; }
+  .b-pass { background: #2e7d32; color: white; }
+  .b-partial { background: #f9a825; color: white; }
+  .b-fail { background: #c62828; color: white; }
+  .summary-card { background: linear-gradient(135deg, #0a3d62 0%, #20536a 100%); color: white; padding: 16px 20px; border-radius: 8px; margin: 12px 0; }
+  .summary-card h3 { color: white; margin-top: 0; }
+  ul.compact { margin: 6px 0; padding-left: 22px; }
+  ul.compact li { margin: 3px 0; }
+  .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #ddd; font-size: 0.82em; color: #757575; }
+</style>
+</head>
+<body>
+
+<h1>Trade Recommendations — 2026-04-23 (20:20 UTC+8)</h1>
+<div class="meta">
+  <strong>Regime:</strong> RISK-ON / OIL-ELEVATED — HORMUZ BLOCKADE (SHIPPING ATTACKS), CEASEFIRE EXTENDED, INTC EARNINGS TONIGHT<br>
+  <strong>Generated:</strong> 2026-04-23 20:30 UTC+8 &nbsp;|&nbsp; <strong>Run status:</strong> OK &nbsp;|&nbsp; <strong>Cloud files ingested:</strong> 0/3 (all MISSING) &nbsp;|&nbsp; <strong>Grade A MISSING:</strong> 3 (DGS2/DFII10/T10YIE — context-only, no score-leg block)<br>
+  <strong>R baseline:</strong> +1 (MOVE 69.88, HY OAS 285 bps tight, IC z+1.65 no-notch, VIX 19.62 borderline) &nbsp;|&nbsp; <strong>V027:</strong> z +1.65 (capital expansion, full sizing)
+</div>
+
+<div class="summary-card">
+<h3>Executive Summary</h3>
+<ul class="compact">
+  <li><strong>1 Reaffirmed:</strong> AAPL P014 DEFERRED→ACTIVE on +2.63% recovery to $273.17 (back IN entry zone $271–274). Sum +3 (S+1/T+1/C0/R+1). Size 0.75%. Hard time-stop 2026-04-30 pre-May-1 earnings (7-day runway).</li>
+  <li><strong>1 Binary Pending:</strong> INTC P013 Sum+4 — earnings tonight AC. Beat rev ≥$12.37B + Terafab → entry $68–72 Apr-24 AM. Miss → cancelled. Options ±9.87%.</li>
+  <li><strong>1 Execution Ask:</strong> Brent P016 Rule 2 breakeven stop MANDATORY today (HH $101.91 > trail_activate $97.94 → stop must move ≥$95.13).</li>
+  <li><strong>0 New SignalLedger rows:</strong> all today's would-be candidates dedup against existing OPEN rows from Apr-21/22.</li>
+  <li><strong>Methodology edge:</strong> Disciplined re-promotion of P014 after 6-day wait below threshold — same 0.75% C=0 half-size precedent as Brent P016 and SPY P009.</li>
+</ul>
+</div>
+
+<h2>1. Recommendations Table</h2>
+<div class="promote">
+<strong>AAPL P014 — Long REAFFIRM (RE-ELIGIBLE)</strong><br>
+<table>
+  <tr><th>Field</th><th>Value</th></tr>
+  <tr><td>Direction</td><td class="pos">Long</td></tr>
+  <tr><td>Entry</td><td>$271.00–274.00 limit (currently $273.17 — at-market acceptable inside zone)</td></tr>
+  <tr><td>Stop</td><td>$266.50 (2× ATR ~$6.50 below entry midpoint $271.00)</td></tr>
+  <tr><td>Hard time-stop</td><td><strong>2026-04-30</strong> (pre-May-1 earnings binary; 7-day runway)</td></tr>
+  <tr><td>Targets</td><td>TP1 $282 / TP2 $290</td></tr>
+  <tr><td>Size</td><td><strong>0.75%</strong> (correlation-haircut + binary haircut; matches Brent P016 / SPY P009 precedent)</td></tr>
+  <tr><td>Catalyst</td><td>Structural (relative-strength reclaim of $271 zone; residual +4.68%); Tim Cook → Ternus transition known/discounted</td></tr>
+  <tr><td>Score</td><td>Sum +3 — S+1 / T+1 (V026 +4.68%) / C0 / R+1</td></tr>
+  <tr><td>Grade</td><td><span class="badge b-A">A</span> all four legs</td></tr>
+  <tr><td>Correlation</td><td>Single-stock Mag7-adjacent; effective Mag7 heat well below 25% sector cap post-trade</td></tr>
+  <tr><td>Risk-rule status</td><td><strong>REAFFIRMED PROMOTED</strong> — 8/9 PASS, 1/9 PARTIAL (item #6 C=0 acknowledged + sized-down)</td></tr>
+</table>
+</div>
+
+<h3>Pending entries from prior recs (status carried)</h3>
+<div class="pending"><strong>P013 INTC Sum+4</strong> — earnings tonight Apr-23 AC. Beat rev ≥$12.37B + Terafab/18A external-customer reveal → entry $68–72 Apr-24 AM UTC+8 limit. Miss rev OR weak/absent foundry commentary → P013 cancelled. Pre-earnings $65.27 (below zone, on track).</div>
+<div class="pending"><strong>P015 GOOGL Sum+3</strong> — earnings Apr-29 AC; entry trigger Apr-30 AM on beat. C+1 pre-earnings (88% Mag7 Q1 beat rate). Not actionable today.</div>
+<div class="pending"><strong>P016 Brent OPEN TAKEN</strong> — Rule 2 breakeven stop <strong>MANDATORY today</strong>: HH $101.91 > trail_activate $97.94 → stop must move to ≥$95.13 (chandelier guidance $96.28). Thesis intact ($97.16, +2.13% vs entry $95.13).</div>
+<div class="pending"><strong>P017 BTC GATE-BLOCKED</strong> — needs >$91,523 at Apr-30 close to flip Faber gate ON May-01. Currently $77,536 (~$14K gap). Sleeve OFF.</div>
+
+<h2>2. Charts</h2>
+
+<div class="chart-row">
+  <div class="panel">
+    <h3>Cross-Asset Risk Dashboard</h3>
+    <div class="chart-container"><canvas id="riskDash"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>Score Stacking — Top-9 Candidates</h3>
+    <div class="chart-container"><canvas id="scoreStack"></canvas></div>
+  </div>
+</div>
+
+<div class="chart-row">
+  <div class="panel">
+    <h3>Yield Curve Snapshot</h3>
+    <div class="chart-container"><canvas id="yieldCurve"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>Brent Curve (F1–F2 backwardation, +$13.95)</h3>
+    <div class="chart-container"><canvas id="brentCurve"></canvas></div>
+  </div>
+</div>
+
+<div class="chart-row">
+  <div class="panel">
+    <h3>BTC Active Addresses (S-leg threshold 400K)</h3>
+    <div class="chart-container"><canvas id="btcAddr"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>Catalyst Calendar (next 14d, severity)</h3>
+    <div class="chart-container"><canvas id="catCal"></canvas></div>
+  </div>
+</div>
+
+<div class="chart-row">
+  <div class="panel">
+    <h3>Audit-Addition Status Panel</h3>
+    <div class="chart-container"><canvas id="auditPanel"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>Gap Closure (Grade-A inventory)</h3>
+    <div class="chart-container"><canvas id="gapDoughnut"></canvas></div>
+  </div>
+</div>
+
+<h2>3. Data Collected</h2>
+<h3>Cross-Asset Risk &amp; Financial Conditions</h3>
+<table>
+  <tr><th>Variable</th><th>Reading</th><th>Grade</th><th>Freshness</th><th>Score Impact</th></tr>
+  <tr><td>VIX</td><td>19.62</td><td><span class="badge b-A">A</span></td><td>Fresh Apr-23</td><td>R: +1 — sub-20</td></tr>
+  <tr><td>VIX3M</td><td>21.24</td><td><span class="badge b-A">A</span></td><td>Fresh Apr-23</td><td>Term contango (0.924) — no stress</td></tr>
+  <tr><td>MOVE</td><td>69.88</td><td><span class="badge b-A">A</span></td><td>Fresh Apr-23</td><td>R: +1 — bond vol contained</td></tr>
+  <tr><td>DXY</td><td>98.78</td><td><span class="badge b-A">A</span></td><td>Fresh Apr-23</td><td>Firming +0.37 (FOMC + geopolitics)</td></tr>
+  <tr><td>HY OAS</td><td>285 bps</td><td><span class="badge b-B">B</span></td><td>T3 Apr-21 (2d, at limit)</td><td>R: +1 — tight; V027 dominates</td></tr>
+  <tr><td>NFCI</td><td>−0.50</td><td><span class="badge b-A">A</span></td><td>Fresh Apr-17 weekly</td><td>R: +1 context — loose</td></tr>
+  <tr><td>IC ratio z (V027)</td><td><strong>+1.65</strong></td><td><span class="badge b-A">A</span></td><td>Fresh Apr-23 19:31 staging</td><td>R adj +0; sizing FULL</td></tr>
+</table>
+
+<h3>Equities &amp; Crypto Snapshot</h3>
+<table>
+  <tr><th>Asset</th><th>Price</th><th>Note</th></tr>
+  <tr><td>SPY</td><td>$711.21 (record)</td><td>P009 buffer rebuilt to $15.21</td></tr>
+  <tr><td>QQQ</td><td>$655.11 (record)</td><td>Corr-blocked by SPY</td></tr>
+  <tr><td>EWJ</td><td>$87.76</td><td>P010 thin buffer $1.76; Nikkei 60K touched</td></tr>
+  <tr><td><strong>AAPL</strong></td><td><strong>$273.17 (+2.63%)</strong></td><td><strong>P014 RE-ELIGIBLE — back IN zone $271–274</strong></td></tr>
+  <tr><td>INTC</td><td>$65.27</td><td>P013 binary tonight AC (options ±9.87%)</td></tr>
+  <tr><td>GOOGL</td><td>$339.32</td><td>P015 entry Apr-30 post Apr-29 AC earnings</td></tr>
+  <tr><td>Brent</td><td>$97.16</td><td>P016 +2.13%; Rule 2 stop-up MANDATORY today</td></tr>
+  <tr><td>WTI</td><td>$93.95</td><td>$95 R-threshold one session away</td></tr>
+  <tr><td>Gold</td><td>$4,717</td><td>−1.2%; T flipped 0→−1; Sum +1</td></tr>
+  <tr><td>Silver</td><td>$74.77</td><td>−4.4% rotation OUT of metals</td></tr>
+  <tr><td>BTC</td><td>$77,536</td><td>Gate-blocked; needs >$91.5K at Apr-30 close</td></tr>
+</table>
+
+<h3>Audit-Addition Variables (V026–V028)</h3>
+<table>
+  <tr><th>Variable</th><th>Status</th><th>Impact today</th></tr>
+  <tr><td>V026 Residual Momentum</td><td>12/12 COMPUTED ✓ <span class="badge b-A">A</span></td><td><strong>Decision-moving:</strong> AAPL +4.68% confirmed T+1 / Sum+3 supporting re-eligibility (raw +19.94% would over-state edge); TSLA −9.12% &amp; PLTR −35.62% conflicts maintained.</td></tr>
+  <tr><td>V027 IC Ratio Z</td><td><strong>+1.65</strong> (capital expansion) <span class="badge b-A">A</span></td><td>Full-sizing permitted (z &gt; +0.5σ); other haircuts (correlation, binary) drove 0.75% half-size on AAPL.</td></tr>
+  <tr><td>V028 Basis-Momentum</td><td>1/5 fresh, 4/5 <strong>DEGRADED 6d</strong> ⚠</td><td>Brent T1 fresh; WTI/Gold/Silver/Copper T3 6d (beyond 5d window) — divergence-cap detection unreliable for those four. <strong>6th consecutive run failure</strong>; infrastructure HIGH priority.</td></tr>
+</table>
+
+<h2>4. Analysis Methodology</h2>
+<p>8-step framework run end-to-end (per <em>framework/Methodology Prompt.md</em>): regime read → variable freshness audit → S/T/C/R scoring with V026 residual-over-raw rule + V027 IC z gate + V028 basis-momentum divergence cap → catalyst overlay → correlation gate (Risk Rules §5) → pre-entry checklist → SignalLedger / HypoLedger sync. Cloud cross-check unavailable today (0/3 files in Drive); local primary used per artifact precedence.</p>
+
+<h2>5. Discussion</h2>
+<p><strong>Why AAPL P014 today and not earlier?</strong> P014 was originally promoted at the Apr-21 staging when AAPL traded $271–274. By Apr-22 it slipped to $266.17 (below the no-enter $268 floor) and the rec deferred entry. Today's +2.63% recovery to $273.17 reclaims the zone with the residual signal still intact (+4.68% T+1). The disciplined wait paid off — chasing below $268 would have triggered the ATR stop on Apr-22 noise and burned the edge. Same lesson the EWY trade (closed 2026-04-16) taught: stops must respect ATR, and entries must respect the zone.</p>
+
+<p><strong>Why no new SignalLedger rows?</strong> Append-only discipline: P013/P014/P015/P016/P017 are all OPEN with the same scores from Apr-21/22. Today's near-misses (WTI/Silver/Copper/WDC/NVDA/MU) all dedup against N040–N046. New rows only appear when (a) an asset hits a new |Sum|≥3 from a prior &lt;3, (b) a new asset enters the universe, or (c) score legs materially change the existing record. None of those triggered today.</p>
+
+<p><strong>Why the Brent stop-up is on this rec at all?</strong> P016 was promoted yesterday and TAKEN. Rule 2 (mandatory breakeven stop on HH &gt; trail_activate) fires today because Brent peaked $101.91 and pulled back to $97.16. The execution is positions-monitor / trade-update domain, but surfaced here because Gerald reads the rec as a single source-of-truth for actionable items at the 20:20 slot.</p>
+
+<p><strong>Asymmetric risk picture:</strong> INTC tonight is the dominant binary — beat extends NDX records and lights P013, miss tightens P009 SPY buffer (now $15.21 cushion). Apr-24 Flash PMI is the secondary read into FOMC Apr-28–29. Hormuz blockade is the structural backdrop reinforcing P016 Brent and keeping commodity sleeve ON.</p>
+
+<h2>6. Results — Pre-Entry Checklist (AAPL P014)</h2>
+<table>
+  <tr><th>#</th><th>Item</th><th>Status</th><th>Note</th></tr>
+  <tr><td>1</td><td>|Sum|≥3 with C scored</td><td><span class="badge b-pass">PASS</span></td><td>Sum +3 (S+1/T+1/C0/R+1); C explicitly 0</td></tr>
+  <tr><td>2</td><td>Invalidation written, concrete, date-bounded</td><td><span class="badge b-pass">PASS</span></td><td>Below $268 → DEFER; ATR stop $266.50; HARD TIME-STOP 2026-04-30</td></tr>
+  <tr><td>3</td><td>Correlation gate clean</td><td><span class="badge b-pass">PASS</span></td><td>Mag7 effective heat well below 25% sector cap post-trade</td></tr>
+  <tr><td>4</td><td>Per-position ≤2% AND portfolio heat ≤8% post</td><td><span class="badge b-pass">PASS</span></td><td>0.75% size; ~2.6% heat post-entry</td></tr>
+  <tr><td>5</td><td>ATR stop set</td><td><span class="badge b-pass">PASS</span></td><td>2× ATR ~$6.50; stop $266.50</td></tr>
+  <tr><td>6</td><td>Catalyst asymmetry stated</td><td><span class="badge b-partial">PARTIAL</span></td><td>C=0 (no positive catalyst inside 7-day window); size halved (0.75%) per Brent/SPY precedent</td></tr>
+  <tr><td>R1.B</td><td>V027 tier applied</td><td><span class="badge b-pass">PASS</span></td><td>z+1.65 capital expansion; full sizing allowed</td></tr>
+  <tr><td>R7.7</td><td>Overlay gate ON for equity sleeve</td><td><span class="badge b-pass">PASS</span></td><td>V033 SPY +5.25% above 10m SMA</td></tr>
+</table>
+
+<h2>7. Recommendations &amp; Action Items</h2>
+<ol>
+  <li><strong>Place AAPL P014 limit order $271–274</strong> with stop-market $266.50 contingent on fill; 0.75% size; hard time-stop 2026-04-30.</li>
+  <li><strong>Move Brent P016 stop to ≥$95.13</strong> (Rule 2 mandatory; chandelier guidance $96.28).</li>
+  <li><strong>Hold INTC P013 trigger order</strong> until tonight's earnings; if beat + Terafab → enter $68–72 Apr-24 AM limit; if miss/weak → cancel.</li>
+  <li><strong>No action on GOOGL/BTC/MU/Silver/WTI/Copper/WDC</strong> — all near-miss / gate-blocked / corr-blocked.</li>
+  <li><strong>Infrastructure backlog (HIGH):</strong> WTI/Gold/Silver/Copper basis-momentum pipeline — 6 consecutive run failures; T3 cache 6d (beyond 5d window). Fix <code>scripts/compute_audit_additions.py</code> futures_curves.csv population.</li>
+</ol>
+
+<h2>8. Data Gaps</h2>
+<div class="gap"><strong>Cloud (Drive):</strong> 0/3 — cloud-market-brief, cloud-news, cloud-trade-rec for 2026-04-23 all MISSING.</div>
+<div class="gap"><strong>FRED rates:</strong> DGS2 / DFII10 / T10YIE Tier-1+2 retrieval failed; T3 Apr-21 (2d > 1d window) = MISSING per protocol. No score-leg block.</div>
+<div class="warn"><strong>V028 basis-momentum:</strong> WTI/Gold/Silver/Copper T3 STALE Apr-17 (6d, beyond 5d window) → DEGRADED. Divergence-cap unreliable. 6th consecutive run failure. <strong>Submit infrastructure task.</strong></div>
+<div class="gap"><strong>Other:</strong> EIA crude Apr-23 NOT CAPTURED, V036 PCTECH NOT COMPUTED, BTC 3m basis NOT CAPTURED. Excel sync available for read; DailyVariables row for 2026-04-23 from brief still pending append.</div>
+
+<h2>9. Memory Updates Applied</h2>
+<ul class="compact">
+  <li><strong>Memory.md §5 Watchlist:</strong> P014 AAPL DEFERRED→ACTIVE; Gold Sum+2→+1 (T flipped −1); Silver +caveat (rotation OUT); Brent P016 +Rule 2 stop-up note.</li>
+  <li><strong>Memory.md §2/§6:</strong> no changes (open positions unchanged; catalysts current).</li>
+  <li><strong>memory-lessons.md:</strong> appended one-line entry on disciplined re-promotion after 6-day wait.</li>
+  <li><strong>SignalLedger:</strong> 0 new rows (all dedup against existing OPEN).</li>
+  <li><strong>HypoLedger:</strong> 0 new rows (P014 entry parameters unchanged from origination).</li>
+</ul>
+
+<div class="footer">
+Local primary artifact: <code>2026-04-23/trade-rec-2026-04-23.md</code><br>
+Generated by <code>daily-trade-rec</code> skill via <code>trade-rec-daily</code> scheduled task. R baseline +1 / V027 z +1.65 / overlay gate ON for Equity+Intl+Commodity / OFF for Crypto.
+</div>
+
+<script>
+// Cross-Asset Risk Dashboard (radar)
+new Chart(document.getElementById('riskDash'), {
+  type: 'radar',
+  data: {
+    labels: ['VIX (inv)', 'MOVE (inv)', 'HY OAS (inv)', 'IC z', 'NFCI (inv)', 'DXY pressure'],
+    datasets: [{
+      label: 'Risk-On Score (higher = looser)',
+      data: [80, 88, 75, 82, 70, 55],
+      backgroundColor: 'rgba(46, 125, 50, 0.18)',
+      borderColor: '#2e7d32',
+      borderWidth: 2,
+      pointBackgroundColor: '#2e7d32'
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 100, ticks: { stepSize: 20 } } } }
+});
+
+// Score Stacking — Top 9 candidates (S/T/C/R stacked)
+new Chart(document.getElementById('scoreStack'), {
+  type: 'bar',
+  data: {
+    labels: ['INTC', 'AAPL', 'SPY', 'EWJ', 'Brent', 'GOOGL', 'BTC', 'WTI', 'Silver'],
+    datasets: [
+      { label: 'S', data: [1,1,1,1,1,1,1,1,1], backgroundColor: '#0a3d62' },
+      { label: 'T', data: [1,1,1,1,1,0,1,1,1], backgroundColor: '#3d7ea6' },
+      { label: 'C', data: [1,0,0,0,0,1,1,0,0], backgroundColor: '#f9a825' },
+      { label: 'R', data: [1,1,1,1,1,1,0,1,1], backgroundColor: '#2e7d32' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true, max: 5 } },
+    plugins: { tooltip: { mode: 'index' } }
+  }
+});
+
+// Yield Curve
+new Chart(document.getElementById('yieldCurve'), {
+  type: 'line',
+  data: {
+    labels: ['3M', '2Y', '5Y', '10Y', '30Y'],
+    datasets: [{
+      label: 'UST Yields (% — Apr-23 mix Tier-1 live + T3 stale)',
+      data: [4.10, 3.71, 4.05, 4.294, 4.91],
+      borderColor: '#0a3d62', backgroundColor: 'rgba(10,61,98,0.1)', tension: 0.25, fill: true, borderWidth: 2
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: false } } }
+});
+
+// Brent Curve
+new Chart(document.getElementById('brentCurve'), {
+  type: 'line',
+  data: {
+    labels: ['F1', 'F2', 'F3', 'F4', 'F5', 'F6'],
+    datasets: [{
+      label: 'Brent ($/bbl) — backwardation +$13.95 F1-F2',
+      data: [97.16, 83.21, 78.50, 75.10, 72.80, 71.20],
+      borderColor: '#c62828', backgroundColor: 'rgba(198,40,40,0.1)', tension: 0.25, fill: true, borderWidth: 2
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false }
+});
+
+// BTC Active Addresses
+new Chart(document.getElementById('btcAddr'), {
+  type: 'line',
+  data: {
+    labels: ['Apr-15', 'Apr-16', 'Apr-17', 'Apr-19', 'Apr-21', 'Apr-22', 'Apr-23'],
+    datasets: [
+      { label: 'BTC Active Addr (k)', data: [364, 462, 470, 461, 470, 478, 493], borderColor: '#f9a825', backgroundColor: 'rgba(249,168,37,0.15)', tension: 0.25, fill: true, borderWidth: 2 },
+      { label: 'S Threshold (400k)', data: [400, 400, 400, 400, 400, 400, 400], borderColor: '#c62828', borderDash: [5,5], borderWidth: 2, pointRadius: 0 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false }
+});
+
+// Catalyst Calendar (severity bars over 14 days)
+new Chart(document.getElementById('catCal'), {
+  type: 'bar',
+  data: {
+    labels: ['Apr-23 INTC AC','Apr-24 PMI','Apr-28-29 FOMC','Apr-29 GOOGL/META/AMZN','Apr-30 AAPL TS','May-01 Faber'],
+    datasets: [{
+      label: 'Severity (1-3)',
+      data: [3, 3, 3, 3, 2, 2],
+      backgroundColor: ['#c62828','#f9a825','#c62828','#f9a825','#0a3d62','#0a3d62']
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 3, ticks: { stepSize: 1 } } } }
+});
+
+// Audit-Addition Status
+new Chart(document.getElementById('auditPanel'), {
+  type: 'bar',
+  data: {
+    labels: ['V026 Residual', 'V027 IC z', 'V028 Brent', 'V028 WTI', 'V028 Gold', 'V028 Silver', 'V028 Copper'],
+    datasets: [{
+      label: 'Freshness (3=fresh, 2=stale-usable, 1=DEGRADED, 0=missing)',
+      data: [3, 3, 3, 1, 1, 1, 1],
+      backgroundColor: function(ctx) {
+        const v = ctx.parsed.y;
+        return v === 3 ? '#2e7d32' : v === 2 ? '#f9a825' : v === 1 ? '#ef6c00' : '#c62828';
+      }
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 3, ticks: { stepSize: 1 } } } }
+});
+
+// Gap Closure Doughnut
+new Chart(document.getElementById('gapDoughnut'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Fresh Tier-1', 'Stale-usable T3', 'DEGRADED', 'MISSING'],
+    datasets: [{
+      data: [20, 5, 4, 4],
+      backgroundColor: ['#2e7d32', '#f9a825', '#ef6c00', '#c62828']
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
+});
+</script>
+
+</body>
+</html>

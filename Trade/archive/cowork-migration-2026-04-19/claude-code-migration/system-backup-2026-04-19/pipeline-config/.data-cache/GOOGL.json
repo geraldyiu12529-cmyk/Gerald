@@ -1,0 +1,10 @@
+{
+  "variable": "GOOGL",
+  "value": 336.9,
+  "unit": "",
+  "timestamp": "2026-04-17T23:06:47+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (GOOGL)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"GOOGL\",\"exchangeName\":\"NMS\",\"fullExchangeName\":\"NasdaqGS\",\"instrumentType\":\"EQUITY\",\"firstTradeDate\":1092922200,\"regularMarketTime\":1776438407,\""
+}

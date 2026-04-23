@@ -1,0 +1,10 @@
+{
+  "variable": "INTC",
+  "value": 69.92,
+  "unit": "",
+  "timestamp": "2026-04-17T23:06:52+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (INTC)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"INTC\",\"exchangeName\":\"NMS\",\"fullExchangeName\":\"NasdaqGS\",\"instrumentType\":\"EQUITY\",\"firstTradeDate\":322151400,\"regularMarketTime\":1776438412,\"ha"
+}

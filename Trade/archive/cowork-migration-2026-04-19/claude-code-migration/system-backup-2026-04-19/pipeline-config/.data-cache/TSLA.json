@@ -1,0 +1,10 @@
+{
+  "variable": "TSLA",
+  "value": 404.37,
+  "unit": "",
+  "timestamp": "2026-04-17T23:06:44+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (TSLA)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"TSLA\",\"exchangeName\":\"NMS\",\"fullExchangeName\":\"NasdaqGS\",\"instrumentType\":\"EQUITY\",\"firstTradeDate\":1277818200,\"regularMarketTime\":1776438404,\"h"
+}

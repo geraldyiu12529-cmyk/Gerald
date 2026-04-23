@@ -74,46 +74,44 @@ TASK_SCHEDULE = {
 # by then. Keep at 20 minutes to stay safe.
 GRACE_MINUTES = 20
 
-# Expected output files per task (relative to TRADE_DIR).
-# Date-folder convention (2026-04-19+): dated outputs live under {date}/.
-# The {date} token is expanded by _check_files() via .format(date=self.today).
+# Expected output files per task (relative to TRADE_DIR)
 TASK_OUTPUTS = {
-    'preflight': ['pipeline/.pipeline-health.json', '{date}/audit-data-staging-{date}.md'],
-    'market-brief': ['{date}/market-brief-{date}.md'],
-    'news-events': ['{date}/news-{date}.md'],
-    'trade-rec': ['{date}/trade-rec-{date}.md', '{date}/report-{date}-trade-rec.html'],
+    'preflight': ['pipeline/.pipeline-health.json', 'audit-data-staging-{date}.md'],
+    'market-brief': ['market-brief-{date}.md'],
+    'news-events': ['news-events/news-{date}.md'],
+    'trade-rec': ['trade-rec-{date}.md', 'report-{date}-trade-rec.html'],
 }
 
 # Minimum file sizes (bytes) below which a file is presumed truncated.
 # Single source of truth — tasks and recovery both reference this.
 MIN_SIZES = {
     'pipeline/.pipeline-health.json': 100,
-    '{date}/audit-data-staging-{date}.md': 200,
-    '{date}/market-brief-{date}.md': 1500,
-    '{date}/news-{date}.md': 300,
-    '{date}/trade-rec-{date}.md': 1000,
-    '{date}/report-{date}-trade-rec.html': 500,
+    'audit-data-staging-{date}.md': 200,
+    'market-brief-{date}.md': 1500,
+    'news-events/news-{date}.md': 300,
+    'trade-rec-{date}.md': 1000,
+    'report-{date}-trade-rec.html': 500,
 }
 
 # Structural sniff patterns — cheap substring / regex checks run against
 # the first SNIFF_READ_BYTES of the file. Empty pattern list means
 # "existence + size only".
 STRUCTURAL_SNIFFS = {
-    '{date}/market-brief-{date}.md': [
+    'market-brief-{date}.md': [
         r'#\s*(Market\s+Brief|Daily\s+Market\s+Brief)',
-        r'Regime',   # §1 structural heading
-        r'Grade',    # evidence-grade rubric referenced
+        r'Regime\s+Snapshot',   # §1 structural heading — verified 2026-04-14/15/16
+        r'Grade',               # evidence-grade rubric referenced
     ],
-    '{date}/news-{date}.md': [
+    'news-events/news-{date}.md': [
         r'#\s*News',
     ],
-    '{date}/audit-data-staging-{date}.md': [
+    'audit-data-staging-{date}.md': [
         r'(residual.?momentum|intermediary|basis.?momentum)',
     ],
-    '{date}/trade-rec-{date}.md': [
+    'trade-rec-{date}.md': [
         r'#\s*(Trade\s+Rec|Daily\s+Trade)',
-        r'Upstream\s+Synthesis',  # §1 structural heading — verified 2026-04-14/15/16
-        r'Grade',                 # evidence-grade rubric referenced
+        r'Upstream\s+Synthesis', # §1 structural heading — verified 2026-04-14/15/16
+        r'Grade',                # evidence-grade rubric referenced
     ],
 }
 
@@ -222,16 +220,11 @@ class PipelineStatus:
     # ---- Writers (called by each task on completion) ----
 
     def write_ok(self, task: str, file: str = '', missing_count: int = 0,
-                 details: str = '', excel_sync_ok: bool = True):
-        """Task completed successfully.
-
-        excel_sync_ok=False forces status to PARTIAL and records the skip,
-        preventing a silent data-gap when Python/openpyxl is unavailable.
-        """
-        is_partial = missing_count > 3 or not excel_sync_ok
+                 details: str = ''):
+        """Task completed successfully."""
         entry = {
             'date': self.today,
-            'status': 'PARTIAL' if is_partial else 'OK',
+            'status': 'PARTIAL' if missing_count > 3 else 'OK',
             'consecutive_failures': 0,
             'timestamp': self.now.isoformat(),
         }
@@ -239,8 +232,6 @@ class PipelineStatus:
             entry['file'] = file
         if missing_count:
             entry['missing_count'] = missing_count
-        if not excel_sync_ok:
-            entry['excel_sync'] = 'SKIPPED'
         if details:
             entry['details'] = details
         self.status[task] = entry
@@ -642,27 +633,27 @@ def check_upstream_for_trade_rec() -> tuple:
     """
     ps = PipelineStatus()
     today = ps.today
-    brief = TRADE_DIR / today / f'market-brief-{today}.md'
-    news = TRADE_DIR / today / f'news-{today}.md'
-    staging = TRADE_DIR / today / f'audit-data-staging-{today}.md'
+    brief = TRADE_DIR / f'market-brief-{today}.md'
+    news = TRADE_DIR / f'news-events/news-{today}.md'
+    staging = TRADE_DIR / f'audit-data-staging-{today}.md'
 
     brief_ok, brief_reason = _file_valid(
-        brief, MIN_SIZES['{date}/market-brief-{date}.md'],
-        STRUCTURAL_SNIFFS['{date}/market-brief-{date}.md']
+        brief, MIN_SIZES['market-brief-{date}.md'],
+        STRUCTURAL_SNIFFS['market-brief-{date}.md']
     )
     news_ok, news_reason = _file_valid(
-        news, MIN_SIZES['{date}/news-{date}.md'],
-        STRUCTURAL_SNIFFS.get('{date}/news-{date}.md', [])
+        news, MIN_SIZES['news-events/news-{date}.md'],
+        STRUCTURAL_SNIFFS['news-events/news-{date}.md']
     )
     staging_ok, staging_reason = _file_valid(
-        staging, MIN_SIZES['{date}/audit-data-staging-{date}.md'],
-        STRUCTURAL_SNIFFS['{date}/audit-data-staging-{date}.md']
+        staging, MIN_SIZES['audit-data-staging-{date}.md'],
+        STRUCTURAL_SNIFFS['audit-data-staging-{date}.md']
     )
 
     missing = []
-    if not brief_ok:   missing.append(f'{today}/market-brief-{today}.md ({brief_reason})')
-    if not news_ok:    missing.append(f'{today}/news-{today}.md ({news_reason})')
-    if not staging_ok: missing.append(f'{today}/audit-data-staging-{today}.md ({staging_reason})')
+    if not brief_ok:   missing.append(f'market-brief-{today}.md ({brief_reason})')
+    if not news_ok:    missing.append(f'news-events/news-{today}.md ({news_reason})')
+    if not staging_ok: missing.append(f'audit-data-staging-{today}.md ({staging_reason})')
 
     if not brief_ok:
         ps.write_abort('trade-rec', reason=f"Missing/invalid: {', '.join(missing)}")
@@ -701,13 +692,10 @@ def check_briefs_for_weekly_review() -> tuple:
     found = 0
     missing_dates = []
     for date_str in week_dates:
-        # Date-folder convention (2026-04-19+); fall back to root for legacy files.
-        brief = TRADE_DIR / date_str / f'market-brief-{date_str}.md'
-        if not brief.exists():
-            brief = TRADE_DIR / f'market-brief-{date_str}.md'
+        brief = TRADE_DIR / f'market-brief-{date_str}.md'
         ok, _ = _file_valid(
-            brief, MIN_SIZES['{date}/market-brief-{date}.md'],
-            STRUCTURAL_SNIFFS['{date}/market-brief-{date}.md']
+            brief, MIN_SIZES['market-brief-{date}.md'],
+            STRUCTURAL_SNIFFS['market-brief-{date}.md']
         )
         if ok:
             found += 1

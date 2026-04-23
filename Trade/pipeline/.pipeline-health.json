@@ -1,42 +1,24 @@
 {
-  "timestamp": "2026-04-23T19:31:05.756023+08:00",
+  "timestamp": "2026-04-19T01:45:00+08:00",
+  "run_type": "weekend-test",
   "sources": {
-    "yahoo_finance": {
-      "available": true,
-      "response_time_ms": 99
-    },
-    "coingecko": {
-      "available": true,
-      "response_time_ms": 616
-    },
-    "blockchain_info": {
-      "available": true,
-      "response_time_ms": 534
-    },
-    "kenneth_french": {
-      "available": true,
-      "response_time_ms": 2763
-    },
-    "ny_fed": {
-      "available": true,
-      "response_time_ms": 1253
-    },
-    "barchart": {
-      "available": true,
-      "response_time_ms": 2963
-    },
-    "chicago_fed": {
-      "available": true,
-      "response_time_ms": 552
-    }
+    "yahoo_finance": { "available": true, "note": "Weekend — markets closed, Tier 3 cache" },
+    "coingecko": { "available": true, "note": "Weekend — cached" },
+    "blockchain_info": { "available": true, "note": "Weekend — cached" },
+    "kenneth_french": { "available": true, "note": "FF5 through 2025-12 in cache; Jan-Mar 2026 market-model fallback" },
+    "ny_fed": { "available": true, "note": "Data through 2026-04-04; Thu Apr-17 update may add week ending Apr-11" },
+    "barchart": { "available": true, "note": "Weekend — curve structure confirmed via WebSearch" },
+    "chicago_fed": { "available": true, "note": "Weekend — cached" }
   },
-  "cache_coverage": "28/71 variables",
-  "cache_coverage_pct": 39.4,
-  "schema_issues": [],
+  "cache_coverage": "77/77 variables",
+  "cache_coverage_pct": 100,
   "schema_ok": true,
+  "schema_issues": [],
   "predicted_missing": 0,
   "skip_tier1_for": [],
   "advisories": [
-    "Cache coverage low (39.4%) \u2014 MISSING risk elevated"
+    "Weekend test run — Tier 3 cache; no live market data",
+    "InterCap STALE-WARN: data through 2026-04-04",
+    "All systems nominal"
   ]
 }

@@ -1,0 +1,138 @@
+[
+  {
+    "taskId": "daily-market-brief-8pm-v2",
+    "description": "Daily US pre-open market brief — regime scorecard + S|T|C|R scoring + Excel sync.",
+    "schedule": "At 08:02 PM, Monday through Friday",
+    "cronExpression": "0 20 * * 1-5",
+    "enabled": true,
+    "jitterSeconds": 96
+  },
+  {
+    "taskId": "daily-trade-recommendation-820pm-v2",
+    "description": "Daily pre-open trade recommendation — 8-step methodology + SignalLedger append.",
+    "schedule": "At 09:06 PM, Monday through Friday",
+    "cronExpression": "0 21 * * 1-5",
+    "enabled": true,
+    "jitterSeconds": 366
+  },
+  {
+    "taskId": "daily-news-events-810pm-v2",
+    "description": "Daily news & events capture — geopolitics, macro, earnings, catalysts cache.",
+    "schedule": "At 08:01 PM, Monday through Friday",
+    "cronExpression": "0 20 * * 1-5",
+    "enabled": true,
+    "jitterSeconds": 63
+  },
+  {
+    "taskId": "us-close-snapshot-730am-v2",
+    "description": "US post-close delta snapshot — open positions mark + >1σ moves vs brief.",
+    "schedule": "At 07:32 AM, Monday through Friday",
+    "cronExpression": "30 7 * * 1-5",
+    "enabled": true,
+    "jitterSeconds": 93
+  },
+  {
+    "taskId": "workspace-tidy-sunday-9pm",
+    "description": "Sunday weekly tidy — archive per Retention Policy + memory consolidation + diagnostics.",
+    "schedule": "At 09:02 PM, only on Sunday",
+    "cronExpression": "0 21 * * 0",
+    "enabled": true,
+    "jitterSeconds": 122
+  },
+  {
+    "taskId": "methodology-audit-6mo-review-2026-10-14",
+    "description": "One-time 6mo live-monitoring review of the 3 audit-addition variables (first valued 2026-04-14/15).",
+    "schedule": "One-time: 14/10/2026, 9:00:00 am",
+    "fireAt": "2026-10-14T01:00:00.000Z",
+    "enabled": true,
+    "jitterSeconds": 0
+  },
+  {
+    "taskId": "quarterly-methodology-review",
+    "description": "Quarterly meta-review — analytical dimension audit + Top-28 reconciliation + variable pipeline.",
+    "schedule": "At 07:00 PM, on day 1 of the month, only in January, April, July, and October",
+    "cronExpression": "0 19 1 1,4,7,10 *",
+    "enabled": true,
+    "jitterSeconds": 48
+  },
+  {
+    "taskId": "monthly-bootstrap-review",
+    "description": "Monthly bootstrap health check — May/Jun 2026 only; self-retires after Jul-1.",
+    "schedule": "At 07:00 PM, on day 1 of the month, only in May and June",
+    "cronExpression": "0 19 1 5,6 *",
+    "enabled": true,
+    "jitterSeconds": 227
+  },
+  {
+    "taskId": "semi-annual-literature-review",
+    "description": "Semi-annual academic factor scan — feeds quarterly review's candidate pipeline.",
+    "schedule": "At 03:00 PM, on day 1 of the month, only in January and July",
+    "cronExpression": "0 15 1 1,7 *",
+    "enabled": true,
+    "jitterSeconds": 126
+  },
+  {
+    "taskId": "preflight-audit-data-1945pm",
+    "description": "Pre-pipeline source health check + 3 audit-addition variable compute.",
+    "schedule": "At 07:07 PM, Monday through Friday",
+    "cronExpression": "0 19 * * 1-5",
+    "enabled": true,
+    "jitterSeconds": 440
+  },
+  {
+    "taskId": "weekly-regime-signal-review-6pm",
+    "description": "Sunday merged weekly regime review + OOS signal-review (2 phases, single session).",
+    "schedule": "At 06:07 PM, only on Sunday",
+    "cronExpression": "0 18 * * 0",
+    "enabled": true,
+    "jitterSeconds": 402
+  },
+  {
+    "taskId": "pipeline-recovery-830pm",
+    "description": "Post-pipeline health + recovery — Phase A fast triage, Phase B only if unhealthy.",
+    "schedule": "At 10:07 PM, Monday through Friday",
+    "cronExpression": "0 22 * * 1-5",
+    "enabled": true,
+    "jitterSeconds": 443
+  },
+  {
+    "taskId": "system-review-semi-annual",
+    "description": "Semi-annual strategic architecture + efficiency audit (1st Sunday May/Nov) — chains skill-creator for patches.",
+    "schedule": "At 07:00 PM, between day 1 and 7 of the month, and on Sunday, only in May and November",
+    "cronExpression": "0 19 1-7 5,11 0",
+    "enabled": true,
+    "jitterSeconds": 474
+  },
+  {
+    "taskId": "positions-monitor-intraday-9am",
+    "description": "Intraday live-book watchdog (09:00 UTC+8) — silent-when-OK, file written only if a flag fires.",
+    "schedule": "At 09:00 AM, Monday through Friday",
+    "cronExpression": "0 9 * * 1-5",
+    "enabled": true,
+    "jitterSeconds": 21
+  },
+  {
+    "taskId": "preflight-meta-additions-1952pm",
+    "description": "SHADOW MODE (Phase 2) — V029-V035 meta-integration compute; writes meta-additions-staging-YYYY-MM-DD.md. Not consumed by brief/rec until Phase 3 live_date set.",
+    "schedule": "At 07:55 PM, Monday through Friday",
+    "cronExpression": "52 19 * * 1-5",
+    "enabled": true,
+    "jitterSeconds": 151
+  },
+  {
+    "taskId": "meta-shadow-mode-review-2026-04-25",
+    "description": "One-time 5-business-day review of V029-V035 shadow-mode output. If all Grade-A rows produce LIVE values >=80% of days, recommend Phase 3 promotion to live scoring.",
+    "schedule": "One-time: 25/04/2026, 10:00:00 am",
+    "fireAt": "2026-04-25T02:00:00.000Z",
+    "enabled": true,
+    "jitterSeconds": 0
+  },
+  {
+    "taskId": "methodology-audit-6mo-review-batch2-2026-10-14",
+    "description": "Batch-2 companion: 6mo live-monitoring review of V029-V035 meta-integration variables (added 2026-04-18).",
+    "schedule": "One-time: 14/10/2026, 9:30:00 am",
+    "fireAt": "2026-10-14T01:30:00.000Z",
+    "enabled": true,
+    "jitterSeconds": 0
+  }
+]

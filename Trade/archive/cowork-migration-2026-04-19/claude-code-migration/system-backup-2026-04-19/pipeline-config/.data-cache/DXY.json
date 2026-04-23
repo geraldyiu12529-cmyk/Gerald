@@ -1,0 +1,10 @@
+{
+  "variable": "DXY",
+  "value": 97.797,
+  "unit": "index",
+  "timestamp": "2026-04-17T22:56:28+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (DX-Y.NYB)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"DX-Y.NYB\",\"exchangeName\":\"NYB\",\"fullExchangeName\":\"ICE Futures\",\"instrumentType\":\"INDEX\",\"firstTradeDate\":31813200,\"regularMarketTime\":177643778"
+}

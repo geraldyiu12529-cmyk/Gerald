@@ -1,0 +1,261 @@
+{
+  "date": "2026-04-17",
+  "generated_by": "news-events",
+  "generated_at": "2026-04-17T20:20:07+08:00",
+  "horizon_days": 30,
+  "count": 19,
+  "catalysts": [
+    {
+      "date": "2026-04-21",
+      "event": "Iran ceasefire expires (per Wikipedia/ABC; Memory §6 carries Apr-22 — delta flagged)",
+      "asset_impact": [
+        "BRENT",
+        "WTI",
+        "GOLD",
+        "VIX",
+        "SPY",
+        "QQQ"
+      ],
+      "severity": "critical",
+      "direction_hint": "binary",
+      "source": "news-2026-04-17.md §1",
+      "notes": "Binary: deal = risk-on / oil down; collapse = escalation + Gold/VIX bid"
+    },
+    {
+      "date": "2026-04-23",
+      "event": "INTC Q1 earnings (after close)",
+      "asset_impact": [
+        "INTC",
+        "QQQ"
+      ],
+      "severity": "critical",
+      "direction_hint": "binary",
+      "source": "Memory.md §6 (OPEN POSITION catalyst)",
+      "notes": "Guided rev $11.7-12.7B; Terafab validation; confirmation-dependent"
+    },
+    {
+      "date": "2026-04-28",
+      "event": "FOMC meeting (day 1)",
+      "asset_impact": [
+        "SPY",
+        "QQQ",
+        "DXY",
+        "GOLD",
+        "BTC"
+      ],
+      "severity": "critical",
+      "direction_hint": "binary",
+      "source": "Memory.md §6",
+      "notes": "On hold 3.50-3.75%; statement + dots Apr-29; path repricing risk"
+    },
+    {
+      "date": "2026-04-29",
+      "event": "FOMC statement + SEP + Powell presser",
+      "asset_impact": [
+        "SPY",
+        "QQQ",
+        "DXY",
+        "GOLD",
+        "BTC"
+      ],
+      "severity": "critical",
+      "direction_hint": "binary",
+      "source": "Memory.md §6",
+      "notes": "Primary policy event of the month"
+    },
+    {
+      "date": "2026-05-12",
+      "event": "April CPI release",
+      "asset_impact": [
+        "SPY",
+        "QQQ",
+        "DXY",
+        "GOLD",
+        "BTC"
+      ],
+      "severity": "critical",
+      "direction_hint": "binary",
+      "source": "Memory.md §6",
+      "notes": "Inflation follow-through post-energy shock"
+    },
+    {
+      "date": "2026-04-19",
+      "event": "Iran oil sanctions waiver expires",
+      "asset_impact": [
+        "BRENT",
+        "WTI",
+        "GOLD"
+      ],
+      "severity": "high",
+      "direction_hint": "bullish_risk",
+      "source": "news-2026-04-17.md §3 + Memory.md §6",
+      "notes": "Sanctions escalation risk if not renewed"
+    },
+    {
+      "date": "2026-04-22",
+      "event": "TSLA Q1 earnings (after close)",
+      "asset_impact": [
+        "TSLA",
+        "QQQ"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "news-2026-04-17.md §4",
+      "notes": "Street EPS ~$0.37 on rev $22.71B; Refinitiv Smart Estimate -20.6% surprise projected; Terafab capex commentary"
+    },
+    {
+      "date": "2026-04-22",
+      "event": "GOOGL Q1 earnings",
+      "asset_impact": [
+        "GOOGL",
+        "QQQ"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "Memory.md §6 + news-2026-04-17.md",
+      "notes": "Ad revenue + cloud; could push GOOGL Sum toward +3 if T remains positive"
+    },
+    {
+      "date": "2026-04-23",
+      "event": "AMZN Q1 earnings",
+      "asset_impact": [
+        "AMZN",
+        "QQQ"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "Memory.md §6",
+      "notes": "Retail/cloud read"
+    },
+    {
+      "date": "2026-04-29",
+      "event": "ECB rate decision",
+      "asset_impact": [
+        "EURUSD",
+        "DXY"
+      ],
+      "severity": "high",
+      "direction_hint": "neutral",
+      "source": "news-2026-04-17.md §6",
+      "notes": "Same day as FOMC"
+    },
+    {
+      "date": "2026-04-29",
+      "event": "META Q1 earnings",
+      "asset_impact": [
+        "META",
+        "QQQ"
+      ],
+      "severity": "high",
+      "direction_hint": "binary",
+      "source": "Memory.md §6",
+      "notes": "Same day as FOMC; ad revenue vs GOOGL read"
+    },
+    {
+      "date": "2026-05-14",
+      "event": "Xi-Trump summit (Beijing, day 1)",
+      "asset_impact": [
+        "EWY",
+        "TSM",
+        "SPY",
+        "DXY"
+      ],
+      "severity": "high",
+      "direction_hint": "neutral",
+      "source": "Memory.md §6",
+      "notes": "Trade deal / tariff de-escalation potential"
+    },
+    {
+      "date": "2026-05-15",
+      "event": "Xi-Trump summit (Beijing, day 2)",
+      "asset_impact": [
+        "EWY",
+        "TSM",
+        "SPY",
+        "DXY"
+      ],
+      "severity": "high",
+      "direction_hint": "neutral",
+      "source": "Memory.md §6",
+      "notes": ""
+    },
+    {
+      "date": "2026-04-17",
+      "event": "US monthly options expiry (OPEX); NFLX -9% AH gap risk into cash open",
+      "asset_impact": [
+        "SPY",
+        "QQQ"
+      ],
+      "severity": "med",
+      "direction_hint": "neutral",
+      "source": "news-2026-04-17.md §3, §8",
+      "notes": "Positioning flush; NFLX Q2 guide miss + Hastings exit read-through to QQQ open position"
+    },
+    {
+      "date": "2026-04-17",
+      "event": "France-UK online meeting on Strait of Hormuz defensive multilateral mission",
+      "asset_impact": [
+        "BRENT",
+        "WTI",
+        "GOLD",
+        "VIX"
+      ],
+      "severity": "med",
+      "direction_hint": "neutral",
+      "source": "news-2026-04-17.md §1",
+      "notes": "Escalation-management signal; not binary"
+    },
+    {
+      "date": "2026-04-21",
+      "event": "Advance Retail Sales March (rescheduled from Apr-16)",
+      "asset_impact": [
+        "SPY",
+        "QQQ",
+        "DXY"
+      ],
+      "severity": "med",
+      "direction_hint": "neutral",
+      "source": "news-2026-04-17.md §3, Census schedule",
+      "notes": "Demand-side read post-energy shock"
+    },
+    {
+      "date": "2026-04-24",
+      "event": "UMich Final April sentiment (10am ET)",
+      "asset_impact": [
+        "SPY",
+        "QQQ",
+        "DXY"
+      ],
+      "severity": "med",
+      "direction_hint": "neutral",
+      "source": "news-2026-04-17.md §2",
+      "notes": "Prelim 47.6 record low; 98% of interviews pre-ceasefire -- potential partial recovery"
+    },
+    {
+      "date": "2026-04-28",
+      "event": "USTR Section 301 public hearing (excess capacity / forced labor; China + Taiwan + others)",
+      "asset_impact": [
+        "EWY",
+        "TSM",
+        "INTC",
+        "SPY"
+      ],
+      "severity": "med",
+      "direction_hint": "bearish_risk",
+      "source": "news-2026-04-17.md §1 + Apr-16 brief",
+      "notes": "Alt tariff pathway post-Supreme-Court Section-122 ruling"
+    },
+    {
+      "date": "2026-04-30",
+      "event": "BoE rate decision",
+      "asset_impact": [
+        "GBPUSD",
+        "DXY"
+      ],
+      "severity": "med",
+      "direction_hint": "neutral",
+      "source": "news-2026-04-17.md §6",
+      "notes": ""
+    }
+  ]
+}

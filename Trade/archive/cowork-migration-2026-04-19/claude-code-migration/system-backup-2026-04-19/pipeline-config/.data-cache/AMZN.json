@@ -1,0 +1,10 @@
+{
+  "variable": "AMZN",
+  "value": 254.405,
+  "unit": "",
+  "timestamp": "2026-04-17T23:06:47+08:00",
+  "source_tier": 1,
+  "source_name": "Yahoo Finance API (AMZN)",
+  "staleness_window_days": 1,
+  "raw_response_snippet": "{\"chart\":{\"result\":[{\"meta\":{\"currency\":\"USD\",\"symbol\":\"AMZN\",\"exchangeName\":\"NMS\",\"fullExchangeName\":\"NasdaqGS\",\"instrumentType\":\"EQUITY\",\"firstTradeDate\":863703000,\"regularMarketTime\":1776438407,\"ha"
+}

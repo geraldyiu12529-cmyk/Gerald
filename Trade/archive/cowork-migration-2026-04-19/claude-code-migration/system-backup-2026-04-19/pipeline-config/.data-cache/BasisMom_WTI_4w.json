@@ -1,0 +1,10 @@
+{
+  "variable": "BasisMom_WTI_4w",
+  "value": 6.98,
+  "unit": "spread_change",
+  "timestamp": "2026-04-17T20:35:17.960735+08:00",
+  "source_tier": 1,
+  "source_name": "compute_audit_additions",
+  "staleness_window_days": 5,
+  "raw_response_snippet": ""
+}

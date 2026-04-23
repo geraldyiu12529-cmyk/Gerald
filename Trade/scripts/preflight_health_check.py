@@ -13,14 +13,9 @@ straight to Tier 2.
 Output: ./pipeline/.pipeline-health.json
 """
 
-import io
 import json
 import sys
 import time
-
-# Ensure stdout handles Unicode on Windows (cp1252 can't encode ≥ etc.)
-if sys.stdout.encoding and sys.stdout.encoding.lower() not in ("utf-8", "utf-8-sig"):
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 from datetime import datetime
 from pathlib import Path
 

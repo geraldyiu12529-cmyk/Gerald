@@ -1,30 +1,52 @@
-# Meta-Additions Staging — 2026-04-20
-**[MOCK — TEST RUN 2026-04-20]**
-**Generated:** 2026-04-20 19:52 UTC+8 (pre-open preflight)
-**Routine:** preflight-meta-additions
-**Script:** scripts/compute_meta_additions.py
-**Status:** PASS — shadow compute complete (no promotions pending)
+# Meta-Integration Variable Staging (V029-V035) — 2026-04-20
+
+**Computed:** 2026-04-20 20:02 UTC+8
+**Consumer:** SHADOW MODE — brief/rec do not consume this file until Phase 3 live_date set.
+**Reference:** `meta-analysis-integration-plan-2026-04-18.md`, `framework/Methodology Prompt.md §Step 1.5`, `framework/Risk Rules.md §1.B, §4.B, §5.A, §8`.
 
 ---
 
-## Shadow Variable Compute
+## V033-V035 C009 Faber TAA Overlay Gate (Step 1.5)
 
-Five deferred candidates logged in framework/Memory.md §9 (from 2026-04-17 literature review). None are in the scoring pipeline — tracked for quarterly review only.
+Overlay state flips only at end-of-month (Risk Rules §4.B). State below uses LAST COMPLETED month-end close.
 
-| Candidate | Status | Shadow compute | Decision |
-|-----------|--------|---------------|---------|
-| Daily GPR (Caldara-Iacoviello) | Deferred — Grade B candidate | GPR index: 142 (elevated; above 100 baseline). STALE 3d. | Quarterly review 2026-07-01 |
-| EO density / week | Deferred — needs sample | 7 EOs issued week of Apr-14 (proxy count). Policy-uncertainty elevated. | Quarterly review |
-| LLM-based sentiment | Deferred — infra not built | N/A | Indefinite defer |
-| BTC-ETF-flow as formal T-input | Deferred — institutional sample accumulating | Net flow: +$94M Apr-20 (early estimate). 2-day streak positive after Apr-16 reversal. | Quarterly review |
-| Caldara-Iacoviello TPU subindex | Deferred — overlap assessment vs Baker-Bloom-Davis EPU | TPU subindex ~108 (Apr estimate). EPU overlap ~65%. | Quarterly review |
+| Var | Sleeve | Symbol | Month-End Date | Close | 10m-SMA | Distance % | **Gate State** |
+|-----|--------|--------|----------------|-------|---------|-----------:|---------------:|
+| V033_SPY | equity | SPY | 2026-04-01 | 710.14 | 669.57 | +6.06% | **ON** |
+| V034_GSCI | commodity | GSG | 2026-04-01 | 30.35 | 25.21 | +20.38% | **ON** |
+| V035_BTC | crypto | BTC-USD | 2026-04-01 | 77126.88 | 91648.75 | -15.85% | **OFF** |
 
-**Pipeline impact: NONE.** No shadow variable crosses any promotion threshold. All remain in Candidate status in VariableRegistry. No writes to master-data-log.xlsx triggered.
+**Sleeve-gate rule.** If `OFF`, position size × 0 on that sleeve (Step 1.5 Overlay Gate). Non-additive to Sum.
+
+## V029 BAB (Betting-Against-Beta)
+
+- Proxy: ETF (USMV - SPLV 12m)
+- USMV 12m total return: **+3.04%**
+- SPLV 12m total return: **+3.67%**
+- Spread (USMV − SPLV): **-0.63%**  →  **ANTI-BAB**
+- *Tactical proxy only. Canonical AQR BAB factor deferred to Phase 2b.*
+
+**Sleeve rule.** V029 sleeve capped at 1/3 of V009 risk budget (Risk Rules §8). Correlation gate applies on same-ticker BAB leg + V009 spine long.
+
+## V030 DealerGamma
+
+**Status: MISSING** — Subscription pending — SqueezeMetrics / SpotGamma not confirmed as of 2026-04-18 GATE 1
+- Grade: B (single-paper Barbon-Buraschi 2021)
+- Sources attempted: SqueezeMetrics GEX (paid), SpotGamma daily composite (paid)
+- Next review: 2026-07-01 quarterly methodology review
+
+## V031 GP/A (Gross Profitability / Assets)
+
+**Status: MISSING** — Phase 2 stub — Ken French GP portfolio CSV fetcher not yet implemented
+- Grade: A (Novy-Marx 2013)
+- Cadence: Quarterly data, monthly portfolio rebalance
+
+## V032 CEI (Composite Equity Issuance)
+
+**Status: MISSING** — Phase 2 stub — scripts/compute_cei.py self-compute not yet implemented
+- Grade: A (Daniel-Titman 2006)
+- Cadence: Quarterly
 
 ---
 
-## Handoff
-- ✅ Shadow compute complete — 5 candidates checked
-- ✅ 0 promotions triggered
-- ✅ master-data-log.xlsx VariableRegistry unchanged
-- **Ready for market-brief handoff (this file not consumed by brief; informational only)**
+*Shadow mode: this file is NOT consumed by brief or trade-rec. Phase 3 sets live_date on V029-V035 in VariableRegistry and updates brief/rec SKILL.md to read this file.*

@@ -26,18 +26,18 @@
     "notes": "12 categories covered. Key events: Touska seizure (Hormuz escalation), Iran ceasefire expires Apr-22, INTC/TSLA/GOOGL/AMZN earnings week. GOOGL date corrected to Apr-29 in Memory.md."
   },
   "trade-rec": {
-    "date": "2026-04-21",
-    "status": "ABORT",
-    "consecutive_failures": 1,
-    "timestamp": "2026-04-21T20:00:00+08:00",
-    "file": "2026-04-21/trade-rec-2026-04-21.md",
-    "version": "v1-abort",
+    "date": "2026-04-23",
+    "status": "OK",
+    "consecutive_failures": 0,
+    "timestamp": "2026-04-23T20:30:00+08:00",
+    "file": "2026-04-23/trade-rec-2026-04-23.md",
+    "version": "v1",
     "signals_logged": 0,
-    "promoted": 0,
+    "promoted": 1,
     "near_miss": 0,
-    "missing_grade_a_count": null,
+    "missing_grade_a_count": 3,
     "cloud_ingested": 0,
-    "notes": "HARD ABORT \u2014 market-brief-2026-04-21.md MISSING in Gerald\\Trade workspace. Cloud ingest 0/3. Skill not loaded. 2026-04-20 trade-rec recovered manually 2026-04-21 from T.system local brief; consecutive_failures reset from 3 to 1 after that recovery (today's abort is the only outstanding failure). See 2026-04-20/trade-rec-2026-04-20.md \u00a7Appendix A for Apr-20 recovery details."
+    "notes": "1 reaffirmed (AAPL P014 DEFERRED\u2192ACTIVE on +2.63% recovery to $273.17 back into entry zone $271\u2013274; size 0.75%; hard time-stop 2026-04-30). 0 new SignalLedger rows (all dedup against existing OPEN P013/P014/P015/P016/P017 + N040\u2013N046). 1 binary pending: INTC P013 earnings tonight AC. 1 execution ask: Brent P016 Rule 2 breakeven stop MANDATORY (move to \u2265$95.13). Cloud 0/3 (all MISSING). 3 Grade A MISSING (DGS2/DFII10/T10YIE \u2014 context-only, no score-leg block). V028 basis-mom DEGRADED 6d for WTI/Silver/Copper/Gold (6th consecutive infra failure). HTML report at 2026-04-23/report-2026-04-23-trade-rec.html."
   },
   "trade-rec-recovery": {
     "date": "2026-04-20",

@@ -20,9 +20,7 @@ The system has robust variable-level failure handling (4-tier retrieval with cac
 
 ## Architecture: `.pipeline-status.json`
 
-A single file at `{TRADE_DIR}/pipeline/.pipeline-status.json` tracks task completion across the pipeline. Each task writes its own entry on completion (or failure). Downstream tasks read it before starting.
-
-> **Path note (updated 2026-04-20):** The file lives at `pipeline/.pipeline-status.json` inside the workspace root, NOT at `{TRADE_DIR}/.pipeline-status.json`. All tasks must use `pipeline_status.PipelineStatus()` from `scripts/pipeline_status.py` rather than hardcoding the path. The `PipelineStatus` class resolves the correct location regardless of mount point (native Windows, Cowork, or env-var override).
+A single file at `/mnt/Trade/.pipeline-status.json` tracks task completion across the pipeline. Each task writes its own entry on completion (or failure). Downstream tasks read it before starting.
 
 ```json
 {
@@ -85,7 +83,7 @@ The preflight runs first in the pipeline. Its integrity check is a self-check + 
 ```
 **PIPELINE INTEGRITY SELF-CHECK + RECOVERY (run before anything else):**
 
-1. Read `pipeline/.pipeline-status.json` (via `PipelineStatus()` from `scripts/pipeline_status.py`) if it exists.
+1. Read `/mnt/Trade/.pipeline-status.json` if it exists.
 2. Check yesterday's pipeline status:
    - If any task shows `consecutive_failures >= 3`, print:
      "⚠ CONSECUTIVE FAILURE ALERT: {task} has failed {N} consecutive days. Investigate."
@@ -104,7 +102,7 @@ The preflight runs first in the pipeline. Its integrity check is a self-check + 
       utc8 = timezone(timedelta(hours=8))
       today = datetime.now(utc8).strftime('%Y-%m-%d')
       now_iso = datetime.now(utc8).isoformat()
-      status_path = Path('/mnt/Trade/pipeline/.pipeline-status.json')
+      status_path = Path('/mnt/Trade/.pipeline-status.json')
       status = json.loads(status_path.read_text()) if status_path.exists() else {}
       prev = status.get('preflight', {})
       health_ok = Path('/mnt/Trade/.pipeline-health.json').exists()
@@ -139,7 +137,7 @@ from datetime import datetime, timezone, timedelta
 utc8 = timezone(timedelta(hours=8))
 today = datetime.now(utc8).strftime('%Y-%m-%d')
 now_iso = datetime.now(utc8).isoformat()
-status_path = Path('/mnt/Trade/pipeline/.pipeline-status.json')
+status_path = Path('/mnt/Trade/.pipeline-status.json')
 status = json.loads(status_path.read_text()) if status_path.exists() else {}
 brief_new = Path(f'/mnt/Trade/{today}/market-brief-{today}.md')
 brief_legacy = Path(f'/mnt/Trade/market-brief-{today}.md')
@@ -174,7 +172,7 @@ from datetime import datetime, timezone, timedelta
 utc8 = timezone(timedelta(hours=8))
 today = datetime.now(utc8).strftime('%Y-%m-%d')
 now_iso = datetime.now(utc8).isoformat()
-status_path = Path('/mnt/Trade/pipeline/.pipeline-status.json')
+status_path = Path('/mnt/Trade/.pipeline-status.json')
 status = json.loads(status_path.read_text()) if status_path.exists() else {}
 news_new = Path(f'/mnt/Trade/{today}/news-{today}.md')
 news_legacy = Path(f'/mnt/Trade/news-events/news-{today}.md')
