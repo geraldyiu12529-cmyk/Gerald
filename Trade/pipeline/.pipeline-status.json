@@ -62,5 +62,11 @@
     "timestamp": "2026-04-22T22:05:52.664840+08:00",
     "recovery": true,
     "details": "File valid (22K, all required content); structural sniff failed on buffer boundary"
+  },
+  "positions_monitor": {
+    "date": "2026-04-23",
+    "status": "FLAGS",
+    "flags_fired": 4,
+    "html": "2026-04-23/positions-monitor-2026-04-23.html"
   }
 }
