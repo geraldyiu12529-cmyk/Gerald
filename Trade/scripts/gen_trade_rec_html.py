@@ -43,12 +43,20 @@ EXEC_CARDS = [
 # flag_cls: "ok"=open-profit | "warn"=open-risk | "bad"=open-loss | "blue"=pending
 # unreal_pct: float % (negative=loss, 0.0 if pending/not filled)
 OPEN_POSITIONS = [
+    # Tuple: (ID, Asset, Side, entry_f, live_f, stop_f, tp1_f, tp2_f,
+    #         size_pct, size_usd_str, unreal_pct, flag_cls, flag_txt, time_stop,
+    #         trail_activate_f, trail_pct)
+    # trail_activate_f = entry + 1.5×ATR — price to move stop to breakeven (Rule 2)
+    # trail_pct        = 3×ATR / trail_activate × 100 — chandelier callback % (Rule 3)
     ("P009","SPY",   "Long", 708.95, 705.00, 696.00, 720.0, 730.0,
-     1.00, "$2,089", -0.56, "warn", "OPEN | below entry | stop buffer $9 (~1.3%)", "2026-05-13"),
+     1.00, "$2,089", -0.56, "warn", "OPEN | below entry | stop buffer $9 (~1.3%)", "2026-05-13",
+     718.7, 2.7),   # ATR=6.475; trail_activate=708.95+9.71; cb=19.43/718.7
     ("P010","EWJ",   "Long",  88.30,  90.19,  86.00,  95.0,  98.0,
-     0.75, "$1,396", +2.14, "ok",   "OPEN | above entry | Nikkei record Apr-22",   "2026-06-30"),
+     0.75, "$1,396", +2.14, "ok",   "OPEN | above entry | Nikkei record Apr-22",   "2026-06-30",
+     90.0, 3.8),    # ATR=1.15; trail_activate=88.30+1.73; cb=3.45/90.0
     ("P016","Brent", "Long",  94.25,  94.19,  90.50,  98.0, 102.0,
-     0.75, "~$859",   0.00, "blue", "PENDING | Gerald execution required",          "2026-05-22"),
+     0.75, "~$859",   0.00, "blue", "PENDING | Gerald execution required",          "2026-05-22",
+     97.1, 5.8),    # ATR=1.875; trail_activate=94.25+2.81; cb=5.625/97.1
 ]
 TOTAL_HEAT = 2.6   # % of NAV at risk (open + pending)
 HEAT_CAP   = 8.0   # % cap per Risk Rules
@@ -280,22 +288,24 @@ DELTA_FOOT = ("BTC Sum+3 gate-blocked (crypto sleeve OFF; BTC $76k < $91.5k 10m-
 # (asset_html, dir_cls, entry, stop, target, size, catalyst, grade, sleeve, notional_usd)
 # notional_usd = risk_pct × PORT_NAV / (stop_distance / entry_mid)
 RECS = [
+    # (asset_html, dir_cls, entry, stop, target, size, catalyst, grade, sleeve, notional_usd, trail_stop)
+    # trail_stop: "$trail_activate (+BE% / +cb%)" — BE% = 1.5×ATR/entry (move-to-breakeven distance); cb% = 3×ATR/trail_activate (chandelier callback from HH)
     ("<b>Brent</b> <span class='pill green'>NEW P016</span>","green",
      "$94.00-94.50 (at-market/limit; last $94.19)","$90.50 (2x ATR ~$3.7)","$98 / $102",
      "0.75% (corr+binary haircut)",
      "C=0; structural: Hormuz blockade + backwardation steepening + DXY weak. Iran deal = invalidation.",
      "S+1(A), T+1(A), C0, R+1(A)","Commodity ON -- first cycle",
-     813),  # 0.75% × $4,300 / (3.75/94.25) ≈ $813
+     813,              # 0.75% × $4,300 / (3.75/94.25) ≈ $813
+     "~$97.1 (+3.0% BE / +5.8% cb)"),  # BE=1.5×1.875/94.25; cb=3×1.875/97.1
 ]
 # RECS_CARRY: carry-over pending entries from prior recs
-# (asset_label, entry_note, stop, target, size_note, catalyst_note, notional_usd)
-# notional_usd: actual filled position size for OPEN; computed entry size for PENDING
+# (asset_label, entry_note, stop, target, size_note, catalyst_note, notional_usd, trail_stop)
 RECS_CARRY = [
-    ("<b>SPY</b> P009 OPEN",        "$708.95 avg (filled)",            "$696",      "~$720/$730","1.0% risk · ~$43 at stop",  "C=0; live ~$705 -- $9 stop buffer; watch TSLA tonight", 2089),
-    ("<b>EWJ</b> P010 OPEN",        "$88.30 avg (filled)",             "$86.00",    "~$95/$98",  "0.75% risk · ~$32 at stop", "C=0; Nikkei record Apr-22 +2.1% unrealized",            1396),
-    ("<b>INTC</b> P013 await beat", "$68-72 (after Apr-23 AC beat)",   "~$63-67",   "$75/$82",   "1.0% risk · ~$43 at stop",  "C+1: Apr-23 AC -- enter Apr-24 morning ONLY on beat",   602),
-    ("<b>AAPL</b> P014 deferred",   "DEFERRED ($266 < $271-274 zone)", "~$264-267", "$280/$290", "0.75% risk · ~$32 at stop", "Hard exit Apr-30; recover above $269 before",           543),
-    ("<b>GOOGL</b> P015 contingent","~$333-340 after Apr-29 beat",     "~$317",     "$355/$375", "0.75% risk · ~$32 at stop", "C+1: Apr-29 AC; enter Apr-30 morning on beat ONLY",     543),
+    ("<b>SPY</b> P009 OPEN",        "$708.95 avg (filled)",            "$696",      "~$720/$730","1.0% risk · ~$43 at stop",  "C=0; live ~$705 -- $9 stop buffer; watch TSLA tonight", 2089, "$718.7 (+1.4% BE / +2.7% cb)"),
+    ("<b>EWJ</b> P010 OPEN",        "$88.30 avg (filled)",             "$86.00",    "~$95/$98",  "0.75% risk · ~$32 at stop", "C=0; Nikkei record Apr-22 +2.1% unrealized",            1396, "$90.0 (+1.9% BE / +3.8% cb)"),
+    ("<b>INTC</b> P013 await beat", "$68-72 (after Apr-23 AC beat)",   "~$63-67",   "$75/$82",   "1.0% risk · ~$43 at stop",  "C+1: Apr-23 AC -- enter Apr-24 morning ONLY on beat",   602,  "est. at fill"),
+    ("<b>AAPL</b> P014 deferred",   "DEFERRED ($266 < $271-274 zone)", "~$264-267", "$280/$290", "0.75% risk · ~$32 at stop", "Hard exit Apr-30; recover above $269 before",           543,  "est. at fill"),
+    ("<b>GOOGL</b> P015 contingent","~$333-340 after Apr-29 beat",     "~$317",     "$355/$375", "0.75% risk · ~$32 at stop", "C+1: Apr-29 AC; enter Apr-30 morning on beat ONLY",     543,  "est. at fill"),
 ]
 # RECS_BLOCKED: gate-blocked or near-miss Sum>=3
 # (asset_html, dir_txt, entry, stop, target, size, catalyst, grade, sleeve)
@@ -672,33 +682,48 @@ def pos_range_html():
     for row in OPEN_POSITIONS:
         pid, asset, side, entry, live, stop, tp1, tp2 = row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]
         unreal = row[10]; flag_cls = row[11]
+        trail_activate = row[14] if len(row) > 14 else None
+        trail_pct_val  = row[15] if len(row) > 15 else None
         total = tp2 - stop
         if total <= 0:
             continue
         def pct(p):
             return max(0.0, min(100.0, (p - stop) / total * 100))
         ep = pct(entry); lp = pct(live); t1p = pct(tp1)
+        tap = pct(trail_activate) if trail_activate and trail_activate > stop else None
         pnl_positive = live >= entry
         pnl_col = "#4ade80" if pnl_positive else "#f87171"
         flag_col = {"ok":"#4ade80","warn":"#facc15","bad":"#f87171","blue":"#5b9bff"}.get(flag_cls,"#8a93a6")
-        # segment widths
+        # segment widths — trail_activate splits the upside zone into pre-trail (amber) and chandelier (green tint)
         w_risk = ep
         w_pnl  = abs(lp - ep)
-        w_tp1  = max(0, t1p - lp)
-        w_tp2  = max(0, 100 - t1p)
+        if tap and tap > lp:
+            w_pre_trail  = max(0, tap - lp)
+            w_chan        = max(0, t1p - tap)
+            trail_segs = (
+                f'<div style="width:{w_pre_trail:.1f}%;background:rgba(250,204,21,.08);border-right:2px solid #facc1566" title="Await trail activate: {live} \u2192 {trail_activate}"></div>'
+                f'<div style="width:{w_chan:.1f}%;background:rgba(74,222,128,.08);border-right:2px dashed #4ade8055" title="Chandelier zone: {trail_activate} \u2192 TP1 {tp1}"></div>'
+            )
+        else:
+            trail_segs = f'<div style="width:{max(0, t1p-lp):.1f}%;background:rgba(91,155,255,.12);border-right:2px dashed #5b9bff44" title="Upside to TP1: {live} \u2192 {tp1}"></div>'
+        w_tp2 = max(0, 100 - t1p)
         bar = (
             f'<div class="range-bar">'
             f'<div style="width:{w_risk:.1f}%;background:rgba(248,113,113,.18);border-right:2px solid #f87171" title="Risk zone: stop {stop} to entry {entry}"></div>'
             f'<div style="width:{w_pnl:.1f}%;background:{pnl_col}30;border-right:2px solid {pnl_col}" title="P&L: entry {entry} to live {live}"></div>'
-            f'<div style="width:{w_tp1:.1f}%;background:rgba(91,155,255,.12);border-right:2px dashed #5b9bff44" title="Upside to TP1: {live} to {tp1}"></div>'
+            + trail_segs +
             f'<div style="width:{w_tp2:.1f}%;background:rgba(91,155,255,.05)" title="Upside to TP2: {tp1} to {tp2}"></div>'
             f'</div>'
         )
+        trail_lbl = ""
+        if tap:
+            trail_lbl = f'<span style="left:{tap:.1f}%;transform:translateX(-50%);color:#facc15;font-weight:700" title="Rule 2: move stop to breakeven when this level prints">Trail&#9733;<br>{trail_activate}</span>'
         labels = (
             f'<div class="range-labels">'
             f'<span style="left:0%">Stop<br>{stop}</span>'
             f'<span style="left:{ep:.1f}%;transform:translateX(-50%)">Entry<br>{entry}</span>'
             f'<span style="left:{lp:.1f}%;transform:translateX(-50%);color:{pnl_col};font-weight:600">Live<br>{live}</span>'
+            + trail_lbl +
             f'<span style="left:{t1p:.1f}%;transform:translateX(-50%)">TP1<br>{tp1}</span>'
             f'<span style="right:0">TP2<br>{tp2}</span>'
             f'</div>'
@@ -724,9 +749,20 @@ def positions_cards_html():
         tp1, tp2 = row[6], row[7]
         size_pct, size_usd, unreal = row[8], row[9], row[10]
         flag_cls, flag_txt, tstop = row[11], row[12], row[13]
+        trail_act = row[14] if len(row) > 14 else None
+        trail_cb  = row[15] if len(row) > 15 else None
         buf = round((live - stop) / entry * 100, 2) if flag_cls != "blue" else None
         pnl_col = "#4ade80" if unreal >= 0 else "#f87171"
         flag_col = {"ok":"#4ade80","warn":"#facc15","bad":"#f87171","blue":"#5b9bff"}.get(flag_cls,"#8a93a6")
+        trail_row = ""
+        if trail_act:
+            be_pct = (trail_act - entry) / entry * 100  # 1.5×ATR as % of entry
+            trail_row = (
+                f'<tr><td class="mute">Trail&#9733; activate (1.5&times;ATR)</td>'
+                f'<td style="text-align:right;color:#facc15;font-weight:600">{trail_act} &nbsp;<span style="color:#8a93a6;font-weight:400">(+{be_pct:.2f}% from entry &rarr; BE)</span></td></tr>'
+                f'<tr><td class="mute">Chandelier cb% (3&times;ATR)</td>'
+                f'<td style="text-align:right;color:#5b9bff">{trail_cb:.1f}% from HH</td></tr>'
+            )
         cards += (
             f'<div class="card pos-card">'
             f'<div style="display:flex;justify-content:space-between">'
@@ -739,8 +775,9 @@ def positions_cards_html():
             f'<table style="margin-top:8px;font-size:12px"><tbody>'
             f'<tr><td class="mute">Entry</td><td style="text-align:right">{entry}</td></tr>'
             f'<tr><td class="mute">Live (last known)</td><td style="text-align:right">{live}</td></tr>'
-            f'<tr><td class="mute">Stop</td><td style="text-align:right;color:#f87171">{stop}</td></tr>'
+            f'<tr><td class="mute">Stop (Rule 1)</td><td style="text-align:right;color:#f87171">{stop}</td></tr>'
             f'<tr><td class="mute">Buffer to stop</td><td style="text-align:right;color:{"#4ade80" if buf and buf>5 else "#facc15" if buf and buf>2 else "#f87171"}">{f"{buf:.2f}%" if buf is not None else "--"}</td></tr>'
+            + trail_row +
             f'<tr><td class="mute">TP1 / TP2</td><td style="text-align:right">{tp1} / {tp2}</td></tr>'
             f'<tr><td class="mute">Size</td><td style="text-align:right">{size_pct:.2f}% risk &middot; {size_usd} notional &middot; <span style="color:#5b9bff">~${round(size_pct/100*PORT_NAV):,} risk$</span></td></tr>'
             f'<tr><td class="mute">Time-stop</td><td style="text-align:right">{tstop}</td></tr>'
@@ -924,15 +961,70 @@ def delta_html():
             f'{foot}</div>')
 
 
+# §2b Trade Management — Pure Runner Panel
+def trade_mgmt_html():
+    """Pure runner trade management: three binding rules per open position."""
+    if not OPEN_POSITIONS:
+        return '<div class="mute">No open positions.</div>'
+    rationale = (
+        '<div style="background:rgba(91,155,255,.04);border:1px solid rgba(91,155,255,.2);'
+        'border-radius:6px;padding:8px 12px;margin-bottom:10px;font-size:12px;color:#8a93a6">'
+        '<b style="color:#5b9bff">Exit Architecture &mdash; Pure Runner (Grade A, binding all assets)</b> &nbsp;&middot;&nbsp; '
+        'No partial exits. Returns are power-law distributed: top ~10% of trades drive all cumulative P&amp;L. '
+        'Partial exits truncate the right tail. Academic TF (Hurst/Ooi/Pedersen 2017, 137yr&times;67 mkts) uses '
+        'trailing stops with no partial exits. Win rate 35&ndash;40% is only viable if outlier winners run to full extension.'
+        '</div>'
+    )
+    rows = ""
+    for row in OPEN_POSITIONS:
+        pid, asset = row[0], row[1]
+        entry, stop = row[3], row[5]
+        flag_cls = row[11]
+        trail_act = row[14] if len(row) > 14 else None
+        trail_cb  = row[15] if len(row) > 15 else None
+        is_pending = flag_cls == "blue"
+        r1 = f'Hold stop at <span style="color:#f87171;font-weight:600">{stop}</span>'
+        if trail_act:
+            r2 = f'Move stop &rarr; <span style="color:#facc15;font-weight:700">{entry}</span> (breakeven) when price &ge; <span style="color:#facc15;font-weight:700">{trail_act}</span>'
+            r3 = f'Highest high &minus; <span style="color:#5b9bff;font-weight:700">{trail_cb:.1f}%</span> callback from each new high'
+        else:
+            r2 = 'Calc at fill: entry + 1.5&times;ATR'
+            r3 = 'Calc at fill: 3&times;ATR / trail_activate &times; 100'
+        status_badge = '<span class="pill blue" style="font-size:10px">PENDING</span>' if is_pending else ''
+        rows += (
+            f'<tr>'
+            f'<td><b>{pid}</b> {status_badge}<br><span class="mute" style="font-size:11px">{asset}</span></td>'
+            f'<td style="font-size:12px">{r1}</td>'
+            f'<td style="font-size:12px">{r2}</td>'
+            f'<td style="font-size:12px">{r3}</td>'
+            f'</tr>\n'
+        )
+    return (
+        rationale +
+        f'<table><tr>'
+        f'<th>Position</th>'
+        f'<th>Rule 1 &mdash; Hold stop</th>'
+        f'<th>Rule 2 &mdash; Breakeven trigger &#9733; <span style="color:#facc15">mandatory</span></th>'
+        f'<th>Rule 3 &mdash; Chandelier trail</th>'
+        f'</tr>\n{rows}</table>'
+        f'<div class="mute" style="font-size:11px;margin-top:6px">'
+        f'&#9733; = mandatory action at that price. No partial exit &mdash; full size retained. '
+        f'Chandelier fires if price retraces &gt;trail_cb% from highest high after activation. '
+        f'Once chandelier stop rises above entry naturally (&asymp;+3&times;ATR HH), it supersedes the breakeven rule.</div>'
+    )
+
+
 # §8 Recommendations
 def recs_html():
-    hdr = ('<tr><th>Asset</th><th>Dir</th><th>Entry</th><th>Stop</th><th>Target</th>'
-           '<th>Enter (USDT)</th><th>Catalyst</th><th>Grade</th><th>Sleeve</th></tr>')
+    hdr = ('<tr><th>Asset</th><th>Dir</th><th>Entry</th><th>Stop</th>'
+           '<th style="color:#facc15">Trail&#9733;</th>'
+           '<th>Target</th><th>Enter (USDT)</th><th>Catalyst</th><th>Grade</th><th>Sleeve</th></tr>')
     rows = ""
     if RECS:
         for rec in RECS:
             asset, dir_cls, entry, stop, target, size, catalyst, grade, sleeve = rec[:9]
             notional = rec[9] if len(rec) > 9 else None
+            trail    = rec[10] if len(rec) > 10 else "--"
             if notional:
                 size_cell = (f'<span style="font-size:15px;font-weight:700;color:#4ade80">~${notional:,} USDT</span>'
                              f'<br><span style="color:#8a93a6;font-size:11px">{size}</span>')
@@ -940,17 +1032,20 @@ def recs_html():
                 size_cell = size
             rows += (f'<tr style="background:rgba(74,222,128,.04)">'
                      f'<td>{asset}</td><td>{pill(dir_cls,"LONG")}</td>'
-                     f'<td>{entry}</td><td>{stop}</td><td>{target}</td><td>{size_cell}</td>'
+                     f'<td>{entry}</td><td>{stop}</td>'
+                     f'<td style="color:#facc15;font-size:12px;font-weight:600">{trail}</td>'
+                     f'<td>{target}</td><td>{size_cell}</td>'
                      f'<td style="font-size:12px">{catalyst}</td>'
                      f'<td style="font-size:12px;color:#b5bccc">{grade}</td>'
                      f'<td style="font-size:12px">{sleeve}</td></tr>\n')
     else:
-        rows += f'<tr><td colspan="9" class="mute" style="text-align:center;padding:16px">No new promotions this run.</td></tr>\n'
+        rows += f'<tr><td colspan="10" class="mute" style="text-align:center;padding:16px">No new promotions this run.</td></tr>\n'
     if RECS_CARRY:
-        rows += f'<tr><td colspan="9" style="background:#12151c;color:#8a93a6;font-size:11px;padding:5px 10px;letter-spacing:.04em">CARRY-OVER PENDING (previously promoted)</td></tr>\n'
+        rows += f'<tr><td colspan="10" style="background:#12151c;color:#8a93a6;font-size:11px;padding:5px 10px;letter-spacing:.04em">CARRY-OVER PENDING (previously promoted)</td></tr>\n'
         for rec in RECS_CARRY:
             a_c, e_c, s_c, t_c, sz_c, cat_c = rec[:6]
             notional_c = rec[6] if len(rec) > 6 else None
+            trail_c    = rec[7] if len(rec) > 7 else "--"
             if notional_c:
                 sz_html = (f'<span style="font-size:14px;font-weight:700;color:#5b9bff">~${notional_c:,} USDT</span>'
                            f'<br><span style="color:#8a93a6;font-size:11px">{sz_c}</span>')
@@ -958,18 +1053,22 @@ def recs_html():
                 sz_html = f'<span style="font-size:12px">{sz_c}</span>'
             rows += (f'<tr style="opacity:0.8"><td>{a_c}</td><td>{pill("blue","--")}</td>'
                      f'<td style="font-size:12px">{e_c}</td><td style="font-size:12px">{s_c}</td>'
+                     f'<td style="color:#facc15;font-size:12px">{trail_c}</td>'
                      f'<td style="font-size:12px">{t_c}</td><td>{sz_html}</td>'
                      f'<td style="font-size:12px">{cat_c}</td><td></td><td></td></tr>\n')
     if RECS_BLOCKED:
-        rows += f'<tr><td colspan="9" style="background:#12151c;color:#f87171;font-size:11px;padding:5px 10px;letter-spacing:.04em">GATE-BLOCKED / NEAR-MISS (Sum&ge;3 but blocked)</td></tr>\n'
+        rows += f'<tr><td colspan="10" style="background:#12151c;color:#f87171;font-size:11px;padding:5px 10px;letter-spacing:.04em">GATE-BLOCKED / NEAR-MISS (Sum&ge;3 but blocked)</td></tr>\n'
         for asset, dir_txt, entry, stop, target, size, catalyst, grade, sleeve in RECS_BLOCKED:
             rows += (f'<tr style="opacity:0.55"><td>{asset}</td><td>{dir_txt}</td>'
-                     f'<td>{entry}</td><td>{stop}</td><td>{target}</td><td>{size}</td>'
+                     f'<td>{entry}</td><td>{stop}</td><td class="mute">--</td>'
+                     f'<td>{target}</td><td>{size}</td>'
                      f'<td style="font-size:12px">{catalyst}</td>'
                      f'<td style="font-size:12px;color:#b5bccc">{grade}</td>'
                      f'<td style="font-size:12px">{sleeve}</td></tr>\n')
     return (f'<table>\n{hdr}\n{rows}</table>\n'
-            f'<div class="mute" style="font-size:12px;margin-top:6px">{RECS_FOOTNOTE}</div>')
+            f'<div class="mute" style="font-size:12px;margin-top:6px">'
+            f'&#9733; Trail = breakeven trigger price (+chandelier callback%). Move stop to entry the moment this level prints. No partial exit &mdash; full size retained.<br>'
+            f'{RECS_FOOTNOTE}</div>')
 
 
 # §9 Signal Age
@@ -1509,8 +1608,10 @@ html = f"""<!DOCTYPE html>
   {stop_buffer_section()}
 </div>
 {positions_cards_html()}
-<h3>Price Level Range &mdash; Stop / Entry / Live / Targets</h3>
+<h3>Price Level Range &mdash; Stop / Entry / Live / Trail&#9733; / Targets</h3>
 <div class="card">{pos_range_html()}</div>
+<h3>Pure Runner Trade Management &mdash; Three Binding Rules</h3>
+<div class="card">{trade_mgmt_html()}</div>
 </section>
 
 {section("3. Executive Summary", exec_summary_html(), "s3")}

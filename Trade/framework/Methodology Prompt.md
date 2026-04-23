@@ -124,6 +124,24 @@ Specify the data points that would kill the thesis:
 
 If no concrete invalidation exists → thesis is narrative, not research-backed → no trade.
 
+### Exit Architecture — Pure Runner (binding, all assets, added 2026-04-23)
+
+Returns are power-law distributed: a small number of outlier trades (top ~10–15%) drive virtually all cumulative P&L. Partial exits at arbitrary TP1/TP2 levels systematically truncate the only part of the distribution that creates positive expected value. Mechanistically, momentum has positive autocorrelation — each day price continues trending, the expected remaining return is higher, not lower (the opposite of mean reversion). Partial exits sell positive autocorrelation at exactly the moment it is most valuable.
+
+**Three binding rules — nothing else:**
+
+| Rule | Trigger | Action |
+|---|---|---|
+| 1 — Hold | Price < `trail_activate` | Stop stays at ATR-stop. No action. |
+| 2 — Breakeven | Price ≥ `trail_activate` = entry + 1.5× ATR | Move stop to entry. **Mandatory.** Full position retained. |
+| 3 — Chandelier trail | Highest high > `trail_activate` | Stop = highest high − 3× ATR. When chandelier > entry (at HH ≈ entry + 3× ATR), supersedes breakeven. |
+
+**Key level formulas (compute at entry, report in every trade rec):**
+- `trail_activate` = entry + 1.5× ATR — the price that triggers the mandatory breakeven stop move
+- `trail_pct` = 3× ATR / `trail_activate` × 100 — callback % from highest high that fires the chandelier stop
+
+**Evidence:** Grade A — Hurst, Ooi & Pedersen (2017) 137 years × 67 markets; SG CTA Trend Index Sharpe 0.61 (2000–2024); trend-following win rates 35–40% produce positive expectancy *only if* outlier winners are not truncated. Partial TP is Grade B/C practitioner convention with no peer-reviewed replication on expectancy improvement over pure runner. Elm Wealth (2023) demonstrates CLE-LPR is mathematically equivalent to momentum and is the rational policy under power-law return assumptions. Policy enforced in `framework/Risk Rules.md §3`.
+
 ---
 
 ## 3. Minimal Dashboard (check every session)

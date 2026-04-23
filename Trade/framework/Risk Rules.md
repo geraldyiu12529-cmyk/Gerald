@@ -41,8 +41,12 @@ This sits *above* the quarter-Kelly cap. Take the more restrictive of the two. S
 
 - **Stops:** ATR-based trailing at 2–3× ATR. Not fixed-percentage.
   - Evidence: 2–3× ATR reduces momentum strategy max DD from −49.8% to −11.4% (Han et al. 2016, via `framework/Trad core.md:213`).
-- **TP structure (crypto baseline):** TP1 at 1.5× ATR, TP2 at 3× ATR; at TP1 hit, move stop to breakeven. Source: `framework/Coin core.md:57`.
-- **Chandelier exit:** 3× ATR below highest high for crypto trend follows. Source: `framework/Coin core.md:57`.
+- **Exit methodology — pure runner (all assets, binding, updated 2026-04-23):** No partial exits at TP1 or TP2. Partial exits truncate the right tail of a power-law return distribution where the top ~10–15% of trades drive virtually all cumulative P&L (Hurst/Ooi/Pedersen 2017, Grade A). Three binding rules govern every open position:
+  1. **Hold** — keep stop at ATR-stop until price reaches entry + 1.5× ATR (`trail_activate`). Do not close early.
+  2. **Breakeven** — the moment price prints ≥ `trail_activate`, move stop to entry. Mandatory, not optional. Position remains full size — this is loss prevention, not profit-taking.
+  3. **Chandelier trail** — from `trail_activate` onward, stop = highest high − 3× ATR. Once the chandelier stop rises naturally above entry (at highest high ≈ entry + 3× ATR), the manual breakeven stop is superseded; trail chandelier only from that point.
+  - **Computed per trade at entry:** `trail_activate` = entry + 1.5× ATR; `trail_pct` = 3× ATR / `trail_activate` × 100 (callback % from highest high that fires the chandelier stop).
+  - **Evidence basis (Grade A):** Hurst, Ooi & Pedersen (2017) 137 years × 67 markets; SG CTA Trend Index Sharpe 0.61 (2000–2024). Academic CTA implementations do not use partial exits — positive expectancy at 35–40% win rates requires outlier winners to run to full extension. Partial TP (TP1/TP2) is Grade B/C practitioner convention only. See `framework/Methodology Prompt.md §2 Exit Architecture`.
 - **Time-to-invalidation:** Every thesis must also carry a date by which the setup must have moved in favor. A 4-week thesis that hasn't moved in 4 weeks is a failed thesis. Close and free the capital.
 - **Intraday stop tightening:** If a protective stop is moved intraday to a level tighter than the methodology stop (2–3× ATR), document the reason in `framework/Memory.md §2` and confirm that position size is calibrated to the tighter stop, not the methodology stop. An undocumented intraday tightening that trips removes the edge of the signal without a sizing credit. Rule of thumb: keep the methodology stop OR tighten the stop AND halve the size — never tighten without a documented reason. (Added 2026-04-20; triggered by EWY 2026-04-16 lesson.)
 

@@ -14,12 +14,12 @@ TODAY       = "2026-04-23"
 GEN_TIME    = "2026-04-23 09:00 UTC+8"
 SNAPSHOT    = "2026-04-23/us-close-snapshot-2026-04-23.md"
 PORT_NAV    = 4300
-TOTAL_HEAT  = 3.09
+TOTAL_HEAT  = 2.71
 HEAT_CAP    = 8.0
 HEAT_CLS    = "ok"   # "ok" <4% | "warn" 4-6% | "bad" >6%
 
 REGIME_LABEL = "RISK-ON / OIL-ELEVATED"
-REGIME_SUB   = "CEASEFIRE EXTENDED | HORMUZ BLOCKED (BRENT >$100) | INTC earnings tonight AC"
+REGIME_SUB   = "CEASEFIRE EXTENDED | HORMUZ BLOCKED | BRENT PULLS BACK $101→$98 OVERNIGHT | INTC AC TONIGHT"
 
 # ── OPEN_POSITIONS ────────────────────────────────────────────────────────────
 # Each entry is a dict. Field reference:
@@ -49,7 +49,7 @@ OPEN_POSITIONS = [
         "entry_f": 708.95, "live_f": 708.40, "stop_f": 696.00,
         "trail_activate_f": 718.70, "atr_f": 6.475,
         "unrealized_pct": -0.08,
-        "flag_cls": "warn",
+        "flag_cls": "warn",   # F1: buffer $12.40 = 1.92× ATR (< 2×)
         "size_pct": 1.00, "size_usd": "~$2,089", "time_stop": "2026-05-13",
 
         "sum": "+3",
@@ -96,10 +96,11 @@ OPEN_POSITIONS = [
             "risk appetite. The position was deliberately half-sized at 1.0% because C=0: without "
             "a fresh catalyst, the structural edge alone does not justify full deployment. Entry "
             "was averaged across five tranches at $708.95; the Apr-22 NDX surge rebuilt the stop "
-            "buffer from $8 to $12.40. Primary near-term risk: INTC AC earnings tonight — a miss "
-            "could pressure QQQ/SPX futures and narrow the buffer. Secondary risk: FOMC Apr-28–29, "
-            "where Warsh hawkish framing has injected a rate-regime tail. Hold unless SPY closes "
-            "below $696 or FOMC delivers a materially hawkish surprise."
+            "buffer from $8 to $12.40. Apr-23 update: market futures suggest slight pullback (SPX "
+            "~7,109, −0.41%) as Iran peace-talk stagnation weighs on risk sentiment overnight — "
+            "not a trend break. F1 buffer flag remains active at 1.92× ATR. Primary near-term risk: "
+            "INTC AC earnings tonight — a miss could pressure QQQ/SPX futures and narrow the buffer "
+            "below 1.5× ATR. FOMC Apr-28–29 remains the primary macro catalyst for this position."
         ),
 
         "invalidation": [
@@ -125,7 +126,7 @@ OPEN_POSITIONS = [
             "narrowing the $12.40 stop buffer. FOMC Apr-28–29 is the primary macro catalyst "
             "for this position; any hawkish pivot scenario tests the $696 stop directly."
         ),
-        "recommendation": "HOLD — stop buffer $12.40. No action. Monitor INTC AC and FOMC.",
+        "recommendation": "HOLD — stop buffer $12.40 / 1.92× ATR. F1 active. Monitor INTC AC tonight; do not add until buffer > 2×ATR.",
 
         "development": {
             "entries": [
@@ -135,26 +136,31 @@ OPEN_POSITIONS = [
                 ("Apr-21 22:14 UTC+8", "fill",      "T4 Fill @ $710.90",         "Avg $710.27; 4/5 allocation — only missing T5 dip-fill"),
                 ("Apr-22 05:05 UTC+8", "fill",      "T5 Fill @ $706.51",         "Final tranche catches pre-market dip; avg pulled to $708.95"),
                 ("Apr-22 close",       "milestone", "NDX Record (+1.73%)",        "SPX/NDX records; SPY $708.40; stop buffer rebuilt $8→$12.40"),
+                ("Apr-23 pre-open",    "note",      "SPX down 0.41% overnight",  "SPX ~7,109; Iran talk stagnation weighs; stop buffer 1.92× ATR; F1 remains. INTC AC tonight is key watch."),
             ],
             "thesis_evolution": (
-                "Entered on structural-only edge (S+T+R, C=0) — deliberately half-sized because no catalyst "
-                "was scored at entry. The five-tranche build averaged across the Apr-21 US session and Apr-22 "
-                "pre-market, with T5 at $706.51 providing the best fill and pulling the avg down to $708.95. "
-                "The thesis is progressing but not yet running: SPY closed Apr-22 at $708.40, nearly at parity "
-                "with entry. The NDX record close (+1.73%) is the most meaningful development — it confirms the "
-                "T-leg is holding and the buffer has expanded from $8 to $12.40. No stop moves have been made "
-                "yet (trail activate at $718.70 not reached). Thesis evolution: structural signals intact, "
-                "no catalyst edge added. Next milestone: close above $718.70 triggers Rule 2 (stop to breakeven $708.95)."
+                "Entered on structural-only edge (S+T+R, C=0) at Sum+3 — deliberately half-sized because C=0 scored "
+                "at initiation meant the weakest leg was the catalyst score. The five-tranche build averaged "
+                "$708.95 across Apr-21 21:43 to Apr-22 05:05 UTC+8, with T5 at $706.51 providing the best fill. "
+                "Apr-22 delivered a record NDX close (+1.73%) that rebuilt the stop buffer from $8 to $12.40, "
+                "the most constructive development since entry — T-leg confirming. However, overnight (Apr-23), "
+                "SPX futures are down ~0.41% (~7,109) as Iran-US peace talks stagnate; buffer is now 1.92× ATR, "
+                "barely below the F1 threshold. S-leg: still intact — overlay gate ON, DXY flat 98.58. "
+                "T-leg: minor day-over-day dip is not a trend break; 12m momentum firmly positive. "
+                "Surprise delta: the position remains within $0.55 of entry ($708.95 vs $708.40) after three "
+                "trading days — it has not developed in either direction, which for a C=0 structural trade "
+                "is the expected pattern. Thesis on track, not yet developing. "
+                "Next milestone: SPY close above $718.70 triggers Rule 2 (stop to breakeven $708.95)."
             ),
         },
     },
 
     {
         "id": "P010", "asset": "EWJ", "side": "Long",
-        "entry_f": 88.30, "live_f": 87.40, "stop_f": 86.00,
+        "entry_f": 88.30, "live_f": 87.76, "stop_f": 86.00,
         "trail_activate_f": 90.02, "atr_f": 1.15,
-        "unrealized_pct": -1.02,
-        "flag_cls": "warn",
+        "unrealized_pct": -0.61,
+        "flag_cls": "warn",   # F1: buffer $1.76 = 1.53× ATR (< 2×)
         "size_pct": 0.75, "size_usd": "~$1,396", "time_stop": "2026-06-30",
 
         "sum": "+3",
@@ -210,7 +216,7 @@ OPEN_POSITIONS = [
             ("USDJPY",         "< 150 (yen spike)",    "~158–159",          "ok"),
             ("Nikkei",         "−5% single session",   "record +0.4%",      "ok"),
             ("BOJ emergency",  "≥ 50bp hike",          "on hold",           "ok"),
-            ("EWJ stop",       "< $86.00",             "$87.40 (F1 thin)",  "warn"),
+            ("EWJ stop",       "< $86.00",             "$87.76 (F1 thin)",  "warn"),
         ],
 
         "entry_context": (
@@ -222,10 +228,10 @@ OPEN_POSITIONS = [
         "key_vars": (
             "V027 z+1.65 (expansion). EFA proxy overlay gate ON (EWJ > 10m-SMA). "
             "USDJPY ~158.9 — yen not strengthening abnormally. "
-            "F1 FIRED: buffer $1.40 = 1.2× ATR (< 2× ATR threshold)."
+            "F1 FIRED: buffer $1.76 = 1.53× ATR (< 2× ATR threshold)."
         ),
         "next_catalyst": (
-            "INTC AC tonight — if a miss broadens to risk-off, the $1.40 buffer becomes critical "
+            "INTC AC tonight — if a miss broadens to risk-off, the $1.76 buffer becomes critical "
             "overnight. Alert at EWJ < $87. BOJ next scheduled meeting; any emergency action = "
             "immediate exit regardless of price."
         ),
@@ -237,27 +243,30 @@ OPEN_POSITIONS = [
                 ("Apr-21 22:13 UTC+8", "fill",  "T2 Fill @ $88.39",       "Avg $88.44; building into Nikkei momentum"),
                 ("Apr-22 05:08 UTC+8", "fill",  "T3 Fill @ $87.39",       "Full 3-tranche build; avg pulled to $88.30 on pre-market dip"),
                 ("Apr-22 close",       "note",  "F1 Buffer Alert — THIN", "EWJ $87.40 vs stop $86.00; buffer $1.40 ≈ 1.2× ATR — below 2× threshold"),
+                ("Apr-23 pre-open",    "note",  "EWJ slightly recovered",  "Apr-22 confirmed close $87.76 (vs prior estimate $87.40); buffer improves to $1.76 / 1.53× ATR; F1 still active"),
             ],
             "thesis_evolution": (
-                "Entered on DXY-weakness + Nikkei momentum thesis, with P010 sized at 0.75% (haircut vs. full) "
-                "due to correlation overlap with P009 SPY (both express DXY-weak + equity-risk-on). T3 at $87.39 "
-                "brought the avg fill to $88.30, but the position immediately ran into pressure — EWJ closed at "
-                "$87.40 on Apr-22, essentially flat from the T3 fill and $0.90 below the average entry. "
-                "The DXY-weak structural thesis (primary S-driver) remains intact — DXY at 98.41 has not recovered "
-                "and the Nikkei printed a record close. However, the position has not developed in our favour: "
-                "price is sitting below entry and the stop buffer is critically thin (F1 fired). "
-                "The position is in a hold-and-monitor state — no new adverse development, but no progress either. "
-                "Needs EWJ to recover above $88.30 to become neutral; above $90.02 triggers Rule 2 trail."
+                "Entered on DXY-weakness + Nikkei momentum thesis at Sum+3, sized 0.75% due to P009 correlation haircut. "
+                "Three tranches built Apr-21 21:47 to Apr-22 05:08 UTC+8 at avg $88.30; T3 at $87.39 was the "
+                "best fill, catching the pre-market dip. Apr-22 Nikkei printed a record close (+0.4%), but EWJ "
+                "lagged the Nikkei record, closing at $87.76 — $0.54 below entry and the thin buffer has been the "
+                "defining feature of this trade since inception (F1 fired Apr-22 and still active Apr-23). "
+                "S-leg: still intact — DXY flat at 98.58, structural USD-weakness thesis unbroken. "
+                "T-leg: the Nikkei record is T-positive but EWJ is not yet reflecting it in USD terms; unchanged. "
+                "Surprise delta: the DXY-to-EWJ transmission has been slower than expected at entry; the USD hasn't "
+                "weakened further since Apr-22, leaving the FX tailwind stalled rather than accelerating. "
+                "Thesis on track, not yet developing. "
+                "Next milestone: EWJ close above $88.30 (entry parity); above $90.02 triggers Rule 2 (stop to breakeven $88.30)."
             ),
         },
     },
 
     {
         "id": "P016", "asset": "Brent Crude", "side": "Long",
-        "entry_f": 95.13, "live_f": 101.91, "stop_f": 90.50,
+        "entry_f": 95.13, "live_f": 98.50, "stop_f": 90.50,
         "trail_activate_f": 97.94, "atr_f": 1.875,
-        "unrealized_pct": +7.13,
-        "flag_cls": "ok",
+        "unrealized_pct": +3.54,
+        "flag_cls": "warn",   # F7: Brent -3.4% overnight ($101.91→$98.50); Rule 2 stop-move outstanding
         "size_pct": 0.75, "size_usd": "~$859", "time_stop": "2026-05-22",
 
         "sum": "+3",
@@ -270,10 +279,12 @@ OPEN_POSITIONS = [
              "weakness adds an independent commodity S-tailwind (commodities priced in USD benefit "
              "from dollar depreciation)."),
             ("T", "+1",
-             "Price trend confirmed and accelerating: Brent +8.2% on Apr-22 to $101.91, breaching "
-             "$100 for the first time this cycle. The 1m/3m momentum is strongly positive. "
-             "Supply-shock narrative is driving the trend rather than speculative positioning, "
-             "making it more durable."),
+             "Price trend still positive but Apr-23 session shows a pullback: Brent $98.50 overnight "
+             "vs Apr-22 close $101.91 (−3.4%). The 1m/3m trend remains strongly positive (Brent has "
+             "rallied from ~$86 in early April). The overnight pullback is consistent with profit-taking "
+             "and COT crowding pressure after the >10% move, not a thesis reversal — Hormuz is still "
+             "blocked. T=+1 maintained but under watch; a close below $97 (chandelier stop region) would "
+             "re-evaluate the momentum leg."),
             ("C",  "0",
              "Iran ceasefire binary scored zero at entry: the outcome was symmetric — deal = "
              "Brent −10%, no deal = hold/higher. Cannot score a directional catalyst under those "
@@ -303,25 +314,25 @@ OPEN_POSITIONS = [
             "Brent is the primary commodity sleeve position, entered Apr-22 after the Faber "
             "overlay gate (V034 GSG confirmed ON) unblocked the commodity sleeve for the first "
             "time this cycle. Three independent structural factors drive the +3 score: the Hormuz "
-            "blockade is removing a persistent share of seaborne crude supply from the market "
-            "(not a crowded speculative play — the COT report does not show >2σ speculative "
-            "crowding); the Brent futures curve is in fresh backwardation with V028 basis-momentum "
-            "steepening to T1 +13.95 (the single strongest commodity signal in the Apr-22 run); "
-            "and DXY structural weakness adds an independent S-tailwind. Two risks drove a "
-            "deliberate 0.75% haircut from full-size: correlation with P009/P010 (all three share "
-            "the DXY-weak macro theme) and the Iran deal binary (confirmed deal = Brent likely "
-            "−10–15% fast). Position is now running +7.1% to $101.91, having cleared the "
-            "trail_activate level of $97.94. Mandatory Rule 2 (move stop to breakeven) is now "
-            "triggered. The Hormuz thesis is validating in real-time: the breach of $100 with "
-            "Iran still refusing to reopen shipping confirms the market is pricing structural "
-            "supply disruption, not a temporary geopolitical spike."
+            "blockade is removing a persistent share of seaborne crude supply from the market; "
+            "the Brent futures curve is in fresh backwardation with V028 basis-momentum "
+            "steepening to T1 +13.95; and DXY structural weakness adds an independent S-tailwind. "
+            "Apr-23 update: Brent has pulled back from the $101.91 Apr-22 close to ~$98.50 overnight "
+            "(−3.4%), triggering F7 (overnight commodity move ≥1%). COT data shows Brent net longs "
+            "at ~373k contracts (long-short ratio 11.3 — near a 4-year high), meaning F11 is elevated; "
+            "further long liquidation is the mechanism driving the pullback. The structural thesis "
+            "remains intact — Hormuz is still blocked, Iran is not reopening shipping — but the "
+            "crowded-long condition makes the position susceptible to sharp pullbacks on any de-escalation "
+            "headline. CRITICAL: Rule 2 (stop to breakeven $95.13) was triggered when Brent hit $101.91 "
+            "on Apr-22 (above trail_activate $97.94). If not yet actioned, this is outstanding. "
+            "Chandelier stop = HH $101.91 − 3×ATR $1.875 = $96.28. Current stop should be ≥$95.13 (breakeven)."
         ),
 
         "invalidation": [
             ("Iran deal",       "Brent likely < $88",    "not confirmed",     "ok"),
             ("Hormuz re-open",  "> 70% normal traffic",  "< 10% currently",   "ok"),
             ("V034 gate",       "GSG < 10m-SMA",         "GSG 31.75 > 25.35", "ok"),
-            ("Stop hit",        "< $90.50",              "$101.91 (+$11.41)", "ok"),
+            ("Stop hit",        "< $90.50",              "$98.50 (+$8.00 buffer)", "ok"),
         ],
 
         "entry_context": (
@@ -333,17 +344,20 @@ OPEN_POSITIONS = [
         "key_vars": (
             "V034 GSG overlay gate CONFIRMED ON (31.75 > 10m-SMA 25.35). "
             "V028 basis-momentum T1 +13.95 (steepening — strongest commodity signal Apr-22). "
-            "V027 z+1.65 (expansion). COT: not crowded. "
-            "TRAIL RULE TRIGGERED: live $101.91 > trail_activate $97.94."
+            "V027 z+1.65 (expansion). COT: Brent net longs ~373k contracts / ratio 11.3 — ELEVATED (F11 watch). "
+            "F7 FIRED: Brent -3.4% overnight $101.91→$98.50. "
+            "RULE 2 OUTSTANDING: Stop must be ≥$95.13 (breakeven) — HH $101.91 > trail_activate $97.94."
         ),
         "next_catalyst": (
-            "Iran / Hormuz status: any confirmed deal or new shipping-attack escalation in "
-            "next 24–48h directly reprices ±10% fast. Next EIA weekly crude inventory release. "
-            "If Brent sustains >$100 into Apr-23 US session, chandelier stop continues to rise."
+            "Iran / Hormuz status: any confirmed deal in next 24–48h directly reprices −10% fast; "
+            "stop at $95.13 (breakeven) would limit loss to zero if properly actioned. "
+            "EIA weekly crude inventory release. COT-driven long liquidation is the primary near-term risk."
         ),
         "recommendation": (
-            "ACTION REQUIRED — Move stop to breakeven $95.13 NOW (Rule 2 mandatory). "
-            "Chandelier trail: stop = HH $101.91 − 3×ATR ≈ $96.28. Then trail as new HH forms."
+            "ACTION REQUIRED — Confirm stop is at ≥$95.13 (breakeven, Rule 2). "
+            "Chandelier trail: HH $101.91 − 3×ATR $1.875 = $96.28 (use higher of $95.13 or chandelier). "
+            "If Brent recovers above $100 in US session, trail to new HH. "
+            "F7 + elevated COT = position at pullback risk; do NOT add size."
         ),
 
         "development": {
@@ -352,19 +366,25 @@ OPEN_POSITIONS = [
                 ("Apr-22 22:27 UTC+8", "trim",      "Trim −$147 USDT @ $94.97",     "Overexposure correction; trim below entry; final size 859.27 USDT (0.75% NAV)"),
                 ("Apr-22 close",       "milestone", "Brent Breaks $100 → $101.91",  "+$6.78/bbl (+7.1% open P&L); Hormuz premium intact; Iran refuses to reopen"),
                 ("Apr-22 close",       "stop",      "Rule 2 TRIGGERED",             "Live $101.91 > trail_activate $97.94; mandatory stop move to breakeven $95.13 required"),
+                ("Apr-23 pre-open",    "note",      "Brent pulls back $101.91→$98.50",  "−3.4% overnight; F7 fired; COT net longs 373k / ratio 11.3 — F11 elevated; chandelier stop $96.28; thesis intact (Hormuz still blocked)"),
             ],
             "thesis_evolution": (
-                "Most dynamic position in the current book. Entered Apr-22 after the V034 GSG overlay gate "
-                "confirmed ON for the first time this cycle, unblocking the commodity sleeve. The fill at $95.13 "
-                "overshot the $94.50 upper limit by $0.63, triggering an immediate size correction: 147.21 USDT "
-                "trimmed at $94.97 (below entry — costing ~$0.16/bbl vs. holding, but the discipline was correct). "
-                "From there the thesis ran hard and fast: the ceasefire extension did NOT deliver the expected "
-                "Brent deflation, because Iran refused to reopen Hormuz while US Navy intercepts resumed. "
-                "Brent surged +8.2% in a single session, breaching $100 for the first time this cycle. "
-                "This is the strongest thesis-validation print in the current book — every structural variable "
-                "(Hormuz blockade, backwardation, DXY-weak) is active simultaneously. "
-                "Rule 2 (mandatory stop to breakeven) is now triggered. The trim at entry was the only adverse "
-                "development; everything since has been in our direction."
+                "Entered Apr-22 after V034 GSG gate unblocked the commodity sleeve at Sum+3, with the structural "
+                "Hormuz-blockade supply-shock as the primary edge (C=0 at entry — the symmetric ceasefire binary "
+                "prevented a catalyst score and drove the 0.75% haircut). The fill at $95.13 overshot $94.50 "
+                "upper limit by $0.63, triggering an immediate size trim: 147.21 USDT at $94.97 (below entry; "
+                "correct discipline despite the minor cost). Brent then surged +8.2% in a single session to "
+                "$101.91 — the ceasefire extension did NOT deliver the expected deflation because Iran refused "
+                "to reopen Hormuz. Rule 2 (stop to breakeven $95.13) was triggered on Apr-22 close. "
+                "Apr-23: Brent has pulled back −3.4% overnight to ~$98.50; F7 fired; COT Brent net longs at "
+                "~373k contracts (ratio 11.3) are near a 4-year high — long liquidation is the pullback driver, "
+                "not a structural shift. S-leg: still intact (Hormuz blocked, DXY stable). T-leg: 1m trend "
+                "positive but intraday momentum has reversed from the $101.91 peak. Surprise delta: the pullback "
+                "velocity (−3.4% in one overnight session) is faster than expected given the Hormuz thesis — "
+                "crowded positioning is amplifying moves in both directions. Thesis running ahead of schedule "
+                "(entry $95.13 → peak $101.91 = +7.1% in <24h) but now in partial consolidation. "
+                "Next milestone: Brent hold/close above $100 in the Apr-23 US session confirms the $100 level "
+                "as structural support; failure below $96.28 (chandelier stop) triggers exit."
             ),
         },
     },
@@ -381,7 +401,7 @@ PENDING_POSITIONS = [
     {
         "id": "P013", "asset": "INTC", "side": "Long (pending)",
         "entry_zone": "$68–72", "est_trigger": "Apr-24 morning UTC+8",
-        "status_cls": "blue", "status_txt": "ON DECK",
+        "status_cls": "warn", "status_txt": "ON DECK — REPORTS TONIGHT AC",
         "sum": "+4",
         "scores": [
             ("S", "+1",
@@ -608,19 +628,19 @@ PENDING_POSITIONS = [
 
 # ── FLAGS (unchanged tuple format) ────────────────────────────────────────────
 FLAGS = [
-    ("F1",  "Stop Buffer < 2×ATR",   "warn", "P010 EWJ thin — $1.40 / ~1.2× ATR"),
+    ("F1",  "Stop Buffer < 2×ATR",   "warn", "P009 SPY: $12.40 / 1.92× ATR | P010 EWJ: $1.76 / 1.53× ATR — both thin"),
     ("F2",  "Stop Hit",              "ok",   "All clear"),
     ("F3",  "Time Inv ≤ 7 days",     "ok",   "Nearest: P016 2026-05-22 (~29 days)"),
-    ("F4",  "Earnings ≤ 2 days",     "warn", "INTC tonight AC — P013 catalyst trigger"),
+    ("F4",  "Earnings ≤ 2 days",     "warn", "INTC tonight AC (Apr-23 ET) — P013 catalyst trigger"),
     ("F5",  "Catalyst ≤ 1 day",      "warn", "INTC AC within 24h"),
-    ("F6",  "Data Missing",          "ok",   "All prices sourced from snapshot"),
-    ("F7",  "AH Move ≥ 3%",         "ok",   "No large AH gaps on open positions"),
-    ("F8",  "Thesis Variable Breach","ok",   "Brent >$100 = thesis validating, not breached"),
-    ("F9",  "Portfolio Heat > 6%",   "ok",   "3.09% / 8% — headroom for 2 more positions"),
-    ("F10", "Correlation |ρ| > 0.7", "warn", "P009+P016 share DXY-weak macro theme"),
-    ("F11", "COT Crowding > 2σ",    "ok",   "Brent: supply-shock narrative, not crowded"),
-    ("F12", "Vol Band (cloud)",      "ok",   "No cloud vol-band alerts in digest"),
-    ("F13", "Cloud Alert",           "ok",   "No unmatched POSITION-ALERT in digest"),
+    ("F6",  "Data Missing",          "ok",   "All prices sourced; Brent from overnight futures"),
+    ("F7",  "AH Move ≥ 3%",         "warn", "P016 Brent: −3.4% overnight $101.91→$98.50 (commodity threshold 1%)"),
+    ("F8",  "Thesis Variable Breach","ok",   "No thesis kill-variable breached; Brent pullback is COT/profit-taking, Hormuz still blocked"),
+    ("F9",  "Portfolio Heat > 6%",   "ok",   "2.71% / 8% — headroom for 2 more positions"),
+    ("F10", "Correlation |ρ| > 0.7", "warn", "P009+P010+P016 all share DXY-weak macro theme"),
+    ("F11", "COT Crowding > 2σ",    "warn", "Brent net longs ~373k contracts, ratio 11.3 — near 4-year high; elevated liquidation risk"),
+    ("F12", "Vol Band (cloud)",      "ok",   "No cloud vol-band alerts (no Slack digest — cloud agent not yet run)"),
+    ("F13", "Cloud Alert",           "ok",   "No unmatched POSITION-ALERT (Slack digest not yet available Apr-23)"),
 ]
 
 # ════════════════════════════════════════════════════════════════════════════

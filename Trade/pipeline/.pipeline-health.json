@@ -1,40 +1,42 @@
 {
-  "timestamp": "2026-04-22T19:03:37.841574+08:00",
+  "timestamp": "2026-04-23T18:34:16.343322+08:00",
   "sources": {
     "yahoo_finance": {
       "available": true,
-      "response_time_ms": 230
+      "response_time_ms": 141
     },
     "coingecko": {
       "available": true,
-      "response_time_ms": 280
+      "response_time_ms": 298
     },
     "blockchain_info": {
       "available": true,
-      "response_time_ms": 538
+      "response_time_ms": 574
     },
     "kenneth_french": {
       "available": true,
-      "response_time_ms": 2320
+      "response_time_ms": 2605
     },
     "ny_fed": {
       "available": true,
-      "response_time_ms": 633
+      "response_time_ms": 559
     },
     "barchart": {
       "available": true,
-      "response_time_ms": 4687
+      "response_time_ms": 2060
     },
     "chicago_fed": {
       "available": true,
-      "response_time_ms": 377
+      "response_time_ms": 968
     }
   },
-  "cache_coverage": "54/71 variables",
-  "cache_coverage_pct": 76.1,
+  "cache_coverage": "28/71 variables",
+  "cache_coverage_pct": 39.4,
   "schema_issues": [],
   "schema_ok": true,
   "predicted_missing": 0,
   "skip_tier1_for": [],
-  "advisories": []
+  "advisories": [
+    "Cache coverage low (39.4%) \u2014 MISSING risk elevated"
+  ]
 }

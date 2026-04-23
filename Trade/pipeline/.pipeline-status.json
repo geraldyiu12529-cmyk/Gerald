@@ -1,72 +1,16 @@
 {
-  "date": "2026-04-22",
-  "status": "OK",
-  "sources": "OK",
-  "staging": "OK",
-  "tasks": {
-    "preflight-audit-data": {
-      "last_date": "2026-04-22",
-      "last_status": "OK",
-      "consecutive_failures": 0
-    },
-    "news-events-daily": {
-      "status": "OK",
-      "last_date": "2026-04-22",
-      "consecutive_failures": 0,
-      "file_size_bytes": 10346,
-      "timestamp": "2026-04-22T12:06:26.987125Z"
-    }
-  },
-  "daily-market-brief-8pm": {
-    "status": "OK",
-    "reason": "Grade A MISSING = 0 (T3 fallbacks applied); file 22006 bytes",
-    "date": "2026-04-22",
-    "timestamp": "2026-04-22T12:24:50.164637Z",
-    "version": "v1",
-    "regime": "RISK-ON (FRAGILE) / GEOPOLITICAL-BINARY \u2014 CEASEFIRE EXTENDED, HORMUZ BLOCKED",
-    "missing_grade_a": 0,
-    "consecutive_failures": 0
-  },
-  "trade-rec-daily": {
-    "status": "OK",
-    "reason": "1 promoted (Brent P016 Sum+3), 1 gate-blocked (BTC P017), 7 near-misses; commodity sleeve CONFIRMED ON first time this cycle; 0 cloud files (Drive empty); canonical HTML generated via gen_trade_rec_html.py (64KB); open positions panel added",
-    "date": "2026-04-22",
-    "timestamp": "2026-04-22T13:00:00.000000Z",
-    "version": "v1",
-    "signals_promoted": 1,
-    "signals_blocked": 1,
-    "near_misses": 7,
-    "cloud_ingested": 0,
-    "consecutive_failures": 0,
-    "html_bytes": 63929,
-    "html_generator": "gen_trade_rec_html.py"
-  },
-  "recovery": {
-    "date": "2026-04-22",
-    "timestamp": "2026-04-22T22:05:52.664840+08:00",
-    "finished": "2026-04-22T22:05:52.664840+08:00",
-    "in_progress": false,
-    "status": "PARTIAL",
-    "actions_taken": [
-      "market-brief: marked recovered (sniff boundary issue)"
-    ],
-    "recoveries_succeeded": 1,
-    "recoveries_failed": 0,
-    "healthy_short_circuit": false,
-    "notes": "Phase B: market-brief recovered via validity override"
-  },
-  "market-brief": {
-    "date": "2026-04-22",
-    "status": "PARTIAL",
-    "consecutive_failures": 0,
-    "timestamp": "2026-04-22T22:05:52.664840+08:00",
-    "recovery": true,
-    "details": "File valid (22K, all required content); structural sniff failed on buffer boundary"
-  },
   "positions_monitor": {
     "date": "2026-04-23",
     "status": "FLAGS",
-    "flags_fired": 4,
+    "flags_fired": 6,
     "html": "2026-04-23/positions-monitor-2026-04-23.html"
+  },
+  "preflight-audit-data": {
+    "date": "2026-04-23",
+    "status": "OK",
+    "sources": "OK",
+    "staging": "OK",
+    "consecutive_failures": 0,
+    "last_run": "2026-04-23T18:35:41.536736"
   }
 }
