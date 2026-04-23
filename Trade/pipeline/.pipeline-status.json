@@ -7,15 +7,13 @@
     "details": "health.json=OK, staging=OK"
   },
   "market-brief": {
-    "date": "2026-04-20",
-    "status": "PARTIAL",
+    "date": "2026-04-23",
+    "status": "OK",
     "consecutive_failures": 0,
-    "timestamp": "2026-04-21T00:00:00+08:00",
-    "file": "2026-04-20/market-brief-2026-04-20.md",
-    "version": "v2-replicated",
-    "missing_grade_a_count": 3,
-    "excel_sync": "OK (T.system canonical)",
-    "notes": "v2 \u2014 PARTIAL: 3 MISSING Grade A (residual-mom/IC-z/basis-mom-4of5; numpy compute failure). SPY |Sum|=+3 active (C=0). Brief replicated from T.system\\Trade workspace into Gerald\\Trade on 2026-04-21 as part of Apr-20 routine recovery."
+    "timestamp": "2026-04-23T19:43:07.852699+08:00",
+    "missing_grade_a": 3,
+    "file": "2026-04-23/market-brief-2026-04-23.md",
+    "size_bytes": 28608
   },
   "news-events": {
     "date": "2026-04-20",
@@ -90,5 +88,14 @@
     "categories_covered": 12,
     "catalysts_cached": 6,
     "file_size_bytes": 14721
+  },
+  "daily-market-brief-8pm": {
+    "date": "2026-04-23",
+    "status": "OK",
+    "consecutive_failures": 0,
+    "timestamp": "2026-04-23T19:43:07.852699+08:00",
+    "missing_grade_a": 3,
+    "file": "2026-04-23/market-brief-2026-04-23.md",
+    "size_bytes": 28608
   }
 }
