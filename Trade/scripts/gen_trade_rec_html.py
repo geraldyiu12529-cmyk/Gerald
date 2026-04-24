@@ -9,13 +9,13 @@ from pathlib import Path
 # PER-RUN DATA — update ONLY this block for each date.
 # ══════════════════════════════════════════════════════════════════════════════
 
-TODAY      = "2026-04-22"
+TODAY      = "2026-04-23"
 VERSION    = "v1 Local"
-GEN_TIME   = "2026-04-22 20:30 UTC+8"
-SUPERSEDES = "Local primary — cloud files absent from Drive at run time."
+GEN_TIME   = "2026-04-23 20:30 UTC+8"
+SUPERSEDES = "Supersedes 2026-04-22 v1 -- cloud files MISSING from Drive at run time, local primary used."
 STATUS_CLS = "ok"   # ok / warn / bad
 STATUS_TXT = "OK"
-MISS_COUNT = "0 (T3 fallbacks applied)"
+MISS_COUNT = "3 (DGS2/DFII10/T10YIE -- context-only, no score-leg block)"
 V026_ST    = "ALL 12 LIVE"
 V027_ST    = "z+1.65"
 
@@ -23,17 +23,17 @@ V027_ST    = "z+1.65"
 # Update this whenever Gerald deposits/withdraws or trade-update runs post-close.
 # All notional sizes in RECS are computed as: risk_pct × PORT_NAV / stop_distance_pct
 PORT_NAV      = 4300    # USDT
-PORT_NAV_DATE = "2026-04-22"
+PORT_NAV_DATE = "2026-04-23"
 
-REGIME_LABEL = "RISK-ON (FRAGILE) / GEOPOLITICAL-BINARY"
-REGIME_SUB   = "CEASEFIRE EXTENDED  |  HORMUZ BLOCKED (<10% traffic)  |  TSLA earnings tonight AC"
+REGIME_LABEL = "RISK-ON / OIL-ELEVATED -- HORMUZ BLOCKADE (SHIPPING ATTACKS), CEASEFIRE EXTENDED, INTC EARNINGS TONIGHT"
+REGIME_SUB   = "Iran seized 2 ships + attacked 3rd in Hormuz Apr-23 AM  |  Brent intraday $97.16 -> $101.91 -> $97.16  |  INTC Q1 AC tonight (options +/-9.87%)"
 
 # Executive summary cards: (label, val_text, val_css_class, sub_text)
 EXEC_CARDS = [
-    ("Promoted This Run",   "1 signal",            "ok",   "Brent P016 Long -- commodity sleeve first ON this cycle"),
-    ("Near-Miss / Blocked", "5 near-miss + 1 gate","warn", "WTI | Silver | Copper | WDC | NVDA near-miss | BTC gate-blocked"),
+    ("Reaffirmed This Run", "1 reaffirm",          "ok",   "AAPL P014 DEFERRED -> ACTIVE on +2.63% recovery to $273.17 (back in $271-274 zone)"),
+    ("Near-Miss / Blocked", "9 near-miss + 1 gate","warn", "All dedup against existing N040-N046 + P017 (no new rows)"),
     ("Regime",              REGIME_LABEL,           "",     REGIME_SUB),
-    ("Portfolio Heat",      "~2.6%",                "",     f"~${round(2.6*PORT_NAV/100)} USDT at risk / ${PORT_NAV} NAV | P009+P010+P016 | 8% cap | room for INTC/GOOGL"),
+    ("Portfolio Heat",      "~2.6% (~3.35% if AAPL fills)", "", f"~${round(2.6*PORT_NAV/100)} USDT at risk / ${PORT_NAV} NAV | P009+P010+P016 open | P014 pending fill | 8% cap"),
 ]
 
 # ── Open Positions ──────────────────────────────────────────────────────────
@@ -48,17 +48,20 @@ OPEN_POSITIONS = [
     #         trail_activate_f, trail_pct)
     # trail_activate_f = entry + 1.5×ATR — price to move stop to breakeven (Rule 2)
     # trail_pct        = 3×ATR / trail_activate × 100 — chandelier callback % (Rule 3)
-    ("P009","SPY",   "Long", 708.95, 705.00, 696.00, 720.0, 730.0,
-     1.00, "$2,089", -0.56, "warn", "OPEN | below entry | stop buffer $9 (~1.3%)", "2026-05-13",
+    ("P009","SPY",   "Long", 708.95, 708.40, 696.00, 720.0, 730.0,
+     1.00, "$2,089", -0.08, "ok",   "OPEN | NDX +1.73% Apr-22 record | buffer $12.40 (~1.75%)",  "2026-05-13",
      718.7, 2.7),   # ATR=6.475; trail_activate=708.95+9.71; cb=19.43/718.7
-    ("P010","EWJ",   "Long",  88.30,  90.19,  86.00,  95.0,  98.0,
-     0.75, "$1,396", +2.14, "ok",   "OPEN | above entry | Nikkei record Apr-22",   "2026-06-30",
+    ("P010","EWJ",   "Long",  88.30,  87.40,  86.00,  95.0,  98.0,
+     0.75, "$1,396", -1.02, "warn", "OPEN | Nikkei broke 60k intraday closed -0.75% | buffer $1.40 (1.6%)", "2026-06-30",
      90.0, 3.8),    # ATR=1.15; trail_activate=88.30+1.73; cb=3.45/90.0
-    ("P016","Brent", "Long",  94.25,  94.19,  90.50,  98.0, 102.0,
-     0.75, "~$859",   0.00, "blue", "PENDING | Gerald execution required",          "2026-05-22",
-     97.1, 5.8),    # ATR=1.875; trail_activate=94.25+2.81; cb=5.625/97.1
+    ("P016","Brent", "Long",  95.13,  97.16,  95.13,  98.0, 102.0,
+     0.75, "$813",  +2.13, "ok",    "OPEN TAKEN | HH $101.91 > trail_activate $97.94 | Rule 2 stop-up MANDATORY today (>=$95.13)", "2026-05-22",
+     97.94, 5.8),   # ATR=1.875; trail_activate=95.13+2.81; cb=5.625/97.94
+    ("P014","AAPL",  "Long", 272.50, 273.17, 266.50, 282.0, 290.0,
+     0.75, "~$543",  +0.25, "blue", "REAFFIRMED ACTIVE | back in $271-274 zone | Gerald limit fill required",  "2026-04-30",
+     280.30, 4.0),  # ATR=5.20; trail_activate=272.5+7.80; cb=15.6/280.3
 ]
-TOTAL_HEAT = 2.6   # % of NAV at risk (open + pending)
+TOTAL_HEAT = 3.25   # % of NAV at risk (open + pending incl. P014 reaffirm)
 HEAT_CAP   = 8.0   # % cap per Risk Rules
 
 # ── Thesis Summary ────────────────────────────────────────────────────────────
@@ -70,49 +73,64 @@ HEAT_CAP   = 8.0   # % cap per Risk Rules
 THESIS = {
     "P009": (
         "SPY is held long as the core equity sleeve position with a full three-factor edge (S+T+R, C=0). "
-        "The structural case rests on the equity overlay gate being firmly ON — SPY trading ~$705, "
-        "well above the estimated 10-month SMA of $650–680 (V033), confirming the regime is Risk-On. "
-        "Momentum is constructive (T+1 via raw TSMOM), and intermediary capital (V027 z+1.65) is in "
-        "expansion territory, which under Risk Rules §1.B authorizes full sizing — however, the position "
-        "was deliberately half-sized at initiation because the Catalyst leg scores zero. There is no "
-        "fresh event-driven tailwind; the edge is purely structural. Entry was averaged into across five "
-        "tranches at $708.95; current price ~$705 leaves approximately $9 of buffer to the $696 hard stop "
-        "(2× ATR ~$14). The primary near-term risk is TSLA Q1 earnings tonight — a sharp miss could "
-        "pressure QQQ/SPX futures and bring the stop into focus. Secondary risk is FOMC Apr-28–29, "
-        "where Warsh hawkish framing has injected a rate-regime tail. Hold unless SPY closes below $696 "
-        "or the FOMC delivers a materially hawkish surprise. Time-stop: 2026-05-13."
+        "The structural case rests on the equity overlay gate being firmly ON — V033 SPY $704.08 "
+        "(Apr-01 month-end) versus the 10-month SMA $668.96 sits +5.25% above, with the next monthly "
+        "review locked at May-01. Momentum is constructive (T+1 via raw TSMOM), and intermediary capital "
+        "(V027 z+1.65) is in expansion territory, which under Risk Rules §1.B authorizes full sizing — "
+        "the position was nonetheless half-sized at initiation because the Catalyst leg scores zero. "
+        "Entry averaged $708.95 across five tranches; the position closed Apr-22 with NDX printing a "
+        "+1.73% record, rebuilding the buffer to $12.40 (~1.75%) above the $696 hard stop. The TSLA Q1 "
+        "print absorbed cleanly (EPS beat, rev miss, $25B capex spike faded post-AH) and is no longer "
+        "the dominant intraday risk. Primary forward risks now compress into the FOMC Apr-28-29 window "
+        "and the Apr-24 S&P Global Flash PMI print (March was 51.4, an 11-month low — a sub-50 read "
+        "would directly stress the equity overlay). Hold unless SPY closes below $696 or the FOMC delivers "
+        "a materially hawkish surprise. Time-stop: 2026-05-13."
     ),
     "P010": (
         "EWJ is a long in Japanese large-cap equities, held as an international equity sleeve position "
-        "with two converging tailwinds. The primary structural driver (S+1) is USD weakness: DXY has "
-        "fallen 3.9% from its April 9 peak to 98.24, compressing the dollar and boosting the relative "
-        "purchasing power of yen-denominated assets when translated back for a USD investor — the same "
-        "DXY-weak regime that underpins P009 SPY also favors international equity as a second expression. "
-        "The momentum leg (T+1) is confirmed by the Nikkei printing a record high of 59,585 on April 22, "
-        "and Japan's March trade surplus marked the seventh consecutive month of surplus, providing "
-        "fundamental macro footing beneath the trend. The international equity overlay gate (EWJ $90.19 "
-        "vs estimated 10-month SMA ~$78–82) is ON. Entry averaged $88.30 across three tranches; at "
-        "$90.19 the position carries approximately $1.89 of unrealized gain. Stop is $86 (2× ATR ~$4.4). "
-        "The primary risk is a DXY reversal — if the dollar strengthens sharply on hawkish Fed or "
-        "safe-haven flow, both the S-variable and the FX translation unwind simultaneously. Time-stop: "
-        "2026-06-30."
+        "with two converging tailwinds. The primary structural driver (S+1) is USD weakness: DXY remains "
+        "compressed near 98.2, supporting the relative purchasing power of yen-denominated assets when "
+        "translated back for a USD investor — the same DXY-weak regime that underpins P009 SPY also favors "
+        "international equity as a second expression. The momentum leg (T+1) was reinforced when the "
+        "Nikkei briefly broke 60,000 intraday Apr-23 — a meaningful psychological milestone — though the "
+        "index closed -0.75% on profit-taking, narrowing the position's stop buffer to $1.40 (~1.6%). "
+        "The international equity overlay gate (EWJ $87.40 vs estimated 10-month SMA ~$78-82) remains ON. "
+        "Entry averaged $88.30 across three tranches; current $87.40 leaves the position marginally "
+        "unrealized-negative but well within ATR noise. Stop is $86 (2× ATR ~$4.4). The buffer is "
+        "tighter than at promotion and a sharp DXY reversal on hawkish Fed or safe-haven flow could "
+        "compress both the S-variable and the FX translation simultaneously. Time-stop: 2026-06-30."
     ),
     "P016": (
-        "Brent crude is the primary new promotion today — the commodity overlay gate (V034 GSG 31.75 "
-        "vs. 10-month SMA 25.35, +24.8% above) confirmed ON for the first time this cycle, unblocking "
-        "the commodity sleeve. Three independent structural factors stack the thesis: (1) the Hormuz "
-        "Strait blockade — currently restricting less than 10% of normal traffic — is removing a "
-        "significant share of seaborne crude supply from the global market, providing a persistent "
-        "supply-shock bid; (2) the Brent futures curve shows fresh backwardation with basis-momentum "
-        "T1 reading +13.95 and steepening, the only commodity with T1-grade fresh data in today's "
-        "V028 run; and (3) USD structural weakness (DXY -3.9% from peak) provides an independent "
-        "commodity S+1 tailwind. Intermediary capital expansion (V027 z+1.65) permits full sizing, "
-        "but two risks drive a deliberate haircut to 0.75%: first, correlation exposure to P009/P010 "
-        "which already express the DXY-weak macro theme; second, the Iran ceasefire binary — a deal "
-        "materializing could send Brent down 10–15% instantly, and that outcome has symmetric "
-        "probability at current visibility. Entry zone: $94.00–94.50 at-market or limit (Brent current "
-        "$94.19). Stop: $90.50 (2× ATR ~$3.7). Targets: $98 / $102. Invalidation: Iran deal confirmed "
-        "or Hormuz shipping >70% restored within 10 days. Time-stop: 2026-05-22."
+        "Brent crude is OPEN TAKEN and now requires a mandatory Rule 2 stop-up today — the binding "
+        "execution ask of the session. Apr-22 close ran into the trail_activate $97.94 and Apr-23 "
+        "intraday printed a high of $101.91 before round-tripping back to $97.16, which means the "
+        "highest-high condition for the move-to-breakeven trigger has been satisfied. The chandelier "
+        "callback math sets the new stop at $96.28; the methodology floor is the original entry "
+        "$95.13, so the operational stop must be raised to >=$95.13 today. The structural thesis is "
+        "intact and reinforced: Iran's Revolutionary Guard seized 2 ships and attacked a 3rd in "
+        "Hormuz on Apr-23 morning, and Iran formally refused to reopen the strait under the existing "
+        "blockade — Karoline Leavitt narrowed the ceasefire scope to 'non-US/non-Israeli ships excluded' "
+        "(an oil-shipping-only freeze framing), making the supply-displacement premium sticky. Basis-momentum "
+        "T1 fresh +13.95 with steepening is the only T1-grade fresh commodity curve data in today's V028 "
+        "run; WTI/Gold/Silver/Copper are now T3-stale 6 days = DEGRADED. The Iran-deal binary remains the "
+        "single invalidation path (-10-15% gap risk); a confirmed deal or Hormuz traffic >70% restored "
+        "within 10 days exits the trade regardless of stop. Time-stop: 2026-05-22."
+    ),
+    "P014": (
+        "AAPL is REAFFIRMED ACTIVE today — lifted from DEFERRED status after the +2.63% recovery to "
+        "$273.17 brought price back inside the entry zone $271-274. The 6-day wait below the threshold "
+        "validated the discipline of refusing to chase below $268: had the position been entered at "
+        "the Apr-22 $266.17 level, the stop geometry would have compressed reward leg without "
+        "improving downside, eroding expected value. The decision-moving variable is V026 residual "
+        "momentum at +4.68% — single-stock outperformance net of FF5 factors confirming T=+1; "
+        "raw TSMOM at +19.94% would have over-stated the edge as broad-market beta capture. The "
+        "score completes at Sum+3 (S+1 / T+1 V026 / C0 / R+1). Sizing is held to 0.75% as a "
+        "C=0 half-size precedent that matches Brent P016 and SPY P009: there is no positive near-term "
+        "catalyst inside the trade window, only the May-1 earnings binary which sits OUTSIDE via the "
+        "mandatory hard time-stop 2026-04-30 (must exit before earnings regardless of P&L; 7-day "
+        "runway). Entry instruction: limit fill $271-274, then place stop-market at $266.50 (2x ATR "
+        "~$6.50 below midpoint). Targets $282 / $290. Invalidation: close back below $268 -> defer "
+        "again; or hard stop $266.50 hits. Gerald execution outstanding."
     ),
     "P013": (
         "INTC is a contingent long in Intel, not yet entered — the position is pending an earnings-beat "
@@ -129,21 +147,6 @@ THESIS = {
         "limit-order entry in the $68–72 zone on the April 24 morning open. Current price $66.26 is "
         "below the zone — do not enter early. If earnings disappoint, the trade is abandoned. Stop "
         "and sizing will be set at entry confirmation."
-    ),
-    "P014": (
-        "AAPL is a promoted long that is currently deferred — the setup is valid but price has not "
-        "reached the entry zone, and methodology discipline prohibits chasing. The residual momentum "
-        "score (V026) reads +4.68% on a T+1 basis, confirming stock-specific outperformance above "
-        "market and sector factors, which gives T=+1. The macro and regime factors are supportive "
-        "(S+T=+2), and Sum+3 clears the promotion threshold. The problem is price: AAPL closed at "
-        "$266.17 on April 22, below the target entry zone of $271–274. Entering below $268 is "
-        "prohibited — the entry zone was set at a level where the risk/reward and stop geometry make "
-        "sense; entering lower compresses the reward leg while keeping the stop the same, degrading "
-        "the trade's expected value. The action is to wait: if price recovers above $269 before "
-        "April 30, the position can be entered. April 30 is a hard deadline — AAPL reports earnings "
-        "on May 1, and no position will be initiated into a binary earnings event without an explicit "
-        "catalyst thesis scored at C+1. If price fails to recover to $269 before April 30, the "
-        "opportunity is abandoned for this cycle."
     ),
     "P015": (
         "GOOGL is a contingent long, not yet entered, pending the April 29 earnings event. The "
@@ -168,65 +171,67 @@ THESIS = {
 # (variable, reading, grade, pill_cls, age_note)
 # pill_cls: green=LIVE-A | blue=LIVE-B | yellow=STALE | red=MISSING
 FRESHNESS = [
-    ("V026",      "12/12",      "A", "green",  "Apr-22 clean"),
-    ("V027",      "+1.65",      "A", "green",  "fresh Apr-22"),
-    ("V028",      "1/5 fresh",  "A", "yellow", "Brent T1; WTI/Gold/Ag/Cu T3 Apr-17"),
-    ("Brent/WTI", "$94/$90",    "A", "green",  "Apr-22 staging (+6-9%)"),
-    ("GSG/GSCI",  "31.75",      "A", "green",  "Apr-22 CONFIRMED ON"),
-    ("SPY/QQQ",   "~$705/$640", "B", "blue",   "Apr-21 close"),
-    ("EWJ",       "$90.19",     "B", "blue",   "Apr-22 brief"),
-    ("DXY",       "98.242",     "A", "green",  "Apr-21"),
-    ("DGS10",     "4.25%",      "A", "yellow", "1d stale Apr-21"),
-    ("HY OAS",    "285bp",      "B", "yellow", "stale Apr-19"),
-    ("NFCI",      "-0.47",      "A", "yellow", "12d stale Apr-10"),
-    ("VIX",       "19.04",      "B", "blue",   "Apr-21"),
-    ("MOVE",      "67.90",      "A", "yellow", "1d stale Apr-21"),
-    ("BTC",       "~$76k",      "B", "blue",   "Apr-22 4th test $75k"),
+    ("V026",      "12/12",          "A", "green",  "Apr-23 clean (no numpy fail)"),
+    ("V027",      "+1.65",          "A", "green",  "Apr-23 fresh; capital expansion"),
+    ("V028",      "1/5 fresh",      "A", "red",    "Brent T1; WTI/Gold/Ag/Cu DEGRADED 6d (>5d window)"),
+    ("Brent",     "$97.16",         "A", "green",  "Apr-23 (HH $101.91 intraday)"),
+    ("WTI",       "$92.96",         "A", "green",  "Apr-22 close +3.1%"),
+    ("GSG/GSCI",  "31.75+",         "A", "green",  "ON; next gate review May-01"),
+    ("SPY",       "$708.40",        "B", "blue",   "Apr-22 NDX +1.73% record"),
+    ("EWJ",       "$87.40",         "A", "yellow", "Nikkei broke 60k intra, closed -0.75%"),
+    ("AAPL",      "$273.17",        "A", "green",  "Apr-23 +2.63% back in zone"),
+    ("INTC",      "$65.27",         "A", "green",  "pre-earnings; AC tonight +/-9.87% implied"),
+    ("DXY",       "~98.2",          "A", "green",  "Apr-22 stable"),
+    ("DGS10",     "4.25%",          "A", "yellow", "Yahoo ^TNX fresh; FRED DGS2/T10YIE MISSING"),
+    ("HY OAS",    "287bp",          "B", "yellow", "Apr-21 T3 (2d, in window)"),
+    ("NFCI",      "fresh",          "A", "green",  "Apr-17 T1 within weekly window"),
+    ("BTC",       "$77,536",        "B", "blue",   "Apr-23; ~$14k below Apr-30 gate"),
 ]
 
 # ── Overlay Gate ──────────────────────────────────────────────────────────────
 # (Sleeve, Asset, Reading, pill_cls, gate_text)
 GATE_ROWS = [
-    ("Equity (V033)",    "SPY/QQQ", "ABOVE (~$705/$640 vs est. 10m-SMA $650-680)",          "green","ON"),
-    ("Commodity (V034)", "GSG",     "31.75 vs 10m-SMA 25.35 -- ABOVE (CONFIRMED ON Apr-22)","green","ON -- FIRST TIME THIS CYCLE"),
-    ("Crypto (V035)",    "BTC",     "$76,000 vs est. 10m-SMA ~$91.5k -- BELOW",             "red",  "OFF"),
-    ("Intl Equity",      "EWJ/EFA", "$90.19 vs est. 10m-SMA ~$78-82 -- ABOVE",             "green","ON"),
+    ("Equity (V033)",    "SPY",     "$704.08 (Apr-01 month-end) vs 10m-SMA $668.96 -- +5.25%",  "green","ON (locked through May-01)"),
+    ("Commodity (V034)", "GSG",     "31.75+ vs 10m-SMA 25.35 -- ABOVE",                          "green","ON (Brent P016 only — others corr-gated/DEGRADED)"),
+    ("Crypto (V035)",    "BTC",     "$77,536 vs est. 10m-SMA ~$91,523 -- BELOW (~$14k gap)",     "red",  "OFF"),
+    ("Intl Equity",      "EWJ",     "$87.40 vs est. 10m-SMA ~$78-82 -- ABOVE",                   "green","ON"),
 ]
-GATE_NOTE = ("Next read: May-01 Faber monthly review. Commodity sleeve CONFIRMED ON first time this cycle -- "
-             "Brent P016 promoted as primary; Silver/WTI/Copper correlation-gated. "
-             "Crypto sleeve OFF: BTC needs >$91.5k at Apr-30 close.")
+GATE_NOTE = ("Next read: May-01 Faber monthly review. Brent P016 OPEN TAKEN -- Rule 2 stop-up MANDATORY today (HH $101.91 > trail_activate $97.94 -> stop >=$95.13). "
+             "Silver/WTI/Copper correlation-gated behind Brent + V028 DEGRADED 6d (infra failure). "
+             "Crypto sleeve OFF: BTC needs >$91,523 at Apr-30 close (~$14k gap).")
 
 # ── Key Variables ─────────────────────────────────────────────────────────────
 # (Variable, Reading, Grade, pill_cls, status_text, score_impact)
 KEY_VARS = [
-    ("VIX",               "19.04",             "B (BNMA)", "yellow","STALE Apr-21",          "R: borderline at 20; contango benign"),
-    ("VIX3M",             "20.51",             "B (BNMA)", "gray",  "STALE Apr-18",          "VIX/VIX3M 0.93 = contango; no inversion stress"),
-    ("MOVE",              "67.90",             "A",        "yellow","STALE Apr-21",           "R: +1 -- low bond vol; below 80 threshold"),
-    ("HY OAS",            "285 bps",           "B (BNMA)", "yellow","STALE Apr-19",           "R: tight; non-stressed backdrop"),
-    ("NFCI",              "-0.47",             "A",        "gray",  "STALE Apr-10 (12d)",     "Loose financial conditions"),
-    ("IC z-score (V027)", "+1.65",             "A",        "green", "LIVE (Apr-22 fresh)",    "R: capital expansion; full sizing per Risk Rules ss1.B"),
-    ("DGS10",             "4.25%",             "A",        "yellow","STALE 1d (Apr-21)",      "2s10s steepening; no inversion drag"),
-    ("T10YIE",            "2.36%",             "A",        "yellow","STALE 1d (Apr-21)",      "Above 2% target; FOMC Apr-28 navigate"),
-    ("DXY",               "98.242",            "A",        "green", "LIVE (Apr-21)",          "-3.9% from Apr-9 peak; USD structural weakness; Brent S+1"),
-    ("SPY / QQQ",         "~$705 / $640",      "B",        "blue",  "Apr-21 close (1d lag)",  "P009 entry $708.95; ~$4 underwater; stop buffer $9"),
-    ("EWJ",               "$90.19",            "A",        "blue",  "Apr-22 brief",           "P010 entry $88.30; +$1.89 unrealized; Nikkei record 59,585"),
-    ("Brent / WTI",       "$94.19 / $90.16",   "A",        "green", "LIVE Apr-22 (+6-9%)",    "P016 entry zone $94-94.50; backwardation+steepening; Hormuz"),
-    ("GSG (GSCI proxy)",  "31.75",             "A",        "green", "LIVE Apr-22 CONFIRMED ON","V034: 31.75 vs 10m-SMA 25.35 (+24.8%); commodity sleeve ON"),
-    ("BTC",               "~$76,000",          "B",        "blue",  "Apr-22 approx.",         "4th test $75k; ETF +$412M Apr-21; sleeve OFF; crypto gate"),
+    ("VIX",               "19.04",             "B",        "yellow","Apr-21 (stale 2d)",      "R: contango benign; below 20 threshold"),
+    ("MOVE",              "67.90",             "A",        "yellow","Apr-21 (stale 2d)",      "R: +1 -- low bond vol; below 80"),
+    ("HY OAS",            "287 bps",           "B",        "yellow","Apr-21 T3 (in window)",  "R: tight; non-stressed; no rating actions"),
+    ("NFCI",              "fresh",             "A",        "green", "Apr-17 T1 within weekly","Loose financial conditions; not blocking"),
+    ("IC z-score (V027)", "+1.65",             "A",        "green", "LIVE Apr-23",            "R: capital expansion; full sizing per R1.B"),
+    ("DGS10",             "4.25%",             "A",        "green", "Yahoo ^TNX fresh",       "2s10s steepening; no inversion drag"),
+    ("DGS2 / DFII10 / T10YIE","MISSING",       "A",        "red",   "FRED T1+T2 failed; T3 2d>1d","Context-only; no score-leg block today"),
+    ("DXY",               "~98.2",             "A",        "green", "Apr-22 stable",          "USD structural weakness intact; Brent S+1"),
+    ("SPY",               "$708.40",           "B",        "blue",  "Apr-22 close",           "P009 entry $708.95; -0.08% unreal; buffer $12.40"),
+    ("EWJ",               "$87.40",            "A",        "yellow","Apr-23 close",           "P010 entry $88.30; -1.02% unreal; Nikkei broke 60k intra"),
+    ("AAPL",              "$273.17",           "A",        "green", "Apr-23 +2.63%",          "P014 RE-ELIGIBLE -- back in $271-274 zone (was $266.17 deferred)"),
+    ("INTC",              "$65.27",            "A",        "green", "Apr-23 pre-earnings",    "P013 binary tonight AC; options +/-9.87% (~$6.77 on $68.50 ref)"),
+    ("Brent / WTI",       "$97.16 / $92.96",   "A",        "green", "Apr-22 close +8.2%/+3.1%","P016 OPEN TAKEN; Rule 2 stop-up MANDATORY (>=$95.13)"),
+    ("GSG (GSCI proxy)",  "31.75+",            "A",        "green", "ON; next review May-01", "V034: ABOVE 10m-SMA 25.35; commodity sleeve ON"),
+    ("BTC",               "$77,536",           "B",        "blue",  "Apr-23",                 "P017 gate-blocked: needs >$91,523 at Apr-30 close (~$14k gap)"),
 ]
 
 # ── Audit Additions ───────────────────────────────────────────────────────────
 # (ID, Variable, pill_cls, status_text, dm_pill_cls, dm_text)
 AUDIT_ROWS = [
     ("V026","Residual momentum (FF5 12m) -- 12 tickers",
-     "green","ALL 12 LIVE (no numpy failure Apr-22)",
-     "green","YES -- TSLA/PLTR T=-1 via residual-over-raw; INTC/AAPL/MU/WDC T=+1; NVDA/GOOGL T=0"),
+     "green","ALL 12 LIVE Apr-23 (no numpy fail)",
+     "green","YES -- AAPL T=+1 (+4.68%) decision-moving on re-eligibility lift; raw +19.94% would over-state edge"),
     ("V027","Intermediary capital z-score",
-     "green","LIVE +1.65 (Apr-22 fresh)",
-     "green","YES -- R=+1 Grade A; capital expansion; full sizing authorized (ss1.B); overridden 0.75% for P016 binary-downside"),
+     "green","LIVE +1.65 (Apr-23 fresh)",
+     "green","YES -- R=+1 Grade A; capital expansion; full sizing authorized (R1.B); 0.75% AAPL halve via correlation+binary haircuts"),
     ("V028","Basis-momentum (4w/12w)",
-     "yellow","PARTIAL -- Brent LIVE T1 (Apr-22); WTI/Gold/Silver/Copper T3 STALE Apr-17 (5d limit)",
-     "yellow","Brent S+1 CONFIRMED (backwd+13.95, steepening); others near-miss via static slope; infra failure action-logged"),
+     "red","DEGRADED -- Brent T1 fresh; WTI/Gold/Silver/Copper T3 STALE Apr-17 = 6d (>5d window) -- 6th consecutive infra failure",
+     "yellow","Brent +13.95 steepening confirmed S+1; WTI/Silver divergence-cap detection unreliable; HIGH-priority infra fix"),
 ]
 META_ROWS = [
     ("V029","BAB (USMV/SPLV)",           "gray","Not computed","NO"),
@@ -238,50 +243,50 @@ META_ROWS = [
 # ── V026 Residual Momentum ────────────────────────────────────────────────────
 # (ticker, residual_pct_or_None, t_score, signal_note)
 V026_RESIDUALS = [
-    ("MU",    +15.63, "+1", "N040 near-miss -- correlation gate (equity cluster Apr-22-30)"),
-    ("INTC",  +13.89, "+1", "P013 OPEN -- entry trigger Apr-23 AC beat"),
-    ("WDC",     None, "+1", "N045 near-miss -- C=0 no near-term catalyst"),
-    ("AAPL",  +4.68,  "+1", "P014 DEFERRED -- price $266.17 below $271-274 entry zone"),
-    ("AMZN",    None,  "0", "Sum+2; timing Apr-29 earnings"),
-    ("MSFT",    None,  "0", "not individually scored this run"),
-    ("META",    None,  "0", "Sum+2; timing Apr-29 same-day FOMC"),
-    ("PYPL",    None,  "0", "not individually scored this run"),
-    ("NVDA",  -1.00,   "0", "N046 near-miss -- residual -1.00%; tech concentration"),
-    ("GOOGL", -0.80,   "0", "P015 CONTINGENT -- earnings Apr-29 AC; entry Apr-30 morning"),
-    ("TSLA",  -9.12,  "-1", "confirmed no-trade; earnings tonight"),
+    ("MU",    +15.63, "+1", "N040 near-miss -- correlation/timing (post-FOMC window Apr-30)"),
+    ("INTC",  +13.89, "+1", "P013 PENDING -- earnings tonight AC; entry $68-72 limit Apr-24 AM on beat"),
+    ("AAPL",  +4.68,  "+1", "P014 REAFFIRMED ACTIVE -- decision-moving; Gerald limit fill $271-274"),
+    ("WDC",   +2.38,  "+1", "N045 near-miss -- C=0 no near-term catalyst"),
+    ("AMZN",  +1.39,   "0", "Sum+2; timing Apr-29 earnings; T=0 within +/-2% band"),
+    ("TSM",   +1.00,   "0", "Sum+2; T borderline; post-Q1 sell-the-news risk"),
+    ("META",  +0.75,   "0", "Sum+2; timing Apr-29 same-day FOMC"),
+    ("GOOGL", -0.80,   "0", "P015 CONTINGENT -- earnings Apr-29 AC; entry Apr-30 AM on beat"),
+    ("NVDA",  -1.00,   "0", "N041/N046 -- residual -1.00% (raw +53.55%); tech concentration"),
+    ("TSLA",  -9.12,  "-1", "confirmed no-trade; capex $25B post-AH faded"),
     ("PLTR",  -35.62, "-1", "Sum+2 only; factor crowding confirmed"),
-    ("TSM",     None,  "?", "not computed (data N/A this run)"),
+    ("MSFT",    None,  "0", "not individually scored this run"),
+    ("PYPL",    None,  "0", "not individually scored this run"),
     ("AVGO",    None,  "?", "not computed (data N/A this run)"),
     ("BABA",    None,  "?", "not computed (data N/A this run)"),
 ]
 
 # ── Score Chart Data ──────────────────────────────────────────────────────────
-SCORE_LABELS = ["Brent P016","SPY P009","EWJ P010","INTC P013","GOOGL P015"]
-SCORE_S = [1,1,1,1,1]; SCORE_T = [1,1,1,1,0]; SCORE_C = [0,0,0,1,1]; SCORE_R = [1,1,1,1,1]
-NEAR_LABELS = ["WTI N042","Silver N043","Copper N044","WDC N045","NVDA N046","MU N040"]
-NEAR_S = [1,1,1,1,1,1]; NEAR_T = [1,1,1,1,0,1]; NEAR_C = [0,0,0,0,1,0]; NEAR_R = [1,1,1,1,1,1]
+SCORE_LABELS = ["AAPL P014 (REAFFIRM)","Brent P016 (OPEN)","SPY P009 (OPEN)","EWJ P010 (OPEN)","INTC P013","GOOGL P015"]
+SCORE_S = [1,1,1,1,1,1]; SCORE_T = [1,1,1,1,1,0]; SCORE_C = [0,0,0,0,1,1]; SCORE_R = [1,1,1,1,1,1]
+NEAR_LABELS = ["WTI N042","Silver N043","Copper N044","WDC N045","NVDA N046","MU N040","QQQ N033","BTC P017 gate"]
+NEAR_S = [1,1,1,1,1,1,1,1]; NEAR_T = [1,1,0,1,0,1,1,1]; NEAR_C = [0,0,0,0,1,0,0,1]; NEAR_R = [1,1,1,1,1,1,1,0]
 
 # ── Factor Exposure ───────────────────────────────────────────────────────────
 # (ID, asset, status, size_pct, S, T, C, R)
 FACTOR_EXPOSURE = [
     ("P009","SPY",   "Open",            1.00, 1,1,0,1),
     ("P010","EWJ",   "Open",            0.75, 1,1,0,1),
-    ("P016","Brent", "Pending (0.75%)", 0.75, 1,1,0,1),
-    ("P013","INTC",  "Awaiting beat",   1.00, 1,1,1,1),
-    ("P014","AAPL",  "Deferred",        0.75, 1,1,0,1),
-    ("P015","GOOGL", "Contingent",      0.75, 1,0,1,1),
+    ("P016","Brent", "Open Taken (Rule 2 stop-up)", 0.75, 1,1,0,1),
+    ("P014","AAPL",  "Reaffirmed Active (pending fill)", 0.75, 1,1,0,1),
+    ("P013","INTC",  "Awaiting Apr-23 AC beat", 1.00, 1,1,1,1),
+    ("P015","GOOGL", "Contingent (Apr-29 AC)", 0.75, 1,0,1,1),
 ]
 
 # ── Material Delta Box ────────────────────────────────────────────────────────
 # Set DELTA_ITEMS = [] for v1 / no-material-change runs
 DELTA_ITEMS = [
-    '<span class="pill green">NEW P016</span> <b>Brent Long Sum+3</b> -- commodity sleeve CONFIRMED ON (GSG 31.75 > 10m-SMA 25.35). First commodity promotion this cycle. Entry $94.00-94.50, stop $90.50, size 0.75%.',
-    '<span class="pill yellow">P015 DATE CORRECTED</span> <b>GOOGL earnings Apr-29 AC</b> (not Apr-22/23). Entry trigger shifts to Apr-30 morning. P015 contingent unchanged.',
-    '<span class="pill blue">P014 AAPL DEFERRED</span> Price $266.17 below entry zone $271-274. Do not enter below $268. Hard time-stop Apr-30 still binding.',
+    '<span class="pill green">P014 AAPL REAFFIRMED</span> DEFERRED -> ACTIVE on +2.63% recovery to $273.17 (back in $271-274 zone). Size 0.75% (C=0 half-size precedent). Hard time-stop 2026-04-30. <b>No new SignalLedger row -- existing OPEN PENDING from Apr-21.</b>',
+    '<span class="pill yellow">P016 Brent Rule 2 stop-up MANDATORY</span> HH $101.91 > trail_activate $97.94 -> move stop to >=$95.13 (chandelier guidance $96.28). Gerald execution outstanding. Live $97.16 (+2.13% vs entry).',
+    '<span class="pill red">V028 DEGRADED 6th run</span> WTI/Gold/Silver/Copper T3 STALE Apr-17 = 6d (>5d window). Divergence-cap detection unreliable. HIGH-priority infra fix on `compute_audit_additions.py` futures_curves.csv population.',
 ]
-DELTA_FOOT = ("BTC Sum+3 gate-blocked (crypto sleeve OFF; BTC $76k < $91.5k 10m-SMA) logged P017 Taken=NO. "
-              "WTI/Silver/Copper near-miss -- correlation-gated behind Brent. "
-              "V026 clean 12/12. V027 z+1.65 capital expansion = full sizing.")
+DELTA_FOOT = ("INTC P013 Q1 earnings tonight AC (options +/-9.87% implied ~$6.77 on $68.50 ref) -- entry $68-72 limit Apr-24 AM ONLY on confirmed beat. "
+              "Iran shipping attacks Apr-23 morning narrowed ceasefire scope; Hormuz blockade intact -> Brent supply premium sticky. "
+              "All today's near-misses (WTI/Silver/Copper/WDC/NVDA/MU/BTC/GOOGL/QQQ) dedup against existing OPEN N040-N046/P017 -- 0 new SignalLedger rows.")
 
 # ── Recommendations ───────────────────────────────────────────────────────────
 # RECS: new promotions this run
@@ -290,22 +295,22 @@ DELTA_FOOT = ("BTC Sum+3 gate-blocked (crypto sleeve OFF; BTC $76k < $91.5k 10m-
 RECS = [
     # (asset_html, dir_cls, entry, stop, target, size, catalyst, grade, sleeve, notional_usd, trail_stop)
     # trail_stop: "$trail_activate (+BE% / +cb%)" — BE% = 1.5×ATR/entry (move-to-breakeven distance); cb% = 3×ATR/trail_activate (chandelier callback from HH)
-    ("<b>Brent</b> <span class='pill green'>NEW P016</span>","green",
-     "$94.00-94.50 (at-market/limit; last $94.19)","$90.50 (2x ATR ~$3.7)","$98 / $102",
-     "0.75% (corr+binary haircut)",
-     "C=0; structural: Hormuz blockade + backwardation steepening + DXY weak. Iran deal = invalidation.",
-     "S+1(A), T+1(A), C0, R+1(A)","Commodity ON -- first cycle",
-     813,              # 0.75% × $4,300 / (3.75/94.25) ≈ $813
-     "~$97.1 (+3.0% BE / +5.8% cb)"),  # BE=1.5×1.875/94.25; cb=3×1.875/97.1
+    ("<b>AAPL</b> <span class='pill green'>P014 REAFFIRM</span>","green",
+     "$271-274 limit (currently $273.17 at-market acceptable)","$266.50 (2x ATR ~$6.50 below midpoint)","$282 / $290",
+     "0.75% (correlation + 7-day binary haircut)",
+     "C=0; structural: V026 +4.68% residual reclaim of zone after 6-day deferral. Time-stop 2026-04-30 pre-earnings.",
+     "S+1(A), T+1(A V026), C0, R+1(A)","Equity ON -- existing OPEN PENDING (no new ledger row)",
+     543,              # 0.75% × $4,300 / (6.50/272.5) ≈ $543
+     "~$280.30 (+2.9% BE / +4.0% cb)"),
 ]
 # RECS_CARRY: carry-over pending entries from prior recs
 # (asset_label, entry_note, stop, target, size_note, catalyst_note, notional_usd, trail_stop)
 RECS_CARRY = [
-    ("<b>SPY</b> P009 OPEN",        "$708.95 avg (filled)",            "$696",      "~$720/$730","1.0% risk · ~$43 at stop",  "C=0; live ~$705 -- $9 stop buffer; watch TSLA tonight", 2089, "$718.7 (+1.4% BE / +2.7% cb)"),
-    ("<b>EWJ</b> P010 OPEN",        "$88.30 avg (filled)",             "$86.00",    "~$95/$98",  "0.75% risk · ~$32 at stop", "C=0; Nikkei record Apr-22 +2.1% unrealized",            1396, "$90.0 (+1.9% BE / +3.8% cb)"),
-    ("<b>INTC</b> P013 await beat", "$68-72 (after Apr-23 AC beat)",   "~$63-67",   "$75/$82",   "1.0% risk · ~$43 at stop",  "C+1: Apr-23 AC -- enter Apr-24 morning ONLY on beat",   602,  "est. at fill"),
-    ("<b>AAPL</b> P014 deferred",   "DEFERRED ($266 < $271-274 zone)", "~$264-267", "$280/$290", "0.75% risk · ~$32 at stop", "Hard exit Apr-30; recover above $269 before",           543,  "est. at fill"),
-    ("<b>GOOGL</b> P015 contingent","~$333-340 after Apr-29 beat",     "~$317",     "$355/$375", "0.75% risk · ~$32 at stop", "C+1: Apr-29 AC; enter Apr-30 morning on beat ONLY",     543,  "est. at fill"),
+    ("<b>SPY</b> P009 OPEN",        "$708.95 avg (filled)",            "$696",      "~$720/$730","1.0% risk · ~$43 at stop",  "C=0; live $708.40 -- buffer $12.40 rebuilt; FOMC Apr-28-29",      2089, "$718.7 (+1.4% BE / +2.7% cb)"),
+    ("<b>EWJ</b> P010 OPEN",        "$88.30 avg (filled)",             "$86.00",    "~$95/$98",  "0.75% risk · ~$32 at stop", "C=0; live $87.40 -- buffer thin $1.40; Nikkei broke 60k intra",   1396, "$90.0 (+1.9% BE / +3.8% cb)"),
+    ("<b>Brent</b> P016 OPEN TAKEN","$95.13 entry; live $97.16 (+2.13%)","$95.13 (Rule 2 stop-up MANDATORY today)","$98/$102","0.75% risk · ~$32 at stop","HH $101.91 > trail_activate $97.94 -> move stop to >=$95.13. Gerald execution outstanding.", 813, "$97.94 (+3.0% BE / +5.8% cb -- ACTIVATED)"),
+    ("<b>INTC</b> P013 await beat", "$68-72 (after Apr-23 AC beat)",   "~$63-67",   "$75/$82",   "1.0% risk · ~$43 at stop",  "C+1: tonight AC; options +/-9.87%. Enter Apr-24 AM ONLY on beat", 602,  "est. at fill"),
+    ("<b>GOOGL</b> P015 contingent","~$333-340 after Apr-29 beat",     "~$317",     "$355/$375", "0.75% risk · ~$32 at stop", "C+1: Apr-29 AC same-day FOMC; enter Apr-30 AM on beat ONLY",     543,  "est. at fill"),
 ]
 # RECS_BLOCKED: gate-blocked or near-miss Sum>=3
 # (asset_html, dir_txt, entry, stop, target, size, catalyst, grade, sleeve)

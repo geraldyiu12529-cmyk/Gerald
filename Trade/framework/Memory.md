@@ -1,6 +1,6 @@
 # Trade Memory — Working State
 
-**Last updated:** 2026-04-23 20:30 UTC+8 (trade-rec v1 — **1 reaffirmed: AAPL P014 DEFERRED→ACTIVE** on +2.63% recovery to $273.17 back into entry zone $271–274; Sum +3, size 0.75%, hard time-stop 2026-04-30. **0 new SignalLedger rows** (all dedup against P013/P014/P015/P016/P017 + N040–N046 existing OPEN). Binary pending: INTC P013 earnings tonight AC. Execution ask: Brent P016 Rule 2 breakeven stop MANDATORY (move to ≥$95.13). Watchlist deltas: P014 AAPL ACTIVE; Gold Sum +2→+1 (T flipped −1); Silver −4.4% rotation OUT + DEGRADED basis-mom 6d. Cloud 0/3.)
+**Last updated:** 2026-04-24 08:15 UTC+8 (trade-update — **P014 AAPL FILLED** 2026-04-23 20:45 UTC+8, 2 limit tranches avg $274.62, 845.84 USDT, ~3.080 units, stop $266.50, hard time-stop 2026-04-30. §2 ALSO rewritten: prior table showed stale INTC/Gold/QQQ rows from Apr-16/17 that were closed long ago and never removed — §2 now reconciled to actual open book SPY/EWJ/Brent/AAPL. P013 INTC de-promoted VOIDED post-rally ($80 gap above $68–72 zone).)
 **Maintainer:** Gerald
 **Local timezone:** UTC+8 (Asia). All scheduled-task cron expressions are evaluated in local time. All brief and trade-rec filenames use local date.
 
@@ -26,17 +26,26 @@ This file is the trader's working memory. Keep it operationally current — it s
 
 ## 2. Open Positions
 
-| Asset | Side | Size | Entry date | Entry price | Stop / invalidation | Catalyst | Thesis (1 line) |
-|-------|------|------|------------|-------------|---------------------|----------|------------------|
-| **INTC** | Long | $49.78 USDT (~0.77 units @ $64.68) | 2026-04-16 09:29 UTC+8 | $64.68 (market fill) | $56 (2× ATR); earnings miss / Terafab delay / trend break <$55; time inv. 2026-05-13 | Q1 earnings 2026-04-23 (confirmation-dependent) | Terafab/foundry structural + residual +13.89% (confirmed 2026-04-17 staging v3, T=+1). **Sum +3 CONFIRMED.** **Current mark $69.92 (+8.10%, PNL +$4.03).** |
-| **Gold (XAU)** | Long | $396.80 USDT (~0.0830 oz @ $4,780.69) | 2026-04-16 22:28 UTC+8 | $4,780.69 (trailing buy triggered ≤$4,798.34, 0.1% callback) | $4,640 (break <$4,640); DXY reversal >100; real yield spike >2.2%; time inv. 2026-05-14 | Iran ceasefire expiry Apr-21/22 (C+1 surprise-dependent) | DXY freefall + real-yield compression + contango deepening + oil crash boosts safe-haven bid. Sum +3 (S+1/T+1/C+1/R0). **Current mark $4,897.90 (+2.45%, PNL +$9.72).** |
-| **QQQ** | Long | $396.85 USDT combined (tranche 1: $198.10 @ $639.04 trailing buy fill 2026-04-17 00:02; tranche 2: $198.75 @ $641.14 limit fill 2026-04-17 00:13) | 2026-04-17 00:02–00:13 UTC+8 | Avg ~$640.09 | Break below $600; VIX >25; time inv. 2026-05-14 | FOMC Apr-28–29; big tech earnings (GOOGL Apr-22, TSLA Apr-22, INTC Apr-23, AMZN Apr-23, META Apr-29) | Strongest NEW |Sum|≥3 signal — Sum +4. TSM AI validation + records + vol compression. **Current mark $649.13 (+1.41%, PNL +$5.60).** |
+**Account NAV: ~$4,000 est.**
 
-**Portfolio heat (recomputed v3):**
-- INTC: $49.78 × (($69.92 − $56) / $69.92) ≈ $9.91 = 0.25% of $4,000
-- Gold: $396.80 × (($4,897.90 − $4,640) / $4,897.90) ≈ $20.89 = 0.52% of $4,000
-- QQQ: $396.85 × (($649.13 − $600) / $649.13) ≈ $30.04 = 0.75% of $4,000
-- **Combined heat: ~1.52%.** Well within 8% cap. Equity correlation gate: INTC + QQQ combined ≈ 1.00% equity heat — within budget.
+| Sig | Asset | Side | Size | Entry date | Entry price | Stop | Time-stop | Catalyst | Thesis (1 line) |
+|-----|-------|------|------|------------|-------------|------|-----------|----------|------------------|
+| **P009** | **SPYUSDT Perp** | Long | 2,089.08 USDT (5 tranches, ~2.947 units) | 2026-04-21 21:43 → 2026-04-22 05:04 UTC+8 | Avg $708.95 | $696.00 (2× ATR) | 2026-05-13 | FOMC Apr-28–29; equity risk-on continuation | Equity Sum+3 (S+1/T+1/C0/R+1); ALL 4 sleeves ON; V027 z+1.65 capital-expansion; 4-haircut half-size |
+| **P010** | **EWJUSDT Perp** | Long | 1,396.05 USDT (3 tranches, ~15.810 units) | 2026-04-21 21:47 → 2026-04-22 05:07 UTC+8 | Avg $88.30 | $86.00 (2× ATR) | 2026-06-30 | Intl-equity sleeve ON; Nikkei reclaim; USDJPY regime | Intl-equity Sum+3 (S+1/T+1/C0/R+1); raw TSMOM clean on ETF; corr-haircut vs SPY |
+| **P016** | **BZUSDT Perp (Brent)** | Long | 859.27 USDT post-trim (~9.03 units) | 2026-04-22 21:33 UTC+8 (trim 22:27) | $95.13 fill (trim $94.97 reduce-only 147.21 USDT) | $90.50 (2× ATR, Rule 2 breakeven stop-up pending if HH $101.91 confirmed) | 2026-05-22 | Hormuz blockade + Iran shipping attacks; Brent >$100 flag | Commodity Sum+3 (S+1/T+1/C0/R+1); first commodity-sleeve exec this cycle (V034 GSG gate ON 31.75>25.35); half-size 0.75% |
+| **P014** | **AAPLUSDT Perp** | Long | 845.84 USDT (2 limit tranches, ~3.080 units) | 2026-04-23 20:45:21 + 20:45:40 UTC+8 | Avg $274.62 ($274.63 / $274.61) | $266.50 (2× ATR) | **2026-04-30 HARD (pre-May-1 earnings binary)** | Structural residual +4.68% T+1; no near-term positive catalyst — time-stop IS the catalyst | Equity Sum+3 (S+1/T+1/C0/R+1); corr-haircut vs SPY; 0.75% rec → actual risk 0.63% of $4,000 NAV |
+
+**Portfolio heat (recomputed 2026-04-24):**
+- P009 SPY: 2089.08 × (708.95−696)/708.95 = $38.18 = **0.95%** of $4,000
+- P010 EWJ: 1396.05 × (88.30−86.00)/88.30 = $36.35 = **0.91%** of $4,000
+- P016 Brent: 859.27 × (95.13−90.50)/95.13 = $41.82 = **1.05%** of $4,000 (post-trim)
+- P014 AAPL: 845.84 × (274.62−266.50)/274.62 = $25.01 = **0.63%** of $4,000
+- **Combined heat: ~3.54% / 8% cap** — OK. Equity sub-heat SPY+AAPL = 1.58% (corr-gate clean). Commodity sub-heat = 1.05%. Intl-equity = 0.91%.
+
+**Pending / de-promoted:**
+- **P013 INTC** — **VOIDED 2026-04-24 post-earnings gap to ~$80.** Entry zone was $68–72 limit; actual print blew past zone by +11–17%. Post-rally entry risk → FLAGGED in HypoLedger, no position taken. Will re-evaluate only on controlled pullback to $72–74.
+- **P015 GOOGL** — CONTINGENT on Apr-29 AC earnings beat → entry trigger Apr-30 AM UTC+8.
+- **P017 BTC** — GATE-BLOCKED. Needs BTC >$91,523 at Apr-30 close to flip Faber gate ON (currently $77,536 ~$14K gap).
 
 ---
 

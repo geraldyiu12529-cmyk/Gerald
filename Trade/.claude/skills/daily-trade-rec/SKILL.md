@@ -146,11 +146,23 @@ Per `framework/Excel-Sync-Protocol.md` §2.
 
 ## Step 10 — HTML report
 
-If signal_count=0: compact report (summary, audit-additions panel, data gaps, scorecard table only).
-If signal_count≥1: full report with Chart.js (`https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js`).
+**Canonical generator:** `scripts/gen_trade_rec_html.py` (v3, fixed 20-section template). Do **not** hand-craft HTML — edit only the PER-RUN DATA block at the top of the script, then run `python scripts/gen_trade_rec_html.py`. Output: `{YYYY-MM-DD}/report-{YYYY-MM-DD}-trade-rec.html` (single file, inline CSS, Chart.js 4.4.0 via CDN). Sections, charts, layout never change — only data.
 
-Full report sections: Executive Summary, Data Collected (incl. audit-additions sub-section), Analysis Methodology, Discussion, Results (score stacking with audit-addition annotations on blocked legs), Recommendations.
+**Fixed 20 sections (never reorder, never rename):**
+1. Data Freshness  · 2. Portfolio Dashboard (heat gauge + stop-buffer + position cards + price-range bars + pure-runner trade-mgmt panel)  · 3. Executive Summary  · 4. Overlay Gate (Faber TAA V033–V035)  · 5. Data Collected (KEY_VARS + Audit Additions + V026 residual bar+table + Meta Additions)  · 6. Score Analysis (promoted-stack + near-miss-stack + factor-radar + factor-tilt+breakdown table)  · 7. Material Change vs Prior Run  · 8. Recommendations (new + carry-over + gate-blocked rows)  · 9. Signal Age & Time-Decay  · 10. Thesis Summary  · 11. Pre-Entry Checklists  · 12. Regime Sensitivity  · 13. Catalyst Calendar  · 14. Near-Misses  · 15. Closed-Trade Context  · 16. Asset Universe  · 17. Data Gap Closure  · 18. Discussion  · 19. Memory Updates Applied  · 20. Sources.
 
-Charts: cross-asset risk dashboard, yield curve, real-yield decomposition, Brent curve, BTC addresses, score bars, score stacking, catalyst calendar, gap-closure doughnut, audit-addition status panel.
+**9 fixed Chart.js canvases:** `scoreBar`, `nearMissBar`, `factorRadar`, `residualBar`, `heatGauge`, `stopBuffer`, `catCal`, `gapDoughnut`, `signalAge`.
 
-Path: `{YYYY-MM-DD}/report-{YYYY-MM-DD}-trade-rec.html`. Single file, no external CSS.
+**PER-RUN DATA variables to populate** (top of `gen_trade_rec_html.py` — leave structures empty for graceful empty state, never delete a variable):
+- *Header/status:* `TODAY`, `VERSION`, `GEN_TIME`, `SUPERSEDES`, `STATUS_CLS`/`STATUS_TXT`, `MISS_COUNT`, `V026_ST`, `V027_ST`, `REGIME_LABEL`, `REGIME_SUB`, `PORT_NAV`, `PORT_NAV_DATE`, `TOTAL_HEAT`, `HEAT_CAP`.
+- *Positions/dashboard:* `OPEN_POSITIONS` (16-tuple: pid, asset, side, entry, live, stop, tp1, tp2, size_pct, size_usd, unreal, flag_cls, flag_txt, time_stop, trail_activate, trail_cb_pct), `EXEC_CARDS`, `THESIS` dict.
+- *Variables/audit:* `FRESHNESS`, `GATE_ROWS`+`GATE_NOTE`, `KEY_VARS`, `AUDIT_ROWS`, `V026_RESIDUALS`, `META_ROWS`.
+- *Scoring:* `SCORE_LABELS`/`SCORE_S`/`SCORE_T`/`SCORE_C`/`SCORE_R`, `NEAR_LABELS`/`NEAR_S`/`NEAR_T`/`NEAR_C`/`NEAR_R`, `FACTOR_EXPOSURE` (size-weighted bars auto-computed).
+- *Recs/decisions:* `RECS` (with optional notional + trail), `RECS_CARRY`, `RECS_BLOCKED`, `RECS_FOOTNOTE`, `DELTA_ITEMS`+`DELTA_FOOT`, `SIGNAL_AGE`, `CHECKLISTS`, `SCENARIOS`+`SENSITIVITY`, `CATALYSTS`+`CAT_LABELS`/`CAT_DATA`/`CAT_COLORS`, `NEAR_MISSES`, `CLOSED_CONTEXT`+`CLOSED_NOTE`.
+- *Coverage/footer:* `GAP_DATA` (LIVE,STALE,MISSING ints), `UPSTREAM`, `DISCUSSION`, `MEMORY_UPDATES`, `SOURCES_A`, `SOURCES_B`.
+
+**Writing standards (binding, enforced by the generator's renderers):**
+- `THESIS` entries — full analytical paragraph(s), **4–8 sentences minimum** per position. Cover position/status, mechanism behind each score leg, current invalidation, time-stop logic. Use `\n\n` to split into multiple paragraphs.
+- `DISCUSSION` entries — substantive paragraphs of **5–10 sentences** with a bold header question/topic. Cover regime read, risk asymmetry, catalyst sequencing, what would flip the call.
+
+**Empty-state behaviour:** all renderers handle `[]`/`{}` gracefully (e.g. "No new promotions", "No near-misses this run"). For zero-signal days do **not** revert to a custom compact report — just leave `RECS`, `THESIS` (for new entries), etc. empty; the 20 sections still render with empty-state cells.
